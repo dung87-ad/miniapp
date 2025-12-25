@@ -6,57 +6,78 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --bg: #0e0e0e; --card: #181818; --text: #fff; --accent: #5865f2; --success: #4cd964; --yellow: #f1c40f; }
-        body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; padding-bottom: 100px; user-select: none; }
+        :root { --bg: #0e0e0e; --card: #181818; --text: #fff; --accent: #5865f2; --success: #4cd964; --yellow: #f1c40f; --hint: #8e8e8e; }
+        body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; padding-bottom: 120px; user-select: none; }
         
-        /* Chống Sandbox */
-        #sandbox-control, .sp-preview-actions, [title*="Open Sandbox"] { display: none !important; }
-
-        .header-info { background: var(--card); padding: 12px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #222; margin-bottom: 15px; }
+        /* Profile & ID */
+        .id-header { background: var(--card); padding: 12px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #222; margin-bottom: 20px; }
         
-        .section-title { font-size: 12px; color: #8e8e8e; margin: 15px 0 8px 5px; text-transform: uppercase; font-weight: bold; }
+        .section-title { font-size: 11px; color: var(--hint); margin: 20px 0 10px 5px; text-transform: uppercase; letter-spacing: 1px; }
 
+        /* Step 1: Game Selection */
+        .game-card { background: var(--card); border-radius: 15px; padding: 15px; display: flex; align-items: center; justify-content: space-between; border: 2px solid #2b2b2b; transition: 0.3s; }
+        .game-card.active { border-color: var(--accent); background: #1c1e2d; }
+        .game-img { width: 50px; height: 50px; border-radius: 10px; object-fit: cover; margin-right: 15px; }
+
+        /* Step 2: Hack Types (Hidden by default) */
+        #step-hack-types, #step-prices { display: none; }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .item-card { background: var(--card); padding: 15px; border-radius: 12px; text-align: center; border: 1px solid #2b2b2b; transition: 0.2s; }
-        .item-card.selected { border-color: var(--accent); background: #1c1e2d; }
-        .item-card b { display: block; font-size: 14px; margin-bottom: 4px; }
-        .item-card small { color: #8e8e8e; font-size: 10px; }
+        .hack-card { background: var(--card); padding: 15px; border-radius: 12px; text-align: center; border: 1px solid #2b2b2b; }
+        .hack-card.selected { border-color: var(--accent); background: #1c1e2d; }
+        .hack-card b { display: block; font-size: 13px; margin-bottom: 4px; }
 
-        .price-list { display: none; margin-top: 10px; }
+        /* Step 3: Prices */
         .price-item { background: var(--card); padding: 15px; border-radius: 12px; margin-bottom: 8px; border: 1px solid #2b2b2b; display: flex; justify-content: space-between; align-items: center; }
         .price-item.active { border-color: var(--success); background: #16251b; }
 
-        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 1000; padding: 20px; box-sizing: border-box; }
-        .qr-card { background: #fff; color: #000; padding: 20px; border-radius: 20px; text-align: center; }
-        .info-row { display: flex; justify-content: space-between; padding: 10px; background: #f4f4f4; border-radius: 8px; margin-bottom: 8px; font-size: 13px; }
+        /* Payment Overlay */
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 1000; padding: 20px; box-sizing: border-box; overflow-y: auto; }
+        .qr-card { background: #fff; color: #000; padding: 20px; border-radius: 20px; text-align: center; margin-top: 10px; }
+        .info-row { display: flex; justify-content: space-between; padding: 10px; background: #f4f4f4; border-radius: 8px; margin-bottom: 8px; font-size: 13px; color: #333; }
 
         .footer { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg); padding: 15px; border-top: 1px solid #222; }
-        .buy-btn { width: 100%; background: var(--accent); color: white; border: none; border-radius: 12px; padding: 16px; font-weight: bold; font-size: 16px; opacity: 0.5; }
-        .buy-btn.ready { opacity: 1; box-shadow: 0 4px 15px rgba(88, 101, 242, 0.4); }
+        .buy-btn { width: 100%; background: var(--accent); color: white; border: none; border-radius: 12px; padding: 16px; font-weight: bold; font-size: 16px; opacity: 0.3; pointer-events: none; }
+        .buy-btn.ready { opacity: 1; pointer-events: auto; }
     </style>
 </head>
 <body>
 
-    <div class="header-info">
-        <span>ID: <b id="u-id">8202216330</b></span>
-        <span style="color:var(--yellow)"><i class="fas fa-crown"></i> Admin: 8441624419</span>
+    <div class="id-header">
+        <span>ID: <b id="u-id">...</b></span>
+        <span style="color:var(--yellow); font-size: 12px;"><i class="fas fa-shield-alt"></i> Admin: 8441624419</span>
     </div>
 
-    <div class="section-title">1. Chọn loại Hack Free Fire</div>
-    <div class="grid-2">
-        <div class="item-card" onclick="showPrices('br')"><b>Br Mods Gốc</b><small>Root & NonRoot</small></div>
-        <div class="item-card" onclick="showPrices('zy')"><b>ZyGame</b><small>Non Root</small></div>
-        <div class="item-card" onclick="showPrices('hg')"><b>Hg Cheat</b><small>Non Root</small></div>
-        <div class="item-card" onclick="showPrices('drip')"><b>Drip</b><small>Non Root</small></div>
-        <div class="item-card" onclick="showPrices('fluorite')"><b>Fluorite Gốc</b><small>iOS 🍎</small></div>
-        <div class="item-card" onclick="showPrices('cloud')"><b>Máy ảo Cloud</b><small>💸 Khuyên dùng</small></div>
+    <div class="section-title">Bước 1: Chọn Game</div>
+    <div class="game-card" id="game-ff" onclick="selectGame()">
+        <div style="display:flex; align-items:center;">
+            <img src="https://img.upanh.tv/2023/10/05/ff.png" class="game-img">
+            <div>
+                <b style="font-size: 16px;">Free Fire</b><br>
+                <small style="color:var(--hint)">Garena Free Fire</small>
+            </div>
+        </div>
+        <i id="game-check" class="far fa-circle" style="font-size: 20px; color: #444;"></i>
     </div>
 
-    <div class="section-title" id="price-title" style="display:none;">2. Chọn gói thời gian</div>
-    <div id="price-list" class="price-list"></div>
+    <div id="step-hack-types">
+        <div class="section-title">Bước 2: Chọn Loại Hack</div>
+        <div class="grid-2">
+            <div class="hack-card" onclick="showPrices('br', this)"><b>Br Mods Gốc</b><small>Android</small></div>
+            <div class="hack-card" onclick="showPrices('zy', this)"><b>ZyGame</b><small>Non Root</small></div>
+            <div class="hack-card" onclick="showPrices('hg', this)"><b>Hg Cheat</b><small>Non Root</small></div>
+            <div class="hack-card" onclick="showPrices('drip', this)"><b>Drip</b><small>Non Root</small></div>
+            <div class="hack-card" onclick="showPrices('fluorite', this)"><b>Fluorite Gốc</b><small>iOS 🍎</small></div>
+            <div class="hack-card" onclick="showPrices('cloud', this)"><b>Máy ảo Cloud</b><small>💸</small></div>
+        </div>
+    </div>
+
+    <div id="step-prices">
+        <div class="section-title">Bước 3: Chọn Gói Ngày</div>
+        <div id="price-container"></div>
+    </div>
 
     <div class="footer">
-        <button class="buy-btn" id="main-buy-btn" onclick="openPay()">MUA NGAY</button>
+        <button class="buy-btn" id="btn-pay" onclick="openPayment()">THANH TOÁN</button>
     </div>
 
     <div id="pay-modal" class="overlay">
@@ -66,14 +87,15 @@
             <div style="width:24px;"></div>
         </div>
         <div class="qr-card">
-            <b style="color:#d32f2f">QUÉT MÃ ĐỂ NHẬN KEY</b>
+            <b style="color:#d32f2f; font-size: 14px;">QUÉT MÃ ĐỂ NHẬN KEY TỰ ĐỘNG</b>
             <img id="qr-img" src="" style="width:100%; max-width:220px; margin:15px 0; border:1px solid #eee; border-radius:10px;">
             <div class="info-row"><span>Số tiền:</span><b id="p-amount" style="color:#d32f2f"></b></div>
             <div class="info-row"><span>Nội dung:</span><b id="p-code"></b></div>
-            <div class="info-row"><span>STK:</span><b>79991312006 (MB)</b></div>
+            <div class="info-row"><span>Số tài khoản:</span><b>79991312006</b></div>
+            <div class="info-row"><span>Ngân hàng:</span><b>MB BANK</b></div>
         </div>
         <p style="text-align:center; font-size:12px; color:var(--success); margin-top:20px;">
-            <i class="fas fa-sync fa-spin"></i> Hệ thống đang chờ tiền về để gửi Key...
+            <i class="fas fa-sync fa-spin"></i> Chờ hệ thống xác nhận (Auto Check)...
         </p>
     </div>
 
@@ -81,9 +103,12 @@
         const tg = window.Telegram.WebApp;
         tg.ready(); tg.expand();
 
-        let selectedHack = "", selectedPrice = 0, selectedTime = "";
+        let sHack = "", sPrice = 0, sTime = "";
 
-        const data = {
+        // Hiển thị ID người dùng
+        document.getElementById('u-id').innerText = tg.initDataUnsafe?.user?.id || "8202216330";
+
+        const hackData = {
             'br': { name: "Br Mods Gốc", p: [["1 Day", 50000], ["7 Day", 80000], ["15 Day", 120000], ["30 Day", 140000]] },
             'zy': { name: "ZyGame", p: [["1 Day", 40000], ["7 Day", 100000], ["30 Day", 150000]] },
             'hg': { name: "Hg Cheat", p: [["10 Day", 120000], ["30 Day", 180000]] },
@@ -92,50 +117,54 @@
             'cloud': { name: "Máy ảo Cloud", p: [["Gói Tháng", 150000]] }
         };
 
-        function showPrices(id) {
-            selectedHack = data[id].name;
-            const list = document.getElementById('price-list');
-            list.innerHTML = "";
-            data[id].p.forEach(item => {
-                list.innerHTML += `
-                    <div class="price-item" onclick="selectItem(this, ${item[1]}, '${item[0]}')">
+        function selectGame() {
+            const card = document.getElementById('game-ff');
+            const check = document.getElementById('game-check');
+            card.classList.add('active');
+            check.className = "fas fa-check-circle";
+            check.style.color = "var(--success)";
+            document.getElementById('step-hack-types').style.display = 'block';
+            tg.HapticFeedback.impactOccurred('medium');
+            window.scrollTo({ top: 200, behavior: 'smooth' });
+        }
+
+        function showPrices(id, el) {
+            sHack = hackData[id].name;
+            const container = document.getElementById('price-container');
+            container.innerHTML = "";
+            hackData[id].p.forEach(item => {
+                container.innerHTML += `
+                    <div class="price-item" onclick="selectPrice(this, ${item[1]}, '${item[0]}')">
                         <span>${item[0]}</span>
                         <b>${item[1].toLocaleString()}đ</b>
                     </div>`;
             });
-            list.style.display = 'block';
-            document.getElementById('price-title').style.display = 'block';
-            document.querySelectorAll('.item-card').forEach(c => c.classList.remove('selected'));
-            event.currentTarget.classList.add('selected');
+            document.getElementById('step-prices').style.display = 'block';
+            document.querySelectorAll('.hack-card').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+            tg.HapticFeedback.impactOccurred('light');
+            window.scrollTo({ top: 500, behavior: 'smooth' });
+        }
+
+        function selectPrice(el, price, time) {
+            sPrice = price; sTime = time;
+            document.querySelectorAll('.price-item').forEach(i => i.classList.remove('active'));
+            el.classList.add('active');
+            const btn = document.getElementById('btn-pay');
+            btn.classList.add('ready');
+            btn.innerText = `THANH TOÁN ${price.toLocaleString()}đ`;
             tg.HapticFeedback.impactOccurred('medium');
         }
 
-        function selectItem(el, price, time) {
-            selectedPrice = price;
-            selectedTime = time;
-            document.querySelectorAll('.price-item').forEach(i => i.classList.remove('active'));
-            el.classList.add('active');
-            const btn = document.getElementById('main-buy-btn');
-            btn.classList.add('ready');
-            btn.innerText = `MUA ${selectedHack} (${time})`;
-            tg.HapticFeedback.impactOccurred('light');
-        }
-
-        function openPay() {
-            if(!selectedPrice) return;
+        function openPayment() {
             const code = "MHA" + Math.random().toString(36).substring(2,6).toUpperCase();
-            document.getElementById('p-amount').innerText = selectedPrice.toLocaleString() + "đ";
+            document.getElementById('p-amount').innerText = sPrice.toLocaleString() + "đ";
             document.getElementById('p-code').innerText = code;
-            document.getElementById('qr-img').src = `https://img.vietqr.io/image/MB-79991312006-compact2.png?amount=${selectedPrice}&addInfo=${code}&accountName=NGUYEN%20KIEN%20CUONG`;
+            document.getElementById('qr-img').src = `https://img.vietqr.io/image/MB-79991312006-compact2.png?amount=${sPrice}&addInfo=${code}&accountName=NGUYEN%20KIEN%20CUONG`;
             document.getElementById('pay-modal').style.display = 'block';
-            tg.HapticFeedback.notificationOccurred('success');
-            
-            // Gọi hàm check tự động nếu bạn đã có Backend
-            // startAutoCheck(code); 
         }
 
         function closePay() { document.getElementById('pay-modal').style.display = 'none'; }
     </script>
 </body>
 </html>
-
