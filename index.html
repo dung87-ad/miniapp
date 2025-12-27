@@ -12,26 +12,25 @@
         /* Chống Sandbox */
         #sandbox-control, .sp-preview-actions, [title*="Open Sandbox"] { display: none !important; }
 
-        /* Profile & ID */
-        .id-header { background: var(--card); padding: 12px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #222; margin-bottom: 20px; }
+        .header { background: var(--card); padding: 12px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #222; margin-bottom: 20px; }
         
-        /* Game Card */
-        .game-card { background: var(--card); border-radius: 15px; padding: 15px; display: flex; align-items: center; justify-content: space-between; border: 2px solid #2b2b2b; margin-top: 10px; }
+        /* Game Selection */
+        .game-card { background: var(--card); border-radius: 15px; padding: 15px; display: flex; align-items: center; justify-content: space-between; border: 2px solid #2b2b2b; }
         .game-card.active { border-color: var(--accent); background: #1c1e2d; }
-        .game-img { width: 50px; height: 50px; border-radius: 10px; object-fit: cover; margin-right: 15px; }
+        .game-img { width: 55px; height: 55px; border-radius: 12px; object-fit: cover; margin-right: 15px; }
 
-        /* Hack Types */
-        #step-hack-types, #step-prices { display: none; margin-top: 20px; }
+        /* Hack Types & Days */
+        #hack-container, #price-container { display: none; margin-top: 15px; }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .hack-card { background: var(--card); padding: 15px; border-radius: 12px; text-align: center; border: 1px solid #2b2b2b; }
+        .hack-card { background: var(--card); padding: 15px; border-radius: 12px; text-align: center; border: 1px solid #2b2b2b; transition: 0.2s; }
         .hack-card.selected { border-color: var(--accent); background: #1c1e2d; }
         .hack-card b { display: block; font-size: 13px; margin-bottom: 4px; }
+        .hack-card small { color: var(--hint); font-size: 11px; }
 
-        /* Prices */
         .price-item { background: var(--card); padding: 15px; border-radius: 12px; margin-bottom: 8px; border: 1px solid #2b2b2b; display: flex; justify-content: space-between; align-items: center; }
         .price-item.active { border-color: var(--success); background: #16251b; }
 
-        /* Payment Overlay */
+        /* Overlay */
         .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 1000; padding: 20px; box-sizing: border-box; overflow-y: auto; }
         .qr-card { background: #fff; color: #000; padding: 20px; border-radius: 20px; text-align: center; margin-top: 10px; }
         .info-row { display: flex; justify-content: space-between; padding: 10px; background: #f4f4f4; border-radius: 8px; margin-bottom: 8px; font-size: 13px; color: #333; }
@@ -43,35 +42,35 @@
 </head>
 <body>
 
-    <div class="id-header">
-        <span>ID: <b id="u-id">8202216330</b></span>
+    <div class="header">
+        <span>ID: <b id="u-id">...</b></span>
         <span style="color:var(--yellow); font-size: 12px;"><i class="fas fa-crown"></i> Admin</span>
     </div>
 
     <div class="game-card" id="game-ff" onclick="selectGame()">
         <div style="display:flex; align-items:center;">
-            <img src="https://img.upanh.tv/2023/10/05/ff.png" class="game-img">
+            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/0/02/Free_Fire_logo.png/250px-Free_Fire_logo.png" class="game-img">
             <div>
                 <b style="font-size: 16px;">Garena Free Fire</b><br>
-                <small style="color:var(--hint)">Nhấn để chọn game</small>
+                <small style="color:var(--hint)">Nhấn để chọn bản hack</small>
             </div>
         </div>
         <i id="game-check" class="far fa-circle" style="font-size: 20px; color: #444;"></i>
     </div>
 
-    <div id="step-hack-types">
+    <div id="hack-container">
         <div class="grid-2">
             <div class="hack-card" onclick="showPrices('br', this)"><b>Br Mods Gốc</b><small>Android</small></div>
-            <div class="hack-card" onclick="showPrices('zy', this)"><b>ZyGame</b><small>Android</small></div>
-            <div class="hack-card" onclick="showPrices('hg', this)"><b>Hg Cheat</b><small>Android</small></div>
-            <div class="hack-card" onclick="showPrices('drip', this)"><b>Drip</b><small>Android</small></div>
+            <div class="hack-card" onclick="showPrices('zy', this)"><b>ZyGame</b><small>Non Root</small></div>
+            <div class="hack-card" onclick="showPrices('hg', this)"><b>Hg Cheat</b><small>Non Root</small></div>
+            <div class="hack-card" onclick="showPrices('drip', this)"><b>Drip</b><small>Non Root</small></div>
             <div class="hack-card" onclick="showPrices('fluorite', this)"><b>Fluorite Gốc</b><small>iOS 🍎</small></div>
-            <div class="hack-card" onclick="showPrices('cloud', this)"><b>Máy ảo Cloud</b><small>PC/Mobile</small></div>
+            <div class="hack-card" onclick="showPrices('cloud', this)"><b>Máy ảo Cloud</b><small>Tốc độ cao</small></div>
         </div>
     </div>
 
-    <div id="step-prices">
-        <div id="price-container" style="margin-top:10px;"></div>
+    <div id="price-container">
+        <div id="list-days" style="margin-top:20px;"></div>
     </div>
 
     <div class="footer">
@@ -85,28 +84,29 @@
             <div style="width:24px;"></div>
         </div>
         <div class="qr-card">
-            <img id="qr-img" src="" style="width:100%; max-width:220px; margin-bottom:15px; border-radius:10px;">
+            <img id="qr-img" src="" style="width:100%; max-width:210px; margin-bottom:15px; border-radius:10px;">
             <div class="info-row"><span>Số tiền:</span><b id="p-amount" style="color:#d32f2f"></b></div>
             <div class="info-row"><span>Nội dung:</span><b id="p-code"></b></div>
             <div style="font-size:11px; color:#666; margin-top:10px;">MB BANK: 79991312006 - NGUYEN KIEN CUONG</div>
         </div>
         <p style="text-align:center; font-size:12px; color:var(--success); margin-top:20px;">
-            <i class="fas fa-sync fa-spin"></i> Chờ hệ thống tự động xác nhận...
+            <i class="fas fa-sync fa-spin"></i> Chờ hệ thống xác nhận tự động...
         </p>
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
         tg.ready(); tg.expand();
+        document.getElementById('u-id').innerText = tg.initDataUnsafe?.user?.id || "8202216330";
 
         let sHack = "", sPrice = 0, sTime = "";
 
         const hackData = {
-            'br': { p: [["1 Day", 50000], ["7 Day", 80000], ["15 Day", 120000], ["30 Day", 140000]] },
-            'zy': { p: [["1 Day", 40000], ["7 Day", 100000], ["30 Day", 150000]] },
-            'hg': { p: [["10 Day", 120000], ["30 Day", 180000]] },
-            'drip': { p: [["1 Day", 50000], ["7 Day", 100000], ["15 Day", 150000], ["30 Day", 190000]] },
-            'fluorite': { p: [["1 Day", 100000], ["7 Day", 240000], ["30 Day", 500000]] },
+            'br': { p: [["1 Ngày", 50000], ["7 Ngày", 80000], ["15 Ngày", 120000], ["30 Ngày", 140000]] },
+            'zy': { p: [["1 Ngày", 40000], ["7 Ngày", 100000], ["30 Ngày", 150000]] },
+            'hg': { p: [["10 Ngày", 120000], ["30 Ngày", 180000]] },
+            'drip': { p: [["1 Ngày", 50000], ["7 Ngày", 100000], ["15 Ngày", 150000], ["30 Ngày", 190000]] },
+            'fluorite': { p: [["1 Ngày", 100000], ["7 Ngày", 240000], ["30 Ngày", 500000]] },
             'cloud': { p: [["Gói Tháng", 150000]] }
         };
 
@@ -114,33 +114,35 @@
             document.getElementById('game-ff').classList.add('active');
             document.getElementById('game-check').className = "fas fa-check-circle";
             document.getElementById('game-check').style.color = "var(--success)";
-            document.getElementById('step-hack-types').style.display = 'block';
+            document.getElementById('hack-container').style.display = 'block';
             tg.HapticFeedback.impactOccurred('medium');
         }
 
         function showPrices(id, el) {
-            const container = document.getElementById('price-container');
-            container.innerHTML = "";
+            sHack = el.querySelector('b').innerText;
+            const list = document.getElementById('list-days');
+            list.innerHTML = "";
             hackData[id].p.forEach(item => {
-                container.innerHTML += `
+                list.innerHTML += `
                     <div class="price-item" onclick="selectPrice(this, ${item[1]}, '${item[0]}')">
                         <span>${item[0]}</span>
                         <b>${item[1].toLocaleString()}đ</b>
                     </div>`;
             });
-            document.getElementById('step-prices').style.display = 'block';
+            document.getElementById('price-container').style.display = 'block';
             document.querySelectorAll('.hack-card').forEach(c => c.classList.remove('selected'));
             el.classList.add('selected');
             tg.HapticFeedback.impactOccurred('light');
+            window.scrollTo({ top: 500, behavior: 'smooth' });
         }
 
         function selectPrice(el, price, time) {
-            sPrice = price;
+            sPrice = price; sTime = time;
             document.querySelectorAll('.price-item').forEach(i => i.classList.remove('active'));
             el.classList.add('active');
             const btn = document.getElementById('btn-pay');
             btn.classList.add('ready');
-            btn.innerText = `THANH TOÁN ${price.toLocaleString()}đ`;
+            btn.innerText = `THANH TOÁN ${sHack} (${time})`;
             tg.HapticFeedback.impactOccurred('medium');
         }
 
