@@ -9,17 +9,18 @@
         :root { --bg: #0e0e0e; --card: #181818; --text: #fff; --accent: #5865f2; --success: #4cd964; --yellow: #f1c40f; --hint: #8e8e8e; }
         body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; padding-bottom: 120px; user-select: none; }
         
-        /* Chống Sandbox */
-        #sandbox-control, .sp-preview-actions, [title*="Open Sandbox"] { display: none !important; }
+        /* Profile Header Mới */
+        .user-profile { background: var(--card); padding: 15px; border-radius: 16px; display: flex; align-items: center; border: 1px solid #222; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .user-avatar { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 15px; object-fit: cover; background: #333; }
+        .user-info b { display: block; font-size: 16px; color: var(--text); }
+        .user-info span { font-size: 12px; color: var(--hint); }
 
-        .header { background: var(--card); padding: 12px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #222; margin-bottom: 20px; }
-        
-        /* Game Selection */
+        /* Game Card */
         .game-card { background: var(--card); border-radius: 15px; padding: 15px; display: flex; align-items: center; justify-content: space-between; border: 2px solid #2b2b2b; }
         .game-card.active { border-color: var(--accent); background: #1c1e2d; }
         .game-img { width: 55px; height: 55px; border-radius: 12px; object-fit: cover; margin-right: 15px; }
 
-        /* Hack Types & Days */
+        /* Hack & Price */
         #hack-container, #price-container { display: none; margin-top: 15px; }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .hack-card { background: var(--card); padding: 15px; border-radius: 12px; text-align: center; border: 1px solid #2b2b2b; transition: 0.2s; }
@@ -30,7 +31,7 @@
         .price-item { background: var(--card); padding: 15px; border-radius: 12px; margin-bottom: 8px; border: 1px solid #2b2b2b; display: flex; justify-content: space-between; align-items: center; }
         .price-item.active { border-color: var(--success); background: #16251b; }
 
-        /* Overlay */
+        /* Payment Overlay */
         .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 1000; padding: 20px; box-sizing: border-box; overflow-y: auto; }
         .qr-card { background: #fff; color: #000; padding: 20px; border-radius: 20px; text-align: center; margin-top: 10px; }
         .info-row { display: flex; justify-content: space-between; padding: 10px; background: #f4f4f4; border-radius: 8px; margin-bottom: 8px; font-size: 13px; color: #333; }
@@ -42,9 +43,15 @@
 </head>
 <body>
 
-    <div class="header">
-        <span>ID: <b id="u-id">...</b></span>
-        <span style="color:var(--yellow); font-size: 12px;"><i class="fas fa-crown"></i> Admin</span>
+    <div class="user-profile">
+        <img id="u-avatar" src="https://via.placeholder.com/100" class="user-avatar">
+        <div class="user-info">
+            <b id="u-name">Đang tải...</b>
+            <span>ID: <small id="u-id">00000000</small></span>
+        </div>
+        <div style="margin-left: auto; color: var(--yellow); font-size: 18px;">
+            <i class="fas fa-crown"></i>
+        </div>
     </div>
 
     <div class="game-card" id="game-ff" onclick="selectGame()">
@@ -89,17 +96,27 @@
             <div class="info-row"><span>Nội dung:</span><b id="p-code"></b></div>
             <div style="font-size:11px; color:#666; margin-top:10px;">MB BANK: 79991312006 - NGUYEN KIEN CUONG</div>
         </div>
-        <p style="text-align:center; font-size:12px; color:var(--success); margin-top:20px;">
-            <i class="fas fa-sync fa-spin"></i> Chờ hệ thống xác nhận tự động...
-        </p>
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
-        tg.ready(); tg.expand();
-        document.getElementById('u-id').innerText = tg.initDataUnsafe?.user?.id || "8202216330";
+        tg.ready();
+        tg.expand();
 
-        let sHack = "", sPrice = 0, sTime = "";
+        // Lấy thông tin người dùng từ Telegram
+        const user = tg.initDataUnsafe?.user;
+        if (user) {
+            document.getElementById('u-name').innerText = (user.first_name + " " + (user.last_name || "")).trim();
+            document.getElementById('u-id').innerText = user.id;
+            if (user.photo_url) {
+                document.getElementById('u-avatar').src = user.photo_url;
+            }
+        } else {
+            document.getElementById('u-name').innerText = "Người dùng ẩn danh";
+            document.getElementById('u-id').innerText = "8202216330";
+        }
+
+        let sHack = "", sPrice = 0;
 
         const hackData = {
             'br': { p: [["1 Ngày", 50000], ["7 Ngày", 80000], ["15 Ngày", 120000], ["30 Ngày", 140000]] },
@@ -133,11 +150,10 @@
             document.querySelectorAll('.hack-card').forEach(c => c.classList.remove('selected'));
             el.classList.add('selected');
             tg.HapticFeedback.impactOccurred('light');
-            window.scrollTo({ top: 500, behavior: 'smooth' });
         }
 
         function selectPrice(el, price, time) {
-            sPrice = price; sTime = time;
+            sPrice = price;
             document.querySelectorAll('.price-item').forEach(i => i.classList.remove('active'));
             el.classList.add('active');
             const btn = document.getElementById('btn-pay');
