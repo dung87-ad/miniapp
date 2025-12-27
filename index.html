@@ -9,31 +9,33 @@
         :root { --bg: #0e0e0e; --card: #181818; --text: #fff; --accent: #5865f2; --success: #4cd964; --yellow: #f1c40f; --hint: #8e8e8e; }
         body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; padding-bottom: 120px; user-select: none; }
         
-        /* Profile Header Mới */
-        .user-profile { background: var(--card); padding: 15px; border-radius: 16px; display: flex; align-items: center; border: 1px solid #222; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-        .user-avatar { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 15px; object-fit: cover; background: #333; }
-        .user-info b { display: block; font-size: 16px; color: var(--text); }
-        .user-info span { font-size: 12px; color: var(--hint); }
+        /* Chống Sandbox */
+        #sandbox-control, .sp-preview-actions, [title*="Open Sandbox"] { display: none !important; }
+
+        /* Profile Header */
+        .user-profile { background: var(--card); padding: 12px; border-radius: 16px; display: flex; align-items: center; border: 1px solid #222; margin-bottom: 20px; }
+        .user-avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 12px; object-fit: cover; background: #333; }
+        .user-info b { display: block; font-size: 15px; }
+        .user-info span { font-size: 11px; color: var(--hint); }
 
         /* Game Card */
         .game-card { background: var(--card); border-radius: 15px; padding: 15px; display: flex; align-items: center; justify-content: space-between; border: 2px solid #2b2b2b; }
         .game-card.active { border-color: var(--accent); background: #1c1e2d; }
-        .game-img { width: 55px; height: 55px; border-radius: 12px; object-fit: cover; margin-right: 15px; }
+        .game-img { width: 55px; height: 55px; border-radius: 12px; object-fit: cover; margin-right: 15px; border: 1px solid #333; }
 
         /* Hack & Price */
         #hack-container, #price-container { display: none; margin-top: 15px; }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .hack-card { background: var(--card); padding: 15px; border-radius: 12px; text-align: center; border: 1px solid #2b2b2b; transition: 0.2s; }
+        .hack-card { background: var(--card); padding: 15px; border-radius: 12px; text-align: center; border: 1px solid #2b2b2b; }
         .hack-card.selected { border-color: var(--accent); background: #1c1e2d; }
         .hack-card b { display: block; font-size: 13px; margin-bottom: 4px; }
-        .hack-card small { color: var(--hint); font-size: 11px; }
-
+        
         .price-item { background: var(--card); padding: 15px; border-radius: 12px; margin-bottom: 8px; border: 1px solid #2b2b2b; display: flex; justify-content: space-between; align-items: center; }
         .price-item.active { border-color: var(--success); background: #16251b; }
 
-        /* Payment Overlay */
-        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 1000; padding: 20px; box-sizing: border-box; overflow-y: auto; }
-        .qr-card { background: #fff; color: #000; padding: 20px; border-radius: 20px; text-align: center; margin-top: 10px; }
+        /* Overlay */
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 1000; padding: 20px; box-sizing: border-box; }
+        .qr-card { background: #fff; color: #000; padding: 20px; border-radius: 20px; text-align: center; }
         .info-row { display: flex; justify-content: space-between; padding: 10px; background: #f4f4f4; border-radius: 8px; margin-bottom: 8px; font-size: 13px; color: #333; }
 
         .footer { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg); padding: 15px; border-top: 1px solid #222; }
@@ -44,22 +46,20 @@
 <body>
 
     <div class="user-profile">
-        <img id="u-avatar" src="https://via.placeholder.com/100" class="user-avatar">
+        <img id="u-avatar" src="https://ui-avatars.com/api/?background=333&color=fff&name=U" class="user-avatar">
         <div class="user-info">
-            <b id="u-name">Đang tải...</b>
-            <span>ID: <small id="u-id">00000000</small></span>
+            <b id="u-name">Khách hàng</b>
+            <span>ID: <small id="u-id">8202216330</small></span>
         </div>
-        <div style="margin-left: auto; color: var(--yellow); font-size: 18px;">
-            <i class="fas fa-crown"></i>
-        </div>
+        <i class="fas fa-crown" style="margin-left: auto; color: var(--yellow);"></i>
     </div>
 
     <div class="game-card" id="game-ff" onclick="selectGame()">
         <div style="display:flex; align-items:center;">
-            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/0/02/Free_Fire_logo.png/250px-Free_Fire_logo.png" class="game-img">
+            <img src="https://play-lh.googleusercontent.com/jV7vEks8isHdfXW-p6N_9V4f-i20Z19Y62qD1p_798K8h-Y2p7E9Y2H6WjB7f9Y9Y9I=w240-h480-rw" class="game-img" onerror="this.src='https://img.upanh.tv/2023/10/05/ff.png'">
             <div>
                 <b style="font-size: 16px;">Garena Free Fire</b><br>
-                <small style="color:var(--hint)">Nhấn để chọn bản hack</small>
+                <small style="color:var(--hint)">Bấm để xem các bản Hack</small>
             </div>
         </div>
         <i id="game-check" class="far fa-circle" style="font-size: 20px; color: #444;"></i>
@@ -68,9 +68,9 @@
     <div id="hack-container">
         <div class="grid-2">
             <div class="hack-card" onclick="showPrices('br', this)"><b>Br Mods Gốc</b><small>Android</small></div>
-            <div class="hack-card" onclick="showPrices('zy', this)"><b>ZyGame</b><small>Non Root</small></div>
-            <div class="hack-card" onclick="showPrices('hg', this)"><b>Hg Cheat</b><small>Non Root</small></div>
-            <div class="hack-card" onclick="showPrices('drip', this)"><b>Drip</b><small>Non Root</small></div>
+            <div class="hack-card" onclick="showPrices('zy', this)"><b>ZyGame</b><small>Android</small></div>
+            <div class="hack-card" onclick="showPrices('hg', this)"><b>Hg Cheat</b><small>Android</small></div>
+            <div class="hack-card" onclick="showPrices('drip', this)"><b>Drip</b><small>Android</small></div>
             <div class="hack-card" onclick="showPrices('fluorite', this)"><b>Fluorite Gốc</b><small>iOS 🍎</small></div>
             <div class="hack-card" onclick="showPrices('cloud', this)"><b>Máy ảo Cloud</b><small>Tốc độ cao</small></div>
         </div>
@@ -81,7 +81,7 @@
     </div>
 
     <div class="footer">
-        <button class="buy-btn" id="btn-pay" onclick="openPayment()">MUA NGAY</button>
+        <button class="buy-btn" id="btn-pay" onclick="openPayment()">THANH TOÁN</button>
     </div>
 
     <div id="pay-modal" class="overlay">
@@ -92,32 +92,25 @@
         </div>
         <div class="qr-card">
             <img id="qr-img" src="" style="width:100%; max-width:210px; margin-bottom:15px; border-radius:10px;">
-            <div class="info-row"><span>Số tiền:</span><b id="p-amount" style="color:#d32f2f"></b></div>
-            <div class="info-row"><span>Nội dung:</span><b id="p-code"></b></div>
-            <div style="font-size:11px; color:#666; margin-top:10px;">MB BANK: 79991312006 - NGUYEN KIEN CUONG</div>
+            <div class="info-row"><span>Số tiền:</span><b id="p-amount" style="color:#d32f2f">0đ</b></div>
+            <div class="info-row"><span>Nội dung:</span><b id="p-code">...</b></div>
+            <div style="font-size:11px; color:#666; margin-top:10px;">NGUYEN KIEN CUONG - MB BANK: 79991312006</div>
         </div>
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
-        tg.ready();
-        tg.expand();
+        tg.ready(); tg.expand();
 
-        // Lấy thông tin người dùng từ Telegram
+        // Lấy thông tin user Telegram
         const user = tg.initDataUnsafe?.user;
         if (user) {
-            document.getElementById('u-name').innerText = (user.first_name + " " + (user.last_name || "")).trim();
+            document.getElementById('u-name').innerText = user.first_name + " " + (user.last_name || "");
             document.getElementById('u-id').innerText = user.id;
-            if (user.photo_url) {
-                document.getElementById('u-avatar').src = user.photo_url;
-            }
-        } else {
-            document.getElementById('u-name').innerText = "Người dùng ẩn danh";
-            document.getElementById('u-id').innerText = "8202216330";
+            if (user.photo_url) document.getElementById('u-avatar').src = user.photo_url;
         }
 
         let sHack = "", sPrice = 0;
-
         const hackData = {
             'br': { p: [["1 Ngày", 50000], ["7 Ngày", 80000], ["15 Ngày", 120000], ["30 Ngày", 140000]] },
             'zy': { p: [["1 Ngày", 40000], ["7 Ngày", 100000], ["30 Ngày", 150000]] },
@@ -158,7 +151,7 @@
             el.classList.add('active');
             const btn = document.getElementById('btn-pay');
             btn.classList.add('ready');
-            btn.innerText = `THANH TOÁN ${sHack} (${time})`;
+            btn.innerText = `MUA ${sHack} - ${time}`;
             tg.HapticFeedback.impactOccurred('medium');
         }
 
