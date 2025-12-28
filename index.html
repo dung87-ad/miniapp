@@ -73,14 +73,14 @@
     </div>
 
     <div class="news-ticker">
-        <i class="fas fa-shopping-cart"></i>
-        <marquee scrollamount="5">Đã cập nhật thêm kho Acc Free Fire cực VIP giá học sinh!</marquee>
+        <i class="fas fa-id-card"></i>
+        <marquee scrollamount="5">Mới: Đã cập nhật Acc Free Fire Level cao - Giao dịch tự động 24/7!</marquee>
     </div>
 
     <div class="stats-grid">
-        <div class="stat-box"><i class="fas fa-check-double"></i><b>Uy Tín</b><small>100%</small></div>
-        <div class="stat-box"><i class="fas fa-bolt"></i><b>Tốc Độ</b><small>Giao ngay</small></div>
-        <div class="stat-box"><i class="fas fa-headset"></i><b>Hỗ Trợ</b><small>24/7</small></div>
+        <div class="stat-box"><i class="fas fa-check-circle"></i><b>Uy Tín</b><small>Chính chủ</small></div>
+        <div class="stat-box"><i class="fas fa-bolt"></i><b>Giao Hàng</b><small>Tức thì</small></div>
+        <div class="stat-box"><i class="fas fa-shield-alt"></i><b>Bảo Hành</b><small>Vĩnh viễn</small></div>
     </div>
 
     <div class="admin-list">
@@ -104,8 +104,8 @@
     <div id="list-cloud" class="product-list-container"></div>
 
     <div class="category-card" onclick="toggleCategory('acc')" id="btn-acc">
-        <i class="fas fa-user-circle" style="margin-right:15px; color:var(--success)"></i>
-        <div style="flex:1"><b>Mua Acc Free Fire</b><br><small style="color:var(--hint)">Acc Random, Acc VIP, Acc Có Nắm Đấm</small></div>
+        <i class="fas fa-user-check" style="margin-right:15px; color:var(--success)"></i>
+        <div style="flex:1"><b>Mua Acc Free Fire</b><br><small style="color:var(--hint)">Acc Level 5 (VN), Level 15</small></div>
         <i class="fas fa-chevron-down arrow"></i>
     </div>
     <div id="list-acc" class="product-list-container"></div>
@@ -124,7 +124,7 @@
         <div class="qr-card">
             <img id="qr-img" src="" style="width:200px; border-radius:15px; margin-bottom:15px">
             <div style="text-align:left; font-size:13px; color:#333">
-                <p>Dịch vụ: <b id="p-name"></b></p>
+                <p>Sản phẩm: <b id="p-name"></b></p>
                 <p>Số lượng: <b id="p-qty"></b></p>
                 <p>Tổng tiền: <b id="p-amount" style="color:red"></b></p>
                 <p>Nội dung: <b id="p-code" style="color:var(--accent)"></b></p>
@@ -151,9 +151,8 @@
         ];
 
         const accData = [
-            { id: 'ac1', name: 'Acc Random Sơ Cấp', stock: 100, icon: 'fa-dice', p: [["1 Acc", 20000], ["5 Acc", 90000]] },
-            { id: 'ac2', name: 'Acc VIP Rank Cao', stock: 15, icon: 'fa-crown', p: [["1 Acc", 150000]] },
-            { id: 'ac3', name: 'Acc Có Nắm Đấm', stock: 8, icon: 'fa-fist-raised', p: [["1 Acc", 250000]] }
+            { id: 'lvl5', name: 'Acc FF Level 5 (Sever Việt)', stock: 50, icon: 'fa-star', p: [["1 Acc", 15000], ["5 Acc", 70000]] },
+            { id: 'lvl15', name: 'Acc FF Level 15', stock: 20, icon: 'fa-medal', p: [["1 Acc", 50000], ["3 Acc", 140000]] }
         ];
 
         let selectedPrice = 0, selectedName = "", currentQty = 1;
@@ -164,12 +163,12 @@
                 <div class="item-row">
                     <div class="item-header" onclick="toggleDetail('${h.id}')">
                         <div style="display:flex; align-items:center"><i class="fas ${h.icon}" style="margin-right:10px; color:var(--accent)"></i><b>${h.name}</b></div>
-                        <span class="stock-tag">Kho: ${h.stock}</span>
+                        <span class="stock-tag">Sẵn có: ${h.stock}</span>
                     </div>
                     <div class="price-list" id="det-${h.id}">
                         ${h.p.map(opt => `<div class="price-option" onclick="selectOpt(event, '${h.name} - ${opt[0]}', ${opt[1]}, this, '${h.id}')"><span>${opt[0]}</span><b>${opt[1].toLocaleString()}đ</b></div>`).join('')}
                         <div class="qty-container" id="qty-box-${h.id}">
-                            <span>Số lượng mua:</span>
+                            <span>Số lượng:</span>
                             <div class="qty-controls">
                                 <button class="qty-btn" onclick="updateQty(-1, '${h.id}')">-</button>
                                 <input type="number" class="qty-input" id="qty-input-${h.id}" value="1" readonly>
@@ -232,7 +231,7 @@
 
         function openPayment() {
             const total = selectedPrice * currentQty;
-            const code = "FF" + Math.random().toString(36).substring(2,6).toUpperCase();
+            const code = "ACC" + Math.random().toString(36).substring(2,6).toUpperCase();
             document.getElementById('p-name').innerText = selectedName;
             document.getElementById('p-qty').innerText = currentQty;
             document.getElementById('p-amount').innerText = total.toLocaleString() + "đ";
