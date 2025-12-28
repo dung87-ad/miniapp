@@ -14,236 +14,205 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; padding-bottom: 180px; }
 
-        /* Profile */
+        /* Profile & News */
         .user-profile { background: var(--card); padding: 12px; border-radius: 20px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 15px; }
-        .user-avatar { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 12px; object-fit: cover; }
-
-        /* News Ticker */
-        .news-ticker { background: rgba(255, 204, 0, 0.1); border: 1px solid rgba(255, 204, 0, 0.3); border-radius: 12px; padding: 8px 12px; margin-bottom: 15px; display: flex; align-items: center; overflow: hidden; }
-        .news-ticker i { color: var(--yellow); margin-right: 10px; }
-
-        /* Admin */
+        .user-avatar { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 12px; }
+        .news-ticker { background: rgba(255, 204, 0, 0.1); border: 1px solid rgba(255, 204, 0, 0.3); border-radius: 12px; padding: 8px 12px; margin-bottom: 15px; display: flex; align-items: center; }
+        
+        /* Admin Section */
         .admin-list { background: var(--card); border-radius: 18px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 20px; }
         .admin-item { display: flex; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--border); text-decoration: none; color: white; }
-        .admin-icon { width: 38px; height: 38px; background: rgba(88, 101, 242, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--accent); margin-right: 12px; }
+        .admin-icon { width: 35px; height: 35px; background: rgba(88,101,242,0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--accent); margin-right: 12px; }
 
-        /* Categories */
-        .category-card { background: var(--card); border-radius: 18px; padding: 15px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 8px; border-left: 4px solid var(--accent); cursor: pointer; }
-        .category-card i.arrow { transition: 0.3s; color: var(--hint); margin-left: auto; }
+        /* Category System */
+        .category-card { background: var(--card); border-radius: 15px; padding: 15px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 8px; cursor: pointer; border-left: 4px solid var(--accent); }
+        .category-card.active { background: #252529; }
+        .category-card i.arrow { margin-left: auto; transition: 0.3s; }
         .category-card.active i.arrow { transform: rotate(180deg); color: var(--accent); }
-        .product-list-container { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-in-out; margin-bottom: 10px; }
-        .product-list-container.open { max-height: 4000px; }
-
-        /* Item Row */
-        .item-row { background: var(--card); border-radius: 15px; border: 1px solid var(--border); margin-bottom: 8px; overflow: hidden; }
-        .item-header { padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; }
-        .stock-tag { font-size: 10px; padding: 2px 8px; border-radius: 10px; border: 1px solid var(--success); color: var(--success); background: rgba(52, 199, 89, 0.1); }
-        .stock-tag.empty { border-color: var(--danger); color: var(--danger); background: rgba(255, 59, 48, 0.1); }
         
-        .price-list { display: none; background: rgba(255,255,255,0.02); border-top: 1px solid var(--border); }
-        .price-option { padding: 12px 16px; display: flex; justify-content: space-between; border-bottom: 1px solid #222; font-size: 13px; cursor: pointer; }
-        .price-option.selected { background: rgba(88, 101, 242, 0.15); border-left: 3px solid var(--accent); }
-        .price-option.disabled { opacity: 0.5; pointer-events: none; }
+        .product-list-container { display: none; margin-bottom: 15px; }
+        .product-list-container.open { display: block; }
 
-        /* Quantity Selector */
-        .qty-container { display: none; align-items: center; justify-content: space-between; padding: 12px 16px; background: #252529; }
-        .qty-controls { display: flex; align-items: center; background: #111; border-radius: 8px; padding: 4px; }
-        .qty-btn { width: 30px; height: 30px; border-radius: 6px; border: none; background: var(--accent); color: white; font-weight: bold; }
-        .qty-btn:disabled { background: #444; opacity: 0.5; }
-        .qty-input { width: 40px; text-align: center; background: transparent; border: none; color: white; font-weight: bold; }
+        /* Item Display */
+        .item-row { background: var(--card); border-radius: 12px; border: 1px solid var(--border); margin-bottom: 8px; overflow: hidden; }
+        .item-header { padding: 12px; display: flex; justify-content: space-between; align-items: center; }
+        .stock-tag { font-size: 10px; padding: 2px 8px; border-radius: 8px; border: 1px solid var(--success); color: var(--success); }
+        .stock-tag.empty { border-color: var(--danger); color: var(--danger); }
+        
+        .price-list { display: none; background: #111; border-top: 1px solid var(--border); }
+        .price-option { padding: 12px 16px; display: flex; justify-content: space-between; border-bottom: 1px solid #222; font-size: 13px; }
+        .price-option.selected { background: rgba(88,101,242,0.2); border-left: 3px solid var(--accent); }
+        .price-option.disabled { opacity: 0.4; pointer-events: none; }
 
-        /* Footer */
+        /* Quantity & Footer */
+        .qty-container { display: none; align-items: center; justify-content: space-between; padding: 12px; background: #1a1a1d; }
+        .qty-controls { display: flex; align-items: center; background: #000; border-radius: 8px; padding: 3px; }
+        .qty-btn { width: 28px; height: 28px; border-radius: 5px; border: none; background: var(--accent); color: white; font-weight: bold; }
+        .qty-btn:disabled { opacity: 0.3; }
+        .qty-input { width: 35px; text-align: center; background: transparent; border: none; color: white; font-weight: bold; }
+
         .footer { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(11,11,13,0.95); padding: 15px 20px 30px; border-top: 1px solid var(--border); backdrop-filter: blur(10px); z-index: 100; }
-        .buy-btn { width: 100%; background: var(--accent); color: white; border: none; border-radius: 15px; padding: 16px; font-weight: bold; font-size: 16px; opacity: 0.3; pointer-events: none; }
+        .buy-btn { width: 100%; background: var(--accent); color: white; border: none; border-radius: 12px; padding: 15px; font-weight: bold; opacity: 0.3; pointer-events: none; }
         .buy-btn.ready { opacity: 1; pointer-events: auto; }
-        
+
+        /* Modal */
         .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 1000; padding: 20px; }
-        .qr-card { background: #fff; color: #000; padding: 25px; border-radius: 25px; text-align: center; }
+        .qr-card { background: #fff; color: #000; padding: 20px; border-radius: 20px; text-align: center; }
     </style>
 </head>
 <body>
 
     <div class="user-profile">
-        <img id="u-avatar" src="https://ui-avatars.com/api/?background=5865f2&color=fff&name=U" class="user-avatar">
-        <div class="user-info">
-            <b id="u-name">Khách hàng</b><br><small id="u-id">ID: ...</small>
-        </div>
+        <img id="u-avatar" src="https://ui-avatars.com/api/?name=U" class="user-avatar">
+        <div><b id="u-name">Khách</b><br><small id="u-id">ID: ...</small></div>
     </div>
 
-    <div class="news-ticker">
-        <i class="fas fa-bullhorn"></i>
-        <marquee scrollamount="5">Hệ thống tự động kiểm tra kho hàng - Chỉ mua được số lượng tối đa có sẵn!</marquee>
-    </div>
+    <div class="news-ticker"><marquee>⚠️ Cảnh báo: Chỉ mua được tối đa số lượng hiện có trong kho hàng!</marquee></div>
 
     <div class="admin-list">
-        <a href="https://t.me/muadongtokyo36" class="admin-item"><i class="fas fa-wallet admin-icon"></i><div style="flex:1"><b>Admin Muadong</b><br><small>Thanh toán</small></div></a>
-        <a href="https://t.me/muahatokyo1919" class="admin-item"><i class="fas fa-tools admin-icon"></i><div style="flex:1"><b>Admin Muaha</b><br><small>Hỗ trợ</small></div></a>
-        <a href="https://t.me/muathutokyo27" class="admin-item"><i class="fas fa-info-circle admin-icon"></i><div style="flex:1"><b>Admin Muathu</b><br><small>Tư vấn</small></div></a>
+        <a href="https://t.me/muadongtokyo36" class="admin-item"><div class="admin-icon"><i class="fas fa-wallet"></i></div><b>Admin Muadong</b></a>
+        <a href="https://t.me/muahatokyo1919" class="admin-item"><div class="admin-icon"><i class="fas fa-tools"></i></div><b>Admin Muaha</b></a>
+        <a href="https://t.me/muathutokyo27" class="admin-item"><div class="admin-icon"><i class="fas fa-info-circle"></i></div><b>Admin Muathu</b></a>
     </div>
 
-    <div class="category-card" onclick="toggleCategory('hack')" id="btn-hack">
-        <i class="fas fa-gamepad" style="margin-right:15px; color:var(--danger)"></i>
-        <div style="flex:1"><b>Hack Free Fire OB51</b></div>
-        <i class="fas fa-chevron-down arrow"></i>
+    <div class="category-card" onclick="openCat('hack')" id="cat-hack">
+        <i class="fas fa-fire" style="margin-right:12px; color:red"></i><b>HACK FF OB51</b><i class="fas fa-chevron-down arrow"></i>
     </div>
     <div id="list-hack" class="product-list-container"></div>
 
-    <div class="category-card" onclick="toggleCategory('cloud')" id="btn-cloud">
-        <i class="fas fa-cloud" style="margin-right:15px; color:#00acee"></i>
-        <div style="flex:1"><b>Máy Ảo Cloud Phone</b></div>
-        <i class="fas fa-chevron-down arrow"></i>
+    <div class="category-card" onclick="openCat('cloud')" id="cat-cloud">
+        <i class="fas fa-cloud" style="margin-right:12px; color:cyan"></i><b>CLOUD PHONE</b><i class="fas fa-chevron-down arrow"></i>
     </div>
     <div id="list-cloud" class="product-list-container"></div>
 
-    <div class="category-card" onclick="toggleCategory('acc')" id="btn-acc">
-        <i class="fas fa-user-check" style="margin-right:15px; color:var(--success)"></i>
-        <div style="flex:1"><b>Mua Acc Free Fire</b></div>
-        <i class="fas fa-chevron-down arrow"></i>
+    <div class="category-card" onclick="openCat('acc')" id="cat-acc">
+        <i class="fas fa-user-check" style="margin-right:12px; color:lime"></i><b>ACC FREE FIRE</b><i class="fas fa-chevron-down arrow"></i>
     </div>
     <div id="list-acc" class="product-list-container"></div>
 
     <div class="footer">
         <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-size:14px">
-            <span id="footer-stock-info">Vui lòng chọn món</span>
-            <b id="display-total" style="color:var(--success)">0đ</b>
+            <span id="f-info">Chọn sản phẩm</span><b id="f-total" style="color:var(--success)">0đ</b>
         </div>
-        <button class="buy-btn" id="btn-pay" onclick="openPayment()">MUA NGAY</button>
+        <button class="buy-btn" id="btn-pay" onclick="pay()">MUA NGAY</button>
     </div>
 
     <div id="pay-modal" class="overlay">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; color:white">
-            <i class="fas fa-arrow-left" onclick="closePay()"></i><b>XÁC NHẬN MUA</b><div style="width:20px"></div>
-        </div>
+        <div onclick="this.parentElement.style.display='none'" style="color:white; margin-bottom:15px"><i class="fas fa-arrow-left"></i> Quay lại</div>
         <div class="qr-card">
-            <img id="qr-img" src="" style="width:200px; border-radius:15px; margin-bottom:15px">
-            <div style="text-align:left; font-size:13px; color:#333">
-                <p>Sản phẩm: <b id="p-name"></b></p>
-                <p>Số lượng: <b id="p-qty"></b></p>
-                <p>Thành tiền: <b id="p-amount" style="color:red"></b></p>
-                <p>Nội dung: <b id="p-code" style="color:var(--accent)"></b></p>
-            </div>
+            <img id="qr-img" src="" style="width:100%; max-width:200px; border-radius:10px; margin-bottom:15px">
+            <div id="pay-detail" style="text-align:left; font-size:13px"></div>
         </div>
     </div>
 
     <script>
-        const tg = window.Telegram.WebApp;
-        tg.ready(); tg.expand();
+        const tg = window.Telegram.WebApp; tg.ready(); tg.expand();
 
-        // ĐẦY ĐỦ TẤT CẢ SẢN PHẨM
-        const hackData = [
-            { id: 'br', name: 'Br Mods OB51', stock: 15, icon: 'fa-shield-alt', p: [["1 Ngày", 50000], ["7 Ngày", 80000], ["30 Ngày", 140000]] },
-            { id: 'zy', name: 'ZyGame OB51', stock: 24, icon: 'fa-bolt', p: [["1 Ngày", 40000], ["30 Ngày", 150000]] },
-            { id: 'hg', name: 'Hg Cheat VIP', stock: 5, icon: 'fa-crosshairs', p: [["10 Ngày", 120000], ["30 Ngày", 180000]] },
-            { id: 'dr', name: 'Drip OB51', stock: 30, icon: 'fa-tint', p: [["1 Ngày", 50000], ["30 Ngày", 190000]] },
-            { id: 'fl', name: 'Fluorite iOS', stock: 2, icon: 'fa-apple', p: [["1 Ngày", 100000], ["30 Ngày", 500000]] }
-        ];
+        // --- CẤU HÌNH SẢN PHẨM (DỮ LIỆU GỐC) ---
+        const DATA = {
+            hack: [
+                { id:'h1', name:'Br Mods OB51', stock:10, p:[["1 Ngày",50000],["7 Ngày",80000],["30 Ngày",140000]] },
+                { id:'h2', name:'ZyGame OB51', stock:15, p:[["1 Ngày",40000],["30 Ngày",150000]] },
+                { id:'h3', name:'Hg Cheat VIP', stock:5, p:[["10 Ngày",120000],["30 Ngày",180000]] },
+                { id:'h4', name:'Drip OB51', stock:8, p:[["1 Ngày",50000],["30 Ngày",190000]] },
+                { id:'h5', name:'Fluorite iOS', stock:2, p:[["1 Ngày",100000],["30 Ngày",500000]] }
+            ],
+            cloud: [
+                { id:'c1', name:'CC Cloud Phone', stock:20, p:[["7 Ngày",120000],["30 Ngày",350000]] },
+                { id:'c2', name:'Vip Player', stock:10, p:[["30 Ngày",280000]] },
+                { id:'c3', name:'Redfinger', stock:4, p:[["30 Ngày",320000]] }
+            ],
+            acc: [
+                { id:'a1', name:'Acc FF Level 5 (VN)', stock:30, p:[["1 Acc",15000]] },
+                { id:'a2', name:'Acc FF Level 15', stock:12, p:[["1 Acc",50000]] }
+            ]
+        };
 
-        const cloudData = [
-            { id: 'cc', name: 'CC Cloud Phone', stock: 100, icon: 'fa-mobile-alt', p: [["7 Ngày", 120000], ["30 Ngày", 350000]] },
-            { id: 'vp', name: 'Vip Player', stock: 45, icon: 'fa-play-circle', p: [["30 Ngày", 280000]] },
-            { id: 'rf', name: 'Redfinger', stock: 10, icon: 'fa-fingerprint', p: [["30 Ngày", 320000]] }
-        ];
+        let sPrice = 0, sName = "", sQty = 1, sMax = 0;
 
-        const accData = [
-            { id: 'lvl5', name: 'Acc FF Level 5 (Sever Việt)', stock: 50, icon: 'fa-star', p: [["1 Acc", 15000], ["5 Acc", 70000]] },
-            { id: 'lvl15', name: 'Acc FF Level 15', stock: 15, icon: 'fa-medal', p: [["1 Acc", 50000], ["3 Acc", 140000]] }
-        ];
-
-        let selectedPrice = 0, selectedName = "", currentQty = 1, currentMaxStock = 0;
-
-        function renderList(data, containerId) {
-            const container = document.getElementById(containerId);
-            container.innerHTML = data.map(h => `
-                <div class="item-row">
-                    <div class="item-header" onclick="toggleDetail('${h.id}')">
-                        <div style="display:flex; align-items:center"><i class="fas ${h.icon}" style="margin-right:10px; color:var(--accent)"></i><b>${h.name}</b></div>
-                        <span class="stock-tag ${h.stock === 0 ? 'empty' : ''}">${h.stock > 0 ? 'Kho: ' + h.stock : 'Hết hàng'}</span>
-                    </div>
-                    <div class="price-list" id="det-${h.id}">
-                        ${h.p.map(opt => `<div class="price-option ${h.stock === 0 ? 'disabled' : ''}" onclick="selectOpt(event, '${h.name} - ${opt[0]}', ${opt[1]}, this, '${h.id}', ${h.stock})"><span>${opt[0]}</span><b>${opt[1].toLocaleString()}đ</b></div>`).join('')}
-                        <div class="qty-container" id="qty-box-${h.id}">
-                            <span>Số lượng mua:</span>
-                            <div class="qty-controls">
-                                <button class="qty-btn" id="minus-${h.id}" onclick="updateQty(-1, '${h.id}')">-</button>
-                                <input type="number" class="qty-input" id="qty-input-${h.id}" value="1" readonly>
-                                <button class="qty-btn" id="plus-${h.id}" onclick="updateQty(1, '${h.id}')">+</button>
+        function renderAll() {
+            for (let key in DATA) {
+                const html = DATA[key].map(item => `
+                    <div class="item-row">
+                        <div class="item-header" onclick="toggleItem('${item.id}')">
+                            <b>${item.name}</b>
+                            <span class="stock-tag ${item.stock==0?'empty':''}">Kho: ${item.stock}</span>
+                        </div>
+                        <div class="price-list" id="det-${item.id}">
+                            ${item.p.map(opt => `<div class="price-option ${item.stock==0?'disabled':''}" onclick="sel(event,'${item.name} - ${opt[0]}',${opt[1]},this,'${item.id}',${item.stock})"><span>${opt[0]}</span><b>${opt[1].toLocaleString()}đ</b></div>`).join('')}
+                            <div class="qty-container" id="qty-${item.id}">
+                                <span>Số lượng:</span>
+                                <div class="qty-controls">
+                                    <button class="qty-btn" onclick="chgQty(-1,'${item.id}')">-</button>
+                                    <input class="qty-input" id="inp-${item.id}" value="1" readonly>
+                                    <button class="qty-btn" onclick="chgQty(1,'${item.id}')">+</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            `).join('');
+                `).join('');
+                document.getElementById('list-' + key).innerHTML = html;
+            }
         }
+        renderAll();
 
-        renderList(hackData, 'list-hack');
-        renderList(cloudData, 'list-cloud');
-        renderList(accData, 'list-acc');
-
-        function toggleCategory(type) {
-            ['list-hack', 'list-cloud', 'list-acc'].forEach(id => document.getElementById(id).classList.remove('open'));
-            ['btn-hack', 'btn-cloud', 'btn-acc'].forEach(id => document.getElementById(id).classList.remove('active'));
+        function openCat(type) {
+            document.querySelectorAll('.product-list-container').forEach(c => c.classList.remove('open'));
+            document.querySelectorAll('.category-card').forEach(c => c.classList.remove('active'));
             document.getElementById('list-' + type).classList.add('open');
-            document.getElementById('btn-' + type).classList.add('active');
+            document.getElementById('cat-' + type).classList.add('active');
         }
 
-        function toggleDetail(id) {
-            const det = document.getElementById(`det-${id}`);
-            const isVisible = det.style.display === 'block';
-            document.querySelectorAll('.price-list').forEach(l => l.style.display = 'none');
-            det.style.display = isVisible ? 'none' : 'block';
+        function toggleItem(id) {
+            const el = document.getElementById('det-' + id);
+            const isVisible = el.style.display === 'block';
+            document.querySelectorAll('.price-list').forEach(p => p.style.display = 'none');
+            el.style.display = isVisible ? 'none' : 'block';
         }
 
-        function selectOpt(e, name, price, el, id, stock) {
+        function sel(e, name, price, el, id, stock) {
             e.stopPropagation(); if(stock <= 0) return;
-            selectedPrice = price; selectedName = name; currentQty = 1; currentMaxStock = stock;
+            sPrice = price; sName = name; sQty = 1; sMax = stock;
             document.querySelectorAll('.price-option').forEach(o => o.classList.remove('selected'));
             el.classList.add('selected');
             document.querySelectorAll('.qty-container').forEach(q => q.style.display = 'none');
-            document.getElementById(`qty-box-${id}`).style.display = 'flex';
-            document.getElementById(`qty-input-${id}`).value = 1;
-            updateFooter(); checkButtons(id);
+            document.getElementById('qty-' + id).style.display = 'flex';
+            document.getElementById('inp-' + id).value = 1;
+            upd();
         }
 
-        function updateQty(val, id) {
-            const nextQty = currentQty + val;
-            if (nextQty >= 1 && nextQty <= currentMaxStock) {
-                currentQty = nextQty;
-                document.getElementById(`qty-input-${id}`).value = currentQty;
-                updateFooter(); checkButtons(id);
+        function chgQty(val, id) {
+            const next = sQty + val;
+            if (next >= 1 && next <= sMax) {
+                sQty = next;
+                document.getElementById('inp-' + id).value = sQty;
+                upd();
+                tg.HapticFeedback.impactOccurred('light');
             }
         }
 
-        function checkButtons(id) {
-            document.getElementById(`minus-${id}`).disabled = (currentQty <= 1);
-            document.getElementById(`plus-${id}`).disabled = (currentQty >= currentMaxStock);
-        }
-
-        function updateFooter() {
-            const total = selectedPrice * currentQty;
-            document.getElementById('display-total').innerText = total.toLocaleString() + "đ";
-            document.getElementById('footer-stock-info').innerHTML = `Số lượng: <b>${currentQty}</b> (Kho: ${currentMaxStock})`;
+        function upd() {
+            const total = sPrice * sQty;
+            document.getElementById('f-total').innerText = total.toLocaleString() + "đ";
+            document.getElementById('f-info').innerHTML = `Mua: <b>${sQty}</b> (Kho: ${sMax})`;
             const btn = document.getElementById('btn-pay');
             btn.classList.add('ready');
             btn.innerText = `THANH TOÁN ${total.toLocaleString()}đ`;
         }
 
-        function openPayment() {
-            const total = selectedPrice * currentQty;
-            const code = "SHOP" + Math.random().toString(36).substring(2,7).toUpperCase();
-            document.getElementById('p-name').innerText = selectedName;
-            document.getElementById('p-qty').innerText = currentQty;
-            document.getElementById('p-amount').innerText = total.toLocaleString() + "đ";
-            document.getElementById('p-code').innerText = code;
+        function pay() {
+            const total = sPrice * sQty;
+            const code = "FF" + Math.random().toString(36).substring(2,7).toUpperCase();
+            document.getElementById('pay-detail').innerHTML = `<p>Gói: ${sName}</p><p>SL: ${sQty}</p><p>Tổng: ${total.toLocaleString()}đ</p><p>Nội dung: <b>${code}</b></p>`;
             document.getElementById('qr-img').src = `https://img.vietqr.io/image/MB-79991312006-compact2.png?amount=${total}&addInfo=${code}`;
             document.getElementById('pay-modal').style.display = 'block';
         }
 
-        function closePay() { document.getElementById('pay-modal').style.display = 'none'; }
-
-        const user = tg.initDataUnsafe?.user;
-        if (user) {
-            document.getElementById('u-name').innerText = user.first_name;
-            document.getElementById('u-id').innerText = "ID: " + user.id;
-            document.getElementById('u-avatar').src = user.photo_url || `https://ui-avatars.com/api/?background=5865f2&color=fff&name=${user.first_name}`;
+        if(tg.initDataUnsafe?.user) {
+            const u = tg.initDataUnsafe.user;
+            document.getElementById('u-name').innerText = u.first_name;
+            document.getElementById('u-id').innerText = "ID: " + u.id;
+            document.getElementById('u-avatar').src = u.photo_url || `https://ui-avatars.com/api/?name=${u.first_name}`;
         }
     </script>
 </body>
