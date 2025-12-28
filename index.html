@@ -9,38 +9,45 @@
         :root { 
             --bg: #0b0b0d; --card: #1c1c1e; --text: #ffffff; 
             --accent: #5865f2; --success: #34c759; --yellow: #ffcc00; 
-            --hint: #8e8e93; --border: #2c2c2e;
+            --hint: #8e8e93; --border: #2c2c2e; --telegram: #0088cc;
         }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; padding-bottom: 120px; }
 
-        /* Profile Header */
+        /* Profile & Stats */
         .user-profile { background: var(--card); padding: 12px; border-radius: 20px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 15px; }
         .user-avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 12px; }
-
-        /* Stats Bar */
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 15px; }
         .stat-box { background: var(--card); padding: 10px 5px; border-radius: 15px; border: 1px solid var(--border); text-align: center; }
         .stat-box i { color: var(--accent); font-size: 14px; margin-bottom: 5px; display: block; }
         .stat-box b { display: block; font-size: 13px; }
         .stat-box small { font-size: 9px; color: var(--hint); }
 
-        /* Banner Tin Tức OB51 */
-        .news-banner { background: rgba(52, 199, 89, 0.1); border: 1px dashed var(--success); padding: 10px; border-radius: 12px; margin-bottom: 20px; display: flex; align-items: center; }
-        .news-banner i { color: var(--success); margin-right: 10px; }
-        .news-text { font-size: 12px; color: var(--text); white-space: nowrap; overflow: hidden; font-weight: 500; }
+        /* Community & Support Buttons */
+        .community-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .comm-btn { 
+            background: var(--telegram); color: white; padding: 12px; border-radius: 15px; 
+            text-decoration: none; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600;
+        }
+        .comm-btn i { margin-right: 8px; font-size: 16px; }
+        .comm-btn.box { background: #24242e; border: 1px solid var(--telegram); }
 
-        /* Support Menu */
-        .support-container { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .support-item { background: linear-gradient(145deg, #1e1e2d, #161625); padding: 12px; border-radius: 15px; border: 1px solid #333; display: flex; align-items: center; text-decoration: none; color: white; }
-        .support-item i { font-size: 20px; margin-right: 10px; color: var(--accent); }
+        /* Admin List */
+        .admin-list { background: var(--card); border-radius: 18px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 20px; }
+        .admin-item { 
+            display: flex; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--border);
+            text-decoration: none; color: white; transition: 0.2s;
+        }
+        .admin-item:last-child { border-bottom: none; }
+        .admin-item:active { background: #2c2c2e; }
+        .admin-item i { width: 35px; height: 35px; background: rgba(88, 101, 242, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--accent); margin-right: 12px; }
+        .admin-info b { font-size: 14px; display: block; }
+        .admin-info small { font-size: 11px; color: var(--hint); }
 
-        /* Game Card */
-        .section-title { font-size: 11px; color: var(--hint); text-transform: uppercase; margin: 0 0 10px 5px; display: block; font-weight: bold; }
-        .game-card { background: var(--card); border-radius: 18px; padding: 15px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 15px; border-left: 4px solid var(--yellow); }
+        /* Game & Hack List */
+        .section-title { font-size: 11px; color: var(--hint); text-transform: uppercase; margin: 0 0 10px 5px; display: block; font-weight: bold; letter-spacing: 0.5px; }
+        .game-card { background: var(--card); border-radius: 18px; padding: 15px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 15px; border-left: 4px solid var(--accent); }
         .game-img { width: 50px; height: 50px; border-radius: 12px; margin-right: 15px; }
-
-        /* Accordion */
         .hack-item { background: var(--card); border-radius: 18px; border: 1px solid var(--border); margin-bottom: 10px; overflow: hidden; }
         .hack-item.open { border-color: var(--accent); }
         .hack-header { padding: 16px; display: flex; align-items: center; justify-content: space-between; }
@@ -49,12 +56,10 @@
         .price-option { padding: 14px 16px 14px 45px; display: flex; justify-content: space-between; border-bottom: 1px solid #222; }
         .price-option.selected { background: rgba(52, 199, 89, 0.1); color: var(--success); }
 
-        /* Footer */
-        .footer { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(11,11,13,0.9); padding: 15px 20px 30px; border-top: 1px solid var(--border); backdrop-filter: blur(10px); }
+        /* Footer & Modals */
+        .footer { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(11,11,13,0.9); padding: 15px 20px 30px; border-top: 1px solid var(--border); backdrop-filter: blur(10px); z-index: 100; }
         .buy-btn { width: 100%; background: var(--accent); color: white; border: none; border-radius: 15px; padding: 16px; font-weight: bold; font-size: 16px; opacity: 0.3; pointer-events: none; }
         .buy-btn.ready { opacity: 1; pointer-events: auto; }
-
-        /* Modal QR */
         .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 1000; padding: 20px; }
         .qr-card { background: #fff; color: #000; padding: 25px; border-radius: 25px; text-align: center; }
     </style>
@@ -67,39 +72,45 @@
             <b id="u-name">Xin chào!</b>
             <span>ID: <small id="u-id">...</small></span>
         </div>
+        <i class="fas fa-crown" style="margin-left: auto; color: var(--yellow);"></i>
+    </div>
+
+    <div class="community-grid">
+        <a href="https://t.me/bonmuatokyoo" class="comm-btn"><i class="fas fa-bullhorn"></i> Kênh Thông Báo</a>
+        <a href="https://t.me/bonmuatokyochat" class="comm-btn box"><i class="fas fa-users"></i> Box Hỗ Trợ</a>
+    </div>
+
+    <span class="section-title">Liên hệ Admin hỗ trợ</span>
+    <div class="admin-list">
+        <a href="https://t.me/muahatokyo1919" class="admin-item">
+            <i class="fas fa-user-tie"></i>
+            <div class="admin-info"><b>Admin Tokyo 1919</b><small>Hỗ trợ thanh toán & Key</small></div>
+            <i class="fas fa-chevron-right" style="margin-left:auto; font-size:12px; color:var(--hint)"></i>
+        </a>
+        <a href="https://t.me/muadongtokyo36" class="admin-item">
+            <i class="fas fa-user-shield"></i>
+            <div class="admin-info"><b>Admin Tokyo 36</b><small>Hỗ trợ cài đặt & Lỗi game</small></div>
+            <i class="fas fa-chevron-right" style="margin-left:auto; font-size:12px; color:var(--hint)"></i>
+        </a>
+        <a href="https://t.me/muathutokyo27" class="admin-item">
+            <i class="fas fa-headset"></i>
+            <div class="admin-info"><b>Admin Tokyo 27</b><small>Tư vấn bản hack phù hợp</small></div>
+            <i class="fas fa-chevron-right" style="margin-left:auto; font-size:12px; color:var(--hint)"></i>
+        </a>
     </div>
 
     <div class="stats-grid">
         <div class="stat-box"><i class="fas fa-shopping-cart"></i><b>2,150+</b><small>Đã bán</small></div>
         <div class="stat-box"><i class="fas fa-rocket"></i><b>OB51</b><small>Version</small></div>
-        <div class="stat-box"><i class="fas fa-user-shield"></i><b>An Toàn</b><small>100%</small></div>
+        <div class="stat-box"><i class="fas fa-shield-virus"></i><b>Antiban</b><small>100%</small></div>
     </div>
 
-    <div class="news-banner">
-        <i class="fas fa-star"></i>
-        <div class="news-text">
-            <marquee scrollamount="5">Hệ thống đã cập nhật toàn bộ bản Hack cho phiên bản OB51 mới nhất! Chống khóa acc cực mạnh, leo rank siêu nhanh!</marquee>
-        </div>
-    </div>
-
-    <span class="section-title">Liên hệ admin</span>
-    <div class="support-container">
-        <a href="https://t.me/your_username" class="support-item">
-            <i class="fab fa-telegram"></i>
-            <div><b>Telegram</b><small>Support 24/7</small></div>
-        </a>
-        <a href="https://zalo.me/your_phone" class="support-item">
-            <i class="fas fa-comment-dots"></i>
-            <div><b>Zalo AD</b><small>Hỗ trợ cài đặt</small></div>
-        </a>
-    </div>
-
-    <span class="section-title">Danh sách bản hack OB51</span>
+    <span class="section-title">Danh sách sản phẩm OB51</span>
     <div class="game-card" onclick="selectGame()">
         <img src="https://img.upanh.tv/2023/10/05/ff.png" class="game-img">
         <div style="flex:1">
             <b>Garena Free Fire OB51</b><br>
-            <small id="game-status" style="color:var(--success)">● Đang hoạt động tốt</small>
+            <small id="game-status" style="color:var(--success)">● Hệ thống đang hoạt động</small>
         </div>
         <i id="game-icon" class="fas fa-chevron-right" style="color: var(--hint);"></i>
     </div>
@@ -113,18 +124,18 @@
     <div id="pay-modal" class="overlay">
         <div style="display:flex; justify-content:space-between; margin-bottom:20px; align-items:center;">
             <i class="fas fa-arrow-left" onclick="closePay()"></i>
-            <b>THANH TOÁN QR</b>
+            <b>THANH TOÁN TỰ ĐỘNG</b>
             <div style="width:20px;"></div>
         </div>
         <div class="qr-card" id="qr-content">
             <img id="qr-img" src="" style="width:220px; border-radius:15px; margin-bottom:15px;">
-            <div style="display:flex; justify-content:space-between; padding:10px; background:#f8f9fa; border-radius:10px; margin-bottom:8px;">
+            <div class="info-row" style="display:flex; justify-content:space-between; padding:10px; background:#f8f9fa; border-radius:10px; margin-bottom:8px; color:#000;">
                 <span>Số tiền:</span><b id="p-amount" style="color:red"></b>
             </div>
-            <div style="display:flex; justify-content:space-between; padding:10px; background:#f8f9fa; border-radius:10px;">
+            <div class="info-row" style="display:flex; justify-content:space-between; padding:10px; background:#f8f9fa; border-radius:10px; color:#000;">
                 <span>Nội dung:</span><b id="p-code" style="color:var(--accent)"></b>
             </div>
-            <p style="font-size:12px; color:var(--success); margin-top:15px;"><i class="fas fa-sync fa-spin"></i> Đang check giao dịch...</p>
+            <p style="font-size:12px; color:var(--success); margin-top:15px;"><i class="fas fa-sync fa-spin"></i> Đang chờ xác nhận giao dịch...</p>
         </div>
     </div>
 
@@ -148,6 +159,8 @@
             { id: 'drip', name: 'Drip OB51', icon: 'fa-tint', p: [["1 Ngày", 50000], ["30 Ngày", 190000]] },
             { id: 'fluorite', name: 'Fluorite iOS', icon: 'fa-apple', p: [["1 Ngày", 100000], ["30 Ngày", 500000]] }
         ];
+
+        let sHack = "", sPrice = 0, checkInterval;
 
         function selectGame() {
             const container = document.getElementById('hack-container');
@@ -205,7 +218,7 @@
         }
 
         function showSuccess(code) {
-            document.getElementById('qr-content').innerHTML = `<div style="padding:20px;"><i class="fas fa-check-circle" style="font-size:60px; color:var(--success);"></i><h2 style="color:#000">THÀNH CÔNG</h2><div style="background:#f0f0f0; padding:15px; border-radius:12px; margin:15px 0;">Key: <b style="color:var(--accent);">FF-VIP-${code}</b></div><button onclick="tg.close()" style="width:100%; background:var(--accent); color:#fff; border:none; padding:14px; border-radius:12px;">XONG</button></div>`;
+            document.getElementById('qr-content').innerHTML = `<div style="padding:20px;"><i class="fas fa-check-circle" style="font-size:60px; color:var(--success);"></i><h2 style="color:#000">GIAO DỊCH XONG</h2><div style="background:#f0f0f0; padding:15px; border-radius:12px; margin:15px 0; color:#333;">Key: <b style="color:var(--accent);">FF-VIP-${code}</b></div><button onclick="tg.close()" style="width:100%; background:var(--accent); color:#fff; border:none; padding:14px; border-radius:12px;">ĐÓNG APP</button></div>`;
             tg.HapticFeedback.notificationOccurred('success');
         }
 
