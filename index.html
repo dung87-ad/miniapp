@@ -22,14 +22,14 @@
         .news-ticker { background: rgba(88, 101, 242, 0.1); border: 1px solid rgba(88, 101, 242, 0.2); border-radius: 12px; padding: 10px; margin-bottom: 15px; display: flex; align-items: center; font-size: 13px; }
         .news-ticker i { color: var(--accent); margin-right: 10px; }
 
-        /* STATS BOX (GIỐNG ẢNH BẠN GỬI) */
+        /* STATS BOX (THEO ẢNH) */
         .stats-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px; }
         .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 15px 5px; text-align: center; }
-        .stat-card i { color: var(--accent); font-size: 18px; margin-bottom: 10px; display: block; }
-        .stat-card b { font-size: 16px; display: block; }
-        .stat-card span { font-size: 13px; color: var(--hint); }
+        .stat-card i { color: var(--accent); font-size: 18px; margin-bottom: 8px; display: block; }
+        .stat-card b { font-size: 15px; display: block; }
+        .stat-card span { font-size: 12px; color: var(--hint); }
 
-        /* Admin/Support List */
+        /* ADMIN BOX (ĐỦ 3 ADMIN) */
         .support-box { background: var(--card); border-radius: 18px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 20px; }
         .support-item { display: flex; align-items: center; padding: 12px 15px; border-bottom: 1px solid var(--border); text-decoration: none; color: white; }
         .support-icon { width: 35px; height: 35px; background: rgba(88,101,242,0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--accent); margin-right: 12px; }
@@ -43,7 +43,7 @@
         .list-container { display: none; margin-bottom: 15px; }
         .list-container.open { display: block; }
 
-        /* Item Row */
+        /* Item Display */
         .item-card { background: var(--card); border-radius: 15px; border: 1px solid var(--border); margin-bottom: 8px; overflow: hidden; }
         .item-top { padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; }
         .badge { font-size: 10px; padding: 2px 8px; border-radius: 8px; border: 1px solid var(--success); color: var(--success); background: rgba(52, 199, 89, 0.1); }
@@ -62,8 +62,8 @@
 
         /* Footer */
         .footer { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(11,11,13,0.95); padding: 15px 20px 35px; border-top: 1px solid var(--border); backdrop-filter: blur(10px); z-index: 100; }
-        .btn-buy { width: 100%; background: var(--accent); color: white; border: none; border-radius: 12px; padding: 16px; font-weight: bold; font-size: 16px; opacity: 0.3; pointer-events: none; transition: 0.3s; }
-        .btn-buy.ready { opacity: 1; pointer-events: auto; transform: scale(1.02); }
+        .btn-buy { width: 100%; background: var(--accent); color: white; border: none; border-radius: 12px; padding: 16px; font-weight: bold; font-size: 16px; opacity: 0.3; pointer-events: none; }
+        .btn-buy.ready { opacity: 1; pointer-events: auto; }
 
         /* Modal */
         .modal { display: none; position: fixed; inset: 0; background: #000; z-index: 1000; padding: 20px; }
@@ -74,12 +74,12 @@
 
     <div class="user-profile">
         <img id="u-avatar" src="https://ui-avatars.com/api/?background=5865f2&color=fff&name=U" class="user-avatar">
-        <div><b id="u-name">Khách hàng</b><br><small id="u-id">Đang tải...</small></div>
+        <div><b id="u-name">Khách hàng</b><br><small id="u-id">ID: ...</small></div>
     </div>
 
     <div class="news-ticker">
         <i class="fas fa-bell"></i>
-        <marquee>Chào mừng bạn! Hệ thống mua bán tự động 24/7. Vui lòng kiểm tra kho hàng trước khi mua.</marquee>
+        <marquee>Hệ thống tự động 24/7. Vui lòng kiểm tra kho hàng trước khi mua. Liên hệ Admin nếu cần hỗ trợ!</marquee>
     </div>
 
     <div class="stats-row">
@@ -102,35 +102,40 @@
 
     <div class="support-box">
         <a href="https://t.me/muadongtokyo36" class="support-item">
-            <div class="support-icon"><i class="fas fa-headset"></i></div>
-            <div style="flex:1"><b>Admin Muadong</b><br><small style="color:var(--hint)">Hỗ trợ thanh toán</small></div>
-            <i class="fas fa-external-link-alt" style="font-size:12px; color:var(--hint)"></i>
+            <div class="support-icon"><i class="fas fa-wallet"></i></div>
+            <div style="flex:1"><b>Admin Muadong</b><br><small style="color:var(--hint)">Thanh toán & Nạp tiền</small></div>
+            <i class="fas fa-chevron-right" style="font-size:12px; color:var(--hint)"></i>
         </a>
         <a href="https://t.me/muahatokyo1919" class="support-item">
-            <div class="support-icon"><i class="fas fa-comment-dots"></i></div>
-            <div style="flex:1"><b>Admin Muaha</b><br><small style="color:var(--hint)">Hỗ trợ kỹ thuật</small></div>
-            <i class="fas fa-external-link-alt" style="font-size:12px; color:var(--hint)"></i>
+            <div class="support-icon"><i class="fas fa-tools"></i></div>
+            <div style="flex:1"><b>Admin Muaha</b><br><small style="color:var(--hint)">Kỹ thuật & Cài đặt</small></div>
+            <i class="fas fa-chevron-right" style="font-size:12px; color:var(--hint)"></i>
+        </a>
+        <a href="https://t.me/muathutokyo27" class="support-item">
+            <div class="support-icon"><i class="fas fa-info-circle"></i></div>
+            <div style="flex:1"><b>Admin Muathu</b><br><small style="color:var(--hint)">Tư vấn & Khiếu nại</small></div>
+            <i class="fas fa-chevron-right" style="font-size:12px; color:var(--hint)"></i>
         </a>
     </div>
 
     <div class="cat-btn" onclick="openCat('hack')" id="cat-hack">
-        <i class="fas fa-fire-alt" style="margin-right:12px; color:var(--danger)"></i><b>HACK GAME OB51</b><i class="fas fa-chevron-down arrow"></i>
+        <i class="fas fa-fire-alt" style="margin-right:12px; color:red"></i><b>HACK GAME OB51</b><i class="fas fa-chevron-down arrow"></i>
     </div>
     <div id="list-hack" class="list-container"></div>
 
     <div class="cat-btn" onclick="openCat('cloud')" id="cat-cloud">
-        <i class="fas fa-cloud" style="margin-right:12px; color:#00acee"></i><b>CLOUD PHONE</b><i class="fas fa-chevron-down arrow"></i>
+        <i class="fas fa-cloud" style="margin-right:12px; color:cyan"></i><b>CLOUD PHONE</b><i class="fas fa-chevron-down arrow"></i>
     </div>
     <div id="list-cloud" class="list-container"></div>
 
     <div class="cat-btn" onclick="openCat('acc')" id="cat-acc">
-        <i class="fas fa-id-badge" style="margin-right:12px; color:var(--success)"></i><b>ACC FREE FIRE</b><i class="fas fa-chevron-down arrow"></i>
+        <i class="fas fa-id-badge" style="margin-right:12px; color:lime"></i><b>ACC FREE FIRE</b><i class="fas fa-chevron-down arrow"></i>
     </div>
     <div id="list-acc" class="list-container"></div>
 
     <div class="footer">
         <div style="display:flex; justify-content:space-between; margin-bottom:12px; font-size:14px">
-            <span id="footer-info" style="color:var(--hint)">Vui lòng chọn món</span>
+            <span id="footer-info">Chọn sản phẩm</span>
             <b id="footer-total" style="color:var(--success)">0đ</b>
         </div>
         <button class="btn-buy" id="pay-btn" onclick="showPay()">MUA NGAY</button>
@@ -139,8 +144,8 @@
     <div id="modal-pay" class="modal">
         <div onclick="this.parentElement.style.display='none'" style="color:white; margin-bottom:20px; font-size:16px"><i class="fas fa-chevron-left"></i> Quay lại</div>
         <div class="qr-wrap">
-            <img id="qr-img" src="" style="width:100%; max-width:220px; border-radius:15px; margin-bottom:20px">
-            <div id="pay-text" style="text-align:left; font-size:14px; line-height:1.6"></div>
+            <img id="qr-img" src="" style="width:100%; max-width:220px; border-radius:15px; margin-bottom:15px">
+            <div id="pay-text" style="text-align:left; font-size:13px; line-height:1.5"></div>
         </div>
     </div>
 
@@ -151,7 +156,7 @@
             hack: [
                 { id:'h1', name:'Br Mods OB51', stock:10, p:[["1 Ngày",50000],["7 Ngày",80000],["30 Ngày",140000]] },
                 { id:'h2', name:'ZyGame OB51', stock:24, p:[["1 Ngày",40000],["30 Ngày",150000]] },
-                { id:'h3', name:'Hg Cheat VIP', stock:5, p:[["30 Ngày",180000]] },
+                { id:'h3', name:'Hg Cheat VIP', stock:5, p:[["10 Ngày",120000],["30 Ngày",180000]] },
                 { id:'h4', name:'Drip OB51', stock:8, p:[["1 Ngày",50000]] },
                 { id:'h5', name:'Fluorite iOS', stock:2, p:[["30 Ngày",500000]] }
             ],
@@ -161,8 +166,8 @@
                 { id:'c3', name:'Redfinger', stock:4, p:[["30 Ngày",320000]] }
             ],
             acc: [
-                { id:'a1', name:'Acc FF Level 5 (VN)', stock:100, p:[["1 Acc",15000]] },
-                { id:'a2', name:'Acc FF Level 15', stock:15, p:[["1 Acc",50000]] }
+                { id:'a1', name:'Acc FF Level 5 (VN)', stock:30, p:[["1 Acc",15000]] },
+                { id:'a2', name:'Acc FF Level 15', stock:12, p:[["1 Acc",50000]] }
             ]
         };
 
@@ -232,16 +237,16 @@
         function updF() {
             const total = curP * curQ;
             document.getElementById('footer-total').innerText = total.toLocaleString() + "đ";
-            document.getElementById('footer-info').innerHTML = `Đã chọn: ${curQ} (Kho: ${curM})`;
+            document.getElementById('footer-info').innerHTML = `Mua: <b>${curQ}</b> (Kho còn: ${curM})`;
             const btn = document.getElementById('pay-btn');
             btn.classList.add('ready');
-            btn.innerText = `MUA NGAY: ${total.toLocaleString()}đ`;
+            btn.innerText = `THANH TOÁN ${total.toLocaleString()}đ`;
         }
 
         function showPay() {
             const t = curP * curQ;
             const c = "FF" + Math.random().toString(36).substring(2,7).toUpperCase();
-            document.getElementById('pay-text').innerHTML = `<b>Sản phẩm:</b> ${curN}<br><b>Số lượng:</b> ${curQ}<br><b>Tổng:</b> <span style="color:red">${t.toLocaleString()}đ</span><br><b>Nội dung CK:</b> <span style="color:blue">${c}</span>`;
+            document.getElementById('pay-text').innerHTML = `<p>Gói: ${curN}</p><p>SL: ${curQ}</p><p>Thành tiền: <b style="color:red">${t.toLocaleString()}đ</b></p><p>Nội dung: <b style="color:blue">${c}</b></p>`;
             document.getElementById('qr-img').src = `https://img.vietqr.io/image/MB-79991312006-compact2.png?amount=${t}&addInfo=${c}`;
             document.getElementById('modal-pay').style.display='block';
         }
