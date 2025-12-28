@@ -14,78 +14,72 @@
         
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: -apple-system, sans-serif;
             background: var(--bg); color: var(--text); margin: 0; padding: 16px;
-            padding-bottom: 110px; line-height: 1.4;
+            padding-bottom: 110px;
         }
 
-        /* Profile Header */
+        /* Profile */
         .user-profile { 
-            background: linear-gradient(145deg, #1c1c1e, #131314);
-            padding: 14px; border-radius: 20px; display: flex; align-items: center;
-            border: 1px solid var(--border); margin-bottom: 24px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            background: var(--card); padding: 12px; border-radius: 16px; 
+            display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 20px;
         }
-        .user-avatar { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 14px; object-fit: cover; }
-        .user-info b { display: block; font-size: 16px; letter-spacing: -0.3px; }
-        .user-info span { font-size: 12px; color: var(--hint); }
-
-        /* Section Titles */
-        .section-title { font-size: 13px; font-weight: 600; color: var(--hint); text-transform: uppercase; margin-bottom: 12px; margin-left: 4px; display: block; }
+        .user-avatar { width: 42px; height: 42px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 12px; }
 
         /* Game Card */
         .game-card { 
-            background: var(--card); border-radius: 18px; padding: 16px;
-            display: flex; align-items: center; justify-content: space-between;
-            border: 1px solid var(--border); transition: 0.3s;
+            background: var(--card); border-radius: 16px; padding: 14px;
+            display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 20px;
         }
-        .game-card.active { border-color: var(--accent); background: #1e1e2d; }
-        .game-img { width: 52px; height: 52px; border-radius: 12px; object-fit: cover; margin-right: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.5); }
+        .game-img { width: 45px; height: 45px; border-radius: 10px; margin-right: 12px; }
 
-        /* Hack Grid */
-        #hack-container { display: none; margin-top: 24px; animation: fadeIn 0.4s ease; }
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .hack-card { 
-            background: var(--card); padding: 18px 10px; border-radius: 18px; 
-            text-align: center; border: 1px solid var(--border); transition: 0.2s;
+        /* Hack List (Vertical) */
+        #hack-container { display: none; animation: fadeIn 0.3s; }
+        .hack-item { 
+            background: var(--card); border-radius: 16px; border: 1px solid var(--border);
+            margin-bottom: 12px; overflow: hidden; transition: 0.3s;
         }
-        .hack-card:active { transform: scale(0.96); }
-        .hack-card.selected { border-color: var(--accent); background: rgba(88, 101, 242, 0.1); }
-        .hack-card i { font-size: 20px; color: var(--accent); margin-bottom: 8px; display: block; }
-        .hack-card b { font-size: 14px; display: block; margin-bottom: 2px; }
-        .hack-card small { font-size: 10px; color: var(--hint); }
-
-        /* Price List */
-        #price-container { display: none; margin-top: 24px; animation: slideUp 0.4s ease; }
-        .price-item { 
-            background: var(--card); padding: 16px; border-radius: 16px; margin-bottom: 10px;
-            border: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;
+        .hack-item.open { border-color: var(--accent); }
+        
+        .hack-header { 
+            padding: 16px; display: flex; align-items: center; justify-content: space-between;
         }
-        .price-item.active { border-color: var(--success); background: rgba(52, 199, 89, 0.05); }
-        .price-item b { color: var(--success); font-size: 16px; }
+        .hack-header i { font-size: 18px; color: var(--accent); margin-right: 12px; }
+        .hack-name { flex: 1; font-weight: 600; font-size: 15px; }
+        .chevron { transition: 0.3s; color: var(--hint); }
+        .hack-item.open .chevron { transform: rotate(180deg); color: var(--accent); }
 
-        /* Footer Button */
-        .footer { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(11, 11, 13, 0.95); padding: 16px 20px 30px 20px; border-top: 1px solid var(--border); backdrop-filter: blur(10px); }
+        /* Price Inside (Accordion Content) */
+        .price-list { 
+            max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out;
+            background: rgba(255,255,255,0.02);
+        }
+        .hack-item.open .price-list { max-height: 500px; border-top: 1px solid var(--border); }
+        
+        .price-option { 
+            padding: 14px 16px 14px 46px; display: flex; justify-content: space-between;
+            align-items: center; border-bottom: 1px solid #222; transition: 0.2s;
+        }
+        .price-option:last-child { border-bottom: none; }
+        .price-option:active { background: rgba(88, 101, 242, 0.1); }
+        .price-option.selected { background: rgba(52, 199, 89, 0.1); }
+        .price-option b { color: var(--success); }
+        .price-option i { color: var(--success); opacity: 0; }
+        .price-option.selected i { opacity: 1; }
+
+        /* Footer */
+        .footer { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg); padding: 16px; border-top: 1px solid var(--border); }
         .buy-btn { 
             width: 100%; background: var(--accent); color: white; border: none; 
-            border-radius: 16px; padding: 18px; font-weight: 700; font-size: 16px; 
-            box-shadow: 0 4px 15px rgba(88, 101, 242, 0.4); transition: 0.3s;
-            opacity: 0.4; pointer-events: none;
+            border-radius: 14px; padding: 16px; font-weight: bold; font-size: 16px;
+            opacity: 0.3; pointer-events: none;
         }
         .buy-btn.ready { opacity: 1; pointer-events: auto; }
 
-        /* Payment Modal */
-        .overlay { 
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(0,0,0,0.9); z-index: 1000; padding: 25px; 
-        }
-        .qr-card { background: #fff; color: #000; padding: 25px; border-radius: 28px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .qr-img { width: 100%; max-width: 220px; border-radius: 15px; margin-bottom: 15px; }
-        .info-row { display: flex; justify-content: space-between; padding: 12px; background: #f8f9fa; border-radius: 12px; margin-bottom: 8px; font-size: 14px; }
-
-        /* Animations */
+        /* Modal */
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 1000; padding: 20px; }
+        .qr-card { background: #fff; color: #000; padding: 20px; border-radius: 24px; text-align: center; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     </style>
 </head>
 <body>
@@ -93,71 +87,49 @@
     <div class="user-profile">
         <img id="u-avatar" src="https://ui-avatars.com/api/?background=5865f2&color=fff&name=U" class="user-avatar">
         <div class="user-info">
-            <b id="u-name">Xin chào!</b>
+            <b id="u-name">Khách hàng</b>
             <span>ID: <small id="u-id">...</small></span>
         </div>
-        <i class="fas fa-crown" style="margin-left: auto; color: var(--yellow); font-size: 20px;"></i>
     </div>
 
-    <span class="section-title">Chọn Game</span>
-    <div class="game-card" id="game-ff" onclick="selectGame()">
-        <div style="display:flex; align-items:center;">
-            <img src="https://img.upanh.tv/2023/10/05/ff.png" class="game-img">
-            <div>
-                <b style="font-size: 17px;">Garena Free Fire</b><br>
-                <small style="color:var(--hint)">Phiên bản cập nhật mới nhất</small>
-            </div>
+    <div class="game-card" onclick="selectGame()">
+        <img src="https://img.upanh.tv/2023/10/05/ff.png" class="game-img">
+        <div style="flex:1">
+            <b style="font-size: 16px;">Garena Free Fire</b><br>
+            <small id="game-status" style="color:var(--hint)">Nhấn để chọn bản hack</small>
         </div>
-        <i id="game-check" class="far fa-circle" style="font-size: 22px; color: var(--border);"></i>
+        <i id="game-icon" class="fas fa-plus-circle" style="color: var(--accent); font-size: 20px;"></i>
     </div>
 
     <div id="hack-container">
-        <span class="section-title">Chọn phiên bản Hack</span>
-        <div class="grid-2">
-            <div class="hack-card" onclick="showPrices('br', this)"><i class="fas fa-shield-alt"></i><b>Br Mods Gốc</b><small>Android</small></div>
-            <div class="hack-card" onclick="showPrices('zy', this)"><i class="fas fa-bolt"></i><b>ZyGame</b><small>Android</small></div>
-            <div class="hack-card" onclick="showPrices('hg', this)"><i class="fas fa-crosshairs"></i><b>Hg Cheat</b><small>Android</small></div>
-            <div class="hack-card" onclick="showPrices('drip', this)"><i class="fas fa-tint"></i><b>Drip</b><small>Android</small></div>
-            <div class="hack-card" onclick="showPrices('fluorite', this)"><i class="fab fa-apple"></i><b>Fluorite</b><small>iOS 🍎</small></div>
-            <div class="hack-card" onclick="showPrices('cloud', this)"><i class="fas fa-cloud"></i><b>Máy ảo Cloud</b><small>VIP</small></div>
         </div>
-    </div>
-
-    <div id="price-container">
-        <span class="section-title">Chọn gói thời gian</span>
-        <div id="list-days"></div>
-    </div>
 
     <div class="footer">
-        <button class="buy-btn" id="btn-pay" onclick="openPayment()">MUA NGAY</button>
+        <button class="buy-btn" id="btn-pay" onclick="openPayment()">THANH TOÁN</button>
     </div>
 
     <div id="pay-modal" class="overlay">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-            <i class="fas fa-chevron-left" onclick="closePay()" style="font-size:20px;"></i>
-            <b style="font-size:18px;">Thanh toán đơn hàng</b>
-            <div style="width:20px;"></div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
+            <i class="fas fa-times" onclick="closePay()"></i>
+            <b>QUÉT MÃ QR</b>
+            <div></div>
         </div>
         <div class="qr-card" id="qr-content">
-            <img id="qr-img" src="" class="qr-img">
-            <div class="info-row"><span>Số tiền:</span><b id="p-amount" style="color:#d32f2f"></b></div>
-            <div class="info-row"><span>Nội dung:</span><b id="p-code" style="color:var(--accent)"></b></div>
-            <div style="font-size:11px; color:#888; margin-top:10px;">
-                Quét mã để nạp tiền tự động<br>
-                <b>MB Bank: 79991312006</b>
+            <img id="qr-img" src="" style="width:200px; border-radius:12px;">
+            <div style="display:flex; justify-content:space-between; margin-top:15px; background:#f4f4f4; padding:10px; border-radius:10px;">
+                <span>Số tiền:</span><b id="p-amount"></b>
             </div>
-            <div style="margin-top:15px; font-size:12px; color:var(--success);">
-                <i class="fas fa-sync fa-spin"></i> Đang check giao dịch...
+            <div style="display:flex; justify-content:space-between; margin-top:8px; background:#f4f4f4; padding:10px; border-radius:10px;">
+                <span>Nội dung:</span><b id="p-code" style="color:var(--accent)"></b>
             </div>
+            <p style="font-size:12px; color:var(--success); margin-top:15px;"><i class="fas fa-sync fa-spin"></i> Chờ thanh toán...</p>
         </div>
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
         tg.ready(); tg.expand();
-        tg.headerColor = '#0b0b0d';
 
-        // NHẬP API KEY SEPAY CỦA BẠN VÀO ĐÂY
         const SEPAY_API_KEY = 'DÁN_MÃ_API_VÀO_ĐÂY'; 
 
         const user = tg.initDataUnsafe?.user;
@@ -167,48 +139,63 @@
             if (user.photo_url) document.getElementById('u-avatar').src = user.photo_url;
         }
 
-        let sHack = "", sPrice = 0, checkInterval;
-        const hackData = {
-            'br': { p: [["1 Ngày", 50000], ["7 Ngày", 80000], ["30 Ngày", 140000]] },
-            'zy': { p: [["1 Ngày", 40000], ["7 Ngày", 100000], ["30 Ngày", 150000]] },
-            'hg': { p: [["10 Ngày", 120000], ["30 Ngày", 180000]] },
-            'drip': { p: [["1 Ngày", 50000], ["30 Ngày", 190000]] },
-            'fluorite': { p: [["1 Ngày", 100000], ["30 Ngày", 500000]] },
-            'cloud': { p: [["1 Tháng", 150000]] }
-        };
+        const hackData = [
+            { id: 'br', name: 'Br Mods Gốc', icon: 'fa-shield-alt', p: [["1 Ngày", 50000], ["7 Ngày", 80000], ["30 Ngày", 140000]] },
+            { id: 'zy', name: 'ZyGame', icon: 'fa-bolt', p: [["1 Ngày", 40000], ["7 Ngày", 100000], ["30 Ngày", 150000]] },
+            { id: 'hg', name: 'Hg Cheat', icon: 'fa-crosshairs', p: [["10 Ngày", 120000], ["30 Ngày", 180000]] },
+            { id: 'drip', name: 'Drip', icon: 'fa-tint', p: [["1 Ngày", 50000], ["30 Ngày", 190000]] },
+            { id: 'fluorite', name: 'Fluorite', icon: 'fa-apple', p: [["1 Ngày", 100000], ["30 Ngày", 500000]] },
+            { id: 'cloud', name: 'Máy ảo Cloud', icon: 'fa-cloud', p: [["1 Tháng", 150000]] }
+        ];
+
+        let sHack = "", sPrice = 0, sTime = "", checkInterval;
 
         function selectGame() {
-            document.getElementById('game-ff').classList.add('active');
-            document.getElementById('game-check').className = "fas fa-check-circle";
-            document.getElementById('game-check').style.color = "var(--success)";
-            document.getElementById('hack-container').style.display = 'block';
+            document.getElementById('game-icon').className = "fas fa-check-circle";
+            document.getElementById('game-status').innerText = "Vui lòng chọn bản hack bên dưới";
+            const container = document.getElementById('hack-container');
+            container.innerHTML = "";
+            hackData.forEach(hack => {
+                let options = hack.p.map(opt => `
+                    <div class="price-option" onclick="selectOption(event, '${hack.name}', ${opt[1]}, '${opt[0]}')">
+                        <span>${opt[0]}</span>
+                        <b>${opt[1].toLocaleString()}đ <i class="fas fa-check-circle"></i></b>
+                    </div>
+                `).join('');
+
+                container.innerHTML += `
+                    <div class="hack-item" id="item-${hack.id}">
+                        <div class="hack-header" onclick="toggleHack('${hack.id}')">
+                            <i class="fas ${hack.icon}"></i>
+                            <div class="hack-name">${hack.name}</div>
+                            <i class="fas fa-chevron-down chevron"></i>
+                        </div>
+                        <div class="price-list">${options}</div>
+                    </div>
+                `;
+            });
+            container.style.display = 'block';
             tg.HapticFeedback.impactOccurred('medium');
         }
 
-        function showPrices(id, el) {
-            sHack = el.querySelector('b').innerText;
-            const list = document.getElementById('list-days');
-            list.innerHTML = "";
-            hackData[id].p.forEach(item => {
-                list.innerHTML += `
-                    <div class="price-item" onclick="selectPrice(this, ${item[1]}, '${item[0]}')">
-                        <span>${item[0]}</span>
-                        <b>${item[1].toLocaleString()}đ</b>
-                    </div>`;
-            });
-            document.getElementById('price-container').style.display = 'block';
-            document.querySelectorAll('.hack-card').forEach(c => c.classList.remove('selected'));
-            el.classList.add('selected');
+        function toggleHack(id) {
+            const el = document.getElementById(`item-${id}`);
+            const isOpen = el.classList.contains('open');
+            document.querySelectorAll('.hack-item').forEach(i => i.classList.remove('open'));
+            if (!isOpen) el.classList.add('open');
             tg.HapticFeedback.impactOccurred('light');
         }
 
-        function selectPrice(el, price, time) {
-            sPrice = price;
-            document.querySelectorAll('.price-item').forEach(i => i.classList.remove('active'));
-            el.classList.add('active');
+        function selectOption(e, name, price, time) {
+            e.stopPropagation();
+            sHack = name; sPrice = price; sTime = time;
+            document.querySelectorAll('.price-option').forEach(opt => opt.classList.remove('selected'));
+            e.currentTarget.classList.add('selected');
+            
             const btn = document.getElementById('btn-pay');
             btn.classList.add('ready');
-            btn.innerText = `MUA ${sHack.toUpperCase()} (${time})`;
+            btn.innerText = `MUA ${name.toUpperCase()} - ${time}`;
+            tg.HapticFeedback.impactOccurred('medium');
         }
 
         function openPayment() {
@@ -244,19 +231,13 @@
                 <div style="padding:20px; color:var(--success); text-align:center;">
                     <i class="fas fa-check-circle" style="font-size:60px; margin-bottom:15px;"></i>
                     <h2 style="color:#000">THÀNH CÔNG!</h2>
-                    <div style="background:#f4f4f4; padding:15px; border-radius:15px; margin:15px 0; color:#333;">
-                        <small>Key của bạn:</small><br>
-                        <b style="font-size:18px; color:var(--accent);">FF-VIP-${code}</b>
-                    </div>
-                    <button onclick="tg.close()" style="width:100%; background:var(--accent); color:#fff; border:none; padding:12px; border-radius:12px; font-weight:bold;">XONG</button>
+                    <p style="color:#333">Key: <b>FF-VIP-${code}</b></p>
+                    <button onclick="tg.close()" style="background:var(--accent); color:#fff; border:none; padding:12px; border-radius:10px; width:100%;">XONG</button>
                 </div>`;
             tg.HapticFeedback.notificationOccurred('success');
         }
 
-        function closePay() { 
-            clearInterval(checkInterval); 
-            document.getElementById('pay-modal').style.display = 'none'; 
-        }
+        function closePay() { clearInterval(checkInterval); document.getElementById('pay-modal').style.display = 'none'; }
     </script>
 </body>
 </html>
