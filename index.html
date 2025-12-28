@@ -9,16 +9,13 @@
         :root { --bg: #0e0e0e; --card: #181818; --text: #fff; --accent: #5865f2; --success: #4cd964; --yellow: #f1c40f; --hint: #8e8e8e; }
         body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; padding-bottom: 120px; user-select: none; }
         
-        /* Chống Sandbox */
-        #sandbox-control, .sp-preview-actions, [title*="Open Sandbox"] { display: none !important; }
-
-        /* Profile Header */
+        /* Header Profile */
         .user-profile { background: var(--card); padding: 12px; border-radius: 16px; display: flex; align-items: center; border: 1px solid #222; margin-bottom: 20px; }
         .user-avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 12px; object-fit: cover; background: #333; }
         .user-info b { display: block; font-size: 15px; }
         .user-info span { font-size: 11px; color: var(--hint); }
 
-        /* Game Card */
+        /* Game Card (Sử dụng ảnh bạn vừa gửi) */
         .game-card { background: var(--card); border-radius: 15px; padding: 15px; display: flex; align-items: center; justify-content: space-between; border: 2px solid #2b2b2b; }
         .game-card.active { border-color: var(--accent); background: #1c1e2d; }
         .game-img { width: 55px; height: 55px; border-radius: 12px; object-fit: cover; margin-right: 15px; border: 1px solid #333; }
@@ -28,7 +25,6 @@
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .hack-card { background: var(--card); padding: 15px; border-radius: 12px; text-align: center; border: 1px solid #2b2b2b; }
         .hack-card.selected { border-color: var(--accent); background: #1c1e2d; }
-        .hack-card b { display: block; font-size: 13px; margin-bottom: 4px; }
         
         .price-item { background: var(--card); padding: 15px; border-radius: 12px; margin-bottom: 8px; border: 1px solid #2b2b2b; display: flex; justify-content: space-between; align-items: center; }
         .price-item.active { border-color: var(--success); background: #16251b; }
@@ -48,18 +44,18 @@
     <div class="user-profile">
         <img id="u-avatar" src="https://ui-avatars.com/api/?background=333&color=fff&name=U" class="user-avatar">
         <div class="user-info">
-            <b id="u-name">Khách hàng</b>
-            <span>ID: <small id="u-id">8202216330</small></span>
+            <b id="u-name">Đang tải...</b>
+            <span>ID: <small id="u-id">...</small></span>
         </div>
         <i class="fas fa-crown" style="margin-left: auto; color: var(--yellow);"></i>
     </div>
 
     <div class="game-card" id="game-ff" onclick="selectGame()">
         <div style="display:flex; align-items:center;">
-            <img src="https://play-lh.googleusercontent.com/jV7vEks8isHdfXW-p6N_9V4f-i20Z19Y62qD1p_798K8h-Y2p7E9Y2H6WjB7f9Y9Y9I=w240-h480-rw" class="game-img" onerror="this.src='https://img.upanh.tv/2023/10/05/ff.png'">
+            <img src="https://lh3.googleusercontent.com/d/1C4R9B6xH6pE-W3_V9n0_K_7hG-Fq7p6l" class="game-img" onerror="this.src='https://img.upanh.tv/2023/10/05/ff.png'">
             <div>
                 <b style="font-size: 16px;">Garena Free Fire</b><br>
-                <small style="color:var(--hint)">Bấm để xem các bản Hack</small>
+                <small style="color:var(--hint)">Bấm để chọn bản Hack</small>
             </div>
         </div>
         <i id="game-check" class="far fa-circle" style="font-size: 20px; color: #444;"></i>
@@ -81,20 +77,20 @@
     </div>
 
     <div class="footer">
-        <button class="buy-btn" id="btn-pay" onclick="openPayment()">THANH TOÁN</button>
+        <button class="buy-btn" id="btn-pay" onclick="openPayment()">MUA NGAY</button>
     </div>
 
     <div id="pay-modal" class="overlay">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-            <button onclick="closePay()" style="background:none; border:none; color:#fff; font-size:24px;">&times;</button>
-            <b>THANH TOÁN QR</b>
+            <button onclick="closePay()" style="background:none; border:none; color:#fff; font-size:24px;">×</button>
+            <b>THANH TOÁN</b>
             <div style="width:24px;"></div>
         </div>
-        <div class="qr-card">
+        <div class="qr-card" id="qr-content">
             <img id="qr-img" src="" style="width:100%; max-width:210px; margin-bottom:15px; border-radius:10px;">
             <div class="info-row"><span>Số tiền:</span><b id="p-amount" style="color:#d32f2f">0đ</b></div>
             <div class="info-row"><span>Nội dung:</span><b id="p-code">...</b></div>
-            <div style="font-size:11px; color:#666; margin-top:10px;">NGUYEN KIEN CUONG - MB BANK: 79991312006</div>
+            <p style="font-size:12px; color:var(--success);"><i class="fas fa-sync fa-spin"></i> Hệ thống đang check tiền tự động...</p>
         </div>
     </div>
 
@@ -102,7 +98,9 @@
         const tg = window.Telegram.WebApp;
         tg.ready(); tg.expand();
 
-        // Lấy thông tin user Telegram
+        // Dán API Key (Bearer Token) của SePay vào đây
+        const SEPAY_API_KEY = 'DÁN_MÃ_API_VÀO_ĐÂY'; 
+
         const user = tg.initDataUnsafe?.user;
         if (user) {
             document.getElementById('u-name').innerText = user.first_name + " " + (user.last_name || "");
@@ -110,14 +108,15 @@
             if (user.photo_url) document.getElementById('u-avatar').src = user.photo_url;
         }
 
-        let sHack = "", sPrice = 0;
+        let sHack = "", sPrice = 0, checkInterval;
+
         const hackData = {
-            'br': { p: [["1 Ngày", 50000], ["7 Ngày", 80000], ["15 Ngày", 120000], ["30 Ngày", 140000]] },
+            'br': { p: [["1 Ngày", 50000], ["7 Ngày", 80000], ["30 Ngày", 140000]] },
             'zy': { p: [["1 Ngày", 40000], ["7 Ngày", 100000], ["30 Ngày", 150000]] },
             'hg': { p: [["10 Ngày", 120000], ["30 Ngày", 180000]] },
-            'drip': { p: [["1 Ngày", 50000], ["7 Ngày", 100000], ["15 Ngày", 150000], ["30 Ngày", 190000]] },
-            'fluorite': { p: [["1 Ngày", 100000], ["7 Ngày", 240000], ["30 Ngày", 500000]] },
-            'cloud': { p: [["Gói Tháng", 150000]] }
+            'drip': { p: [["1 Ngày", 50000], ["7 Ngày", 190000]] },
+            'fluorite': { p: [["1 Ngày", 100000], ["30 Ngày", 500000]] },
+            'cloud': { p: [["1 Tháng", 150000]] }
         };
 
         function selectGame() {
@@ -133,16 +132,11 @@
             const list = document.getElementById('list-days');
             list.innerHTML = "";
             hackData[id].p.forEach(item => {
-                list.innerHTML += `
-                    <div class="price-item" onclick="selectPrice(this, ${item[1]}, '${item[0]}')">
-                        <span>${item[0]}</span>
-                        <b>${item[1].toLocaleString()}đ</b>
-                    </div>`;
+                list.innerHTML += `<div class="price-item" onclick="selectPrice(this, ${item[1]}, '${item[0]}')"><span>${item[0]}</span><b>${item[1].toLocaleString()}đ</b></div>`;
             });
             document.getElementById('price-container').style.display = 'block';
             document.querySelectorAll('.hack-card').forEach(c => c.classList.remove('selected'));
             el.classList.add('selected');
-            tg.HapticFeedback.impactOccurred('light');
         }
 
         function selectPrice(el, price, time) {
@@ -151,8 +145,7 @@
             el.classList.add('active');
             const btn = document.getElementById('btn-pay');
             btn.classList.add('ready');
-            btn.innerText = `MUA ${sHack} - ${time}`;
-            tg.HapticFeedback.impactOccurred('medium');
+            btn.innerText = `MUA ${sHack} (${price.toLocaleString()}đ)`;
         }
 
         function openPayment() {
@@ -161,9 +154,36 @@
             document.getElementById('p-code').innerText = code;
             document.getElementById('qr-img').src = `https://img.vietqr.io/image/MB-79991312006-compact2.png?amount=${sPrice}&addInfo=${code}`;
             document.getElementById('pay-modal').style.display = 'block';
+            startChecking(code);
         }
 
-        function closePay() { document.getElementById('pay-modal').style.display = 'none'; }
+        async function startChecking(orderCode) {
+            if (checkInterval) clearInterval(checkInterval);
+            checkInterval = setInterval(async () => {
+                try {
+                    const res = await fetch(`https://my.sepay.vn/userapi/transactions/list?limit=5`, {
+                        headers: { 'Authorization': `Bearer ${SEPAY_API_KEY}` }
+                    });
+                    const data = await res.json();
+                    if (data.status === 200) {
+                        const found = data.transactions.find(t => t.content.includes(orderCode) && parseFloat(t.amount) >= sPrice);
+                        if (found) {
+                            clearInterval(checkInterval);
+                            document.getElementById('qr-content').innerHTML = `
+                                <div style="padding:20px; color:#4cd964; text-align:center;">
+                                    <i class="fas fa-check-circle" style="font-size:60px;"></i>
+                                    <h2>THÀNH CÔNG!</h2>
+                                    <p style="color:#333">Key của bạn: <b>VIP-${orderCode}</b></p>
+                                    <button onclick="tg.close()" style="background:#5865f2; color:#fff; border:none; padding:10px 20px; border-radius:10px;">HOÀN TẤT</button>
+                                </div>`;
+                            tg.HapticFeedback.notificationOccurred('success');
+                        }
+                    }
+                } catch (e) { console.log("Checking SePay..."); }
+            }, 5000);
+        }
+
+        function closePay() { clearInterval(checkInterval); document.getElementById('pay-modal').style.display = 'none'; }
     </script>
 </body>
 </html>
