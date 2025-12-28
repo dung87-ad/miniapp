@@ -14,28 +14,30 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; padding-bottom: 120px; }
 
+        /* PROFILE HEADER - ĐÃ FIX AVATAR */
+        .user-profile { background: var(--card); padding: 12px; border-radius: 20px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 15px; }
+        .user-avatar { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 12px; object-fit: cover; background: #2c2c2e; }
+        .user-info b { font-size: 15px; color: var(--text); }
+        .user-info small { color: var(--hint); display: block; font-size: 11px; }
+
         /* Stats Bar */
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 15px; }
         .stat-box { background: var(--card); padding: 10px 5px; border-radius: 15px; border: 1px solid var(--border); text-align: center; }
         .stat-box i { color: var(--accent); font-size: 14px; margin-bottom: 5px; display: block; }
         #sold-count { display: block; font-size: 15px; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .bump { transform: scale(1.5); color: var(--success); font-weight: bold; }
+        .bump { transform: scale(1.4); color: var(--success); font-weight: bold; }
 
-        /* Header & Community */
-        .user-profile { background: var(--card); padding: 12px; border-radius: 20px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 15px; }
-        .community-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        .comm-btn { background: var(--telegram); color: white; padding: 12px; border-radius: 15px; text-decoration: none; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; }
+        /* News Ticker */
         .news-ticker { background: rgba(255, 204, 0, 0.1); border: 1px solid rgba(255, 204, 0, 0.3); border-radius: 12px; padding: 8px 12px; margin-bottom: 15px; display: flex; align-items: center; overflow: hidden; }
+        .news-ticker i { color: var(--yellow); margin-right: 10px; }
 
-        /* Admin List */
+        /* Admin & Products */
         .admin-list { background: var(--card); border-radius: 18px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 20px; }
         .admin-item { display: flex; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--border); text-decoration: none; color: white; }
         .admin-icon { width: 38px; height: 38px; background: rgba(88, 101, 242, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--accent); margin-right: 12px; }
-
-        /* Product Styles */
+        
         .game-card { background: var(--card); border-radius: 18px; padding: 15px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 15px; border-left: 4px solid var(--accent); }
-        .hack-item { background: var(--card); border-radius: 18px; border: 1px solid var(--border); margin-bottom: 10px; overflow: hidden; transition: 0.3s; }
-        .hack-header { padding: 16px; display: flex; align-items: center; justify-content: space-between; }
+        .hack-item { background: var(--card); border-radius: 18px; border: 1px solid var(--border); margin-bottom: 10px; overflow: hidden; }
         .price-list { display: none; background: rgba(255,255,255,0.02); border-top: 1px solid var(--border); }
         .price-option { padding: 14px 16px; display: flex; justify-content: space-between; border-bottom: 1px solid #222; }
 
@@ -50,52 +52,55 @@
 <body>
 
     <div class="user-profile">
-        <img id="u-avatar" src="https://ui-avatars.com/api/?background=5865f2&color=fff&name=U" style="width:45px; border-radius:50%; margin-right:12px;">
+        <img id="u-avatar" src="https://ui-avatars.com/api/?background=5865f2&color=fff&name=User" class="user-avatar">
         <div class="user-info">
-            <b id="u-name">Khách hàng</b><br>
-            <small id="u-id">ID: ...</small>
+            <b id="u-name">Khách hàng</b>
+            <small id="u-id">ID: Đang lấy...</small>
         </div>
+        <i class="fas fa-crown" style="margin-left: auto; color: var(--yellow);"></i>
     </div>
 
-    <div class="community-grid">
-        <a href="https://t.me/bonmuatokyoo" class="comm-btn"><i class="fas fa-bullhorn" style="margin-right:8px"></i> Kênh Thông Báo</a>
-        <a href="https://t.me/bonmuatokyochat" class="comm-btn" style="background:#24242e; border:1px solid var(--telegram)"><i class="fas fa-users" style="margin-right:8px"></i> Box Hỗ Trợ</a>
+    <div class="community-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;">
+        <a href="https://t.me/bonmuatokyoo" class="comm-btn" style="background: var(--telegram); color: white; padding: 12px; border-radius: 15px; text-decoration: none; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600;"><i class="fas fa-bullhorn" style="margin-right:8px"></i> Kênh</a>
+        <a href="https://t.me/bonmuatokyochat" class="comm-btn" style="background:#24242e; border:1px solid var(--telegram); color: white; padding: 12px; border-radius: 15px; text-decoration: none; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600;"><i class="fas fa-users" style="margin-right:8px"></i> Box Chat</a>
     </div>
 
     <div class="news-ticker">
-        <i class="fas fa-bolt" style="color:var(--yellow); margin-right:10px"></i>
-        <marquee scrollamount="5">Hệ thống Hack OB51 đã sẵn sàng! Mỗi đơn mua thành công sẽ tự động cập nhật vào bảng "Đã bán".</marquee>
+        <i class="fas fa-bullhorn"></i>
+        <div style="white-space: nowrap;">
+            <marquee scrollamount="5">Hệ thống Hack OB51 đã sẵn sàng! Chúc bạn có những trải nghiệm leo rank tuyệt vời.</marquee>
+        </div>
     </div>
 
     <div class="stats-grid">
         <div class="stat-box"><i class="fas fa-shopping-cart"></i><b id="sold-count">0</b><small>Đã bán</small></div>
         <div class="stat-box"><i class="fas fa-rocket"></i><b>OB51</b><small>Version</small></div>
-        <div class="stat-box"><i class="fas fa-shield-virus"></i><b>100%</b><small>Antiban</small></div>
+        <div class="stat-box"><i class="fas fa-shield-alt"></i><b>100%</b><small>An toàn</small></div>
     </div>
 
-    <span style="font-size:11px; color:var(--hint); font-weight:bold; margin-left:5px">DANH SÁCH ADMIN</span>
+    <span style="font-size:11px; color:var(--hint); font-weight:bold; margin: 10px 0 10px 5px; display:block;">ĐỘI NGŨ ADMIN</span>
     <div class="admin-list">
         <a href="https://t.me/muadongtokyo36" class="admin-item">
             <i class="fas fa-wallet admin-icon"></i>
-            <div style="flex:1"><b>Admin Muadong</b><br><small>Chuyên Thanh toán & Cấp Key</small></div>
+            <div style="flex:1"><b>Admin Muadong</b><br><small>Thanh toán & Cấp Key</small></div>
             <i class="fas fa-chevron-right" style="color:var(--hint)"></i>
         </a>
         <a href="https://t.me/muahatokyo1919" class="admin-item">
             <i class="fas fa-tools admin-icon"></i>
-            <div style="flex:1"><b>Admin Muaha</b><br><small>Chuyên Hỗ trợ cài đặt & Fix lỗi</small></div>
+            <div style="flex:1"><b>Admin Muaha</b><br><small>Hỗ trợ cài đặt & Fix lỗi</small></div>
             <i class="fas fa-chevron-right" style="color:var(--hint)"></i>
         </a>
         <a href="https://t.me/muathutokyo27" class="admin-item">
             <i class="fas fa-info-circle admin-icon"></i>
-            <div style="flex:1"><b>Admin Muathu</b><br><small>Chuyên Tư vấn bản hack</small></div>
+            <div style="flex:1"><b>Admin Muathu</b><br><small>Tư vấn bản hack phù hợp</small></div>
             <i class="fas fa-chevron-right" style="color:var(--hint)"></i>
         </a>
     </div>
 
-    <span style="font-size:11px; color:var(--hint); font-weight:bold; margin-left:5px">CHỌN LOẠI HACK</span>
+    <span style="font-size:11px; color:var(--hint); font-weight:bold; margin-left:5px">SẢN PHẨM HACK</span>
     <div class="game-card" onclick="renderProducts()">
         <img src="https://img.upanh.tv/2023/10/05/ff.png" style="width:50px; border-radius:12px; margin-right:15px;">
-        <div style="flex:1"><b>Free Fire OB51</b><br><small style="color:var(--success)">● Hệ thống đang hoạt động</small></div>
+        <div style="flex:1"><b>Garena Free Fire OB51</b><br><small style="color:var(--success)">● Hoạt động tốt</small></div>
         <i class="fas fa-chevron-down" style="color:var(--hint)"></i>
     </div>
 
@@ -106,9 +111,9 @@
     </div>
 
     <div id="pay-modal" class="overlay">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; color:white">
             <i class="fas fa-arrow-left" onclick="closePay()"></i>
-            <b>THANH TOÁN TỰ ĐỘNG</b>
+            <b>THANH TOÁN</b>
             <div style="width:20px"></div>
         </div>
         <div class="qr-card" id="qr-content">
@@ -119,13 +124,25 @@
             <div style="display:flex; justify-content:space-between; padding:10px; background:#f8f9fa; border-radius:10px; color:#000">
                 <span>Nội dung:</span><b id="p-code" style="color:var(--accent)"></b>
             </div>
-            <p style="font-size:12px; color:var(--success); margin-top:15px"><i class="fas fa-sync fa-spin"></i> Đang chờ xác nhận giao dịch...</p>
+            <p style="font-size:12px; color:var(--success); margin-top:15px"><i class="fas fa-sync fa-spin"></i> Chờ xác nhận...</p>
         </div>
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
         tg.ready(); tg.expand();
+
+        // HIỂN THỊ THÔNG TIN NGƯỜI DÙNG & AVATAR
+        const user = tg.initDataUnsafe?.user;
+        if (user) {
+            document.getElementById('u-name').innerText = user.first_name + (user.last_name ? " " + user.last_name : "");
+            document.getElementById('u-id').innerText = "ID: " + user.id;
+            if (user.photo_url) {
+                document.getElementById('u-avatar').src = user.photo_url;
+            } else {
+                document.getElementById('u-avatar').src = `https://ui-avatars.com/api/?background=5865f2&color=fff&name=${user.first_name}`;
+            }
+        }
 
         let countSold = 0;
         const soldDisplay = document.getElementById('sold-count');
@@ -152,7 +169,7 @@
             const container = document.getElementById('product-container');
             container.innerHTML = hackData.map(h => `
                 <div class="hack-item" id="item-${h.id}">
-                    <div class="hack-header" onclick="toggleHack('${h.id}')">
+                    <div style="padding:16px; display:flex; justify-content:space-between; align-items:center;" onclick="toggleHack('${h.id}')">
                         <div style="display:flex; align-items:center"><i class="fas ${h.icon}" style="margin-right:10px; color:var(--accent)"></i><b>${h.name}</b></div>
                         <i class="fas fa-chevron-down" style="font-size:12px; color:var(--hint)"></i>
                     </div>
@@ -161,7 +178,6 @@
                     </div>
                 </div>
             `).join('');
-            tg.HapticFeedback.impactOccurred('medium');
         }
 
         function toggleHack(id) {
@@ -179,7 +195,6 @@
             const btn = document.getElementById('btn-pay');
             btn.classList.add('ready');
             btn.innerText = `THANH TOÁN ${price.toLocaleString()}đ`;
-            tg.HapticFeedback.impactOccurred('light');
         }
 
         function openPayment() {
@@ -188,29 +203,16 @@
             document.getElementById('p-code').innerText = code;
             document.getElementById('qr-img').src = `https://img.vietqr.io/image/MB-79991312006-compact2.png?amount=${sPrice}&addInfo=${code}`;
             document.getElementById('pay-modal').style.display = 'block';
-            startChecking(code);
-        }
-
-        async function startChecking(orderCode) {
-            checkInterval = setInterval(async () => {
-                // Giả lập check API SePay (Bạn cần thay API Key thật vào đây)
-                // if (success) { clearInterval(checkInterval); handleSuccess(); }
-            }, 5000);
+            // Gọi handleSuccess() để test tính năng tăng số lượng
+            // setTimeout(handleSuccess, 3000); 
         }
 
         function handleSuccess() {
             updateSold();
-            document.getElementById('qr-content').innerHTML = `<div style="padding:20px; color:#000"><i class="fas fa-check-circle" style="font-size:60px; color:var(--success);"></i><h3>MUA THÀNH CÔNG</h3><button onclick="closePay()" style="width:100%; background:var(--accent); color:#fff; border:none; padding:14px; border-radius:12px; margin-top:20px">HOÀN TẤT</button></div>`;
+            document.getElementById('qr-content').innerHTML = `<div style="padding:20px; color:#000"><i class="fas fa-check-circle" style="font-size:60px; color:var(--success);"></i><h3>THÀNH CÔNG</h3><button onclick="closePay()" style="width:100%; background:var(--accent); color:#fff; border:none; padding:14px; border-radius:12px; margin-top:20px">ĐÓNG</button></div>`;
         }
 
-        function closePay() { clearInterval(checkInterval); document.getElementById('pay-modal').style.display = 'none'; }
-        
-        // Load tên người dùng Telegram
-        const user = tg.initDataUnsafe?.user;
-        if (user) {
-            document.getElementById('u-name').innerText = user.first_name;
-            document.getElementById('u-id').innerText = "ID: " + user.id;
-        }
+        function closePay() { document.getElementById('pay-modal').style.display = 'none'; }
     </script>
 </body>
 </html>
