@@ -12,7 +12,7 @@
             --hint: #8e8e93; --border: #2c2c2e; --telegram: #0088cc;
         }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; padding-bottom: 120px; }
+        body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; padding-bottom: 180px; }
 
         /* Profile & Avatar */
         .user-profile { background: var(--card); padding: 12px; border-radius: 20px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 15px; }
@@ -27,29 +27,34 @@
         .stat-box { background: var(--card); padding: 10px 5px; border-radius: 15px; border: 1px solid var(--border); text-align: center; }
         .stat-box i { color: var(--accent); font-size: 14px; margin-bottom: 5px; display: block; }
         #sold-count { display: block; font-size: 15px; transition: 0.3s; }
-        .bump { transform: scale(1.4); color: var(--success); font-weight: bold; }
-
-        /* Admin List */
-        .admin-list { background: var(--card); border-radius: 18px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 20px; }
-        .admin-item { display: flex; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--border); text-decoration: none; color: white; }
-        .admin-icon { width: 38px; height: 38px; background: rgba(88, 101, 242, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--accent); margin-right: 12px; }
 
         /* Category Cards */
-        .category-card { background: var(--card); border-radius: 18px; padding: 15px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 8px; border-left: 4px solid var(--accent); cursor: pointer; transition: 0.2s; }
+        .category-card { background: var(--card); border-radius: 18px; padding: 15px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 8px; border-left: 4px solid var(--accent); cursor: pointer; }
         .category-card i.arrow { transition: 0.3s; color: var(--hint); margin-left: auto; }
         .category-card.active i.arrow { transform: rotate(180deg); color: var(--accent); }
 
         .product-list-container { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-in-out; margin-bottom: 10px; }
         .product-list-container.open { max-height: 2000px; }
 
-        /* Hack & Cloud Items */
+        /* Product Row */
         .item-row { background: var(--card); border-radius: 15px; border: 1px solid var(--border); margin-bottom: 8px; overflow: hidden; }
-        .item-header { padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
+        .item-header { padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; }
+        .stock-tag { font-size: 10px; background: rgba(52, 199, 89, 0.1); color: var(--success); padding: 2px 8px; border-radius: 10px; margin-left: 10px; border: 1px solid var(--success); }
+
+        /* Price & Qty Section */
         .price-list { display: none; background: rgba(255,255,255,0.02); border-top: 1px solid var(--border); }
-        .price-option { padding: 12px 16px; display: flex; justify-content: space-between; border-bottom: 1px solid #222; font-size: 13px; }
+        .price-option { padding: 12px 16px; display: flex; justify-content: space-between; border-bottom: 1px solid #222; font-size: 13px; cursor: pointer; }
+        .price-option.selected { background: rgba(88, 101, 242, 0.15); border-left: 3px solid var(--accent); }
+
+        /* Quantity Selector */
+        .qty-container { display: flex; align-items: center; justify-content: space-between; padding: 15px 16px; background: rgba(255,255,255,0.05); border-top: 1px dashed var(--border); display: none; }
+        .qty-controls { display: flex; align-items: center; background: #2c2c2e; border-radius: 10px; padding: 5px; }
+        .qty-btn { width: 30px; height: 30px; border-radius: 8px; border: none; background: var(--accent); color: white; font-weight: bold; font-size: 18px; }
+        #qty-input { width: 40px; text-align: center; background: transparent; border: none; color: white; font-weight: bold; font-size: 16px; }
 
         /* Footer */
-        .footer { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(11,11,13,0.9); padding: 15px 20px 30px; border-top: 1px solid var(--border); backdrop-filter: blur(10px); z-index: 100; }
+        .footer { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(11,11,13,0.95); padding: 15px 20px 30px; border-top: 1px solid var(--border); backdrop-filter: blur(10px); z-index: 100; }
+        .total-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 14px; }
         .buy-btn { width: 100%; background: var(--accent); color: white; border: none; border-radius: 15px; padding: 16px; font-weight: bold; font-size: 16px; opacity: 0.3; pointer-events: none; }
         .buy-btn.ready { opacity: 1; pointer-events: auto; }
         
@@ -65,57 +70,54 @@
             <b id="u-name">Khách hàng</b>
             <small id="u-id">ID: ...</small>
         </div>
-        <i class="fas fa-crown" style="margin-left: auto; color: var(--yellow);"></i>
     </div>
 
     <div class="news-ticker">
-        <i class="fas fa-bullhorn"></i>
-        <marquee scrollamount="5">Hệ thống OB51 hoạt động ổn định. Đã cập nhật Cloud Phone giá cực rẻ!</marquee>
+        <i class="fas fa-shopping-bag"></i>
+        <marquee scrollamount="5">Mẹo: Mua số lượng lớn Cloud Phone để nhận chiết khấu từ Admin!</marquee>
     </div>
 
     <div class="stats-grid">
         <div class="stat-box"><i class="fas fa-shopping-cart"></i><b id="sold-count">0</b><small>Đã bán</small></div>
-        <div class="stat-box"><i class="fas fa-rocket"></i><b>OB51</b><small>Version</small></div>
-        <div class="stat-box"><i class="fas fa-shield-alt"></i><b>100%</b><small>Uy tín</small></div>
-    </div>
-
-    <div class="admin-list">
-        <a href="https://t.me/muadongtokyo36" class="admin-item"><i class="fas fa-wallet admin-icon"></i><div style="flex:1"><b>Admin Muadong</b><br><small>Thanh toán & Cấp Key</small></div></a>
-        <a href="https://t.me/muahatokyo1919" class="admin-item"><i class="fas fa-tools admin-icon"></i><div style="flex:1"><b>Admin Muaha</b><br><small>Hỗ trợ cài đặt</small></div></a>
-        <a href="https://t.me/muathutokyo27" class="admin-item"><i class="fas fa-info-circle admin-icon"></i><div style="flex:1"><b>Admin Muathu</b><br><small>Tư vấn dịch vụ</small></div></a>
+        <div class="stat-box"><i class="fas fa-boxes"></i><b>1,240</b><small>Tổng kho</small></div>
+        <div class="stat-box"><i class="fas fa-check-circle"></i><b>Sẵn sàng</b><small>Giao hàng</small></div>
     </div>
 
     <div class="category-card" id="btn-hack" onclick="toggleCategory('hack')">
-        <i class="fas fa-gamepad" style="margin-right:15px; font-size:20px; color:var(--accent)"></i>
-        <div style="flex:1"><b>Hack Free Fire OB51</b><br><small style="color:var(--hint)">Br Mods, ZyGame, Hg, Drip...</small></div>
+        <i class="fas fa-fire" style="margin-right:15px; font-size:20px; color:red"></i>
+        <div style="flex:1"><b>Hack Game OB51</b><br><small style="color:var(--hint)">Br Mods, ZyGame, Hg VIP...</small></div>
         <i class="fas fa-chevron-down arrow"></i>
     </div>
     <div id="list-hack" class="product-list-container"></div>
 
     <div class="category-card" id="btn-cloud" onclick="toggleCategory('cloud')">
         <i class="fas fa-cloud" style="margin-right:15px; font-size:20px; color:#00acee"></i>
-        <div style="flex:1"><b>Máy Ảo Cloud Phone</b><br><small style="color:var(--hint)">CC Cloud, Vip Player, Redfinger</small></div>
+        <div style="flex:1"><b>Cloud Phone (Máy ảo)</b><br><small style="color:var(--hint)">CC Cloud, Vip Player, Redfinger</small></div>
         <i class="fas fa-chevron-down arrow"></i>
     </div>
     <div id="list-cloud" class="product-list-container"></div>
 
     <div class="footer">
+        <div class="total-row">
+            <span style="color:var(--hint)">Số lượng: <b id="display-qty" style="color:white">0</b></span>
+            <span style="color:var(--hint)">Tổng: <b id="display-total" style="color:var(--success)">0đ</b></span>
+        </div>
         <button class="buy-btn" id="btn-pay" onclick="openPayment()">MUA NGAY</button>
     </div>
 
     <div id="pay-modal" class="overlay">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; color:white">
             <i class="fas fa-arrow-left" onclick="closePay()"></i>
-            <b>QUÉT MÃ THANH TOÁN</b>
+            <b>XÁC NHẬN THANH TOÁN</b>
             <div style="width:20px"></div>
         </div>
-        <div class="qr-card" id="qr-content">
+        <div class="qr-card">
             <img id="qr-img" src="" style="width:220px; border-radius:15px; margin-bottom:15px">
-            <div style="display:flex; justify-content:space-between; padding:10px; background:#f8f9fa; border-radius:10px; margin-bottom:8px; color:#000">
-                <span>Số tiền:</span><b id="p-amount" style="color:red"></b>
-            </div>
-            <div style="display:flex; justify-content:space-between; padding:10px; background:#f8f9fa; border-radius:10px; color:#000">
-                <span>Nội dung:</span><b id="p-code" style="color:var(--accent)"></b>
+            <div style="padding:10px; background:#f8f9fa; border-radius:10px; margin-bottom:8px; color:#000; text-align:left; font-size:14px">
+                <div style="display:flex; justify-content:space-between"><span>Sản phẩm:</span><b id="p-name"></b></div>
+                <div style="display:flex; justify-content:space-between; margin-top:5px"><span>Số lượng:</span><b id="p-qty"></b></div>
+                <div style="display:flex; justify-content:space-between; margin-top:5px"><span>Thành tiền:</span><b id="p-amount" style="color:red"></b></div>
+                <div style="display:flex; justify-content:space-between; margin-top:5px"><span>Nội dung:</span><b id="p-code" style="color:var(--accent)"></b></div>
             </div>
         </div>
     </div>
@@ -132,29 +134,38 @@
         }
 
         const hackData = [
-            { id: 'br', name: 'Br Mods OB51', icon: 'fa-shield-alt', p: [["1 Ngày", 50000], ["7 Ngày", 80000], ["30 Ngày", 140000]] },
-            { id: 'zy', name: 'ZyGame OB51', icon: 'fa-bolt', p: [["1 Ngày", 40000], ["7 Ngày", 100000], ["30 Ngày", 150000]] },
-            { id: 'hg', name: 'Hg Cheat VIP', icon: 'fa-crosshairs', p: [["10 Ngày", 120000], ["30 Ngày", 180000]] },
-            { id: 'dr', name: 'Drip OB51', icon: 'fa-tint', p: [["1 Ngày", 50000], ["30 Ngày", 190000]] },
-            { id: 'fl', name: 'Fluorite iOS', icon: 'fa-apple', p: [["1 Ngày", 100000], ["30 Ngày", 500000]] }
+            { id: 'br', name: 'Br Mods OB51', stock: 15, p: [["1 Ngày", 50000], ["7 Ngày", 80000]] },
+            { id: 'zy', name: 'ZyGame OB51', stock: 24, p: [["1 Ngày", 40000], ["30 Ngày", 150000]] },
+            { id: 'fl', name: 'Fluorite iOS', stock: 8, p: [["1 Ngày", 100000]] }
         ];
 
         const cloudData = [
-            { id: 'cc', name: 'CC Cloud Phone', icon: 'fa-mobile-alt', p: [["7 Ngày", 120000], ["30 Ngày", 350000]] },
-            { id: 'vp', name: 'Vip Player', icon: 'fa-play-circle', p: [["30 Ngày", 280000]] },
-            { id: 'rf', name: 'Redfinger', icon: 'fa-fingerprint', p: [["30 Ngày", 320000]] }
+            { id: 'cc', name: 'CC Cloud Phone', stock: 50, p: [["7 Ngày", 120000], ["30 Ngày", 350000]] },
+            { id: 'rf', name: 'Redfinger', stock: 12, p: [["30 Ngày", 320000]] }
         ];
+
+        let selectedPrice = 0;
+        let selectedName = "";
+        let currentQty = 1;
 
         function renderList(data, containerId) {
             const container = document.getElementById(containerId);
             container.innerHTML = data.map(h => `
                 <div class="item-row">
                     <div class="item-header" onclick="toggleDetail('${h.id}')">
-                        <div style="display:flex; align-items:center"><i class="fas ${h.icon}" style="margin-right:10px; color:var(--accent)"></i><b>${h.name}</b></div>
+                        <div style="display:flex; align-items:center"><b>${h.name}</b> <span class="stock-tag">Còn ${h.stock}</span></div>
                         <i class="fas fa-chevron-down" style="font-size:10px; color:var(--hint)"></i>
                     </div>
                     <div class="price-list" id="det-${h.id}">
-                        ${h.p.map(opt => `<div class="price-option" onclick="selectOpt(event, ${opt[1]}, this)"><span>${opt[0]}</span><b>${opt[1].toLocaleString()}đ</b></div>`).join('')}
+                        ${h.p.map((opt, index) => `<div class="price-option" onclick="selectOpt(event, '${h.name} - ${opt[0]}', ${opt[1]}, this, '${h.id}')"><span>${opt[0]}</span><b>${opt[1].toLocaleString()}đ</b></div>`).join('')}
+                        <div class="qty-container" id="qty-box-${h.id}">
+                            <span>Số lượng mua:</span>
+                            <div class="qty-controls">
+                                <button class="qty-btn" onclick="updateQty(-1)">-</button>
+                                <input type="number" id="qty-input" value="1" readonly>
+                                <button class="qty-btn" onclick="updateQty(1)">+</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             `).join('');
@@ -164,18 +175,10 @@
         renderList(cloudData, 'list-cloud');
 
         function toggleCategory(type) {
-            const hackList = document.getElementById('list-hack');
-            const cloudList = document.getElementById('list-cloud');
-            const hackBtn = document.getElementById('btn-hack');
-            const cloudBtn = document.getElementById('btn-cloud');
-
-            if (type === 'hack') {
-                hackList.classList.toggle('open');
-                hackBtn.classList.toggle('active');
-            } else {
-                cloudList.classList.toggle('open');
-                cloudBtn.classList.toggle('active');
-            }
+            document.getElementById('list-hack').classList.toggle('open', type === 'hack' && !document.getElementById('list-hack').classList.contains('open'));
+            document.getElementById('list-cloud').classList.toggle('open', type === 'cloud' && !document.getElementById('list-cloud').classList.contains('open'));
+            document.getElementById('btn-hack').classList.toggle('active', type === 'hack');
+            document.getElementById('btn-cloud').classList.toggle('active', type === 'cloud');
         }
 
         function toggleDetail(id) {
@@ -185,22 +188,47 @@
             detail.style.display = isVisible ? 'none' : 'block';
         }
 
-        let sPrice = 0;
-        function selectOpt(e, price, el) {
+        function selectOpt(e, name, price, el, id) {
             e.stopPropagation();
-            sPrice = price;
-            document.querySelectorAll('.price-option').forEach(o => o.style.background = 'transparent');
-            el.style.background = 'rgba(52, 199, 89, 0.1)';
+            selectedPrice = price;
+            selectedName = name;
+            currentQty = 1;
+            
+            document.querySelectorAll('.price-option').forEach(o => o.classList.remove('selected'));
+            el.classList.add('selected');
+
+            // Hiện khung chọn số lượng
+            document.querySelectorAll('.qty-container').forEach(q => q.style.display = 'none');
+            document.getElementById(`qty-box-${id}`).style.display = 'flex';
+            document.getElementById('qty-input').value = 1;
+
+            updateFooter();
+        }
+
+        function updateQty(val) {
+            currentQty = Math.max(1, currentQty + val);
+            document.getElementById('qty-input').value = currentQty;
+            updateFooter();
+        }
+
+        function updateFooter() {
+            const total = selectedPrice * currentQty;
+            document.getElementById('display-qty').innerText = currentQty;
+            document.getElementById('display-total').innerText = total.toLocaleString() + "đ";
             const btn = document.getElementById('btn-pay');
             btn.classList.add('ready');
-            btn.innerText = `THANH TOÁN ${price.toLocaleString()}đ`;
+            btn.innerText = `MUA NGAY - ${(total).toLocaleString()}đ`;
         }
 
         function openPayment() {
+            const total = selectedPrice * currentQty;
             const code = "MHA" + Math.random().toString(36).substring(2,6).toUpperCase();
-            document.getElementById('p-amount').innerText = sPrice.toLocaleString() + "đ";
+            
+            document.getElementById('p-name').innerText = selectedName;
+            document.getElementById('p-qty').innerText = currentQty;
+            document.getElementById('p-amount').innerText = total.toLocaleString() + "đ";
             document.getElementById('p-code').innerText = code;
-            document.getElementById('qr-img').src = `https://img.vietqr.io/image/MB-79991312006-compact2.png?amount=${sPrice}&addInfo=${code}`;
+            document.getElementById('qr-img').src = `https://img.vietqr.io/image/MB-79991312006-compact2.png?amount=${total}&addInfo=${code}`;
             document.getElementById('pay-modal').style.display = 'block';
         }
 
