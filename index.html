@@ -14,38 +14,30 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; padding-bottom: 120px; }
 
-        /* Profile & Stats */
-        .user-profile { background: var(--card); padding: 12px; border-radius: 20px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 15px; }
-        .user-avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 12px; }
-
         /* Stats Bar */
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 15px; }
         .stat-box { background: var(--card); padding: 10px 5px; border-radius: 15px; border: 1px solid var(--border); text-align: center; }
         .stat-box i { color: var(--accent); font-size: 14px; margin-bottom: 5px; display: block; }
-        .stat-box b { display: block; font-size: 13px; transition: transform 0.3s ease; }
-        .stat-box b.bump { transform: scale(1.3); color: var(--success); }
+        
+        /* Hiệu ứng con số nhảy */
+        #sold-count { display: block; font-size: 15px; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .bump { transform: scale(1.5); color: var(--success); font-weight: bold; }
 
-        /* News Ticker */
+        /* Các thành phần giao diện khác */
+        .user-profile { background: var(--card); padding: 12px; border-radius: 20px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 15px; }
+        .community-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .comm-btn { background: var(--telegram); color: white; padding: 12px; border-radius: 15px; text-decoration: none; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; }
         .news-ticker { background: rgba(255, 204, 0, 0.1); border: 1px solid rgba(255, 204, 0, 0.3); border-radius: 12px; padding: 8px 12px; margin-bottom: 15px; display: flex; align-items: center; overflow: hidden; }
-        .news-ticker i { color: var(--yellow); margin-right: 10px; }
-        .ticker-content { white-space: nowrap; font-size: 12px; color: var(--text); }
-
-        /* Admin List */
+        
         .admin-list { background: var(--card); border-radius: 18px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 20px; }
         .admin-item { display: flex; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--border); text-decoration: none; color: white; }
-        .admin-item:last-child { border-bottom: none; }
         .admin-icon { width: 38px; height: 38px; background: rgba(88, 101, 242, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--accent); margin-right: 12px; }
-        
-        .section-title { font-size: 11px; color: var(--hint); text-transform: uppercase; margin: 0 0 10px 5px; display: block; font-weight: bold; }
-        .game-card { background: var(--card); border-radius: 18px; padding: 15px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 15px; border-left: 4px solid var(--accent); }
-        .game-img { width: 50px; height: 50px; border-radius: 12px; margin-right: 15px; }
 
-        /* Footer */
+        .game-card { background: var(--card); border-radius: 18px; padding: 15px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 15px; border-left: 4px solid var(--accent); }
         .footer { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(11,11,13,0.9); padding: 15px 20px 30px; border-top: 1px solid var(--border); backdrop-filter: blur(10px); z-index: 100; }
         .buy-btn { width: 100%; background: var(--accent); color: white; border: none; border-radius: 15px; padding: 16px; font-weight: bold; font-size: 16px; opacity: 0.3; pointer-events: none; }
         .buy-btn.ready { opacity: 1; pointer-events: auto; }
         
-        /* Modal Pay */
         .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 1000; padding: 20px; }
         .qr-card { background: #fff; color: #000; padding: 25px; border-radius: 25px; text-align: center; }
     </style>
@@ -53,71 +45,61 @@
 <body>
 
     <div class="user-profile">
-        <img id="u-avatar" src="https://ui-avatars.com/api/?background=5865f2&color=fff&name=U" class="user-avatar">
+        <img id="u-avatar" src="https://ui-avatars.com/api/?background=5865f2&color=fff&name=U" class="user-avatar" style="width:45px; border-radius:50%; margin-right:12px;">
         <div class="user-info">
-            <b id="u-name">Khách hàng</b>
-            <span>ID: <small id="u-id">...</small></span>
+            <b id="u-name">Khách hàng</b><br>
+            <small id="u-id">Đang tải...</small>
         </div>
-        <i class="fas fa-crown" style="margin-left: auto; color: var(--yellow);"></i>
     </div>
 
-    <div class="community-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;">
-        <a href="https://t.me/bonmuatokyoo" style="background: var(--telegram); color: white; padding: 12px; border-radius: 15px; text-decoration: none; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600;"><i class="fas fa-bullhorn" style="margin-right:8px"></i> Kênh Thông Báo</a>
-        <a href="https://t.me/bonmuatokyochat" style="background: #24242e; border: 1px solid var(--telegram); color: white; padding: 12px; border-radius: 15px; text-decoration: none; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600;"><i class="fas fa-users" style="margin-right:8px"></i> Box Hỗ Trợ</a>
+    <div class="community-grid">
+        <a href="https://t.me/bonmuatokyoo" class="comm-btn"><i class="fas fa-bullhorn" style="margin-right:8px"></i> Kênh</a>
+        <a href="https://t.me/bonmuatokyochat" class="comm-btn" style="background:#24242e; border:1px solid var(--telegram)"><i class="fas fa-users" style="margin-right:8px"></i> Box Chat</a>
     </div>
 
     <div class="news-ticker">
-        <i class="fas fa-bolt"></i>
-        <div class="ticker-content">
-            <marquee scrollamount="5">Hack OB51 đã sẵn sàng! Mỗi đơn hàng thành công sẽ được hệ thống cập nhật trực tiếp lên bảng thống kê!</marquee>
-        </div>
-    </div>
-
-    <span class="section-title">Liên hệ Admin</span>
-    <div class="admin-list">
-        <a href="https://t.me/muadongtokyo36" class="admin-item">
-            <i class="fas fa-wallet admin-icon"></i>
-            <div class="admin-info"><b>Admin Muadong</b><small>Thanh toán & Cấp Key</small></div>
-            <i class="fas fa-chevron-right" style="margin-left:auto; font-size:12px; color:var(--hint)"></i>
-        </a>
-        <a href="https://t.me/muahatokyo1919" class="admin-item">
-            <i class="fas fa-tools admin-icon"></i>
-            <div class="admin-info"><b>Admin Muaha</b><small>Hỗ trợ cài đặt & Fix lỗi</small></div>
-            <i class="fas fa-chevron-right" style="margin-left:auto; font-size:12px; color:var(--hint)"></i>
-        </a>
-        <a href="https://t.me/muathutokyo27" class="admin-item">
-            <i class="fas fa-info-circle admin-icon"></i>
-            <div class="admin-info"><b>Admin Muathu</b><small>Tư vấn bản hack phù hợp</small></div>
-            <i class="fas fa-chevron-right" style="margin-left:auto; font-size:12px; color:var(--hint)"></i>
-        </a>
+        <i class="fas fa-star" style="color:var(--yellow); margin-right:10px"></i>
+        <marquee class="ticker-content" scrollamount="5">Cập nhật OB51 thành công. Mỗi lượt mua sẽ được cộng trực tiếp vào hệ thống!</marquee>
     </div>
 
     <div class="stats-grid">
         <div class="stat-box">
-            <i class="fas fa-shopping-cart"></i>
-            <b id="sold-count">2540</b>
+            <i class="fas fa-shopping-basket"></i>
+            <b id="sold-count">0</b>
             <small>Đã bán</small>
         </div>
         <div class="stat-box">
             <i class="fas fa-rocket"></i>
             <b>OB51</b>
-            <small>Version</small>
+            <small>Phiên bản</small>
         </div>
         <div class="stat-box">
-            <i class="fas fa-shield-virus"></i>
+            <i class="fas fa-check-shield"></i>
             <b>100%</b>
-            <small>An toàn</small>
+            <small>Uy tín</small>
         </div>
     </div>
 
-    <span class="section-title">Sản phẩm Hack OB51</span>
+    <div class="admin-list">
+        <a href="https://t.me/muadongtokyo36" class="admin-item">
+            <i class="fas fa-wallet admin-icon"></i>
+            <div style="flex:1"><b>Admin Muadong</b><br><small>Thanh toán & Cấp Key</small></div>
+            <i class="fas fa-chevron-right" style="color:var(--hint)"></i>
+        </a>
+        <a href="https://t.me/muahatokyo1919" class="admin-item">
+            <i class="fas fa-tools admin-icon"></i>
+            <div style="flex:1"><b>Admin Muaha</b><br><small>Hỗ trợ & Cài đặt</small></div>
+            <i class="fas fa-chevron-right" style="color:var(--hint)"></i>
+        </a>
+    </div>
+
     <div class="game-card" onclick="selectGame()">
-        <img src="https://img.upanh.tv/2023/10/05/ff.png" class="game-img">
+        <img src="https://img.upanh.tv/2023/10/05/ff.png" style="width:50px; border-radius:12px; margin-right:15px;">
         <div style="flex:1">
-            <b>Garena Free Fire OB51</b><br>
-            <small id="game-status" style="color:var(--success)">● Hoạt động ổn định</small>
+            <b>Free Fire OB51</b><br>
+            <small style="color:var(--success)">● Hệ thống ổn định</small>
         </div>
-        <i id="game-icon" class="fas fa-chevron-right" style="color: var(--hint);"></i>
+        <i class="fas fa-chevron-right" style="color:var(--hint)"></i>
     </div>
 
     <div id="hack-container"></div>
@@ -127,20 +109,20 @@
     </div>
 
     <div id="pay-modal" class="overlay">
-        <div style="display:flex; justify-content:space-between; margin-bottom:20px; align-items:center;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px">
             <i class="fas fa-arrow-left" onclick="closePay()"></i>
-            <b>THANH TOÁN QR</b>
-            <div style="width:20px;"></div>
+            <b>THANH TOÁN</b>
+            <div style="width:20px"></div>
         </div>
         <div class="qr-card" id="qr-content">
-            <img id="qr-img" src="" style="width:220px; border-radius:15px; margin-bottom:15px;">
-            <div style="display:flex; justify-content:space-between; padding:10px; background:#f8f9fa; border-radius:10px; margin-bottom:8px; color:#000;">
+            <img id="qr-img" src="" style="width:220px; border-radius:15px; margin-bottom:15px">
+            <div style="display:flex; justify-content:space-between; padding:10px; background:#f8f9fa; border-radius:10px; margin-bottom:8px; color:#000">
                 <span>Số tiền:</span><b id="p-amount" style="color:red"></b>
             </div>
-            <div style="display:flex; justify-content:space-between; padding:10px; background:#f8f9fa; border-radius:10px; color:#000;">
+            <div style="display:flex; justify-content:space-between; padding:10px; background:#f8f9fa; border-radius:10px; color:#000">
                 <span>Nội dung:</span><b id="p-code" style="color:var(--accent)"></b>
             </div>
-            <p id="pay-status" style="font-size:12px; color:var(--success); margin-top:15px;"><i class="fas fa-sync fa-spin"></i> Đang chờ chuyển khoản...</p>
+            <p style="font-size:12px; color:var(--success); margin-top:15px"><i class="fas fa-sync fa-spin"></i> Đang chờ xác nhận...</p>
         </div>
     </div>
 
@@ -148,17 +130,17 @@
         const tg = window.Telegram.WebApp;
         tg.ready(); tg.expand();
 
-        // 1. LOGIC CẬP NHẬT KHI CÓ NGƯỜI MUA THÀNH CÔNG
-        let currentSold = 2540; 
-        const soldEl = document.getElementById('sold-count');
+        // LOGIC SỐ LƯỢNG NGƯỜI MUA
+        let countSold = 0;
+        const soldDisplay = document.getElementById('sold-count');
 
-        function incrementSoldCount() {
-            currentSold += 1; // Cộng thêm 1 đơn vị
-            soldEl.innerText = currentSold.toLocaleString();
+        function updatePurchase() {
+            countSold += 1;
+            soldDisplay.innerText = countSold;
             
-            // Hiệu ứng bump nhẹ cho con số
-            soldEl.classList.add('bump');
-            setTimeout(() => soldEl.classList.remove('bump'), 300);
+            // Hiệu ứng thông báo trực quan
+            soldDisplay.classList.add('bump');
+            setTimeout(() => soldDisplay.classList.remove('bump'), 400);
             
             tg.HapticFeedback.notificationOccurred('success');
         }
@@ -166,31 +148,35 @@
         const SEPAY_API_KEY = 'DÁN_MÃ_API_VÀO_ĐÂY'; 
         const hackData = [
             { id: 'br', name: 'Br Mods OB51', icon: 'fa-shield-alt', p: [["1 Ngày", 50000], ["7 Ngày", 80000], ["30 Ngày", 140000]] },
-            { id: 'zy', name: 'ZyGame OB51', icon: 'fa-bolt', p: [["1 Ngày", 40000], ["7 Ngày", 100000], ["30 Ngày", 150000]] },
-            { id: 'hg', name: 'Hg Cheat VIP', icon: 'fa-crosshairs', p: [["10 Ngày", 120000], ["30 Ngày", 180000]] }
+            { id: 'zy', name: 'ZyGame OB51', icon: 'fa-bolt', p: [["1 Ngày", 40000], ["7 Ngày", 100000], ["30 Ngày", 150000]] }
         ];
 
-        let sHack = "", sPrice = 0, checkInterval;
+        let sPrice = 0, checkInterval;
 
         function selectGame() {
             const container = document.getElementById('hack-container');
-            container.innerHTML = "";
-            hackData.forEach(hack => {
-                let options = hack.p.map(opt => `<div class="price-option" onclick="selectOption(event, '${hack.name}', ${opt[1]}, '${opt[0]}')"><span>${opt[0]}</span><b>${opt[1].toLocaleString()}đ</b></div>`).join('');
-                container.innerHTML += `<div class="hack-item" id="item-${hack.id}"><div class="hack-header" onclick="toggleHack('${hack.id}')"><i class="fas ${hack.icon}"></i><div style="flex:1; font-weight:600;">${hack.name}</div><i class="fas fa-chevron-down"></i></div><div class="price-list">${options}</div></div>`;
-            });
+            container.innerHTML = hackData.map(hack => `
+                <div class="hack-item" id="item-${hack.id}" style="background:var(--card); border:1px solid var(--border); border-radius:18px; margin-bottom:10px; overflow:hidden;">
+                    <div style="padding:16px; display:flex; justify-content:space-between;" onclick="toggleHack('${hack.id}')">
+                        <b>${hack.name}</b><i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="price-list" style="display:none; border-top:1px solid var(--border)">
+                        ${hack.p.map(opt => `<div style="padding:14px 16px; display:flex; justify-content:space-between; border-bottom:1px solid #222" onclick="selectOption(event, ${opt[1]})"><span>${opt[0]}</span><b>${opt[1].toLocaleString()}đ</b></div>`).join('')}
+                    </div>
+                </div>
+            `).join('');
         }
 
         function toggleHack(id) {
-            document.querySelectorAll('.hack-item').forEach(i => i.classList.remove('open'));
-            document.getElementById(`item-${id}`).classList.add('open');
+            const list = document.querySelector(`#item-${id} .price-list`);
+            list.style.display = list.style.display === 'none' ? 'block' : 'none';
         }
 
-        function selectOption(e, name, price, time) {
+        function selectOption(e, price) {
             e.stopPropagation();
-            sHack = name; sPrice = price;
-            document.querySelectorAll('.price-option').forEach(opt => opt.classList.remove('selected'));
-            e.currentTarget.classList.add('selected');
+            sPrice = price;
+            document.querySelectorAll('.price-list div').forEach(d => d.style.background = 'transparent');
+            e.currentTarget.style.background = 'rgba(52, 199, 89, 0.1)';
             const btn = document.getElementById('btn-pay');
             btn.classList.add('ready');
             btn.innerText = `THANH TOÁN ${price.toLocaleString()}đ`;
@@ -216,26 +202,23 @@
                         const found = data.transactions.find(t => t.content.includes(orderCode));
                         if (found) {
                             clearInterval(checkInterval);
-                            handleSuccess(orderCode);
+                            handleSuccess();
                         }
                     }
                 } catch (e) {}
             }, 5000);
         }
 
-        function handleSuccess(code) {
-            // 1. Tăng số lượng người mua lên 1
-            incrementSoldCount();
+        function handleSuccess() {
+            // GỌI HÀM CẬP NHẬT SỐ LƯỢNG
+            updatePurchase();
 
-            // 2. Hiển thị thông báo thành công
             document.getElementById('qr-content').innerHTML = `
                 <div style="padding:20px; color:#000">
                     <i class="fas fa-check-circle" style="font-size:60px; color:var(--success);"></i>
-                    <h2>THÀNH CÔNG</h2>
-                    <div style="background:#f0f0f0; padding:15px; border-radius:12px; margin:15px 0;">
-                        Key: <b>FF-VIP-${code}</b>
-                    </div>
-                    <button onclick="closePay()" style="width:100%; background:var(--accent); color:#fff; border:none; padding:14px; border-radius:12px;">XONG</button>
+                    <h3>MUA THÀNH CÔNG</h3>
+                    <p>Hệ thống đã ghi nhận lượt mua của bạn.</p>
+                    <button onclick="closePay()" style="width:100%; background:var(--accent); color:#fff; border:none; padding:14px; border-radius:12px;">ĐÓNG</button>
                 </div>`;
         }
 
