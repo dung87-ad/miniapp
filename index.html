@@ -18,7 +18,7 @@
         .user-profile { background: var(--card); padding: 12px; border-radius: 20px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 15px; }
         .user-avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 12px; }
 
-        /* Community Buttons */
+        /* Community Grid */
         .community-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
         .comm-btn { 
             background: var(--telegram); color: white; padding: 12px; border-radius: 15px; 
@@ -27,34 +27,26 @@
         .comm-btn i { margin-right: 8px; font-size: 16px; }
         .comm-btn.box { background: #24242e; border: 1px solid var(--telegram); }
 
-        /* THANH THÔNG BÁO CHẠY NGANG */
+        /* News Ticker */
         .news-ticker {
-            background: rgba(255, 204, 0, 0.1);
-            border: 1px solid rgba(255, 204, 0, 0.3);
-            border-radius: 12px;
-            padding: 8px 12px;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            overflow: hidden;
+            background: rgba(255, 204, 0, 0.1); border: 1px solid rgba(255, 204, 0, 0.3);
+            border-radius: 12px; padding: 8px 12px; margin-bottom: 15px; display: flex; align-items: center; overflow: hidden;
         }
         .news-ticker i { color: var(--yellow); margin-right: 10px; font-size: 14px; }
         .ticker-content { white-space: nowrap; font-size: 12px; color: var(--text); font-weight: 500; }
 
-        /* Admin List */
+        /* ADMIN LIST - ĐÃ CẬP NHẬT THEO YÊU CẦU */
         .admin-list { background: var(--card); border-radius: 18px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 20px; }
         .admin-item { display: flex; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--border); text-decoration: none; color: white; }
         .admin-item:last-child { border-bottom: none; }
-        .admin-item i.admin-icon { width: 35px; height: 35px; background: rgba(88, 101, 242, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--accent); margin-right: 12px; }
+        .admin-item i.admin-icon { width: 38px; height: 38px; background: rgba(88, 101, 242, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--accent); margin-right: 12px; }
         .admin-info b { font-size: 14px; display: block; }
         .admin-info small { font-size: 11px; color: var(--hint); }
 
-        /* Stats Bar */
+        /* Stats & Products */
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 15px; }
         .stat-box { background: var(--card); padding: 10px 5px; border-radius: 15px; border: 1px solid var(--border); text-align: center; }
         .stat-box i { color: var(--accent); font-size: 14px; margin-bottom: 5px; display: block; }
-
-        /* Game & Hack List */
         .section-title { font-size: 11px; color: var(--hint); text-transform: uppercase; margin: 0 0 10px 5px; display: block; font-weight: bold; }
         .game-card { background: var(--card); border-radius: 18px; padding: 15px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 15px; border-left: 4px solid var(--accent); }
         .game-img { width: 50px; height: 50px; border-radius: 12px; margin-right: 15px; }
@@ -70,7 +62,6 @@
         .footer { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(11,11,13,0.9); padding: 15px 20px 30px; border-top: 1px solid var(--border); backdrop-filter: blur(10px); z-index: 100; }
         .buy-btn { width: 100%; background: var(--accent); color: white; border: none; border-radius: 15px; padding: 16px; font-weight: bold; font-size: 16px; opacity: 0.3; pointer-events: none; }
         .buy-btn.ready { opacity: 1; pointer-events: auto; }
-        
         .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 1000; padding: 20px; }
         .qr-card { background: #fff; color: #000; padding: 25px; border-radius: 25px; text-align: center; }
     </style>
@@ -80,7 +71,7 @@
     <div class="user-profile">
         <img id="u-avatar" src="https://ui-avatars.com/api/?background=5865f2&color=fff&name=U" class="user-avatar">
         <div class="user-info">
-            <b id="u-name">Xin chào!</b>
+            <b id="u-name">Khách hàng</b>
             <span>ID: <small id="u-id">...</small></span>
         </div>
         <i class="fas fa-crown" style="margin-left: auto; color: var(--yellow);"></i>
@@ -94,36 +85,36 @@
     <div class="news-ticker">
         <i class="fas fa-bolt"></i>
         <div class="ticker-content">
-            <marquee scrollamount="5">Hệ thống Hack Garena Free Fire đã cập nhật OB51 thành công! Tất cả các bản Mod đều Antiban 100%, an toàn tuyệt đối cho tài khoản chính.</marquee>
+            <marquee scrollamount="5">Hệ thống Hack Garena Free Fire đã cập nhật OB51 thành công! Vui lòng liên hệ Admin đúng chuyên môn để được hỗ trợ nhanh nhất.</marquee>
         </div>
     </div>
 
-    <span class="section-title">Liên hệ Admin hỗ trợ</span>
+    <span class="section-title">Liên hệ đội ngũ Admin</span>
     <div class="admin-list">
-        <a href="https://t.me/muahatokyo1919" class="admin-item">
-            <i class="fas fa-user-tie admin-icon"></i>
-            <div class="admin-info"><b>Admin Tokyo 1919</b><small>Hỗ trợ thanh toán & Key</small></div>
+        <a href="https://t.me/muadongtokyo36" class="admin-item">
+            <i class="fas fa-wallet admin-icon"></i>
+            <div class="admin-info"><b>Admin Muadong</b><small>Chuyên Thanh toán & Cấp Key</small></div>
             <i class="fas fa-chevron-right" style="margin-left:auto; font-size:12px; color:var(--hint)"></i>
         </a>
-        <a href="https://t.me/muadongtokyo36" class="admin-item">
-            <i class="fas fa-user-shield admin-icon"></i>
-            <div class="admin-info"><b>Admin Tokyo 36</b><small>Hỗ trợ cài đặt & Lỗi game</small></div>
+        <a href="https://t.me/muahatokyo1919" class="admin-item">
+            <i class="fas fa-tools admin-icon"></i>
+            <div class="admin-info"><b>Admin Muaha</b><small>Chuyên Hỗ trợ cài đặt & Fix lỗi</small></div>
             <i class="fas fa-chevron-right" style="margin-left:auto; font-size:12px; color:var(--hint)"></i>
         </a>
         <a href="https://t.me/muathutokyo27" class="admin-item">
-            <i class="fas fa-headset admin-icon"></i>
-            <div class="admin-info"><b>Admin Tokyo 27</b><small>Tư vấn bản hack phù hợp</small></div>
+            <i class="fas fa-info-circle admin-icon"></i>
+            <div class="admin-info"><b>Admin Muathu</b><small>Chuyên Tư vấn bản hack phù hợp</small></div>
             <i class="fas fa-chevron-right" style="margin-left:auto; font-size:12px; color:var(--hint)"></i>
         </a>
     </div>
 
     <div class="stats-grid">
-        <div class="stat-box"><i class="fas fa-shopping-cart"></i><b>2,150+</b><small>Đã bán</small></div>
+        <div class="stat-box"><i class="fas fa-shopping-cart"></i><b>2,500+</b><small>Đã bán</small></div>
         <div class="stat-box"><i class="fas fa-rocket"></i><b>OB51</b><small>Version</small></div>
         <div class="stat-box"><i class="fas fa-shield-virus"></i><b>Antiban</b><small>100%</small></div>
     </div>
 
-    <span class="section-title">Danh sách sản phẩm OB51</span>
+    <span class="section-title">Sản phẩm Hack OB51</span>
     <div class="game-card" onclick="selectGame()">
         <img src="https://img.upanh.tv/2023/10/05/ff.png" class="game-img">
         <div style="flex:1">
@@ -153,7 +144,7 @@
             <div style="display:flex; justify-content:space-between; padding:10px; background:#f8f9fa; border-radius:10px; color:#000;">
                 <span>Nội dung:</span><b id="p-code" style="color:var(--accent)"></b>
             </div>
-            <p style="font-size:12px; color:var(--success); margin-top:15px;"><i class="fas fa-sync fa-spin"></i> Đang chờ thanh toán...</p>
+            <p style="font-size:12px; color:var(--success); margin-top:15px;"><i class="fas fa-sync fa-spin"></i> Đang check giao dịch...</p>
         </div>
     </div>
 
