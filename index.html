@@ -18,7 +18,7 @@
         .user-profile { background: var(--card); padding: 12px; border-radius: 20px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 15px; }
         .user-avatar { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 12px; object-fit: cover; }
 
-        /* News */
+        /* News Ticker */
         .news-ticker { background: rgba(255, 204, 0, 0.1); border: 1px solid rgba(255, 204, 0, 0.3); border-radius: 12px; padding: 8px 12px; margin-bottom: 15px; display: flex; align-items: center; overflow: hidden; }
         .news-ticker i { color: var(--yellow); margin-right: 10px; }
 
@@ -32,9 +32,9 @@
         .category-card i.arrow { transition: 0.3s; color: var(--hint); margin-left: auto; }
         .category-card.active i.arrow { transform: rotate(180deg); color: var(--accent); }
         .product-list-container { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-in-out; margin-bottom: 10px; }
-        .product-list-container.open { max-height: 3000px; }
+        .product-list-container.open { max-height: 4000px; }
 
-        /* Product Row */
+        /* Item Row */
         .item-row { background: var(--card); border-radius: 15px; border: 1px solid var(--border); margin-bottom: 8px; overflow: hidden; }
         .item-header { padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; }
         .stock-tag { font-size: 10px; padding: 2px 8px; border-radius: 10px; border: 1px solid var(--success); color: var(--success); background: rgba(52, 199, 89, 0.1); }
@@ -45,19 +45,18 @@
         .price-option.selected { background: rgba(88, 101, 242, 0.15); border-left: 3px solid var(--accent); }
         .price-option.disabled { opacity: 0.5; pointer-events: none; }
 
-        /* Quantity */
+        /* Quantity Selector */
         .qty-container { display: none; align-items: center; justify-content: space-between; padding: 12px 16px; background: #252529; }
         .qty-controls { display: flex; align-items: center; background: #111; border-radius: 8px; padding: 4px; }
         .qty-btn { width: 30px; height: 30px; border-radius: 6px; border: none; background: var(--accent); color: white; font-weight: bold; }
         .qty-btn:disabled { background: #444; opacity: 0.5; }
-        .qty-input { width: 40px; text-align: center; background: transparent; border: none; color: white; font-weight: bold; font-size: 15px; }
+        .qty-input { width: 40px; text-align: center; background: transparent; border: none; color: white; font-weight: bold; }
 
         /* Footer */
         .footer { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(11,11,13,0.95); padding: 15px 20px 30px; border-top: 1px solid var(--border); backdrop-filter: blur(10px); z-index: 100; }
         .buy-btn { width: 100%; background: var(--accent); color: white; border: none; border-radius: 15px; padding: 16px; font-weight: bold; font-size: 16px; opacity: 0.3; pointer-events: none; }
         .buy-btn.ready { opacity: 1; pointer-events: auto; }
         
-        /* Modal */
         .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 1000; padding: 20px; }
         .qr-card { background: #fff; color: #000; padding: 25px; border-radius: 25px; text-align: center; }
     </style>
@@ -72,8 +71,8 @@
     </div>
 
     <div class="news-ticker">
-        <i class="fas fa-box-open"></i>
-        <marquee scrollamount="5">Lưu ý: Số lượng mua không được vượt quá số lượng hiện có trong kho hàng!</marquee>
+        <i class="fas fa-bullhorn"></i>
+        <marquee scrollamount="5">Hệ thống tự động kiểm tra kho hàng - Chỉ mua được số lượng tối đa có sẵn!</marquee>
     </div>
 
     <div class="admin-list">
@@ -83,7 +82,7 @@
     </div>
 
     <div class="category-card" onclick="toggleCategory('hack')" id="btn-hack">
-        <i class="fas fa-fire" style="margin-right:15px; color:var(--danger)"></i>
+        <i class="fas fa-gamepad" style="margin-right:15px; color:var(--danger)"></i>
         <div style="flex:1"><b>Hack Free Fire OB51</b></div>
         <i class="fas fa-chevron-down arrow"></i>
     </div>
@@ -105,7 +104,7 @@
 
     <div class="footer">
         <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-size:14px">
-            <span id="footer-stock-info" style="color:var(--hint)">Vui lòng chọn sản phẩm</span>
+            <span id="footer-stock-info">Vui lòng chọn món</span>
             <b id="display-total" style="color:var(--success)">0đ</b>
         </div>
         <button class="buy-btn" id="btn-pay" onclick="openPayment()">MUA NGAY</button>
@@ -113,14 +112,14 @@
 
     <div id="pay-modal" class="overlay">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; color:white">
-            <i class="fas fa-arrow-left" onclick="closePay()"></i><b>XÁC NHẬN</b><div style="width:20px"></div>
+            <i class="fas fa-arrow-left" onclick="closePay()"></i><b>XÁC NHẬN MUA</b><div style="width:20px"></div>
         </div>
         <div class="qr-card">
             <img id="qr-img" src="" style="width:200px; border-radius:15px; margin-bottom:15px">
             <div style="text-align:left; font-size:13px; color:#333">
                 <p>Sản phẩm: <b id="p-name"></b></p>
                 <p>Số lượng: <b id="p-qty"></b></p>
-                <p>Tổng tiền: <b id="p-amount" style="color:red"></b></p>
+                <p>Thành tiền: <b id="p-amount" style="color:red"></b></p>
                 <p>Nội dung: <b id="p-code" style="color:var(--accent)"></b></p>
             </div>
         </div>
@@ -130,21 +129,24 @@
         const tg = window.Telegram.WebApp;
         tg.ready(); tg.expand();
 
-        // DỮ LIỆU SẢN PHẨM (Bạn có thể sửa số Stock ở đây)
+        // ĐẦY ĐỦ TẤT CẢ SẢN PHẨM
         const hackData = [
-            { id: 'br', name: 'Br Mods OB51', stock: 15, icon: 'fa-shield-alt', p: [["1 Ngày", 50000], ["7 Ngày", 80000]] },
-            { id: 'zy', name: 'ZyGame OB51', stock: 2, icon: 'fa-bolt', p: [["1 Ngày", 40000]] },
-            { id: 'hg', name: 'Hg Cheat VIP', stock: 0, icon: 'fa-crosshairs', p: [["30 Ngày", 180000]] }
+            { id: 'br', name: 'Br Mods OB51', stock: 15, icon: 'fa-shield-alt', p: [["1 Ngày", 50000], ["7 Ngày", 80000], ["30 Ngày", 140000]] },
+            { id: 'zy', name: 'ZyGame OB51', stock: 24, icon: 'fa-bolt', p: [["1 Ngày", 40000], ["30 Ngày", 150000]] },
+            { id: 'hg', name: 'Hg Cheat VIP', stock: 5, icon: 'fa-crosshairs', p: [["10 Ngày", 120000], ["30 Ngày", 180000]] },
+            { id: 'dr', name: 'Drip OB51', stock: 30, icon: 'fa-tint', p: [["1 Ngày", 50000], ["30 Ngày", 190000]] },
+            { id: 'fl', name: 'Fluorite iOS', stock: 2, icon: 'fa-apple', p: [["1 Ngày", 100000], ["30 Ngày", 500000]] }
         ];
 
         const cloudData = [
-            { id: 'cc', name: 'CC Cloud Phone', stock: 50, icon: 'fa-mobile-alt', p: [["7 Ngày", 120000], ["30 Ngày", 350000]] },
-            { id: 'rf', name: 'Redfinger', stock: 5, icon: 'fa-fingerprint', p: [["30 Ngày", 320000]] }
+            { id: 'cc', name: 'CC Cloud Phone', stock: 100, icon: 'fa-mobile-alt', p: [["7 Ngày", 120000], ["30 Ngày", 350000]] },
+            { id: 'vp', name: 'Vip Player', stock: 45, icon: 'fa-play-circle', p: [["30 Ngày", 280000]] },
+            { id: 'rf', name: 'Redfinger', stock: 10, icon: 'fa-fingerprint', p: [["30 Ngày", 320000]] }
         ];
 
         const accData = [
-            { id: 'lvl5', name: 'Acc FF Level 5 (VN)', stock: 10, icon: 'fa-star', p: [["1 Acc", 15000]] },
-            { id: 'lvl15', name: 'Acc FF Level 15', stock: 3, icon: 'fa-medal', p: [["1 Acc", 50000]] }
+            { id: 'lvl5', name: 'Acc FF Level 5 (Sever Việt)', stock: 50, icon: 'fa-star', p: [["1 Acc", 15000], ["5 Acc", 70000]] },
+            { id: 'lvl15', name: 'Acc FF Level 15', stock: 15, icon: 'fa-medal', p: [["1 Acc", 50000], ["3 Acc", 140000]] }
         ];
 
         let selectedPrice = 0, selectedName = "", currentQty = 1, currentMaxStock = 0;
@@ -158,14 +160,9 @@
                         <span class="stock-tag ${h.stock === 0 ? 'empty' : ''}">${h.stock > 0 ? 'Kho: ' + h.stock : 'Hết hàng'}</span>
                     </div>
                     <div class="price-list" id="det-${h.id}">
-                        ${h.p.map(opt => `
-                            <div class="price-option ${h.stock === 0 ? 'disabled' : ''}" 
-                                 onclick="selectOpt(event, '${h.name} - ${opt[0]}', ${opt[1]}, this, '${h.id}', ${h.stock})">
-                                <span>${opt[0]}</span>
-                                <b>${opt[1].toLocaleString()}đ</b>
-                            </div>`).join('')}
+                        ${h.p.map(opt => `<div class="price-option ${h.stock === 0 ? 'disabled' : ''}" onclick="selectOpt(event, '${h.name} - ${opt[0]}', ${opt[1]}, this, '${h.id}', ${h.stock})"><span>${opt[0]}</span><b>${opt[1].toLocaleString()}đ</b></div>`).join('')}
                         <div class="qty-container" id="qty-box-${h.id}">
-                            <span>Số lượng (Tối đa ${h.stock}):</span>
+                            <span>Số lượng mua:</span>
                             <div class="qty-controls">
                                 <button class="qty-btn" id="minus-${h.id}" onclick="updateQty(-1, '${h.id}')">-</button>
                                 <input type="number" class="qty-input" id="qty-input-${h.id}" value="1" readonly>
@@ -196,20 +193,14 @@
         }
 
         function selectOpt(e, name, price, el, id, stock) {
-            e.stopPropagation();
-            if(stock <= 0) return;
-
+            e.stopPropagation(); if(stock <= 0) return;
             selectedPrice = price; selectedName = name; currentQty = 1; currentMaxStock = stock;
-            
             document.querySelectorAll('.price-option').forEach(o => o.classList.remove('selected'));
             el.classList.add('selected');
-            
             document.querySelectorAll('.qty-container').forEach(q => q.style.display = 'none');
             document.getElementById(`qty-box-${id}`).style.display = 'flex';
             document.getElementById(`qty-input-${id}`).value = 1;
-            
-            updateFooter();
-            checkButtons(id);
+            updateFooter(); checkButtons(id);
         }
 
         function updateQty(val, id) {
@@ -217,9 +208,7 @@
             if (nextQty >= 1 && nextQty <= currentMaxStock) {
                 currentQty = nextQty;
                 document.getElementById(`qty-input-${id}`).value = currentQty;
-                updateFooter();
-                checkButtons(id);
-                tg.HapticFeedback.impactOccurred('light');
+                updateFooter(); checkButtons(id);
             }
         }
 
@@ -231,7 +220,7 @@
         function updateFooter() {
             const total = selectedPrice * currentQty;
             document.getElementById('display-total').innerText = total.toLocaleString() + "đ";
-            document.getElementById('footer-stock-info').innerHTML = `Số lượng: <b>${currentQty}</b> (Kho còn: ${currentMaxStock})`;
+            document.getElementById('footer-stock-info').innerHTML = `Số lượng: <b>${currentQty}</b> (Kho: ${currentMaxStock})`;
             const btn = document.getElementById('btn-pay');
             btn.classList.add('ready');
             btn.innerText = `THANH TOÁN ${total.toLocaleString()}đ`;
