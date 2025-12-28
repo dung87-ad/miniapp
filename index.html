@@ -9,7 +9,7 @@
         :root { 
             --bg: #0b0b0d; --card: #1c1c1e; --text: #ffffff; 
             --accent: #5865f2; --success: #34c759; --yellow: #ffcc00; 
-            --hint: #8e8e93; --border: #2c2c2e; --telegram: #0088cc;
+            --hint: #8e8e93; --border: #2c2c2e; --danger: #ff3b30;
         }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; padding-bottom: 180px; }
@@ -26,7 +26,6 @@
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 15px; }
         .stat-box { background: var(--card); padding: 10px 5px; border-radius: 15px; border: 1px solid var(--border); text-align: center; }
         .stat-box i { color: var(--accent); font-size: 14px; margin-bottom: 5px; display: block; }
-        #sold-count { display: block; font-size: 15px; }
 
         /* Admin */
         .admin-list { background: var(--card); border-radius: 18px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 20px; }
@@ -38,21 +37,22 @@
         .category-card i.arrow { transition: 0.3s; color: var(--hint); margin-left: auto; }
         .category-card.active i.arrow { transform: rotate(180deg); color: var(--accent); }
         .product-list-container { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-in-out; margin-bottom: 10px; }
-        .product-list-container.open { max-height: 2500px; }
+        .product-list-container.open { max-height: 3000px; }
 
-        /* Product Styles */
+        /* Product Row */
         .item-row { background: var(--card); border-radius: 15px; border: 1px solid var(--border); margin-bottom: 8px; overflow: hidden; }
         .item-header { padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; }
         .stock-tag { font-size: 10px; background: rgba(52, 199, 89, 0.1); color: var(--success); padding: 2px 8px; border-radius: 10px; border: 1px solid var(--success); }
+        
         .price-list { display: none; background: rgba(255,255,255,0.02); border-top: 1px solid var(--border); }
         .price-option { padding: 12px 16px; display: flex; justify-content: space-between; border-bottom: 1px solid #222; font-size: 13px; cursor: pointer; }
         .price-option.selected { background: rgba(88, 101, 242, 0.15); border-left: 3px solid var(--accent); }
 
-        /* Qty controls */
+        /* Quantity */
         .qty-container { display: none; align-items: center; justify-content: space-between; padding: 12px 16px; background: #252529; }
         .qty-controls { display: flex; align-items: center; background: #111; border-radius: 8px; padding: 4px; }
         .qty-btn { width: 28px; height: 28px; border-radius: 6px; border: none; background: var(--accent); color: white; font-weight: bold; }
-        #qty-input { width: 35px; text-align: center; background: transparent; border: none; color: white; font-weight: bold; }
+        .qty-input { width: 35px; text-align: center; background: transparent; border: none; color: white; font-weight: bold; }
 
         /* Footer */
         .footer { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(11,11,13,0.95); padding: 15px 20px 30px; border-top: 1px solid var(--border); backdrop-filter: blur(10px); z-index: 100; }
@@ -73,14 +73,14 @@
     </div>
 
     <div class="news-ticker">
-        <i class="fas fa-bullhorn"></i>
-        <marquee scrollamount="5">Hệ thống OB51 và Cloud Phone đã được nạp thêm số lượng lớn tài khoản!</marquee>
+        <i class="fas fa-shopping-cart"></i>
+        <marquee scrollamount="5">Đã cập nhật thêm kho Acc Free Fire cực VIP giá học sinh!</marquee>
     </div>
 
     <div class="stats-grid">
-        <div class="stat-box"><i class="fas fa-shopping-cart"></i><b id="sold-count">0</b><small>Đã bán</small></div>
-        <div class="stat-box"><i class="fas fa-rocket"></i><b>OB51</b><small>Phiên bản</small></div>
-        <div class="stat-box"><i class="fas fa-shield-alt"></i><b>100%</b><small>Uy tín</small></div>
+        <div class="stat-box"><i class="fas fa-check-double"></i><b>Uy Tín</b><small>100%</small></div>
+        <div class="stat-box"><i class="fas fa-bolt"></i><b>Tốc Độ</b><small>Giao ngay</small></div>
+        <div class="stat-box"><i class="fas fa-headset"></i><b>Hỗ Trợ</b><small>24/7</small></div>
     </div>
 
     <div class="admin-list">
@@ -90,8 +90,8 @@
     </div>
 
     <div class="category-card" onclick="toggleCategory('hack')" id="btn-hack">
-        <i class="fas fa-gamepad" style="margin-right:15px; color:var(--accent)"></i>
-        <div style="flex:1"><b>Hack Free Fire OB51</b><br><small style="color:var(--hint)">Br Mods, ZyGame, Hg, Drip, Fluorite</small></div>
+        <i class="fas fa-fire" style="margin-right:15px; color:var(--danger)"></i>
+        <div style="flex:1"><b>Hack Free Fire OB51</b><br><small style="color:var(--hint)">Br Mods, ZyGame, Hg VIP...</small></div>
         <i class="fas fa-chevron-down arrow"></i>
     </div>
     <div id="list-hack" class="product-list-container"></div>
@@ -103,9 +103,16 @@
     </div>
     <div id="list-cloud" class="product-list-container"></div>
 
+    <div class="category-card" onclick="toggleCategory('acc')" id="btn-acc">
+        <i class="fas fa-user-circle" style="margin-right:15px; color:var(--success)"></i>
+        <div style="flex:1"><b>Mua Acc Free Fire</b><br><small style="color:var(--hint)">Acc Random, Acc VIP, Acc Có Nắm Đấm</small></div>
+        <i class="fas fa-chevron-down arrow"></i>
+    </div>
+    <div id="list-acc" class="product-list-container"></div>
+
     <div class="footer">
         <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-size:14px">
-            <span>Tổng tiền:</span><b id="display-total" style="color:var(--success)">0đ</b>
+            <span>Tổng thanh toán:</span><b id="display-total" style="color:var(--success)">0đ</b>
         </div>
         <button class="buy-btn" id="btn-pay" onclick="openPayment()">MUA NGAY</button>
     </div>
@@ -117,9 +124,9 @@
         <div class="qr-card">
             <img id="qr-img" src="" style="width:200px; border-radius:15px; margin-bottom:15px">
             <div style="text-align:left; font-size:13px; color:#333">
-                <p>Sản phẩm: <b id="p-name"></b></p>
+                <p>Dịch vụ: <b id="p-name"></b></p>
                 <p>Số lượng: <b id="p-qty"></b></p>
-                <p>Thành tiền: <b id="p-amount" style="color:red"></b></p>
+                <p>Tổng tiền: <b id="p-amount" style="color:red"></b></p>
                 <p>Nội dung: <b id="p-code" style="color:var(--accent)"></b></p>
             </div>
         </div>
@@ -138,9 +145,15 @@
         ];
 
         const cloudData = [
-            { id: 'cc', name: 'CC Cloud Phone', stock: 100, icon: 'fa-mobile-alt', p: [["7 Ngày", 120000], ["30 Ngày", 350000]] },
+            { id: 'cc', name: 'CC Cloud Phone', stock: 80, icon: 'fa-mobile-alt', p: [["7 Ngày", 120000], ["30 Ngày", 350000]] },
             { id: 'vp', name: 'Vip Player', stock: 45, icon: 'fa-play-circle', p: [["30 Ngày", 280000]] },
             { id: 'rf', name: 'Redfinger', stock: 12, icon: 'fa-fingerprint', p: [["30 Ngày", 320000]] }
+        ];
+
+        const accData = [
+            { id: 'ac1', name: 'Acc Random Sơ Cấp', stock: 100, icon: 'fa-dice', p: [["1 Acc", 20000], ["5 Acc", 90000]] },
+            { id: 'ac2', name: 'Acc VIP Rank Cao', stock: 15, icon: 'fa-crown', p: [["1 Acc", 150000]] },
+            { id: 'ac3', name: 'Acc Có Nắm Đấm', stock: 8, icon: 'fa-fist-raised', p: [["1 Acc", 250000]] }
         ];
 
         let selectedPrice = 0, selectedName = "", currentQty = 1;
@@ -156,10 +169,10 @@
                     <div class="price-list" id="det-${h.id}">
                         ${h.p.map(opt => `<div class="price-option" onclick="selectOpt(event, '${h.name} - ${opt[0]}', ${opt[1]}, this, '${h.id}')"><span>${opt[0]}</span><b>${opt[1].toLocaleString()}đ</b></div>`).join('')}
                         <div class="qty-container" id="qty-box-${h.id}">
-                            <span>Số lượng:</span>
+                            <span>Số lượng mua:</span>
                             <div class="qty-controls">
-                                <button class="qty-btn" onclick="updateQty(-1)">-</button>
-                                <input type="number" id="qty-input-${h.id}" value="1" readonly>
+                                <button class="qty-btn" onclick="updateQty(-1, '${h.id}')">-</button>
+                                <input type="number" class="qty-input" id="qty-input-${h.id}" value="1" readonly>
                                 <button class="qty-btn" onclick="updateQty(1, '${h.id}')">+</button>
                             </div>
                         </div>
@@ -170,11 +183,19 @@
 
         renderList(hackData, 'list-hack');
         renderList(cloudData, 'list-cloud');
+        renderList(accData, 'list-acc');
 
         function toggleCategory(type) {
-            const h = document.getElementById('list-hack'), c = document.getElementById('list-cloud');
-            if(type === 'hack') { h.classList.toggle('open'); c.classList.remove('open'); }
-            else { c.classList.toggle('open'); h.classList.remove('open'); }
+            const h = document.getElementById('list-hack'), c = document.getElementById('list-cloud'), a = document.getElementById('list-acc');
+            const bh = document.getElementById('btn-hack'), bc = document.getElementById('btn-cloud'), ba = document.getElementById('btn-acc');
+            
+            h.classList.toggle('open', type === 'hack'); bh.classList.toggle('active', type === 'hack');
+            c.classList.toggle('open', type === 'cloud'); bc.classList.toggle('active', type === 'cloud');
+            a.classList.toggle('open', type === 'acc'); ba.classList.toggle('active', type === 'acc');
+            
+            if(type === 'hack') { c.classList.remove('open'); a.classList.remove('open'); bc.classList.remove('active'); ba.classList.remove('active'); }
+            if(type === 'cloud') { h.classList.remove('open'); a.classList.remove('open'); bh.classList.remove('active'); ba.classList.remove('active'); }
+            if(type === 'acc') { h.classList.remove('open'); c.classList.remove('open'); bh.classList.remove('active'); bc.classList.remove('active'); }
         }
 
         function toggleDetail(id) {
@@ -190,15 +211,14 @@
             document.querySelectorAll('.price-option').forEach(o => o.classList.remove('selected'));
             el.classList.add('selected');
             document.querySelectorAll('.qty-container').forEach(q => q.style.display = 'none');
-            const qtyBox = document.getElementById(`qty-box-${id}`);
-            qtyBox.style.display = 'flex';
+            document.getElementById(`qty-box-${id}`).style.display = 'flex';
             document.getElementById(`qty-input-${id}`).value = 1;
             updateFooter();
         }
 
         function updateQty(val, id) {
             currentQty = Math.max(1, currentQty + val);
-            if(id) document.getElementById(`qty-input-${id}`).value = currentQty;
+            document.getElementById(`qty-input-${id}`).value = currentQty;
             updateFooter();
         }
 
@@ -207,12 +227,12 @@
             document.getElementById('display-total').innerText = total.toLocaleString() + "đ";
             const btn = document.getElementById('btn-pay');
             btn.classList.add('ready');
-            btn.innerText = `MUA NGAY (${currentQty})`;
+            btn.innerText = `THANH TOÁN (${currentQty})`;
         }
 
         function openPayment() {
             const total = selectedPrice * currentQty;
-            const code = "MHA" + Math.random().toString(36).substring(2,6).toUpperCase();
+            const code = "FF" + Math.random().toString(36).substring(2,6).toUpperCase();
             document.getElementById('p-name').innerText = selectedName;
             document.getElementById('p-qty').innerText = currentQty;
             document.getElementById('p-amount').innerText = total.toLocaleString() + "đ";
