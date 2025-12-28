@@ -20,52 +20,48 @@
 
         /* News Ticker */
         .news-ticker { background: rgba(88, 101, 242, 0.1); border: 1px solid rgba(88, 101, 242, 0.2); border-radius: 12px; padding: 10px; margin-bottom: 15px; display: flex; align-items: center; font-size: 13px; }
-        .news-ticker i { color: var(--accent); margin-right: 10px; }
-
-        /* STATS BOX (THEO ẢNH) */
+        
+        /* STATS BOX */
         .stats-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px; }
         .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 15px 5px; text-align: center; }
         .stat-card i { color: var(--accent); font-size: 18px; margin-bottom: 8px; display: block; }
         .stat-card b { font-size: 15px; display: block; }
         .stat-card span { font-size: 12px; color: var(--hint); }
 
-        /* ADMIN BOX (ĐỦ 3 ADMIN) */
+        /* ADMIN BOX */
         .support-box { background: var(--card); border-radius: 18px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 20px; }
         .support-item { display: flex; align-items: center; padding: 12px 15px; border-bottom: 1px solid var(--border); text-decoration: none; color: white; }
         .support-icon { width: 35px; height: 35px; background: rgba(88,101,242,0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--accent); margin-right: 12px; }
 
-        /* Categories */
-        .cat-btn { background: var(--card); border-radius: 15px; padding: 15px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 10px; cursor: pointer; border-left: 4px solid var(--accent); }
-        .cat-btn.active { background: #252529; }
-        .cat-btn i.arrow { margin-left: auto; transition: 0.3s; }
-        .cat-btn.active i.arrow { transform: rotate(180deg); }
+        /* CATEGORY SYSTEM (HIỆN VÀ HỦY) */
+        .cat-btn { background: var(--card); border-radius: 15px; padding: 15px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 10px; cursor: pointer; border-left: 4px solid var(--accent); transition: 0.3s; }
+        .cat-btn.active { background: #252529; border-left-color: var(--yellow); }
+        .cat-btn i.arrow { margin-left: auto; transition: 0.3s; color: var(--hint); }
+        .cat-btn.active i.arrow { transform: rotate(180deg); color: var(--text); }
         
-        .list-container { display: none; margin-bottom: 15px; }
-        .list-container.open { display: block; }
+        .list-container { display: none; margin-bottom: 15px; animation: slideDown 0.3s ease; }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Item Display */
+        /* Item Style */
         .item-card { background: var(--card); border-radius: 15px; border: 1px solid var(--border); margin-bottom: 8px; overflow: hidden; }
         .item-top { padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; }
-        .badge { font-size: 10px; padding: 2px 8px; border-radius: 8px; border: 1px solid var(--success); color: var(--success); background: rgba(52, 199, 89, 0.1); }
-        .badge.out { border-color: var(--danger); color: var(--danger); background: rgba(255, 59, 48, 0.1); }
+        .badge { font-size: 10px; padding: 2px 8px; border-radius: 8px; border: 1px solid var(--success); color: var(--success); }
+        .badge.out { border-color: var(--danger); color: var(--danger); }
         
         .price-area { display: none; background: #111; border-top: 1px solid var(--border); }
-        .opt-row { padding: 12px 15px; display: flex; justify-content: space-between; border-bottom: 1px solid #222; font-size: 13px; cursor: pointer; }
+        .opt-row { padding: 12px 15px; display: flex; justify-content: space-between; border-bottom: 1px solid #222; font-size: 13px; }
         .opt-row.active { background: rgba(88,101,242,0.15); border-left: 3px solid var(--accent); }
 
-        /* Qty Control */
         .qty-row { display: none; align-items: center; justify-content: space-between; padding: 12px 15px; background: #1a1a1d; }
         .qty-btns { display: flex; align-items: center; background: #000; border-radius: 8px; padding: 4px; }
-        .q-btn { width: 30px; height: 30px; border: none; border-radius: 6px; background: var(--accent); color: white; font-weight: bold; }
-        .q-btn:disabled { opacity: 0.3; }
-        .q-val { width: 40px; text-align: center; background: transparent; border: none; color: white; font-weight: bold; }
+        .q-btn { width: 30px; height: 30px; border: none; border-radius: 6px; background: var(--accent); color: white; }
+        .q-val { width: 35px; text-align: center; background: transparent; border: none; color: white; font-weight: bold; }
 
         /* Footer */
         .footer { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(11,11,13,0.95); padding: 15px 20px 35px; border-top: 1px solid var(--border); backdrop-filter: blur(10px); z-index: 100; }
-        .btn-buy { width: 100%; background: var(--accent); color: white; border: none; border-radius: 12px; padding: 16px; font-weight: bold; font-size: 16px; opacity: 0.3; pointer-events: none; }
+        .btn-buy { width: 100%; background: var(--accent); color: white; border: none; border-radius: 12px; padding: 16px; font-weight: bold; opacity: 0.3; pointer-events: none; }
         .btn-buy.ready { opacity: 1; pointer-events: auto; }
 
-        /* Modal */
         .modal { display: none; position: fixed; inset: 0; background: #000; z-index: 1000; padding: 20px; }
         .qr-wrap { background: #fff; color: #000; padding: 25px; border-radius: 25px; text-align: center; }
     </style>
@@ -77,75 +73,47 @@
         <div><b id="u-name">Khách hàng</b><br><small id="u-id">ID: ...</small></div>
     </div>
 
-    <div class="news-ticker">
-        <i class="fas fa-bell"></i>
-        <marquee>Hệ thống tự động 24/7. Vui lòng kiểm tra kho hàng trước khi mua. Liên hệ Admin nếu cần hỗ trợ!</marquee>
-    </div>
+    <div class="news-ticker"><marquee>Hệ thống tự động 24/7. Nhấn vào danh mục để Hiện hoặc Hủy xem sản phẩm.</marquee></div>
 
     <div class="stats-row">
-        <div class="stat-card">
-            <i class="fas fa-shopping-cart"></i>
-            <b>2,150+</b>
-            <span>Đã bán</span>
-        </div>
-        <div class="stat-card">
-            <i class="fas fa-rocket"></i>
-            <b>OB51</b>
-            <span>Version</span>
-        </div>
-        <div class="stat-card">
-            <i class="fas fa-shield-virus"></i>
-            <b>100%</b>
-            <span>Antiban</span>
-        </div>
+        <div class="stat-card"><i class="fas fa-shopping-cart"></i><b>2,150+</b><span>Đã bán</span></div>
+        <div class="stat-card"><i class="fas fa-rocket"></i><b>OB51</b><span>Version</span></div>
+        <div class="stat-card"><i class="fas fa-shield-virus"></i><b>100%</b><span>Antiban</span></div>
     </div>
 
     <div class="support-box">
-        <a href="https://t.me/muadongtokyo36" class="support-item">
-            <div class="support-icon"><i class="fas fa-wallet"></i></div>
-            <div style="flex:1"><b>Admin Muadong</b><br><small style="color:var(--hint)">Thanh toán & Nạp tiền</small></div>
-            <i class="fas fa-chevron-right" style="font-size:12px; color:var(--hint)"></i>
-        </a>
-        <a href="https://t.me/muahatokyo1919" class="support-item">
-            <div class="support-icon"><i class="fas fa-tools"></i></div>
-            <div style="flex:1"><b>Admin Muaha</b><br><small style="color:var(--hint)">Kỹ thuật & Cài đặt</small></div>
-            <i class="fas fa-chevron-right" style="font-size:12px; color:var(--hint)"></i>
-        </a>
-        <a href="https://t.me/muathutokyo27" class="support-item">
-            <div class="support-icon"><i class="fas fa-info-circle"></i></div>
-            <div style="flex:1"><b>Admin Muathu</b><br><small style="color:var(--hint)">Tư vấn & Khiếu nại</small></div>
-            <i class="fas fa-chevron-right" style="font-size:12px; color:var(--hint)"></i>
-        </a>
+        <a href="https://t.me/muadongtokyo36" class="support-item"><div class="support-icon"><i class="fas fa-wallet"></i></div><b>Admin Muadong</b></a>
+        <a href="https://t.me/muahatokyo1919" class="support-item"><div class="support-icon"><i class="fas fa-tools"></i></div><b>Admin Muaha</b></a>
+        <a href="https://t.me/muathutokyo27" class="support-item"><div class="support-icon"><i class="fas fa-info-circle"></i></div><b>Admin Muathu</b></a>
     </div>
 
-    <div class="cat-btn" onclick="openCat('hack')" id="cat-hack">
+    <div class="cat-btn" onclick="toggleCat('hack')" id="btn-hack">
         <i class="fas fa-fire-alt" style="margin-right:12px; color:red"></i><b>HACK GAME OB51</b><i class="fas fa-chevron-down arrow"></i>
     </div>
     <div id="list-hack" class="list-container"></div>
 
-    <div class="cat-btn" onclick="openCat('cloud')" id="cat-cloud">
+    <div class="cat-btn" onclick="toggleCat('cloud')" id="btn-cloud">
         <i class="fas fa-cloud" style="margin-right:12px; color:cyan"></i><b>CLOUD PHONE</b><i class="fas fa-chevron-down arrow"></i>
     </div>
     <div id="list-cloud" class="list-container"></div>
 
-    <div class="cat-btn" onclick="openCat('acc')" id="cat-acc">
+    <div class="cat-btn" onclick="toggleCat('acc')" id="btn-acc">
         <i class="fas fa-id-badge" style="margin-right:12px; color:lime"></i><b>ACC FREE FIRE</b><i class="fas fa-chevron-down arrow"></i>
     </div>
     <div id="list-acc" class="list-container"></div>
 
     <div class="footer">
         <div style="display:flex; justify-content:space-between; margin-bottom:12px; font-size:14px">
-            <span id="footer-info">Chọn sản phẩm</span>
-            <b id="footer-total" style="color:var(--success)">0đ</b>
+            <span id="footer-info">Chọn món...</span><b id="footer-total" style="color:var(--success)">0đ</b>
         </div>
         <button class="btn-buy" id="pay-btn" onclick="showPay()">MUA NGAY</button>
     </div>
 
     <div id="modal-pay" class="modal">
-        <div onclick="this.parentElement.style.display='none'" style="color:white; margin-bottom:20px; font-size:16px"><i class="fas fa-chevron-left"></i> Quay lại</div>
+        <div onclick="this.parentElement.style.display='none'" style="color:white; margin-bottom:20px"><i class="fas fa-chevron-left"></i> Quay lại</div>
         <div class="qr-wrap">
             <img id="qr-img" src="" style="width:100%; max-width:220px; border-radius:15px; margin-bottom:15px">
-            <div id="pay-text" style="text-align:left; font-size:13px; line-height:1.5"></div>
+            <div id="pay-text" style="text-align:left; font-size:13px"></div>
         </div>
     </div>
 
@@ -154,20 +122,20 @@
 
         const PRODUCTS = {
             hack: [
-                { id:'h1', name:'Br Mods OB51', stock:10, p:[["1 Ngày",50000],["7 Ngày",80000],["30 Ngày",140000]] },
+                { id:'h1', name:'Br Mods OB51', stock:10, p:[["1 Ngày",50000],["30 Ngày",140000]] },
                 { id:'h2', name:'ZyGame OB51', stock:24, p:[["1 Ngày",40000],["30 Ngày",150000]] },
-                { id:'h3', name:'Hg Cheat VIP', stock:5, p:[["10 Ngày",120000],["30 Ngày",180000]] },
+                { id:'h3', name:'Hg Cheat VIP', stock:5, p:[["30 Ngày",180000]] },
                 { id:'h4', name:'Drip OB51', stock:8, p:[["1 Ngày",50000]] },
                 { id:'h5', name:'Fluorite iOS', stock:2, p:[["30 Ngày",500000]] }
             ],
             cloud: [
-                { id:'c1', name:'CC Cloud Phone', stock:50, p:[["7 Ngày",120000],["30 Ngày",350000]] },
+                { id:'c1', name:'CC Cloud Phone', stock:50, p:[["30 Ngày",350000]] },
                 { id:'c2', name:'Vip Player', stock:15, p:[["30 Ngày",280000]] },
                 { id:'c3', name:'Redfinger', stock:4, p:[["30 Ngày",320000]] }
             ],
             acc: [
-                { id:'a1', name:'Acc FF Level 5 (VN)', stock:30, p:[["1 Acc",15000]] },
-                { id:'a2', name:'Acc FF Level 15', stock:12, p:[["1 Acc",50000]] }
+                { id:'a1', name:'Acc FF Level 5', stock:100, p:[["1 Acc",15000]] },
+                { id:'a2', name:'Acc FF Level 15', stock:15, p:[["1 Acc",50000]] }
             ]
         };
 
@@ -175,16 +143,16 @@
 
         function render() {
             for (let k in PRODUCTS) {
-                const html = PRODUCTS[k].map(i => `
+                document.getElementById('list-'+k).innerHTML = PRODUCTS[k].map(i => `
                     <div class="item-card">
                         <div class="item-top" onclick="toggleI('${i.id}')">
                             <b>${i.name}</b>
                             <span class="badge ${i.stock==0?'out':''}">${i.stock>0?'Kho: '+i.stock:'Hết hàng'}</span>
                         </div>
                         <div class="price-area" id="det-${i.id}">
-                            ${i.p.map(o => `<div class="opt-row ${i.stock==0?'disabled':''}" onclick="sel(event,'${i.name} - ${o[0]}',${o[1]},this,'${i.id}',${i.stock})"><span>${o[0]}</span><b>${o[1].toLocaleString()}đ</b></div>`).join('')}
+                            ${i.p.map(o => `<div class="opt-row" onclick="sel(event,'${i.name} - ${o[0]}',${o[1]},this,'${i.id}',${i.stock})"><span>${o[0]}</span><b>${o[1].toLocaleString()}đ</b></div>`).join('')}
                             <div class="qty-row" id="qrow-${i.id}">
-                                <span>Số lượng:</span>
+                                <span>SL:</span>
                                 <div class="qty-btns">
                                     <button class="q-btn" onclick="updQ(-1,'${i.id}')">-</button>
                                     <input class="q-val" id="inp-${i.id}" value="1" readonly>
@@ -194,16 +162,24 @@
                         </div>
                     </div>
                 `).join('');
-                document.getElementById('list-'+k).innerHTML = html;
             }
         }
         render();
 
-        function openCat(type) {
-            document.querySelectorAll('.list-container').forEach(c => c.classList.remove('open'));
+        // HÀM HIỆN VÀ HỦY DANH MỤC
+        function toggleCat(type) {
+            const list = document.getElementById('list-'+type);
+            const btn = document.getElementById('btn-'+type);
+            const isOpen = list.style.display === 'block';
+            
+            // Đóng tất cả trước (Nếu muốn chỉ mở 1 cái 1 lúc)
+            document.querySelectorAll('.list-container').forEach(c => c.style.display = 'none');
             document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById('list-'+type).classList.add('open');
-            document.getElementById('cat-'+type).classList.add('active');
+
+            if (!isOpen) {
+                list.style.display = 'block';
+                btn.classList.add('active');
+            }
         }
 
         function toggleI(id) {
@@ -220,42 +196,31 @@
             el.classList.add('active');
             document.querySelectorAll('.qty-row').forEach(r => r.style.display='none');
             document.getElementById('qrow-'+id).style.display='flex';
-            document.getElementById('inp-'+id).value = 1;
             updF();
         }
 
         function updQ(v, id) {
-            const next = curQ + v;
-            if(next >= 1 && next <= curM) {
-                curQ = next;
+            if(curQ + v >= 1 && curQ + v <= curM) {
+                curQ += v;
                 document.getElementById('inp-'+id).value = curQ;
                 updF();
-                tg.HapticFeedback.impactOccurred('light');
             }
         }
 
         function updF() {
             const total = curP * curQ;
             document.getElementById('footer-total').innerText = total.toLocaleString() + "đ";
-            document.getElementById('footer-info').innerHTML = `Mua: <b>${curQ}</b> (Kho còn: ${curM})`;
-            const btn = document.getElementById('pay-btn');
-            btn.classList.add('ready');
-            btn.innerText = `THANH TOÁN ${total.toLocaleString()}đ`;
+            document.getElementById('footer-info').innerText = "Mua: " + curQ;
+            document.getElementById('pay-btn').classList.add('ready');
+            document.getElementById('pay-btn').innerText = `THANH TOÁN ${total.toLocaleString()}đ`;
         }
 
         function showPay() {
             const t = curP * curQ;
             const c = "FF" + Math.random().toString(36).substring(2,7).toUpperCase();
-            document.getElementById('pay-text').innerHTML = `<p>Gói: ${curN}</p><p>SL: ${curQ}</p><p>Thành tiền: <b style="color:red">${t.toLocaleString()}đ</b></p><p>Nội dung: <b style="color:blue">${c}</b></p>`;
+            document.getElementById('pay-text').innerHTML = `<p>Gói: ${curN}</p><p>SL: ${curQ}</p><p>Tổng: <b style="color:red">${t.toLocaleString()}đ</b></p><p>Nội dung: <b style="color:blue">${c}</b></p>`;
             document.getElementById('qr-img').src = `https://img.vietqr.io/image/MB-79991312006-compact2.png?amount=${t}&addInfo=${c}`;
             document.getElementById('modal-pay').style.display='block';
-        }
-
-        if(tg.initDataUnsafe?.user) {
-            const u = tg.initDataUnsafe.user;
-            document.getElementById('u-name').innerText = u.first_name;
-            document.getElementById('u-id').innerText = "ID: " + u.id;
-            document.getElementById('u-avatar').src = u.photo_url || `https://ui-avatars.com/api/?background=5865f2&color=fff&name=${u.first_name}`;
         }
     </script>
 </body>
