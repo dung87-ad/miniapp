@@ -3,88 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Shop Tokyo VIP - Quản Lý Kho</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { 
             --bg: #0b0b0d; --card: #1c1c1e; --text: #ffffff; 
             --accent: #5865f2; --success: #34c759; --yellow: #ffcc00; 
-            --hint: #8e8e93; --border: #2c2c2e; --danger: #ff3b30;
+            --hint: #8e8e93; --border: #2c2c2e;
         }
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
-        body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; padding-bottom: 220px; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; padding-bottom: 200px; }
 
-        /* User Profile */
+        /* USER PROFILE - AVATAR, NAME, ID */
         .user-profile { background: var(--card); padding: 12px; border-radius: 20px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 15px; }
-        .user-avatar { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 12px; object-fit: cover; background: #222; }
-        .user-info b { font-size: 16px; display: block; color: #fff; }
+        .user-avatar { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 12px; object-fit: cover; background: #333; }
+        .user-info b { font-size: 16px; display: block; }
         .user-info small { color: var(--hint); font-size: 12px; }
 
-        /* Admin Support */
-        .support-box { background: var(--card); border-radius: 18px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 20px; display: flex; flex-direction: column; }
+        /* ADMINS - ĐỦ 3 ADMIN */
+        .support-box { background: var(--card); border-radius: 18px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 20px; }
         .support-item { display: flex; align-items: center; padding: 12px 15px; border-bottom: 1px solid var(--border); text-decoration: none; color: white; }
-        .support-icon { width: 32px; height: 32px; background: rgba(88,101,242,0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--accent); margin-right: 12px; }
+        .support-icon { width: 30px; height: 30px; background: rgba(88,101,242,0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--accent); margin-right: 12px; }
 
-        /* Product Styles */
+        /* CATEGORIES & ARROWS */
         .cat-btn { background: var(--card); border-radius: 15px; padding: 15px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 10px; cursor: pointer; border-left: 4px solid var(--accent); position: relative; }
         .cat-btn.active { border-left-color: var(--yellow); }
-        .list-container { display: none; margin-bottom: 15px; }
-        .item-card { background: var(--card); border-radius: 15px; border: 1px solid var(--border); margin-bottom: 8px; overflow: hidden; }
-        .item-top { padding: 15px; display: flex; justify-content: space-between; cursor: pointer; align-items: center; }
-        .price-area { display: none; background: #111; border-top: 1px solid var(--border); }
-        .opt-row { padding: 12px 15px; display: flex; justify-content: space-between; border-bottom: 1px solid #222; font-size: 13px; cursor: pointer; }
-        .opt-row.active { background: rgba(88,101,242,0.15); border-left: 3px solid var(--accent); }
-        .stock-tag { font-size: 11px; padding: 2px 6px; border-radius: 5px; background: rgba(255,255,255,0.1); color: var(--hint); }
-        .out-of-stock { opacity: 0.5; pointer-events: none; }
+        .cat-btn i.arrow { position: absolute; right: 15px; transition: 0.3s; color: var(--hint); }
+        .cat-btn.active i.arrow { transform: rotate(180deg); }
 
-        /* Quantity Selector */
+        .list-container { display: none; margin-bottom: 15px; }
+        .item-card { background: var(--card); border-radius: 12px; border: 1px solid var(--border); margin-bottom: 8px; padding: 12px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+        .item-card.selected { border-color: var(--accent); background: rgba(88, 101, 242, 0.1); }
+        .stock-tag { font-size: 11px; color: var(--hint); }
+
+        /* QUANTITY SELECTOR */
         .qty-box { display: flex; align-items: center; background: #2c2c2e; border-radius: 10px; padding: 5px; margin-top: 10px; width: fit-content; }
-        .qty-btn { width: 30px; height: 30px; border: none; background: #3a3a3c; color: white; border-radius: 8px; font-weight: bold; }
+        .qty-btn { width: 30px; height: 30px; border: none; background: #3a3a3c; color: white; border-radius: 8px; font-weight: bold; font-size: 18px; }
         .qty-val { width: 40px; text-align: center; font-weight: bold; }
 
-        /* Footer */
+        /* FOOTER */
         .footer { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(11,11,13,0.95); padding: 15px 20px 35px; border-top: 1px solid var(--border); backdrop-filter: blur(10px); z-index: 100; }
-        .btn-buy { width: 100%; background: var(--accent); color: white; border: none; border-radius: 12px; padding: 16px; font-weight: bold; font-size: 16px; opacity: 0.4; pointer-events: none; }
+        .btn-buy { width: 100%; background: var(--accent); color: white; border: none; border-radius: 12px; padding: 16px; font-weight: bold; opacity: 0.4; pointer-events: none; }
         .btn-buy.ready { opacity: 1; pointer-events: auto; }
 
-        /* Modal */
+        /* MODAL & CARD FORM */
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 1000; padding: 20px; overflow-y: auto; }
         .pay-box { background: #fff; color: #000; padding: 25px; border-radius: 25px; text-align: center; }
         .pay-tabs { display: flex; background: #eee; border-radius: 12px; margin-bottom: 20px; padding: 4px; }
         .tab { flex: 1; padding: 10px; text-align: center; border-radius: 10px; font-weight: bold; cursor: pointer; color: #666; font-size: 13px; }
         .tab.active { background: white; color: var(--accent); }
-        .bank-info { text-align: left; background: #f8f9fa; padding: 15px; border-radius: 15px; font-size: 13px; margin-top: 10px; }
+        .card-form select, .card-form input { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 10px; border: 1px solid #ddd; }
     </style>
 </head>
 <body>
 
     <div class="user-profile">
-        <img id="u-avatar" src="https://ui-avatars.com/api/?name=User&background=5865f2&color=fff" class="user-avatar">
+        <img id="u-avatar" src="https://ui-avatars.com/api/?background=5865f2&color=fff&name=U" class="user-avatar">
         <div class="user-info">
             <b id="u-name">Đang tải...</b>
-            <small id="u-id">ID: 000000000</small>
+            <small id="u-id">ID: 00000000</small>
         </div>
     </div>
 
     <div class="support-box">
-        <a href="https://t.me/muadongtokyo36" class="support-item"><div class="support-icon"><i class="fas fa-user-shield"></i></div><b>Admin Muadong</b></a>
+        <a href="https://t.me/muadongtokyo36" class="support-item"><div class="support-icon"><i class="fas fa-crown"></i></div><b>Admin Muadong</b></a>
         <a href="https://t.me/muahatokyo1919" class="support-item"><div class="support-icon"><i class="fas fa-tools"></i></div><b>Admin Muaha</b></a>
+        <a href="https://t.me/muathutokyo27" class="support-item"><div class="support-icon"><i class="fas fa-headset"></i></div><b>Admin Muathu</b></a>
     </div>
 
-    <div id="product-list"></div>
+    <div id="product-area"></div>
 
     <div class="footer">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
             <div>
-                <span id="f-info" style="font-size:13px; color:var(--hint); display:block;">Chọn sản phẩm...</span>
-                <div class="qty-box" id="qty-container" style="display:none;">
+                <span id="f-info" style="font-size:13px; color:var(--hint)">Hãy chọn sản phẩm...</span>
+                <div class="qty-box" id="qty-container" style="display:none">
                     <button class="qty-btn" onclick="updateQty(-1)">-</button>
                     <div class="qty-val" id="qty-display">1</div>
                     <button class="qty-btn" onclick="updateQty(1)">+</button>
                 </div>
             </div>
-            <b id="f-total" style="font-size:18px; color:var(--success)">0đ</b>
+            <b id="f-total" style="color:var(--success); font-size:20px">0đ</b>
         </div>
         <button class="btn-buy" id="pay-btn" onclick="openPay()">MUA NGAY</button>
     </div>
@@ -93,18 +92,18 @@
         <div onclick="closeModal()" style="color:white; margin-bottom:15px; cursor:pointer"><i class="fas fa-arrow-left"></i> QUAY LẠI</div>
         <div class="pay-box">
             <div class="pay-tabs">
-                <div class="tab active" id="t-bank" onclick="switchTab('bank')">MB Bank</div>
+                <div class="tab active" id="t-bank" onclick="switchTab('bank')">MB Bank (Auto)</div>
                 <div class="tab" id="t-card" onclick="switchTab('card')">Thẻ cào</div>
             </div>
             <div id="box-bank">
-                <img id="qr-img" src="" style="width:100%; max-width:200px; border-radius:15px;">
-                <div class="bank-info" id="bank-info"></div>
+                <img id="qr-img" src="" style="width:100%; max-width:200px; border-radius:15px; margin-bottom:10px;">
+                <div id="bank-info" style="text-align:left; background:#f8f9fa; padding:15px; border-radius:15px; font-size:13px;"></div>
             </div>
-            <div id="box-card" style="display:none; text-align:left;">
-                <select id="c-type" style="width:100%; padding:12px; margin-bottom:10px; border-radius:10px;"><option>Viettel</option><option>Vinaphone</option><option>Mobifone</option></select>
-                <select id="c-value" style="width:100%; padding:12px; margin-bottom:10px; border-radius:10px;"><option>10.000đ</option><option>20.000đ</option><option>50.000đ</option><option>100.000đ</option></select>
-                <input type="number" id="c-pin" placeholder="Mã thẻ (PIN)" style="width:100%; padding:12px; margin-bottom:10px; border:1px solid #ddd; border-radius:10px;">
-                <input type="number" id="c-seri" placeholder="Số Seri" style="width:100%; padding:12px; margin-bottom:10px; border:1px solid #ddd; border-radius:10px;">
+            <div id="box-card" style="display:none;" class="card-form">
+                <select id="c-type"><option>Viettel</option><option>Vinaphone</option><option>Mobifone</option><option>Zing</option></select>
+                <select id="c-value"><option>10.000đ</option><option>20.000đ</option><option>50.000đ</option><option>100.000đ</option></select>
+                <input type="number" id="c-pin" placeholder="Mã thẻ (PIN)">
+                <input type="number" id="c-seri" placeholder="Số Seri">
                 <button onclick="confirmCard()" style="width:100%; padding:15px; background:var(--success); color:white; border:none; border-radius:12px; font-weight:bold;">GỬI THẺ DUYỆT</button>
             </div>
         </div>
@@ -114,49 +113,48 @@
         const tg = window.Telegram.WebApp;
         tg.ready(); tg.expand();
 
+        // Lấy thông tin User
         const user = tg.initDataUnsafe?.user;
-        if (user) {
+        if(user) {
             document.getElementById('u-name').innerText = user.first_name + (user.last_name ? ' ' + user.last_name : '');
             document.getElementById('u-id').innerText = "ID: " + user.id;
-            if (user.photo_url) document.getElementById('u-avatar').src = user.photo_url;
+            if(user.photo_url) document.getElementById('u-avatar').src = user.photo_url;
         }
 
-        // Cấu hình kho (Stock) và Sản phẩm
         const DATA = [
             { cat: 'HACK VIP FF', icon: 'fa-fire', color: 'red', items: [
                 { id:'h1', name:'Br Mods VIP', stock: 50 },
-                { id:'h2', name:'ZyGame Menu', stock: 10 },
-                { id:'h3', name:'Hg Cheat VIP', stock: 0 }, // Hết hàng
-                { id:'h4', name:'Drip OB51', stock: 25 },
-                { id:'h5', name:'Fluorite iOS', stock: 5 }
+                { id:'h2', name:'ZyGame Menu', stock: 20 },
+                { id:'h3', name:'Hg Cheat VIP', stock: 15 },
+                { id:'h4', name:'Drip OB51', stock: 0 },
+                { id:'h5', name:'Fluorite iOS', stock: 10 }
             ]},
             { cat: 'CLOUD PHONE', icon: 'fa-cloud', color: 'cyan', items: [
-                { id:'c1', name:'CC Cloud Phone', stock: 100 },
-                { id:'c2', name:'Vip Player', stock: 15 },
-                { id:'c3', name:'Redfinger', stock: 8 }
+                { id:'c1', name:'CC Cloud Phone', stock: 80 },
+                { id:'c2', name:'Vip Player', stock: 12 },
+                { id:'c3', name:'Redfinger', stock: 5 }
             ]},
             { cat: 'ACC FREE FIRE', icon: 'fa-user-circle', color: 'lime', items: [
-                { id:'a1', name:'Acc Level 5 VN', stock: 200 },
-                { id:'a2', name:'Acc Level 15', stock: 0 }
+                { id:'a1', name:'Acc Level 5 VN', stock: 100 },
+                { id:'a2', name:'Acc Level 15', stock: 30 }
             ]}
         ];
 
-        let curId = '', curName = '', curStock = 0, curQty = 1;
+        let curId='', curName='', curStock=0, curQty=1;
         const PRICE = 2000;
 
         function render() {
-            document.getElementById('product-list').innerHTML = DATA.map(group => `
-                <div class="cat-btn" onclick="toggleCat('${group.cat}', this)">
-                    <i class="fas ${group.icon}" style="margin-right:10px; color:${group.color}"></i>
-                    <b>${group.cat}</b>
+            document.getElementById('product-area').innerHTML = DATA.map(g => `
+                <div class="cat-btn" onclick="toggleCat('${g.cat}', this)">
+                    <i class="fas ${g.icon}" style="margin-right:10px; color:${g.color}"></i>
+                    <b>${g.cat} (${g.items.length})</b>
+                    <i class="fas fa-chevron-down arrow"></i>
                 </div>
-                <div id="list-${group.cat}" class="list-container">
-                    ${group.items.map(i => `
-                        <div class="item-card ${i.stock <= 0 ? 'out-of-stock' : ''}" onclick="selectItem('${i.id}', '${i.name}', ${i.stock})">
-                            <div class="item-top">
-                                <b>${i.name}</b>
-                                <span class="stock-tag">${i.stock > 0 ? 'Kho: ' + i.stock : 'HẾT HÀNG'}</span>
-                            </div>
+                <div id="list-${g.cat}" class="list-container">
+                    ${g.items.map(i => `
+                        <div class="item-card ${i.stock==0?'out':''}" id="card-${i.id}" onclick="selectI('${i.id}','${i.name}',${i.stock})">
+                            <b>${i.name}</b>
+                            <span class="stock-tag">${i.stock>0?'Kho: '+i.stock:'HẾT HÀNG'}</span>
                         </div>
                     `).join('')}
                 </div>
@@ -168,41 +166,38 @@
             const list = document.getElementById('list-'+cat);
             const isO = list.style.display === 'block';
             document.querySelectorAll('.list-container').forEach(c => c.style.display='none');
-            list.style.display = isO ? 'none' : 'block';
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            if(!isO) { list.style.display = 'block'; el.classList.add('active'); }
         }
 
-        function selectItem(id, name, stock) {
+        function selectI(id, name, stock) {
+            if(stock <= 0) return tg.showAlert("Sản phẩm đã hết hàng!");
             curId = id; curName = name; curStock = stock; curQty = 1;
-            document.querySelectorAll('.item-card').forEach(c => c.style.borderColor = 'var(--border)');
-            event.currentTarget.style.borderColor = 'var(--accent)';
-            
+            document.querySelectorAll('.item-card').forEach(c => c.classList.remove('selected'));
+            document.getElementById('card-'+id).classList.add('selected');
             document.getElementById('f-info').innerText = name;
             document.getElementById('qty-container').style.display = 'flex';
-            document.getElementById('qty-display').innerText = curQty;
+            document.getElementById('qty-display').innerText = 1;
             document.getElementById('pay-btn').classList.add('ready');
-            calcTotal();
+            calc();
         }
 
-        function updateQty(val) {
-            let next = curQty + val;
-            if (next >= 1 && next <= curStock) {
-                curQty = next;
-                document.getElementById('qty-display').innerText = curQty;
-                calcTotal();
-            } else if (next > curStock) {
-                tg.showAlert("Chỉ còn " + curStock + " sản phẩm trong kho!");
+        function updateQty(v) {
+            let n = curQty + v;
+            if(n >= 1 && n <= curStock) {
+                curQty = n;
+                document.getElementById('qty-display').innerText = n;
+                calc();
             }
         }
 
-        function calcTotal() {
-            document.getElementById('f-total').innerText = (curQty * PRICE).toLocaleString() + "đ";
-        }
+        function calc() { document.getElementById('f-total').innerText = (curQty * PRICE).toLocaleString() + "đ"; }
 
         function openPay() {
-            const total = curQty * PRICE;
             const code = "TK" + Math.random().toString(36).substring(7).toUpperCase();
+            const total = curQty * PRICE;
             document.getElementById('qr-img').src = `https://img.vietqr.io/image/MB-79991312006-compact2.png?amount=${total}&addInfo=${code}`;
-            document.getElementById('bank-info').innerHTML = `<b>Nội dung:</b> <b style="color:blue">${code}</b><br><b>Tổng tiền:</b> ${total.toLocaleString()}đ<br><b>Sản phẩm:</b> ${curName} (x${curQty})`;
+            document.getElementById('bank-info').innerHTML = `<b>Nội dung:</b> <b style="color:blue">${code}</b><br><b>Tiền:</b> ${total.toLocaleString()}đ<br><b>Sản phẩm:</b> ${curName} (x${curQty})`;
             document.getElementById('modal-pay').style.display = 'block';
         }
 
@@ -217,7 +212,7 @@
             const pin = document.getElementById('c-pin').value;
             const seri = document.getElementById('c-seri').value;
             if(!pin || !seri) return tg.showAlert("Nhập đủ PIN/Seri!");
-            const text = `💳 THẺ CÀO\nKhách: ${user?.first_name}\nSản phẩm: ${curName} (x${curQty})\nLoại: ${document.getElementById('c-type').value}\nPIN: ${pin}\nSeri: ${seri}`;
+            const text = `💳 THẺ CÀO\nKhách: ${user?.first_name} (ID: ${user?.id})\nSản phẩm: ${curName} x${curQty}\nPIN: ${pin}\nSeri: ${seri}`;
             tg.sendData(text);
             closeModal();
         }
