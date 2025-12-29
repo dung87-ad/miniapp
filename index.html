@@ -16,9 +16,10 @@
 
         /* USER PROFILE & DATE */
         .user-profile { background: var(--card); padding: 15px; border-radius: 20px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 12px; }
-        .user-avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 12px; }
+        .user-avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 12px; background: #333; }
         .user-info b { font-size: 15px; display: block; }
         .user-info small { color: var(--hint); font-size: 11px; }
+        .date-display { font-size: 10px; color: var(--accent); font-weight: bold; margin-top: 4px; text-transform: uppercase; }
 
         /* NEWS TICKER */
         .news-ticker { background: rgba(88, 101, 242, 0.1); border: 1px solid var(--border); border-radius: 12px; padding: 10px; margin-bottom: 12px; display: flex; align-items: center; font-size: 12px; color: var(--yellow); }
@@ -29,7 +30,7 @@
         .stat-item span { display: block; font-size: 10px; color: var(--hint); }
         .stat-item b { font-size: 13px; color: var(--success); }
 
-        /* ADMINS */
+        /* ADMINS - 3 ADMIN */
         .support-box { background: var(--card); border-radius: 18px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 20px; }
         .support-item { display: flex; align-items: center; padding: 12px 15px; border-bottom: 1px solid var(--border); text-decoration: none; color: white; font-size: 14px; }
         .support-icon { width: 28px; height: 28px; background: rgba(88,101,242,0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--accent); margin-right: 12px; }
@@ -43,11 +44,12 @@
         .item-card { background: var(--card); border-radius: 15px; border: 1px solid var(--border); margin-bottom: 8px; overflow: hidden; }
         .item-top { padding: 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
         
-        /* PHẦN CHỌN NGÀY/THÁNG (OPTIONS) */
+        /* HIỂN THỊ CÁC GÓI NGÀY VÀ GIÁ */
         .options-area { display: none; background: #111; border-top: 1px solid var(--border); }
         .opt-row { padding: 12px 15px; display: flex; justify-content: space-between; border-bottom: 1px solid #222; font-size: 13px; cursor: pointer; }
         .opt-row.active { background: rgba(88,101,242,0.2); border-left: 3px solid var(--accent); }
-        .opt-row b { color: var(--yellow); }
+        .opt-row .p-name { color: #fff; }
+        .opt-row .p-price { color: var(--yellow); font-weight: bold; }
 
         /* FOOTER */
         .footer { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(11,11,13,0.98); padding: 15px 20px 35px; border-top: 1px solid var(--border); backdrop-filter: blur(10px); z-index: 100; }
@@ -62,7 +64,6 @@
         .pay-tabs { display: flex; background: #eee; border-radius: 10px; margin-bottom: 15px; padding: 3px; }
         .tab { flex: 1; padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 12px; color: #666; }
         .tab.active { background: white; color: var(--accent); }
-        .card-form input, .card-form select { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 10px; border: 1px solid #ddd; }
     </style>
 </head>
 <body>
@@ -72,19 +73,19 @@
         <div class="user-info">
             <b id="u-name">Đang tải...</b>
             <small id="u-id">ID: 00000000</small>
-            <div style="font-size:10px; color:var(--accent); margin-top:4px;" id="u-date">Ngày 29 Tháng 12, 2025</div>
+            <div class="date-display" id="u-date">Ngày 29 Tháng 12, 2025</div>
         </div>
     </div>
 
     <div class="news-ticker">
         <i class="fas fa-bullhorn"></i>
-        <marquee scrollamount="5">Tokyo Shop - Mọi gói Hack & Acc đồng giá 2.000đ. Nạp Bank Auto cực nhanh!</marquee>
+        <marquee scrollamount="5">Tokyo Shop - Mọi gói Hack FF & Cloud Phone đồng giá 2.000đ. Nạp Bank Auto cực nhanh!</marquee>
     </div>
 
     <div class="stats-bar">
-        <div class="stat-item"><span>Đã bán</span><b>3.500+</b></div>
-        <div class="stat-item"><span>Thành viên</span><b>1.200</b></div>
-        <div class="stat-item"><span>Server</span><b style="color:var(--success)">Online</b></div>
+        <div class="stat-item"><span>Đã bán</span><b>4.820</b></div>
+        <div class="stat-item"><span>Online</span><b>742</b></div>
+        <div class="stat-item"><span>Server</span><b style="color:var(--success)">Tốt</b></div>
     </div>
 
     <div class="support-box">
@@ -98,7 +99,7 @@
     <div class="footer">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
             <div>
-                <span id="f-info" style="font-size:12px; color:var(--hint)">Chọn gói muốn mua...</span>
+                <span id="f-info" style="font-size:12px; color:var(--hint)">Hãy chọn gói thời gian...</span>
                 <div class="qty-box" id="qty-container" style="display:none">
                     <button class="qty-btn" onclick="updateQty(-1)">-</button>
                     <div style="width:35px; text-align:center; font-weight:bold" id="qty-display">1</div>
@@ -114,18 +115,17 @@
         <div onclick="closeModal()" style="color:white; margin-bottom:15px; cursor:pointer"><i class="fas fa-arrow-left"></i> QUAY LẠI</div>
         <div class="pay-box">
             <div class="pay-tabs">
-                <div class="tab active" id="t-bank" onclick="switchTab('bank')">Bank Auto</div>
+                <div class="tab active" id="t-bank" onclick="switchTab('bank')">MB Bank</div>
                 <div class="tab" id="t-card" onclick="switchTab('card')">Thẻ cào</div>
             </div>
             <div id="box-bank">
                 <img id="qr-img" src="" style="width:100%; max-width:180px; border-radius:12px; margin-bottom:10px;">
-                <div id="bank-info" style="text-align:left; background:#f8f9fa; padding:12px; border-radius:12px; font-size:12px;"></div>
+                <div id="bank-info" style="text-align:left; background:#f8f9fa; padding:12px; border-radius:12px; font-size:12px; line-height:1.5"></div>
             </div>
-            <div id="box-card" style="display:none;" class="card-form">
-                <select id="c-type"><option>Viettel</option><option>Vinaphone</option><option>Mobifone</option></select>
-                <select id="c-value"><option>10.000đ</option><option>20.000đ</option><option>50.000đ</option><option>100.000đ</option></select>
-                <input type="number" id="c-pin" placeholder="Mã thẻ (PIN)">
-                <input type="number" id="c-seri" placeholder="Số Seri">
+            <div id="box-card" style="display:none;">
+                <select id="c-type" style="width:100%; padding:10px; margin-bottom:10px; border-radius:8px; border:1px solid #ddd;"><option>Viettel</option><option>Vinaphone</option><option>Mobifone</option></select>
+                <input type="number" id="c-pin" placeholder="Mã thẻ (PIN)" style="width:100%; padding:10px; margin-bottom:10px; border-radius:8px; border:1px solid #ddd;">
+                <input type="number" id="c-seri" placeholder="Số Seri" style="width:100%; padding:10px; margin-bottom:10px; border-radius:8px; border:1px solid #ddd;">
                 <button onclick="confirmCard()" style="width:100%; padding:15px; background:var(--success); color:white; border:none; border-radius:10px; font-weight:bold;">GỬI THẺ DUYỆT</button>
             </div>
         </div>
@@ -137,8 +137,10 @@
 
         // HIỂN THỊ NGÀY
         const d = new Date();
-        document.getElementById('u-date').innerText = `Ngày ${d.getDate()} Tháng ${d.getMonth()+1}, ${d.getFullYear()}`;
+        const days = ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'];
+        document.getElementById('u-date').innerText = `${days[d.getDay()]}, ${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`;
 
+        // USER INFO
         const user = tg.initDataUnsafe?.user;
         if(user) {
             document.getElementById('u-name').innerText = user.first_name + (user.last_name ? ' ' + user.last_name : '');
@@ -146,14 +148,20 @@
             if(user.photo_url) document.getElementById('u-avatar').src = user.photo_url;
         }
 
-        // DATA: Mỗi sản phẩm có các gói Ngày/Tháng và Số lượng kho
+        // DATA: Mỗi sản phẩm hiện rõ các gói 1, 7, 30 ngày đồng giá 2k
         const DATA = [
             { cat: 'HACK VIP FF', icon: 'fa-fire', color: 'red', items: [
                 { id:'h1', name:'Br Mods VIP', stock: 50, opts: ['1 Ngày', '7 Ngày', '30 Ngày'] },
-                { id:'h2', name:'ZyGame Menu', stock: 20, opts: ['1 Ngày', '30 Ngày'] }
+                { id:'h2', name:'ZyGame Menu', stock: 20, opts: ['1 Ngày', '7 Ngày', '30 Ngày'] },
+                { id:'h3', name:'Fluorite iOS', stock: 15, opts: ['1 Ngày', '30 Ngày'] }
             ]},
             { cat: 'CLOUD PHONE', icon: 'fa-cloud', color: 'cyan', items: [
-                { id:'c1', name:'CC Cloud Phone', stock: 100, opts: ['7 Ngày', '30 Ngày'] }
+                { id:'c1', name:'CC Cloud Phone', stock: 100, opts: ['7 Ngày', '30 Ngày'] },
+                { id:'c2', name:'Vip Player Cloud', stock: 30, opts: ['30 Ngày'] }
+            ]},
+            { cat: 'ACC FREE FIRE', icon: 'fa-user-circle', color: 'lime', items: [
+                { id:'a1', name:'Acc Rank Vàng', stock: 10, opts: ['1 Acc'] },
+                { id:'a2', name:'Acc Trắng Thông Tin', stock: 5, opts: ['1 Acc'] }
             ]}
         ];
 
@@ -172,16 +180,16 @@
                         <div class="item-card">
                             <div class="item-top" onclick="toggleOpts('${i.id}')">
                                 <b>${i.name}</b>
-                                <div style="text-align:right">
+                                <div style="display:flex; align-items:center">
                                     <span style="font-size:10px; color:var(--hint)">Kho: ${i.stock}</span>
-                                    <i class="fas fa-chevron-down" style="margin-left:8px; font-size:12px"></i>
+                                    <i class="fas fa-chevron-down" style="margin-left:8px; font-size:12px; color:var(--hint)"></i>
                                 </div>
                             </div>
                             <div class="options-area" id="opt-${i.id}">
                                 ${i.opts.map(o => `
-                                    <div class="opt-row" onclick="selectOpt('${i.name} - ${o}', ${i.stock}, this)">
-                                        <span>${o}</span>
-                                        <b>${PRICE.toLocaleString()}đ</b>
+                                    <div class="opt-row" onclick="selectOpt('${i.name} (${o})', ${i.stock}, this)">
+                                        <span class="p-name">${o}</span>
+                                        <span class="p-price">${PRICE.toLocaleString()}đ</span>
                                     </div>
                                 `).join('')}
                             </div>
@@ -196,6 +204,7 @@
             const list = document.getElementById('list-'+cat);
             const isO = list.style.display === 'block';
             document.querySelectorAll('.list-container').forEach(c => c.style.display='none');
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
             if(!isO) { list.style.display = 'block'; el.classList.add('active'); }
         }
 
@@ -207,6 +216,7 @@
         }
 
         function selectOpt(fullName, stock, el) {
+            if(stock <= 0) return tg.showAlert("Hết hàng!");
             curName = fullName; curStock = stock; curQty = 1;
             document.querySelectorAll('.opt-row').forEach(r => r.classList.remove('active'));
             el.classList.add('active');
@@ -220,6 +230,7 @@
         function updateQty(v) {
             let n = curQty + v;
             if(n >= 1 && n <= curStock) { curQty = n; document.getElementById('qty-display').innerText = n; calc(); }
+            else if(n > curStock) tg.showAlert("Kho chỉ còn " + curStock);
         }
 
         function calc() { document.getElementById('f-total').innerText = (curQty * PRICE).toLocaleString() + "đ"; }
@@ -228,7 +239,7 @@
             const code = "TK" + Math.random().toString(36).substring(7).toUpperCase();
             const total = curQty * PRICE;
             document.getElementById('qr-img').src = `https://img.vietqr.io/image/MB-79991312006-compact2.png?amount=${total}&addInfo=${code}`;
-            document.getElementById('bank-info').innerHTML = `<b>Nội dung:</b> <span style="color:blue">${code}</span><br><b>Tổng:</b> ${total.toLocaleString()}đ<br><b>Gói:</b> ${curName} x${curQty}`;
+            document.getElementById('bank-info').innerHTML = `<b>Nội dung:</b> <span style="color:blue">${code}</span><br><b>Tiền:</b> ${total.toLocaleString()}đ<br><b>Sản phẩm:</b> ${curName} x${curQty}`;
             document.getElementById('modal-pay').style.display = 'block';
         }
 
@@ -241,8 +252,8 @@
 
         function confirmCard() {
             const pin = document.getElementById('c-pin').value;
-            if(!pin) return;
-            tg.sendData(`💳 THẺ CÀO: ${curName} x${curQty} - PIN: ${pin}`);
+            if(!pin) return tg.showAlert("Nhập mã thẻ!");
+            tg.sendData(`💳 THẺ CÀO\nSản phẩm: ${curName} x${curQty}\nPIN: ${pin}`);
             closeModal();
         }
 
