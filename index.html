@@ -15,10 +15,14 @@
         body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; padding-bottom: 180px; }
 
         /* Profile Section */
-        .user-profile { background: var(--card); padding: 12px; border-radius: 20px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 15px; }
+        .user-profile { background: var(--card); padding: 12px; border-radius: 20px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 10px; }
         .user-avatar { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 12px; object-fit: cover; background: #333; }
         .user-info b { font-size: 16px; display: block; }
         .user-info small { color: var(--hint); font-size: 12px; }
+
+        /* THANH THÔNG BÁO (News Ticker) */
+        .news-ticker { background: rgba(88, 101, 242, 0.1); border: 1px solid rgba(88, 101, 242, 0.2); border-radius: 12px; padding: 10px; margin-bottom: 15px; display: flex; align-items: center; font-size: 13px; color: var(--yellow); overflow: hidden; }
+        .news-ticker i { margin-right: 10px; color: var(--accent); }
 
         /* Stats */
         .stats-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px; }
@@ -63,7 +67,6 @@
         .qr-wrap { background: #fff; color: #000; padding: 25px; border-radius: 25px; text-align: center; position: relative; }
         .check-overlay { display: none; position: absolute; inset: 0; background: white; border-radius: 25px; flex-direction: column; align-items: center; justify-content: center; z-index: 10; }
         
-        /* Spinner */
         .spinner { width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid var(--accent); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 15px; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
@@ -76,6 +79,11 @@
             <b id="u-name">Đang tải...</b>
             <small id="u-id">ID: 00000000</small>
         </div>
+    </div>
+
+    <div class="news-ticker">
+        <i class="fas fa-bullhorn"></i>
+        <marquee scrollamount="5">Chào mừng bạn đến với shop! Hệ thống nạp tự động qua API MB Bank xử lý 24/7. Chúc bạn một ngày tốt lành!</marquee>
     </div>
 
     <div class="stats-row">
@@ -114,17 +122,14 @@
 
     <div id="modal-pay" class="modal">
         <div id="btn-back" onclick="closeModal()" style="color:white; margin-bottom:20px; cursor:pointer"><i class="fas fa-arrow-left"></i> Quay lại</div>
-        
         <div class="qr-wrap" id="qr-container">
             <div id="check-status" class="check-overlay">
                 <div class="spinner"></div>
                 <b style="color:#333">Đang kiểm tra giao dịch...</b>
-                <p style="font-size:12px; color:gray; padding:0 20px; margin-top:10px">Vui lòng không tắt ứng dụng, chúng tôi sẽ gửi kết quả ngay khi nhận được tiền.</p>
+                <p style="font-size:12px; color:gray; padding:0 20px; margin-top:10px">Vui lòng không tắt ứng dụng, kết quả sẽ có sau ít phút.</p>
             </div>
-
             <img id="qr-img" src="" style="width:100%; max-width:250px; border-radius:15px; margin-bottom:15px">
             <div id="pay-text" style="text-align:left; font-size:14px; line-height:1.6; color:#333"></div>
-            
             <button id="btn-confirm" onclick="confirmPay()" style="margin-top:20px; width:100%; padding:15px; border:none; border-radius:12px; background:var(--accent); color:white; font-weight:bold;">TÔI ĐÃ CHUYỂN KHOẢN</button>
         </div>
     </div>
@@ -234,25 +239,23 @@
             
             document.getElementById('pay-text').innerHTML = `
                 <p><b>Gói:</b> ${curN}</p>
-                <p><b>Tổng tiền:</b> <b style="color:red">${amount.toLocaleString()}đ</b></p>
+                <p><b>Số tiền:</b> <b style="color:red">${amount.toLocaleString()}đ</b></p>
                 <p><b>Nội dung:</b> <b style="color:blue">${content}</b></p>
                 <hr style="border:0; border-top:1px solid #eee">
-                <p style="font-size:12px; color:red"><b>Chú ý:</b> Phải đúng nội dung chuyển khoản!</p>
+                <p style="font-size:12px; color:red"><b>Lưu ý:</b> Vui lòng nhập đúng nội dung chuyển khoản!</p>
             `;
             document.getElementById('qr-img').src = qrUrl;
             document.getElementById('modal-pay').style.display = 'block';
             document.getElementById('check-status').style.display = 'none';
+            document.getElementById('btn-confirm').style.display = 'block';
+            document.getElementById('btn-back').style.display = 'block';
         }
 
         function confirmPay() {
-            // Hiển thị màn hình chờ thay vì đóng app
             document.getElementById('check-status').style.display = 'flex';
             document.getElementById('btn-confirm').style.display = 'none';
             document.getElementById('btn-back').style.display = 'none';
-            
-            // Giả lập check sau 30 giây nếu bạn chưa có API SePay thực tế
-            // Bạn có thể chỉnh sửa phần này để gọi API kiểm tra tiền
-            tg.HapticFeedback.notificationOccurred('success');
+            tg.HapticFeedback.notificationOccurred('warning');
         }
 
         function closeModal() {
