@@ -30,13 +30,16 @@
         .stat-item span { display: block; font-size: 10px; color: var(--hint); }
         .stat-item b { font-size: 13px; color: var(--success); }
 
-        /* ADMINS */
+        /* ADMINS - ĐÃ THÊM ĐỦ 3 ADMIN */
         .support-box { background: var(--card); border-radius: 18px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 20px; }
         .support-item { display: flex; align-items: center; padding: 12px 15px; border-bottom: 1px solid var(--border); text-decoration: none; color: white; font-size: 14px; }
         .support-icon { width: 28px; height: 28px; background: rgba(88,101,242,0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--accent); margin-right: 12px; }
 
-        /* PRODUCT UI */
+        /* PRODUCT UI - CÓ MŨI TÊN */
         .cat-btn { background: var(--card); border-radius: 15px; padding: 15px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 10px; cursor: pointer; border-left: 4px solid var(--accent); position: relative; }
+        .cat-btn i.arrow-icon { position: absolute; right: 15px; color: var(--hint); transition: 0.3s; }
+        .cat-btn.active i.arrow-icon { transform: rotate(180deg); }
+
         .list-container { display: none; margin-bottom: 15px; }
         .item-card { background: var(--card); border-radius: 15px; border: 1px solid var(--border); margin-bottom: 8px; overflow: hidden; }
         .item-top { padding: 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
@@ -71,19 +74,20 @@
     </div>
 
     <div class="news-ticker">
-        <i class="fas fa-bullhorn"></i>
+        <i class="fas fa-bullhorn" style="margin-right: 8px;"></i>
         <marquee scrollamount="5">Tokyo Shop - Hack VIP, Acc FF & Cloud Phone - Tự động duyệt SePay 24/7!</marquee>
     </div>
 
     <div class="stats-bar">
-        <div class="stat-item"><span>Đơn hàng</span><b>9.900+</b></div>
-        <div class="stat-item"><span>Online</span><b>1.850</b></div>
-        <div class="stat-item"><span>Auto Check</span><b style="color:var(--success)">Sẵn sàng</b></div>
+        <div class="stat-item"><span>Đơn hàng</span><b>9.950+</b></div>
+        <div class="stat-item"><span>Online</span><b>1.920</b></div>
+        <div class="stat-item"><span>Hệ thống</span><b style="color:var(--success)">Tốt</b></div>
     </div>
 
     <div class="support-box">
         <a href="https://t.me/muadongtokyo36" class="support-item"><div class="support-icon"><i class="fas fa-crown"></i></div><b>Admin Muadong</b></a>
         <a href="https://t.me/muahatokyo1919" class="support-item"><div class="support-icon"><i class="fas fa-bolt"></i></div><b>Admin Muaha</b></a>
+        <a href="https://t.me/muathutokyo27" class="support-item"><div class="support-icon"><i class="fas fa-headset"></i></div><b>Admin Muathu</b></a>
     </div>
 
     <div id="product-area"></div>
@@ -105,14 +109,14 @@
             <b style="color:var(--accent)">THANH TOÁN QUA SEPAY</b>
             <img id="qr-img" src="" style="width:100%; max-width:220px; margin:15px 0; border:1px solid #eee; border-radius:10px;">
             <div id="bank-info" style="text-align:left; background:#f8f9fa; padding:12px; border-radius:10px; font-size:13px;"></div>
-            <button class="btn-check" style="background:var(--success)" onclick="verifyPayment()">XÁC NHẬN ĐÃ CHUYỂN</button>
+            <button class="btn-check" style="background:var(--success); color:white; border:none; padding:15px; width:100%; border-radius:12px; font-weight:bold; margin-top:15px;" onclick="verifyPayment()">XÁC NHẬN ĐÃ CHUYỂN</button>
         </div>
 
         <div id="check-ui" style="display:none; text-align:center; padding-top:40px;">
             <div id="loader-icon" class="loader"></div>
             <div id="result-ui">
                 <h3 id="status-title" style="color:white">ĐANG KIỂM TRA...</h3>
-                <p id="status-desc" style="color:var(--hint)">Vui lòng chờ giây lát...</p>
+                <p id="status-desc" style="color:var(--hint)">Hệ thống đang quét giao dịch...</p>
             </div>
         </div>
     </div>
@@ -121,12 +125,10 @@
         const tg = window.Telegram.WebApp;
         tg.ready(); tg.expand();
 
-        // HIỂN THỊ THỨ/NGÀY
         const d = new Date();
         const days = ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'];
         document.getElementById('u-date').innerText = `${days[d.getDay()]}, ${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`;
 
-        // USER INFO
         const user = tg.initDataUnsafe?.user;
         if(user) {
             document.getElementById('u-name').innerText = user.first_name + (user.last_name ? ' ' + user.last_name : '');
@@ -141,18 +143,13 @@
             { cat: 'HACK VIP FREE FIRE', icon: 'fa-fire', color: 'red', items: [
                 { id:'h1', name:'Br Mods VIP', stock: 50, opts: ['1 Ngày', '7 Ngày', '30 Ngày'] },
                 { id:'h2', name:'ZyGame Menu', stock: 20, opts: ['1 Ngày', '7 Ngày', '30 Ngày'] },
-                { id:'h3', name:'Fluorite iOS', stock: 15, opts: ['1 Ngày', '30 Ngày'] },
-                { id:'h4', name:'Drip OB51 VIP', stock: 40, opts: ['1 Ngày', '7 Ngày', '30 Ngày'] },
-                { id:'h5', name:'HG Cheat VIP', stock: 35, opts: ['1 Ngày', '7 Ngày', '30 Ngày'] }
+                { id:'h3', name:'Fluorite iOS', stock: 15, opts: ['1 Ngày', '30 Ngày'] }
             ]},
             { cat: 'ACC FREE FIRE', icon: 'fa-user-circle', color: 'lime', items: [
-                { id:'a1', name:'Acc FF Level 5', stock: 100, opts: ['Gói 1 Acc'] },
-                { id:'a2', name:'Acc FF Level 15', stock: 50, opts: ['Gói 1 Acc'] }
+                { id:'a1', name:'Acc FF Level 5', stock: 100, opts: ['Gói 1 Acc'] }
             ]},
             { cat: 'CLOUD PHONE', icon: 'fa-cloud', color: 'cyan', items: [
-                { id:'c1', name:'Redfinger Cloud', stock: 45, opts: ['1 Ngày', '7 Ngày', '30 Ngày'] },
-                { id:'c2', name:'CC Cloud Phone', stock: 100, opts: ['7 Ngày', '30 Ngày'] },
-                { id:'c3', name:'Vip Player Cloud', stock: 30, opts: ['30 Ngày'] }
+                { id:'c1', name:'Redfinger Cloud', stock: 45, opts: ['1 Ngày', '7 Ngày', '30 Ngày'] }
             ]}
         ];
 
@@ -161,13 +158,21 @@
 
         function render() {
             document.getElementById('product-area').innerHTML = DATA.map(g => `
-                <div class="cat-btn" onclick="toggleCat('${g.cat}')">
-                    <i class="fas ${g.icon}" style="margin-right:10px; color:${g.color}"></i><b>${g.cat}</b>
+                <div class="cat-btn" id="btn-${g.cat.replace(/\s/g, '')}" onclick="toggleCat('${g.cat}')">
+                    <i class="fas ${g.icon}" style="margin-right:10px; color:${g.color}"></i>
+                    <b>${g.cat}</b>
+                    <i class="fas fa-chevron-down arrow-icon"></i>
                 </div>
                 <div id="list-${g.cat}" class="list-container">
                     ${g.items.map(i => `
                         <div class="item-card">
-                            <div class="item-top" onclick="toggleOpts('${i.id}')"><b>${i.name}</b> <small>Kho: ${i.stock}</small></div>
+                            <div class="item-top" onclick="toggleOpts('${i.id}')">
+                                <b>${i.name}</b> 
+                                <div style="display:flex; align-items:center">
+                                    <small style="color:var(--hint)">Kho: ${i.stock}</small>
+                                    <i class="fas fa-chevron-down" style="margin-left:8px; font-size:12px; color:var(--hint)"></i>
+                                </div>
+                            </div>
                             <div class="options-area" id="opt-${i.id}">
                                 ${i.opts.map(o => `<div class="opt-row" onclick="selectOpt('${i.name} (${o})', this)"><span>${o}</span><b>${PRICE.toLocaleString()}đ</b></div>`).join('')}
                             </div>
@@ -179,13 +184,19 @@
         render();
 
         function toggleCat(cat) {
+            const list = document.getElementById('list-'+cat);
+            const btn = document.getElementById('btn-'+cat.replace(/\s/g, ''));
+            const isO = list.style.display === 'block';
             document.querySelectorAll('.list-container').forEach(c => c.style.display='none');
-            document.getElementById('list-'+cat).style.display = 'block';
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            if(!isO) { list.style.display = 'block'; btn.classList.add('active'); }
         }
 
         function toggleOpts(id) {
+            const el = document.getElementById('opt-'+id);
+            const isO = el.style.display === 'block';
             document.querySelectorAll('.options-area').forEach(a => a.style.display='none');
-            document.getElementById('opt-'+id).style.display = 'block';
+            if(!isO) el.style.display = 'block';
         }
 
         function selectOpt(n, el) {
@@ -215,20 +226,13 @@
                 });
                 const data = await response.json();
                 const found = data.transactions.find(t => t.content.includes(curCode) && parseInt(t.amount) >= curAmount);
-
-                if (found) {
-                    showSuccess();
-                } else {
-                    setTimeout(() => {
-                        document.getElementById('check-ui').style.display = 'none';
-                        document.getElementById('pay-content').style.display = 'block';
-                        tg.showAlert("Chưa tìm thấy giao dịch. Vui lòng thử lại sau 30 giây!");
-                    }, 4000);
-                }
-            } catch (e) {
-                tg.showAlert("Lỗi API SePay!");
-                closeModal();
-            }
+                if (found) showSuccess();
+                else setTimeout(() => {
+                    document.getElementById('check-ui').style.display = 'none';
+                    document.getElementById('pay-content').style.display = 'block';
+                    tg.showAlert("Chưa thấy giao dịch. Vui lòng đợi 30 giây!");
+                }, 4000);
+            } catch (e) { tg.showAlert("Lỗi kết nối!"); closeModal(); }
         }
 
         function showSuccess() {
@@ -237,7 +241,7 @@
             document.getElementById('status-title').innerHTML = "<span style='color:var(--success)'>THÀNH CÔNG!</span>";
             document.getElementById('result-ui').innerHTML += `
                 <div class="key-box"><div class="key-text">${randomKey}</div></div>
-                <button class="btn-check" style="background:var(--accent)" onclick="copyKey('${randomKey}')">SAO CHÉP KEY</button>
+                <button class="btn-check" style="background:var(--accent); color:white; border:none; padding:15px; width:100%; border-radius:12px; font-weight:bold; margin-top:15px;" onclick="copyKey('${randomKey}')">SAO CHÉP KEY</button>
             `;
         }
 
