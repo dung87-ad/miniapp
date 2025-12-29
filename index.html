@@ -14,7 +14,7 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
         body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; padding-bottom: 220px; }
 
-        /* USER PROFILE & DATE */
+        /* USER PROFILE */
         .user-profile { background: var(--card); padding: 15px; border-radius: 20px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 12px; }
         .user-avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 12px; background: #333; }
         .user-info b { font-size: 15px; display: block; }
@@ -76,13 +76,13 @@
 
     <div class="news-ticker">
         <i class="fas fa-bullhorn"></i>
-        <marquee scrollamount="5">Hệ thống Tokyo Shop - Thanh toán Ngân hàng tự động cực nhanh - Đồng giá 2.000đ!</marquee>
+        <marquee scrollamount="5">Tokyo Shop - Hệ thống Hack VIP & Acc Free Fire đồng giá 2.000đ - Chuyển khoản Auto!</marquee>
     </div>
 
     <div class="stats-bar">
-        <div class="stat-item"><span>Giao dịch</span><b>5.120+</b></div>
-        <div class="stat-item"><span>Online</span><b>812</b></div>
-        <div class="stat-item"><span>Hệ thống</span><b style="color:var(--success)">Mượt</b></div>
+        <div class="stat-item"><span>Đã bán</span><b>6.240+</b></div>
+        <div class="stat-item"><span>Online</span><b>915</b></div>
+        <div class="stat-item"><span>Hệ thống</span><b style="color:var(--success)">Ổn định</b></div>
     </div>
 
     <div class="support-box">
@@ -96,7 +96,7 @@
     <div class="footer">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
             <div>
-                <span id="f-info" style="font-size:12px; color:var(--hint)">Hãy chọn gói hack/acc...</span>
+                <span id="f-info" style="font-size:12px; color:var(--hint)">Vui lòng chọn sản phẩm...</span>
                 <div class="qty-box" id="qty-container" style="display:none">
                     <button class="qty-btn" onclick="updateQty(-1)">-</button>
                     <div style="width:35px; text-align:center; font-weight:bold" id="qty-display">1</div>
@@ -114,7 +114,7 @@
             <span class="pay-title">CHUYỂN KHOẢN MB BANK</span>
             <img id="qr-img" src="" style="width:100%; max-width:200px; border-radius:15px; margin-bottom:10px; border: 1px solid #eee;">
             <div id="bank-info" style="text-align:left; background:#f8f9fa; padding:12px; border-radius:12px; font-size:13px; line-height:1.6"></div>
-            <p style="font-size: 11px; color: #888; margin-top: 10px;">Hệ thống sẽ tự động xử lý sau khi nhận được tiền.</p>
+            <p style="font-size: 11px; color: #888; margin-top: 10px;">Hệ thống tự động xử lý ngay sau khi nhận tiền.</p>
         </div>
     </div>
 
@@ -133,13 +133,22 @@
             if(user.photo_url) document.getElementById('u-avatar').src = user.photo_url;
         }
 
+        // ĐÃ KHÔI PHỤC ĐẦY ĐỦ SẢN PHẨM HACK VÀ ACC
         const DATA = [
-            { cat: 'HACK VIP FF', icon: 'fa-fire', color: 'red', items: [
+            { cat: 'HACK VIP FREE FIRE', icon: 'fa-fire', color: 'red', items: [
                 { id:'h1', name:'Br Mods VIP', stock: 50, opts: ['1 Ngày', '7 Ngày', '30 Ngày'] },
-                { id:'h2', name:'ZyGame Menu', stock: 20, opts: ['1 Ngày', '7 Ngày', '30 Ngày'] }
+                { id:'h2', name:'ZyGame Menu', stock: 20, opts: ['1 Ngày', '7 Ngày', '30 Ngày'] },
+                { id:'h3', name:'Fluorite iOS', stock: 15, opts: ['1 Ngày', '30 Ngày'] },
+                { id:'h4', name:'Drip OB51', stock: 30, opts: ['1 Ngày', '7 Ngày'] }
+            ]},
+            { cat: 'ACC FREE FIRE', icon: 'fa-user-circle', color: 'lime', items: [
+                { id:'a1', name:'Acc Rank Vàng VN', stock: 10, opts: ['Gói 1 Acc'] },
+                { id:'a2', name:'Acc Trắng Thông Tin', stock: 5, opts: ['Gói 1 Acc'] },
+                { id:'a3', name:'Acc Level 15+', stock: 12, opts: ['Gói 1 Acc'] }
             ]},
             { cat: 'CLOUD PHONE', icon: 'fa-cloud', color: 'cyan', items: [
-                { id:'c1', name:'CC Cloud Phone', stock: 100, opts: ['7 Ngày', '30 Ngày'] }
+                { id:'c1', name:'CC Cloud Phone', stock: 100, opts: ['7 Ngày', '30 Ngày'] },
+                { id:'c2', name:'Vip Player Cloud', stock: 30, opts: ['30 Ngày'] }
             ]}
         ];
 
@@ -182,6 +191,7 @@
             const list = document.getElementById('list-'+cat);
             const isO = list.style.display === 'block';
             document.querySelectorAll('.list-container').forEach(c => c.style.display='none');
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
             if(!isO) { list.style.display = 'block'; el.classList.add('active'); }
         }
 
@@ -193,6 +203,7 @@
         }
 
         function selectOpt(fullName, stock, el) {
+            if(stock <= 0) return tg.showAlert("Hết hàng!");
             curName = fullName; curStock = stock; curQty = 1;
             document.querySelectorAll('.opt-row').forEach(r => r.classList.remove('active'));
             el.classList.add('active');
@@ -206,6 +217,7 @@
         function updateQty(v) {
             let n = curQty + v;
             if(n >= 1 && n <= curStock) { curQty = n; document.getElementById('qty-display').innerText = n; calc(); }
+            else if(n > curStock) tg.showAlert("Kho chỉ còn " + curStock);
         }
 
         function calc() { document.getElementById('f-total').innerText = (curQty * PRICE).toLocaleString() + "đ"; }
