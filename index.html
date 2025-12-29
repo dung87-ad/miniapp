@@ -46,7 +46,7 @@
         
         .options-area { display: none; background: #111; border-top: 1px solid var(--border); }
         .opt-row { padding: 12px 15px; display: flex; justify-content: space-between; border-bottom: 1px solid #222; font-size: 13px; cursor: pointer; }
-        .opt-row.active { background: rgba(88,101,242,0.2); border-left: 3px solid var(--accent); }
+        .opt-row.active { background: rgba(88, 101, 242, 0.2); border-left: 3px solid var(--accent); }
         .opt-row .p-name { color: #fff; }
         .opt-row .p-price { color: var(--yellow); font-weight: bold; }
 
@@ -80,8 +80,8 @@
     </div>
 
     <div class="stats-bar">
-        <div class="stat-item"><span>Đơn hàng</span><b>8.850+</b></div>
-        <div class="stat-item"><span>Online</span><b>1.420</b></div>
+        <div class="stat-item"><span>Đơn hàng</span><b>9.500+</b></div>
+        <div class="stat-item"><span>Online</span><b>1.620</b></div>
         <div class="stat-item"><span>Hệ thống</span><b style="color:var(--success)">Tốt</b></div>
     </div>
 
@@ -226,7 +226,8 @@
             const code = "TK" + Math.random().toString(36).substring(7).toUpperCase();
             const total = curQty * PRICE;
             document.getElementById('qr-img').src = `https://img.vietqr.io/image/MB-79991312006-compact2.png?amount=${total}&addInfo=${code}`;
-            document.getElementById('bank-info').innerHTML = `<b>Nội dung:</b> <span style="color:blue; font-weight:bold">${code}</span><br><b>Số tiền:</b> ${total.toLocaleString()}đ<br><b>Sản phẩm:</b> ${curName} x${curQty}<br><b>Chủ TK:</b> TOKYO SHOP`;
+            // ĐÃ ĐỔI TÊN CHỦ TÀI KHOẢN THÀNH NGUYEN KIEN CUONG
+            document.getElementById('bank-info').innerHTML = `<b>Nội dung:</b> <span style="color:blue; font-weight:bold">${code}</span><br><b>Số tiền:</b> ${total.toLocaleString()}đ<br><b>Sản phẩm:</b> ${curName} x${curQty}<br><b>Chủ TK:</b> NGUYEN KIEN CUONG`;
             document.getElementById('modal-pay').style.display = 'block';
         }
 
