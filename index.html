@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Shop Tokyo - Hack & Acc FF</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { 
             --bg: #0b0b0d; --card: #1c1c1e; --text: #ffffff; 
             --accent: #5865f2; --success: #34c759; --yellow: #ffcc00; 
-            --hint: #8e8e93; --border: #2c2c2e; --danger: #ff3b30;
+            --hint: #8e8e93; --border: #2c2c2e;
         }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
         body { font-family: -apple-system, system-ui, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; padding-bottom: 180px; }
@@ -24,43 +25,41 @@
         .news-ticker { background: rgba(88, 101, 242, 0.1); border: 1px solid var(--border); border-radius: 12px; padding: 10px; margin-bottom: 20px; display: flex; align-items: center; font-size: 13px; color: var(--yellow); }
         .news-ticker i { margin-right: 10px; color: var(--accent); }
 
-        /* Admin Box */
+        /* Admin Support */
         .support-box { background: var(--card); border-radius: 18px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 20px; }
-        .support-item { display: flex; align-items: center; padding: 12px 15px; border-bottom: 1px solid var(--border); text-decoration: none; color: white; transition: 0.2s; }
-        .support-item:active { background: #2c2c2e; }
-        .support-icon { width: 35px; height: 35px; background: rgba(88,101,242,0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--accent); margin-right: 12px; }
+        .support-item { display: flex; align-items: center; padding: 12px 15px; border-bottom: 1px solid var(--border); text-decoration: none; color: white; }
+        .support-icon { width: 32px; height: 32px; background: rgba(88,101,242,0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--accent); margin-right: 12px; }
 
-        /* Categories */
+        /* Categories & Items */
         .cat-btn { background: var(--card); border-radius: 15px; padding: 15px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 10px; cursor: pointer; border-left: 4px solid var(--accent); position: relative; }
-        .cat-btn i.main-icon { margin-right: 12px; font-size: 18px; }
-        .cat-btn i.arrow-icon { position: absolute; right: 15px; transition: 0.3s; color: var(--hint); }
+        .cat-btn i.m-icon { margin-right: 12px; font-size: 18px; }
+        .cat-btn i.arrow { position: absolute; right: 15px; color: var(--hint); transition: 0.3s; }
         .cat-btn.active { background: #252529; border-left-color: var(--yellow); }
-        .cat-btn.active i.arrow-icon { transform: rotate(180deg); }
+        .cat-btn.active i.arrow { transform: rotate(180deg); }
 
-        .list-container { display: none; margin-bottom: 15px; padding-left: 5px; }
+        .list-container { display: none; margin-bottom: 15px; }
         .item-card { background: var(--card); border-radius: 15px; border: 1px solid var(--border); margin-bottom: 8px; overflow: hidden; }
         .item-top { padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
         .price-area { display: none; background: #111; border-top: 1px solid var(--border); }
-        .opt-row { padding: 12px 15px; display: flex; justify-content: space-between; border-bottom: 1px solid #222; font-size: 13px; cursor: pointer; }
+        .opt-row { padding: 12px 15px; display: flex; justify-content: space-between; border-bottom: 1px solid #222; font-size: 13px; }
         .opt-row.active { background: rgba(88,101,242,0.15); border-left: 3px solid var(--accent); }
-        .badge { font-size: 10px; background: rgba(52, 199, 89, 0.2); color: var(--success); padding: 2px 8px; border-radius: 10px; border: 1px solid var(--success); }
 
         /* Footer */
         .footer { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(11,11,13,0.95); padding: 15px 20px 35px; border-top: 1px solid var(--border); backdrop-filter: blur(10px); z-index: 100; }
-        .btn-buy { width: 100%; background: var(--accent); color: white; border: none; border-radius: 12px; padding: 16px; font-weight: bold; font-size: 16px; opacity: 0.4; pointer-events: none; display: flex; align-items: center; justify-content: center; }
-        .btn-buy i { margin-right: 8px; }
+        .btn-buy { width: 100%; background: var(--accent); color: white; border: none; border-radius: 12px; padding: 16px; font-weight: bold; font-size: 16px; opacity: 0.4; pointer-events: none; }
         .btn-buy.ready { opacity: 1; pointer-events: auto; }
 
-        /* Modal */
+        /* Modal Payment */
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 1000; padding: 20px; overflow-y: auto; }
         .pay-box { background: #fff; color: #000; padding: 25px; border-radius: 25px; text-align: center; }
         .pay-tabs { display: flex; background: #eee; border-radius: 12px; margin-bottom: 20px; padding: 4px; }
         .tab { flex: 1; padding: 10px; text-align: center; border-radius: 10px; font-weight: bold; cursor: pointer; color: #666; font-size: 13px; }
-        .tab.active { background: white; color: var(--accent); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .tab.active { background: white; color: var(--accent); }
         
-        .qr-frame img { width: 100%; max-width: 200px; border-radius: 15px; border: 1px solid #eee; }
-        .bank-details { text-align: left; background: #f8f9fa; padding: 15px; border-radius: 15px; font-size: 13px; margin-top: 15px; }
-        .bank-details b { color: var(--accent); }
+        .qr-frame img { width: 100%; max-width: 200px; border-radius: 15px; margin-bottom: 15px; }
+        .bank-details { text-align: left; background: #f8f9fa; padding: 15px; border-radius: 15px; font-size: 13px; }
+        .card-form label { display: block; text-align: left; font-size: 12px; color: #666; margin: 10px 0 5px; }
+        .card-form select, .card-form input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; margin-bottom: 5px; }
     </style>
 </head>
 <body>
@@ -74,82 +73,54 @@
     </div>
 
     <div class="news-ticker">
-        <i class="fas fa-bolt"></i>
-        <marquee scrollamount="5">Hệ thống Auto Check Bank MB hoạt động 24/7. Nhận Key ngay sau khi thanh toán thành công!</marquee>
+        <i class="fas fa-bullhorn"></i>
+        <marquee scrollamount="5">Chào mừng đến với Shop Tokyo. Nạp Bank Auto hoặc Thẻ cào duyệt tay 1-5 phút!</marquee>
     </div>
 
     <div class="support-box">
-        <a href="https://t.me/muadongtokyo36" class="support-item">
-            <div class="support-icon"><i class="fas fa-crown"></i></div>
-            <b>Admin Muadong</b>
-            <i class="fas fa-chevron-right" style="margin-left:auto; font-size:12px; color:var(--hint)"></i>
-        </a>
-        <a href="https://t.me/muahatokyo1919" class="support-item">
-            <div class="support-icon"><i class="fas fa-cog"></i></div>
-            <b>Admin Muaha</b>
-            <i class="fas fa-chevron-right" style="margin-left:auto; font-size:12px; color:var(--hint)"></i>
-        </a>
-        <a href="https://t.me/muathutokyo27" class="support-item">
-            <div class="support-icon"><i class="fas fa-comment-dots"></i></div>
-            <b>Admin Muathu</b>
-            <i class="fas fa-chevron-right" style="margin-left:auto; font-size:12px; color:var(--hint)"></i>
-        </a>
+        <a href="https://t.me/muadongtokyo36" class="support-item"><div class="support-icon"><i class="fas fa-shield"></i></div><b>Admin Muadong</b></a>
+        <a href="https://t.me/muahatokyo1919" class="support-item"><div class="support-icon"><i class="fas fa-tools"></i></div><b>Admin Muaha</b></a>
+        <a href="https://t.me/muathutokyo27" class="support-item"><div class="support-icon"><i class="fas fa-headset"></i></div><b>Admin Muathu</b></a>
     </div>
 
-    <div class="cat-btn" onclick="toggleCat('hack', this)">
-        <i class="fas fa-fire-alt main-icon" style="color:#ff4d4d"></i>
-        <b>HACK VIP OB51 (5)</b>
-        <i class="fas fa-chevron-down arrow-icon"></i>
-    </div>
+    <div class="cat-btn" onclick="toggleCat('hack', this)"><i class="fas fa-fire m-icon" style="color:red"></i><b>HACK VIP OB51 (5)</b><i class="fas fa-chevron-down arrow"></i></div>
     <div id="list-hack" class="list-container"></div>
 
-    <div class="cat-btn" onclick="toggleCat('cloud', this)">
-        <i class="fas fa-cloud main-icon" style="color:#00d2ff"></i>
-        <b>CLOUD PHONE (3)</b>
-        <i class="fas fa-chevron-down arrow-icon"></i>
-    </div>
+    <div class="cat-btn" onclick="toggleCat('cloud', this)"><i class="fas fa-cloud m-icon" style="color:cyan"></i><b>CLOUD PHONE (3)</b><i class="fas fa-chevron-down arrow"></i></div>
     <div id="list-cloud" class="list-container"></div>
 
-    <div class="cat-btn" onclick="toggleCat('acc', this)">
-        <i class="fas fa-user-circle main-icon" style="color:#4dff88"></i>
-        <b>ACC FREE FIRE (2)</b>
-        <i class="fas fa-chevron-down arrow-icon"></i>
-    </div>
+    <div class="cat-btn" onclick="toggleCat('acc', this)"><i class="fas fa-user m-icon" style="color:lime"></i><b>ACC FREE FIRE (2)</b><i class="fas fa-chevron-down arrow"></i></div>
     <div id="list-acc" class="list-container"></div>
 
     <div class="footer">
-        <div style="display:flex; justify-content:space-between; margin-bottom:12px">
-            <span id="f-info" style="font-size:13px; color:var(--hint)">Vui lòng chọn gói...</span>
-            <b id="f-total" style="color:var(--success); font-size:16px">0đ</b>
+        <div style="display:flex; justify-content:space-between; margin-bottom:12px; font-size:14px">
+            <span id="f-info">Chọn gói muốn mua...</span><b id="f-total">0đ</b>
         </div>
-        <button class="btn-buy" id="pay-btn" onclick="openPay()">
-            <i class="fas fa-shopping-cart"></i> MUA NGAY
-        </button>
+        <button class="btn-buy" id="pay-btn" onclick="openPay()">MUA NGAY</button>
     </div>
 
     <div id="modal-pay" class="modal">
-        <div onclick="closeModal()" style="color:white; margin-bottom:15px; cursor:pointer; font-weight:bold">
-            <i class="fas fa-arrow-left"></i> QUAY LẠI
-        </div>
-        
+        <div onclick="closeModal()" style="color:white; margin-bottom:15px; cursor:pointer"><i class="fas fa-arrow-left"></i> QUAY LẠI</div>
         <div class="pay-box">
             <div class="pay-tabs">
-                <div class="tab active" id="t-bank" onclick="switchTab('bank')">Chuyển khoản</div>
+                <div class="tab active" id="t-bank" onclick="switchTab('bank')">MB Bank (Auto)</div>
                 <div class="tab" id="t-card" onclick="switchTab('card')">Thẻ cào</div>
             </div>
 
             <div id="box-bank">
                 <div class="qr-frame"><img id="qr-img" src=""></div>
                 <div class="bank-details" id="bank-info"></div>
-                <div style="margin-top:15px; font-size:12px; color:var(--accent); font-weight:bold;">
-                    <i class="fas fa-spinner fa-spin"></i> Đang chờ hệ thống check tiền...
-                </div>
+                <p style="font-size:11px; color:var(--accent); margin-top:10px;"><i class="fas fa-sync fa-spin"></i> Đang chờ hệ thống check tiền...</p>
             </div>
 
-            <div id="box-card" style="display:none; text-align:left;">
-                <input type="number" id="c-pin" placeholder="Nhập mã thẻ (PIN)" style="width:100%; padding:14px; margin-bottom:10px; border:1px solid #ddd; border-radius:12px;">
-                <input type="number" id="c-seri" placeholder="Nhập số Seri" style="width:100%; padding:14px; margin-bottom:15px; border:1px solid #ddd; border-radius:12px;">
-                <button onclick="confirmCard()" style="width:100%; padding:16px; background:var(--success); color:white; border:none; border-radius:12px; font-weight:bold;">GỬI THẺ DUYỆT</button>
+            <div id="box-card" style="display:none;" class="card-form">
+                <label>Loại thẻ:</label>
+                <select id="c-type"><option>Viettel</option><option>Vinaphone</option><option>Mobifone</option><option>Zing</option></select>
+                <label>Mệnh giá:</label>
+                <select id="c-value"><option>10.000đ</option><option>20.000đ</option><option>50.000đ</option><option>100.000đ</option><option>200.000đ</option><option>500.000đ</option></select>
+                <label>Mã PIN:</label><input type="number" id="c-pin" placeholder="Nhập mã thẻ...">
+                <label>Số Seri:</label><input type="number" id="c-seri" placeholder="Nhập số seri...">
+                <button onclick="confirmDone('CARD')" style="width:100%; padding:15px; background:var(--success); color:white; border:none; border-radius:12px; font-weight:bold; margin-top:10px;">GỬI THẺ DUYỆT</button>
             </div>
         </div>
     </div>
@@ -158,7 +129,7 @@
         const tg = window.Telegram.WebApp;
         tg.ready(); tg.expand();
 
-        // Lấy thông tin User
+        // USER INFO
         const user = tg.initDataUnsafe?.user;
         if(user) {
             document.getElementById('u-name').innerText = user.first_name + (user.last_name ? ' ' + user.last_name : '');
@@ -168,7 +139,7 @@
 
         const PRODUCTS = {
             hack: [
-                { id:'h1', name:'Br Mods OB51', p:[["1 Ngày",50000],["7 Ngày",80000]] },
+                { id:'h1', name:'Br Mods VIP', p:[["1 Ngày",50000],["7 Ngày",80000]] },
                 { id:'h2', name:'ZyGame Menu', p:[["1 Ngày",40000],["30 Ngày",150000]] },
                 { id:'h3', name:'Hg Cheat VIP', p:[["10 Ngày",120000]] },
                 { id:'h4', name:'Drip OB51', p:[["1 Ngày",50000]] },
@@ -191,9 +162,7 @@
             for (let k in PRODUCTS) {
                 document.getElementById('list-'+k).innerHTML = PRODUCTS[k].map(i => `
                     <div class="item-card">
-                        <div class="item-top" onclick="toggleI('${i.id}')">
-                            <b>${i.name}</b> <span class="badge">Sẵn có</span>
-                        </div>
+                        <div class="item-top" onclick="toggleI('${i.id}')"><b>${i.name}</b> <i class="fas fa-chevron-down" style="font-size:12px"></i></div>
                         <div class="price-area" id="det-${i.id}">
                             ${i.p.map(o => `<div class="opt-row" onclick="sel(event,'${i.name} - ${o[0]}',${o[1]},this)"><span>${o[0]}</span><b>${o[1].toLocaleString()}đ</b></div>`).join('')}
                         </div>
@@ -208,10 +177,7 @@
             const isO = list.style.display === 'block';
             document.querySelectorAll('.list-container').forEach(c => c.style.display='none');
             document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-            if(!isO) {
-                list.style.display = 'block';
-                el.classList.add('active');
-            }
+            if(!isO) { list.style.display = 'block'; el.classList.add('active'); }
         }
 
         function toggleI(id) {
@@ -233,7 +199,7 @@
         function openPay() {
             const code = "MUA" + Math.random().toString(36).substring(7).toUpperCase();
             document.getElementById('qr-img').src = `https://img.vietqr.io/image/MB-79991312006-compact2.png?amount=${curP}&addInfo=${code}`;
-            document.getElementById('bank-info').innerHTML = `<b>Nội dung:</b> <b style="color:blue; font-size:16px;">${code}</b><br><b>Số tiền:</b> ${curP.toLocaleString()}đ<br><b>Ngân hàng:</b> MB Bank<br><b>Chủ TK:</b> PHAM VAN NAM`;
+            document.getElementById('bank-info').innerHTML = `<b>Nội dung:</b> <b style="color:blue">${code}</b><br><b>Tiền:</b> ${curP.toLocaleString()}đ<br><b>STK:</b> 79991312006 (MB BANK)`;
             document.getElementById('modal-pay').style.display = 'block';
         }
 
@@ -244,8 +210,16 @@
             document.getElementById('t-card').classList.toggle('active', t==='card');
         }
 
-        function confirmCard() {
-            tg.showPopup({ title: "Đã gửi", message: "Thẻ đã gửi cho Admin duyệt. Vui lòng chờ 1-5 phút!" });
+        function confirmDone(m) {
+            const pin = document.getElementById('c-pin').value;
+            const seri = document.getElementById('c-seri').value;
+            const type = document.getElementById('c-type').value;
+            const val = document.getElementById('c-value').value;
+            if(!pin || !seri) return tg.showAlert("Nhập đủ PIN/Seri!");
+            
+            const text = `💳 THẺ CÀO DUYỆT TAY\nKhách: ${user?.first_name} (ID: ${user?.id})\nSản phẩm: ${curN}\nLoại: ${type} - ${val}\nPIN: \`${pin}\`\nSeri: \`${seri}\``;
+            tg.sendData(text);
+            tg.showPopup({ title: "Đã gửi!", message: "Admin sẽ duyệt thẻ và gửi key cho bạn sớm nhất." });
             closeModal();
         }
 
