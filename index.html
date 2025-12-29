@@ -9,54 +9,58 @@
         :root { 
             --bg: #0b0b0d; --card: #1c1c1e; --text: #ffffff; 
             --accent: #5865f2; --success: #34c759; --yellow: #ffcc00; 
-            --hint: #8e8e93; --border: #2c2c2e;
+            --hint: #8e8e93; --border: #2c2c2e; --danger: #ff3b30;
         }
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; padding-bottom: 150px; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
+        body { font-family: -apple-system, system-ui, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; padding-bottom: 180px; }
 
         /* User Profile */
-        .user-profile { background: var(--card); padding: 12px; border-radius: 20px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 10px; }
-        .user-avatar { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 12px; object-fit: cover; }
+        .user-profile { background: var(--card); padding: 12px; border-radius: 20px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 15px; }
+        .user-avatar { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 12px; object-fit: cover; background: #333; }
         .user-info b { font-size: 16px; display: block; }
         .user-info small { color: var(--hint); font-size: 12px; }
 
         /* News Ticker */
-        .news-ticker { background: rgba(88, 101, 242, 0.1); border: 1px solid var(--border); border-radius: 12px; padding: 10px; margin-bottom: 15px; font-size: 13px; color: var(--yellow); display: flex; align-items: center; overflow: hidden; }
+        .news-ticker { background: rgba(88, 101, 242, 0.1); border: 1px solid var(--border); border-radius: 12px; padding: 10px; margin-bottom: 20px; display: flex; align-items: center; font-size: 13px; color: var(--yellow); }
+        .news-ticker i { margin-right: 10px; color: var(--accent); }
 
-        /* Admin Support */
+        /* Admin Box */
         .support-box { background: var(--card); border-radius: 18px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 20px; }
-        .support-item { display: flex; align-items: center; padding: 12px 15px; border-bottom: 1px solid var(--border); text-decoration: none; color: white; font-size: 14px; }
-        .support-icon { width: 30px; height: 30px; background: rgba(88,101,242,0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--accent); margin-right: 12px; }
+        .support-item { display: flex; align-items: center; padding: 12px 15px; border-bottom: 1px solid var(--border); text-decoration: none; color: white; transition: 0.2s; }
+        .support-item:active { background: #2c2c2e; }
+        .support-icon { width: 35px; height: 35px; background: rgba(88,101,242,0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--accent); margin-right: 12px; }
 
-        /* Product System */
-        .cat-btn { background: var(--card); border-radius: 15px; padding: 15px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 10px; cursor: pointer; border-left: 4px solid var(--accent); }
-        .cat-btn.active { border-left-color: var(--yellow); background: #252529; }
-        .list-container { display: none; margin-bottom: 15px; }
-        
+        /* Categories */
+        .cat-btn { background: var(--card); border-radius: 15px; padding: 15px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 10px; cursor: pointer; border-left: 4px solid var(--accent); position: relative; }
+        .cat-btn i.main-icon { margin-right: 12px; font-size: 18px; }
+        .cat-btn i.arrow-icon { position: absolute; right: 15px; transition: 0.3s; color: var(--hint); }
+        .cat-btn.active { background: #252529; border-left-color: var(--yellow); }
+        .cat-btn.active i.arrow-icon { transform: rotate(180deg); }
+
+        .list-container { display: none; margin-bottom: 15px; padding-left: 5px; }
         .item-card { background: var(--card); border-radius: 15px; border: 1px solid var(--border); margin-bottom: 8px; overflow: hidden; }
-        .item-top { padding: 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+        .item-top { padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
         .price-area { display: none; background: #111; border-top: 1px solid var(--border); }
-        .opt-row { padding: 12px 15px; display: flex; justify-content: space-between; border-bottom: 1px solid #222; font-size: 13px; }
+        .opt-row { padding: 12px 15px; display: flex; justify-content: space-between; border-bottom: 1px solid #222; font-size: 13px; cursor: pointer; }
         .opt-row.active { background: rgba(88,101,242,0.15); border-left: 3px solid var(--accent); }
+        .badge { font-size: 10px; background: rgba(52, 199, 89, 0.2); color: var(--success); padding: 2px 8px; border-radius: 10px; border: 1px solid var(--success); }
 
         /* Footer */
         .footer { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(11,11,13,0.95); padding: 15px 20px 35px; border-top: 1px solid var(--border); backdrop-filter: blur(10px); z-index: 100; }
-        .btn-buy { width: 100%; background: var(--accent); color: white; border: none; border-radius: 12px; padding: 16px; font-weight: bold; opacity: 0.4; pointer-events: none; }
+        .btn-buy { width: 100%; background: var(--accent); color: white; border: none; border-radius: 12px; padding: 16px; font-weight: bold; font-size: 16px; opacity: 0.4; pointer-events: none; display: flex; align-items: center; justify-content: center; }
+        .btn-buy i { margin-right: 8px; }
         .btn-buy.ready { opacity: 1; pointer-events: auto; }
 
-        /* Payment Modal */
-        .modal { display: none; position: fixed; inset: 0; background: #000; z-index: 1000; padding: 20px; overflow-y: auto; }
-        .pay-box { background: #fff; color: #000; padding: 20px; border-radius: 25px; text-align: center; }
-        .pay-tabs { display: flex; background: #eee; border-radius: 10px; margin-bottom: 15px; padding: 3px; }
-        .tab { flex: 1; padding: 10px; text-align: center; border-radius: 8px; font-weight: bold; cursor: pointer; color: #666; font-size: 13px; }
-        .tab.active { background: white; color: var(--accent); }
+        /* Modal */
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 1000; padding: 20px; overflow-y: auto; }
+        .pay-box { background: #fff; color: #000; padding: 25px; border-radius: 25px; text-align: center; }
+        .pay-tabs { display: flex; background: #eee; border-radius: 12px; margin-bottom: 20px; padding: 4px; }
+        .tab { flex: 1; padding: 10px; text-align: center; border-radius: 10px; font-weight: bold; cursor: pointer; color: #666; font-size: 13px; }
+        .tab.active { background: white; color: var(--accent); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         
-        .qr-area img { width: 100%; max-width: 220px; border-radius: 15px; margin: 10px 0; }
-        .bank-info { text-align: left; background: #f8f9fa; padding: 12px; border-radius: 12px; font-size: 13px; line-height: 1.6; }
-        
-        /* Success Area */
-        #success-key { display: none; margin-top: 15px; padding: 15px; border: 2px dashed var(--success); border-radius: 12px; background: #f0fff4; }
-        .key-text { display: block; font-family: monospace; font-size: 18px; color: #ce0000; font-weight: bold; margin: 10px 0; }
+        .qr-frame img { width: 100%; max-width: 200px; border-radius: 15px; border: 1px solid #eee; }
+        .bank-details { text-align: left; background: #f8f9fa; padding: 15px; border-radius: 15px; font-size: 13px; margin-top: 15px; }
+        .bank-details b { color: var(--accent); }
     </style>
 </head>
 <body>
@@ -70,59 +74,82 @@
     </div>
 
     <div class="news-ticker">
-        <i class="fas fa-bullhorn" style="margin-right:10px;"></i>
-        <marquee scrollamount="5">Chào mừng! Hệ thống Auto Check Bank MB 24/7. Mua hàng và nhận Key ngay lập tức.</marquee>
+        <i class="fas fa-bolt"></i>
+        <marquee scrollamount="5">Hệ thống Auto Check Bank MB hoạt động 24/7. Nhận Key ngay sau khi thanh toán thành công!</marquee>
     </div>
 
     <div class="support-box">
-        <a href="https://t.me/muadongtokyo36" class="support-item"><div class="support-icon"><i class="fas fa-shield-alt"></i></div><b>Admin Muadong</b></a>
-        <a href="https://t.me/muahatokyo1919" class="support-item"><div class="support-icon"><i class="fas fa-tools"></i></div><b>Admin Muaha</b></a>
-        <a href="https://t.me/muathutokyo27" class="support-item"><div class="support-icon"><i class="fas fa-user-check"></i></div><b>Admin Muathu</b></a>
+        <a href="https://t.me/muadongtokyo36" class="support-item">
+            <div class="support-icon"><i class="fas fa-crown"></i></div>
+            <b>Admin Muadong</b>
+            <i class="fas fa-chevron-right" style="margin-left:auto; font-size:12px; color:var(--hint)"></i>
+        </a>
+        <a href="https://t.me/muahatokyo1919" class="support-item">
+            <div class="support-icon"><i class="fas fa-cog"></i></div>
+            <b>Admin Muaha</b>
+            <i class="fas fa-chevron-right" style="margin-left:auto; font-size:12px; color:var(--hint)"></i>
+        </a>
+        <a href="https://t.me/muathutokyo27" class="support-item">
+            <div class="support-icon"><i class="fas fa-comment-dots"></i></div>
+            <b>Admin Muathu</b>
+            <i class="fas fa-chevron-right" style="margin-left:auto; font-size:12px; color:var(--hint)"></i>
+        </a>
     </div>
 
-    <div class="cat-btn" onclick="toggleCat('hack')"><b>HACK VIP OB51 (5)</b></div>
+    <div class="cat-btn" onclick="toggleCat('hack', this)">
+        <i class="fas fa-fire-alt main-icon" style="color:#ff4d4d"></i>
+        <b>HACK VIP OB51 (5)</b>
+        <i class="fas fa-chevron-down arrow-icon"></i>
+    </div>
     <div id="list-hack" class="list-container"></div>
 
-    <div class="cat-btn" onclick="toggleCat('cloud')"><b>CLOUD PHONE (3)</b></div>
+    <div class="cat-btn" onclick="toggleCat('cloud', this)">
+        <i class="fas fa-cloud main-icon" style="color:#00d2ff"></i>
+        <b>CLOUD PHONE (3)</b>
+        <i class="fas fa-chevron-down arrow-icon"></i>
+    </div>
     <div id="list-cloud" class="list-container"></div>
 
-    <div class="cat-btn" onclick="toggleCat('acc')"><b>ACC FREE FIRE (2)</b></div>
+    <div class="cat-btn" onclick="toggleCat('acc', this)">
+        <i class="fas fa-user-circle main-icon" style="color:#4dff88"></i>
+        <b>ACC FREE FIRE (2)</b>
+        <i class="fas fa-chevron-down arrow-icon"></i>
+    </div>
     <div id="list-acc" class="list-container"></div>
 
     <div class="footer">
-        <div style="display:flex; justify-content:space-between; margin-bottom:12px; font-size:14px">
-            <span id="f-info">Hãy chọn sản phẩm...</span><b id="f-total" style="color:var(--success)">0đ</b>
+        <div style="display:flex; justify-content:space-between; margin-bottom:12px">
+            <span id="f-info" style="font-size:13px; color:var(--hint)">Vui lòng chọn gói...</span>
+            <b id="f-total" style="color:var(--success); font-size:16px">0đ</b>
         </div>
-        <button class="btn-buy" id="pay-btn" onclick="openPay()">MUA NGAY</button>
+        <button class="btn-buy" id="pay-btn" onclick="openPay()">
+            <i class="fas fa-shopping-cart"></i> MUA NGAY
+        </button>
     </div>
 
     <div id="modal-pay" class="modal">
-        <div onclick="closeModal()" style="color:white; margin-bottom:15px; cursor:pointer"><i class="fas fa-arrow-left"></i> Quay lại</div>
+        <div onclick="closeModal()" style="color:white; margin-bottom:15px; cursor:pointer; font-weight:bold">
+            <i class="fas fa-arrow-left"></i> QUAY LẠI
+        </div>
         
         <div class="pay-box">
             <div class="pay-tabs">
-                <div class="tab active" id="t-bank" onclick="switchTab('bank')">MB Bank (Auto)</div>
+                <div class="tab active" id="t-bank" onclick="switchTab('bank')">Chuyển khoản</div>
                 <div class="tab" id="t-card" onclick="switchTab('card')">Thẻ cào</div>
             </div>
 
             <div id="box-bank">
-                <div class="qr-area"><img id="qr-img" src=""></div>
-                <div class="bank-info" id="bank-info"></div>
-                <div style="margin-top:15px; font-size:12px; color:red; font-weight:bold;">
-                    <i class="fas fa-sync-alt fa-spin"></i> Đang chờ thanh toán...
-                </div>
-
-                <div id="success-key">
-                    <b style="color:#000">THANH TOÁN THÀNH CÔNG!</b>
-                    <span class="key-text" id="key-out">KEY-123-456-789</span>
-                    <button onclick="copyKey()" style="padding:8px 20px; border-radius:8px; border:none; background:var(--success); color:white;">Copy Key</button>
+                <div class="qr-frame"><img id="qr-img" src=""></div>
+                <div class="bank-details" id="bank-info"></div>
+                <div style="margin-top:15px; font-size:12px; color:var(--accent); font-weight:bold;">
+                    <i class="fas fa-spinner fa-spin"></i> Đang chờ hệ thống check tiền...
                 </div>
             </div>
 
             <div id="box-card" style="display:none; text-align:left;">
-                <input type="number" id="c-pin" placeholder="Mã thẻ (PIN)" style="width:100%; padding:12px; margin-bottom:10px; border:1px solid #ddd; border-radius:10px;">
-                <input type="number" id="c-seri" placeholder="Số Seri" style="width:100%; padding:12px; margin-bottom:10px; border:1px solid #ddd; border-radius:10px;">
-                <button onclick="tg.sendData('The cao dang cho duyet')" style="width:100%; padding:15px; background:var(--success); color:white; border:none; border-radius:12px; font-weight:bold;">GỬI THẺ</button>
+                <input type="number" id="c-pin" placeholder="Nhập mã thẻ (PIN)" style="width:100%; padding:14px; margin-bottom:10px; border:1px solid #ddd; border-radius:12px;">
+                <input type="number" id="c-seri" placeholder="Nhập số Seri" style="width:100%; padding:14px; margin-bottom:15px; border:1px solid #ddd; border-radius:12px;">
+                <button onclick="confirmCard()" style="width:100%; padding:16px; background:var(--success); color:white; border:none; border-radius:12px; font-weight:bold;">GỬI THẺ DUYỆT</button>
             </div>
         </div>
     </div>
@@ -131,7 +158,7 @@
         const tg = window.Telegram.WebApp;
         tg.ready(); tg.expand();
 
-        // HIỂN THỊ THÔNG TIN USER
+        // Lấy thông tin User
         const user = tg.initDataUnsafe?.user;
         if(user) {
             document.getElementById('u-name').innerText = user.first_name + (user.last_name ? ' ' + user.last_name : '');
@@ -158,13 +185,15 @@
             ]
         };
 
-        let curP = 0, curN = "", checkTask;
+        let curP = 0, curN = "";
 
         function render() {
             for (let k in PRODUCTS) {
                 document.getElementById('list-'+k).innerHTML = PRODUCTS[k].map(i => `
                     <div class="item-card">
-                        <div class="item-top" onclick="toggleI('${i.id}')"><b>${i.name}</b> <i class="fas fa-chevron-down"></i></div>
+                        <div class="item-top" onclick="toggleI('${i.id}')">
+                            <b>${i.name}</b> <span class="badge">Sẵn có</span>
+                        </div>
                         <div class="price-area" id="det-${i.id}">
                             ${i.p.map(o => `<div class="opt-row" onclick="sel(event,'${i.name} - ${o[0]}',${o[1]},this)"><span>${o[0]}</span><b>${o[1].toLocaleString()}đ</b></div>`).join('')}
                         </div>
@@ -174,18 +203,22 @@
         }
         render();
 
-        function toggleCat(k) {
+        function toggleCat(k, el) {
             const list = document.getElementById('list-'+k);
             const isO = list.style.display === 'block';
             document.querySelectorAll('.list-container').forEach(c => c.style.display='none');
-            list.style.display = isO ? 'none' : 'block';
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            if(!isO) {
+                list.style.display = 'block';
+                el.classList.add('active');
+            }
         }
 
         function toggleI(id) {
             const el = document.getElementById('det-'+id);
             const isO = el.style.display === 'block';
             document.querySelectorAll('.price-area').forEach(p => p.style.display='none');
-            el.style.display = isO ? 'none' : 'block';
+            if(!isO) el.style.display = 'block';
         }
 
         function sel(e, name, price, el) {
@@ -200,13 +233,8 @@
         function openPay() {
             const code = "MUA" + Math.random().toString(36).substring(7).toUpperCase();
             document.getElementById('qr-img').src = `https://img.vietqr.io/image/MB-79991312006-compact2.png?amount=${curP}&addInfo=${code}`;
-            document.getElementById('bank-info').innerHTML = `<b>STK:</b> 79991312006<br><b>Ngân hàng:</b> MB Bank<br><b>Số tiền:</b> ${curP.toLocaleString()}đ<br><b>Nội dung:</b> <b style="color:blue">${code}</b>`;
+            document.getElementById('bank-info').innerHTML = `<b>Nội dung:</b> <b style="color:blue; font-size:16px;">${code}</b><br><b>Số tiền:</b> ${curP.toLocaleString()}đ<br><b>Ngân hàng:</b> MB Bank<br><b>Chủ TK:</b> PHAM VAN NAM`;
             document.getElementById('modal-pay').style.display = 'block';
-            
-            // GIẢ LẬP AUTO CHECK (Bạn sẽ thay fetch API thật vào đây)
-            checkTask = setInterval(() => {
-                // Ví dụ: fetch('check.php?code=' + code)...
-            }, 3000);
         }
 
         function switchTab(t) {
@@ -216,15 +244,12 @@
             document.getElementById('t-card').classList.toggle('active', t==='card');
         }
 
-        function copyKey() {
-            navigator.clipboard.writeText(document.getElementById('key-out').innerText);
-            tg.showAlert("Đã sao chép key!");
+        function confirmCard() {
+            tg.showPopup({ title: "Đã gửi", message: "Thẻ đã gửi cho Admin duyệt. Vui lòng chờ 1-5 phút!" });
+            closeModal();
         }
 
-        function closeModal() {
-            document.getElementById('modal-pay').style.display = 'none';
-            clearInterval(checkTask);
-        }
+        function closeModal() { document.getElementById('modal-pay').style.display = 'none'; }
     </script>
 </body>
 </html>
