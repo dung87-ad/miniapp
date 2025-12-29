@@ -15,7 +15,7 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
         body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; padding-bottom: 180px; }
 
-        /* Khối hiển thị thông tin tài khoản */
+        /* User Profile */
         .user-profile { background: var(--card); padding: 12px; border-radius: 20px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 15px; }
         .user-avatar { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 12px; object-fit: cover; background: #222; }
         .user-info b { font-size: 16px; display: block; color: #fff; }
@@ -23,12 +23,12 @@
 
         .news-ticker { background: rgba(88, 101, 242, 0.1); border: 1px solid var(--border); border-radius: 12px; padding: 10px; margin-bottom: 20px; font-size: 13px; color: var(--yellow); display: flex; align-items: center; }
 
-        /* Danh sách Admin */
+        /* Admin Support */
         .support-box { background: var(--card); border-radius: 18px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 20px; }
         .support-item { display: flex; align-items: center; padding: 12px 15px; border-bottom: 1px solid var(--border); text-decoration: none; color: white; }
         .support-icon { width: 32px; height: 32px; background: rgba(88,101,242,0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--accent); margin-right: 12px; }
 
-        /* Danh mục */
+        /* Categories */
         .cat-btn { background: var(--card); border-radius: 15px; padding: 15px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 10px; cursor: pointer; border-left: 4px solid var(--accent); position: relative; }
         .cat-btn.active { border-left-color: var(--yellow); background: #252529; }
         .cat-btn i.arrow { position: absolute; right: 15px; transition: 0.3s; }
@@ -41,12 +41,12 @@
         .opt-row { padding: 12px 15px; display: flex; justify-content: space-between; border-bottom: 1px solid #222; font-size: 13px; }
         .opt-row.active { background: rgba(88,101,242,0.15); border-left: 3px solid var(--accent); }
 
-        /* Nút Mua ở chân trang */
+        /* Footer */
         .footer { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(11,11,13,0.95); padding: 15px 20px 35px; border-top: 1px solid var(--border); backdrop-filter: blur(10px); z-index: 100; }
         .btn-buy { width: 100%; background: var(--accent); color: white; border: none; border-radius: 12px; padding: 16px; font-weight: bold; font-size: 16px; opacity: 0.4; pointer-events: none; }
         .btn-buy.ready { opacity: 1; pointer-events: auto; }
 
-        /* Modal Thanh Toán */
+        /* Payment Modal */
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 1000; padding: 20px; overflow-y: auto; }
         .pay-box { background: #fff; color: #000; padding: 25px; border-radius: 25px; text-align: center; }
         .pay-tabs { display: flex; background: #eee; border-radius: 12px; margin-bottom: 20px; padding: 4px; }
@@ -56,7 +56,7 @@
         .qr-frame img { width: 100%; max-width: 200px; border-radius: 15px; margin-bottom: 10px; }
         .bank-info { text-align: left; background: #f8f9fa; padding: 15px; border-radius: 15px; font-size: 13px; }
         
-        /* Form Thẻ Cào */
+        /* Card Form */
         .card-form label { display: block; text-align: left; font-size: 12px; color: #666; margin: 10px 0 5px; }
         .card-form select, .card-form input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; margin-bottom: 5px; font-size: 14px; }
     </style>
@@ -64,7 +64,7 @@
 <body>
 
     <div class="user-profile">
-        <img id="u-avatar" src="https://ui-avatars.com/api/?name=U&background=5865f2&color=fff" class="user-avatar">
+        <img id="u-avatar" src="https://ui-avatars.com/api/?name=User&background=5865f2&color=fff" class="user-avatar">
         <div class="user-info">
             <b id="u-name">Đang tải...</b>
             <small id="u-id">ID: 000000000</small>
@@ -73,7 +73,7 @@
 
     <div class="news-ticker">
         <i class="fas fa-bullhorn" style="margin-right:10px"></i>
-        <marquee scrollamount="5">Chào mừng đến với Tokyo Shop! Hệ thống Auto Bank MB & Thẻ Cào Duyệt Tay.</marquee>
+        <marquee scrollamount="5">Tokyo Shop - Mọi sản phẩm đồng giá 2.000đ. Nạp Bank Auto hoặc Thẻ Cào duyệt tay!</marquee>
     </div>
 
     <div class="support-box">
@@ -93,7 +93,7 @@
 
     <div class="footer">
         <div style="display:flex; justify-content:space-between; margin-bottom:12px; font-size:14px">
-            <span id="f-info">Vui lòng chọn sản phẩm...</span><b id="f-total">0đ</b>
+            <span id="f-info">Chọn sản phẩm...</span><b id="f-total">0đ</b>
         </div>
         <button class="btn-buy" id="pay-btn" onclick="openPay()">MUA NGAY</button>
     </div>
@@ -102,14 +102,14 @@
         <div onclick="closeModal()" style="color:white; margin-bottom:15px; cursor:pointer"><i class="fas fa-arrow-left"></i> QUAY LẠI</div>
         <div class="pay-box">
             <div class="pay-tabs">
-                <div class="tab active" id="t-bank" onclick="switchTab('bank')">MB Bank (Auto)</div>
-                <div class="tab" id="t-card" onclick="switchTab('card')">Thẻ Cào</div>
+                <div class="tab active" id="t-bank" onclick="switchTab('bank')">Chuyển khoản</div>
+                <div class="tab" id="t-card" onclick="switchTab('card')">Thẻ cào</div>
             </div>
 
             <div id="box-bank">
                 <div class="qr-frame"><img id="qr-img" src=""></div>
                 <div class="bank-info" id="bank-info"></div>
-                <p style="font-size:11px; color:var(--accent); margin-top:10px;"><i class="fas fa-sync fa-spin"></i> Đang đợi bạn chuyển tiền...</p>
+                <p style="font-size:11px; color:var(--accent); margin-top:10px;"><i class="fas fa-sync fa-spin"></i> Đang chờ thanh toán...</p>
             </div>
 
             <div id="box-card" style="display:none;" class="card-form">
@@ -117,7 +117,7 @@
                 <select id="c-type"><option>Viettel</option><option>Vinaphone</option><option>Mobifone</option><option>Zing</option></select>
                 <label>Mệnh giá:</label>
                 <select id="c-value"><option>10.000đ</option><option>20.000đ</option><option>50.000đ</option><option>100.000đ</option><option>200.000đ</option><option>500.000đ</option></select>
-                <label>Mã PIN:</label><input type="number" id="c-pin" placeholder="Nhập mã thẻ...">
+                <label>Mã thẻ (PIN):</label><input type="number" id="c-pin" placeholder="Nhập mã thẻ...">
                 <label>Số Seri:</label><input type="number" id="c-seri" placeholder="Nhập số seri...">
                 <button onclick="confirmCard()" style="width:100%; padding:15px; background:var(--success); color:white; border:none; border-radius:12px; font-weight:bold; margin-top:10px;">GỬI THẺ DUYỆT</button>
             </div>
@@ -129,7 +129,7 @@
         tg.ready();
         tg.expand();
 
-        // PHẦN QUAN TRỌNG: LẤY THÔNG TIN TÀI KHOẢN
+        // HIỂN THỊ THÔNG TIN TÀI KHOẢN NGƯỜI MUA
         const user = tg.initDataUnsafe?.user;
         if (user) {
             document.getElementById('u-name').innerText = user.first_name + (user.last_name ? ' ' + user.last_name : '');
@@ -141,29 +141,28 @@
             }
         }
 
-        // DỮ LIỆU SẢN PHẨM
+        // DỮ LIỆU SẢN PHẨM - TẤT CẢ GIÁ ĐỔI THÀNH 2.000 VNĐ
         const PRODUCTS = {
             hack: [
-                { id:'h1', name:'Br Mods VIP', p:[["1 Ngày",50000],["7 Ngày",80000]] },
-                { id:'h2', name:'ZyGame Menu', p:[["1 Ngày",40000],["30 Ngày",150000]] },
-                { id:'h3', name:'Hg Cheat VIP', p:[["10 Ngày",120000]] },
-                { id:'h4', name:'Drip OB51', p:[["1 Ngày",50000]] },
-                { id:'h5', name:'Fluorite iOS', p:[["30 Ngày",500000]] }
+                { id:'h1', name:'Br Mods VIP', p:[["1 Ngày",2000],["7 Ngày",2000]] },
+                { id:'h2', name:'ZyGame Menu', p:[["1 Ngày",2000],["30 Ngày",2000]] },
+                { id:'h3', name:'Hg Cheat VIP', p:[["10 Ngày",2000]] },
+                { id:'h4', name:'Drip OB51', p:[["1 Ngày",2000]] },
+                { id:'h5', name:'Fluorite iOS', p:[["30 Ngày",2000]] }
             ],
             cloud: [
-                { id:'c1', name:'CC Cloud Phone', p:[["7 Ngày",120000],["30 Ngày",350000]] },
-                { id:'c2', name:'Vip Player', p:[["30 Ngày",280000]] },
-                { id:'c3', name:'Redfinger', p:[["30 Ngày",320000]] }
+                { id:'c1', name:'CC Cloud Phone', p:[["7 Ngày",2000],["30 Ngày",2000]] },
+                { id:'c2', name:'Vip Player', p:[["30 Ngày",2000]] },
+                { id:'c3', name:'Redfinger', p:[["30 Ngày",2000]] }
             ],
             acc: [
-                { id:'a1', name:'Acc FF Level 5 VN', p:[["1 Acc",3000]] },
-                { id:'a2', name:'Acc FF Level 15', p:[["1 Acc",5000]] }
+                { id:'a1', name:'Acc FF Level 5 VN', p:[["1 Acc",2000]] },
+                { id:'a2', name:'Acc FF Level 15', p:[["1 Acc",2000]] }
             ]
         };
 
         let curP = 0, curN = "";
 
-        // HIỂN THỊ DANH SÁCH
         function render() {
             for (let k in PRODUCTS) {
                 document.getElementById('list-'+k).innerHTML = PRODUCTS[k].map(i => `
@@ -203,7 +202,7 @@
         }
 
         function openPay() {
-            const code = "TOKYO" + Math.random().toString(36).substring(7).toUpperCase();
+            const code = "TK" + Math.random().toString(36).substring(7).toUpperCase();
             document.getElementById('qr-img').src = `https://img.vietqr.io/image/MB-79991312006-compact2.png?amount=${curP}&addInfo=${code}`;
             document.getElementById('bank-info').innerHTML = `<b>Nội dung:</b> <b style="color:blue">${code}</b><br><b>Tiền:</b> ${curP.toLocaleString()}đ<br><b>STK:</b> 79991312006 (MB BANK)`;
             document.getElementById('modal-pay').style.display = 'block';
@@ -219,11 +218,10 @@
         function confirmCard() {
             const pin = document.getElementById('c-pin').value;
             const seri = document.getElementById('c-seri').value;
-            if(!pin || !seri) return tg.showAlert("Vui lòng nhập đủ thông tin thẻ!");
-            
+            if(!pin || !seri) return tg.showAlert("Nhập đủ PIN và Seri!");
             const text = `💳 THẺ CÀO DUYỆT TAY\nKhách: ${user?.first_name} (ID: ${user?.id})\nSản phẩm: ${curN}\nLoại: ${document.getElementById('c-type').value}\nMệnh giá: ${document.getElementById('c-value').value}\nPIN: \`${pin}\`\nSeri: \`${seri}\``;
             tg.sendData(text);
-            tg.showPopup({ title: "Thành công", message: "Thẻ đã được gửi. Admin sẽ gửi key qua tin nhắn cho bạn!" });
+            tg.showPopup({ title: "Đã gửi thẻ", message: "Admin sẽ kiểm tra và trả Key cho bạn sớm nhất!" });
             closeModal();
         }
 
