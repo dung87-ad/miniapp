@@ -7,63 +7,98 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { 
-            --bg: #0b0b0d; --card: #1c1c1e; --text: #ffffff; 
-            --accent: #5865f2; --success: #34c759; --yellow: #ffcc00; 
-            --hint: #8e8e93; --border: #2c2c2e; --danger: #ff3b30;
+            --card: rgba(20, 20, 22, 0.85); 
+            --text: #ffffff; 
+            --accent: #5865f2; 
+            --success: #34c759; 
+            --yellow: #ffcc00; 
+            --hint: #8e8e93; 
+            --border: rgba(255, 255, 255, 0.1);
         }
+
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; padding-bottom: 180px; }
+
+        body { 
+            font-family: -apple-system, sans-serif; 
+            /* Sử dụng ảnh bạn vừa gửi làm nền */
+            background: url('https://r2.erweima.ai/i/0pSsqoV7S96vYq-mIq2r5A.png') no-repeat center center fixed; 
+            background-size: cover;
+            color: var(--text); 
+            margin: 0; 
+            padding: 15px; 
+            padding-bottom: 180px; 
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Lớp phủ để làm tối ảnh nền giúp nội dung nổi bật hơn */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.5); 
+            z-index: -1;
+        }
 
         /* Profile Section */
-        .user-profile { background: var(--card); padding: 12px; border-radius: 20px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 10px; }
+        .user-profile { 
+            background: var(--card); 
+            padding: 12px; 
+            border-radius: 20px; 
+            display: flex; 
+            align-items: center; 
+            border: 1px solid var(--border); 
+            margin-bottom: 10px;
+            backdrop-filter: blur(15px);
+        }
         .user-avatar { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 12px; object-fit: cover; background: #333; }
         .user-info b { font-size: 16px; display: block; }
         .user-info small { color: var(--hint); font-size: 12px; }
 
-        /* THANH THÔNG BÁO (News Ticker) */
-        .news-ticker { background: rgba(88, 101, 242, 0.1); border: 1px solid rgba(88, 101, 242, 0.2); border-radius: 12px; padding: 10px; margin-bottom: 15px; display: flex; align-items: center; font-size: 13px; color: var(--yellow); overflow: hidden; }
+        /* News Ticker */
+        .news-ticker { background: rgba(88, 101, 242, 0.2); border: 1px solid var(--border); border-radius: 12px; padding: 10px; margin-bottom: 15px; display: flex; align-items: center; font-size: 13px; color: var(--yellow); overflow: hidden; backdrop-filter: blur(10px); }
         .news-ticker i { margin-right: 10px; color: var(--accent); }
 
-        /* Stats */
+        /* Stats Row */
         .stats-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 15px 5px; text-align: center; }
+        .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 15px 5px; text-align: center; backdrop-filter: blur(15px); }
         .stat-card i { color: var(--accent); font-size: 18px; margin-bottom: 8px; display: block; }
         .stat-card b { font-size: 14px; display: block; line-height: 1.2; }
         .stat-card span { font-size: 11px; color: var(--hint); display: block; }
 
         /* Support Box */
-        .support-box { background: var(--card); border-radius: 18px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 20px; }
+        .support-box { background: var(--card); border-radius: 18px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 20px; backdrop-filter: blur(15px); }
         .support-item { display: flex; align-items: center; padding: 12px 15px; border-bottom: 1px solid var(--border); text-decoration: none; color: white; }
         .support-icon { width: 35px; height: 35px; background: rgba(88,101,242,0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--accent); margin-right: 12px; }
 
         /* Category System */
-        .cat-btn { background: var(--card); border-radius: 15px; padding: 15px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 10px; cursor: pointer; border-left: 4px solid var(--accent); transition: 0.2s; }
-        .cat-btn.active { background: #252529; border-left-color: var(--yellow); }
+        .cat-btn { background: var(--card); border-radius: 15px; padding: 15px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 10px; cursor: pointer; border-left: 4px solid var(--accent); transition: 0.2s; backdrop-filter: blur(15px); }
+        .cat-btn.active { background: rgba(255, 255, 255, 0.1); border-left-color: var(--yellow); }
         .cat-btn i.arrow { margin-left: auto; transition: 0.3s; }
         .cat-btn.active i.arrow { transform: rotate(180deg); }
         .list-container { display: none; margin-bottom: 15px; }
 
         /* Item Display */
-        .item-card { background: var(--card); border-radius: 15px; border: 1px solid var(--border); margin-bottom: 8px; overflow: hidden; }
+        .item-card { background: var(--card); border-radius: 15px; border: 1px solid var(--border); margin-bottom: 8px; overflow: hidden; backdrop-filter: blur(15px); }
         .item-top { padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; }
         .badge { font-size: 11px; padding: 2px 8px; border-radius: 8px; border: 1px solid var(--success); color: var(--success); }
         
-        .price-area { display: none; background: #111; border-top: 1px solid var(--border); }
-        .opt-row { padding: 12px 15px; display: flex; justify-content: space-between; border-bottom: 1px solid #222; font-size: 13px; cursor: pointer; }
-        .opt-row.active { background: rgba(88,101,242,0.15); border-left: 3px solid var(--accent); }
+        .price-area { display: none; background: rgba(0,0,0,0.4); border-top: 1px solid var(--border); }
+        .opt-row { padding: 12px 15px; display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); font-size: 13px; cursor: pointer; }
+        .opt-row.active { background: rgba(88,101,242,0.3); border-left: 3px solid var(--accent); }
 
-        .qty-row { display: none; align-items: center; justify-content: space-between; padding: 12px 15px; background: #1a1a1d; }
+        .qty-row { display: none; align-items: center; justify-content: space-between; padding: 12px 15px; background: rgba(255,255,255,0.05); }
         .qty-btns { display: flex; align-items: center; background: #000; border-radius: 8px; padding: 4px; }
         .q-btn { width: 30px; height: 30px; border: none; border-radius: 6px; background: var(--accent); color: white; font-weight: bold; }
         .q-val { width: 35px; text-align: center; background: transparent; border: none; color: white; font-weight: bold; }
 
         /* Footer */
-        .footer { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(11,11,13,0.95); padding: 15px 20px 35px; border-top: 1px solid var(--border); backdrop-filter: blur(10px); z-index: 100; }
-        .btn-buy { width: 100%; background: var(--accent); color: white; border: none; border-radius: 12px; padding: 16px; font-weight: bold; opacity: 0.4; pointer-events: none; }
+        .footer { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(10, 10, 12, 0.9); padding: 15px 20px 35px; border-top: 1px solid var(--border); backdrop-filter: blur(20px); z-index: 100; }
+        .btn-buy { width: 100%; background: var(--accent); color: white; border: none; border-radius: 12px; padding: 16px; font-weight: bold; opacity: 0.4; pointer-events: none; box-shadow: 0 4px 15px rgba(88, 101, 242, 0.4); }
         .btn-buy.ready { opacity: 1; pointer-events: auto; }
 
-        /* Modal & Checking State */
-        .modal { display: none; position: fixed; inset: 0; background: #000; z-index: 1000; padding: 20px; overflow-y: auto; }
+        /* Modal */
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 1000; padding: 20px; overflow-y: auto; }
         .qr-wrap { background: #fff; color: #000; padding: 25px; border-radius: 25px; text-align: center; position: relative; }
         .check-overlay { display: none; position: absolute; inset: 0; background: white; border-radius: 25px; flex-direction: column; align-items: center; justify-content: center; z-index: 10; }
         
@@ -83,7 +118,7 @@
 
     <div class="news-ticker">
         <i class="fas fa-bullhorn"></i>
-        <marquee scrollamount="5">Chào mừng bạn đến với shop! Hệ thống nạp tự động qua API MB Bank xử lý 24/7. Chúc bạn một ngày tốt lành!</marquee>
+        <marquee scrollamount="5">Hệ thống nạp tự động 24/7 qua MB Bank. Chúc bạn có những trải nghiệm tuyệt vời tại shop!</marquee>
     </div>
 
     <div class="stats-row">
@@ -115,7 +150,7 @@
 
     <div class="footer">
         <div style="display:flex; justify-content:space-between; margin-bottom:12px; font-size:14px">
-            <span id="footer-info">Hãy chọn 1 gói...</span><b id="footer-total" style="color:var(--success)">0đ</b>
+            <span id="footer-info">Hãy chọn sản phẩm...</span><b id="footer-total" style="color:var(--success)">0đ</b>
         </div>
         <button class="btn-buy" id="pay-btn" onclick="showPay()">MUA NGAY</button>
     </div>
@@ -227,7 +262,7 @@
         function updF() {
             const total = curP * curQ;
             document.getElementById('footer-total').innerText = total.toLocaleString() + "đ";
-            document.getElementById('footer-info').innerText = "Đã chọn: " + curQ;
+            document.getElementById('footer-info').innerText = "Số lượng: " + curQ;
             document.getElementById('pay-btn').classList.add('ready');
             document.getElementById('pay-btn').innerText = `THANH TOÁN ${total.toLocaleString()}đ`;
         }
@@ -242,7 +277,7 @@
                 <p><b>Số tiền:</b> <b style="color:red">${amount.toLocaleString()}đ</b></p>
                 <p><b>Nội dung:</b> <b style="color:blue">${content}</b></p>
                 <hr style="border:0; border-top:1px solid #eee">
-                <p style="font-size:12px; color:red"><b>Lưu ý:</b> Vui lòng nhập đúng nội dung chuyển khoản!</p>
+                <p style="font-size:11px; color:red"><b>Lưu ý:</b> Vui lòng nhập đúng nội dung chuyển khoản để được duyệt tự động.</p>
             `;
             document.getElementById('qr-img').src = qrUrl;
             document.getElementById('modal-pay').style.display = 'block';
