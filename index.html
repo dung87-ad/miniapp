@@ -14,10 +14,10 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; padding-bottom: 180px; }
 
-        /* Profile Section */
+        /* Profile Section - Fix lỗi hiển thị */
         .user-profile { background: var(--card); padding: 12px; border-radius: 20px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 10px; }
         .user-avatar { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 12px; object-fit: cover; background: #333; }
-        .user-info b { font-size: 16px; display: block; }
+        .user-info b { font-size: 16px; display: block; color: var(--text); }
         .user-info small { color: var(--hint); font-size: 12px; }
 
         /* News Ticker */
@@ -31,23 +31,21 @@
         .stat-card b { font-size: 14px; display: block; line-height: 1.2; }
         .stat-card span { font-size: 11px; color: var(--hint); display: block; }
 
-        /* Support Box (ADMINS) */
+        /* Admin Support */
         .support-box { background: var(--card); border-radius: 18px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 20px; }
         .support-item { display: flex; align-items: center; padding: 12px 15px; border-bottom: 1px solid var(--border); text-decoration: none; color: white; }
         .support-icon { width: 35px; height: 35px; background: rgba(88,101,242,0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--accent); margin-right: 12px; }
 
-        /* Category System */
+        /* Product Categories */
         .cat-btn { background: var(--card); border-radius: 15px; padding: 15px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 10px; cursor: pointer; border-left: 4px solid var(--accent); transition: 0.2s; }
         .cat-btn.active { background: #252529; border-left-color: var(--yellow); }
         .cat-btn i.arrow { margin-left: auto; transition: 0.3s; }
         .cat-btn.active i.arrow { transform: rotate(180deg); }
         .list-container { display: none; margin-bottom: 15px; }
 
-        /* Item Display */
         .item-card { background: var(--card); border-radius: 15px; border: 1px solid var(--border); margin-bottom: 8px; overflow: hidden; }
         .item-top { padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; }
         .badge { font-size: 11px; padding: 2px 8px; border-radius: 8px; border: 1px solid var(--success); color: var(--success); }
-        
         .price-area { display: none; background: #111; border-top: 1px solid var(--border); }
         .opt-row { padding: 12px 15px; display: flex; justify-content: space-between; border-bottom: 1px solid #222; font-size: 13px; cursor: pointer; }
         .opt-row.active { background: rgba(88,101,242,0.15); border-left: 3px solid var(--accent); }
@@ -57,19 +55,12 @@
         .btn-buy { width: 100%; background: var(--accent); color: white; border: none; border-radius: 12px; padding: 16px; font-weight: bold; opacity: 0.4; pointer-events: none; }
         .btn-buy.ready { opacity: 1; pointer-events: auto; }
 
-        /* Modal & Tabs */
+        /* Modal */
         .modal { display: none; position: fixed; inset: 0; background: #000; z-index: 1000; padding: 20px; overflow-y: auto; }
         .pay-box { background: #fff; color: #000; padding: 20px; border-radius: 25px; text-align: center; position: relative; }
         .pay-tabs { display: flex; background: #eee; border-radius: 10px; margin-bottom: 15px; padding: 3px; }
         .tab { flex: 1; padding: 10px; text-align: center; border-radius: 8px; font-weight: bold; cursor: pointer; color: #666; font-size: 14px; }
         .tab.active { background: white; color: var(--accent); }
-        
-        /* Form Card */
-        .card-form { text-align: left; }
-        .input-group { margin-bottom: 10px; }
-        .input-group label { display: block; font-size: 12px; color: #666; margin-bottom: 4px; }
-        .input-group select, .input-group input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; }
-
         .check-overlay { display: none; position: absolute; inset: 0; background: white; border-radius: 25px; flex-direction: column; align-items: center; justify-content: center; z-index: 10; }
         .spinner { width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid var(--accent); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
@@ -78,16 +69,16 @@
 <body>
 
     <div class="user-profile">
-        <img id="u-avatar" src="https://ui-avatars.com/api/?background=5865f2&color=fff&name=U" class="user-avatar">
+        <img id="u-avatar" src="https://ui-avatars.com/api/?background=5865f2&color=fff&name=User" class="user-avatar">
         <div class="user-info">
-            <b id="u-name">Đang tải...</b>
+            <b id="u-name">Chưa kết nối</b>
             <small id="u-id">ID: 00000000</small>
         </div>
     </div>
 
     <div class="news-ticker">
         <i class="fas fa-bullhorn"></i>
-        <marquee scrollamount="5">Chào mừng bạn đến với shop! Nạp Bank tự động 24/7. Hỗ trợ nạp thẻ cào chiết khấu thấp.</marquee>
+        <marquee scrollamount="5">Nạp tiền tự động qua MB Bank 24/7. Nạp thẻ cào chiết khấu hấp dẫn!</marquee>
     </div>
 
     <div class="stats-row">
@@ -119,46 +110,48 @@
 
     <div class="footer">
         <div style="display:flex; justify-content:space-between; margin-bottom:12px; font-size:14px">
-            <span id="f-info">Hãy chọn sản phẩm...</span><b id="f-total" style="color:var(--success)">0đ</b>
+            <span id="f-info">Hãy chọn gói...</span><b id="f-total">0đ</b>
         </div>
         <button class="btn-buy" id="pay-btn" onclick="showPay()">MUA NGAY</button>
     </div>
 
     <div id="modal-pay" class="modal">
         <div onclick="closeModal()" style="color:white; margin-bottom:15px; cursor:pointer"><i class="fas fa-arrow-left"></i> Quay lại</div>
-        
         <div class="pay-box">
-            <div id="check-status" class="check-overlay">
-                <div class="spinner"></div>
-                <b style="margin-top:15px; color:#333">Đang xử lý...</b>
-            </div>
-
+            <div id="check-status" class="check-overlay"><div class="spinner"></div><b style="margin-top:15px">Đang xử lý...</b></div>
             <div class="pay-tabs">
-                <div class="tab active" id="tab-bank" onclick="switchTab('bank')">Ngân hàng (Auto)</div>
+                <div class="tab active" id="tab-bank" onclick="switchTab('bank')">Bank (Auto)</div>
                 <div class="tab" id="tab-card" onclick="switchTab('card')">Thẻ cào</div>
             </div>
-
             <div id="box-bank">
                 <img id="qr-img" src="" style="width:100%; max-width:200px; border-radius:15px;">
-                <div id="bank-info" style="text-align:left; font-size:13px; margin-top:10px; line-height:1.6"></div>
+                <div id="bank-info" style="text-align:left; font-size:13px; margin-top:10px;"></div>
                 <button onclick="confirmPay('BANK')" style="margin-top:15px; width:100%; padding:15px; border:none; border-radius:12px; background:var(--accent); color:white; font-weight:bold;">TÔI ĐÃ CHUYỂN KHOẢN</button>
             </div>
-
-            <div id="box-card" style="display:none;">
-                <div class="card-form">
-                    <div class="input-group"><label>Loại thẻ</label><select id="c-type"><option>Viettel</option><option>Vinaphone</option><option>Mobifone</option><option>Zing</option></select></div>
-                    <div class="input-group"><label>Mệnh giá</label><select id="c-amount"><option value="10000">10.000đ</option><option value="20000">20.000đ</option><option value="50000">50.000đ</option><option value="100000">100.000đ</option><option value="200000">200.000đ</option></select></div>
-                    <div class="input-group"><label>Mã thẻ</label><input type="number" id="c-pin" placeholder="Mã thẻ"></div>
-                    <div class="input-group"><label>Số seri</label><input type="number" id="c-seri" placeholder="Số seri"></div>
-                </div>
-                <button onclick="confirmPay('CARD')" style="margin-top:10px; width:100%; padding:15px; border:none; border-radius:12px; background:var(--success); color:white; font-weight:bold;">GỬI THẺ DUYỆT</button>
+            <div id="box-card" style="display:none; text-align:left;">
+                <select id="c-type" style="width:100%; padding:10px; margin-bottom:10px;"><option>Viettel</option><option>Vinaphone</option><option>Mobifone</option></select>
+                <select id="c-amount" style="width:100%; padding:10px; margin-bottom:10px;"><option value="10000">10k</option><option value="20000">20k</option><option value="50000">50k</option><option value="100000">100k</option></select>
+                <input type="number" id="c-pin" placeholder="Mã thẻ" style="width:100%; padding:10px; margin-bottom:10px;">
+                <input type="number" id="c-seri" placeholder="Số seri" style="width:100%; padding:10px; margin-bottom:10px;">
+                <button onclick="confirmPay('CARD')" style="width:100%; padding:15px; border:none; border-radius:12px; background:var(--success); color:white; font-weight:bold;">GỬI THẺ</button>
             </div>
         </div>
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
+        tg.ready();
         tg.expand();
+
+        // PHẦN QUAN TRỌNG: Lấy dữ liệu người dùng
+        const user = tg.initDataUnsafe?.user;
+        if (user) {
+            document.getElementById('u-name').innerText = (user.first_name + (user.last_name ? ' ' + user.last_name : ''));
+            document.getElementById('u-id').innerText = "ID: " + user.id;
+            if (user.photo_url) {
+                document.getElementById('u-avatar').src = user.photo_url;
+            }
+        }
 
         const PRODUCTS = {
             hack: [
@@ -199,11 +192,9 @@
 
         function toggleCat(type) {
             const list = document.getElementById('list-'+type);
-            const btn = document.getElementById('btn-'+type);
             const isVisible = list.style.display === 'block';
             document.querySelectorAll('.list-container').forEach(c => c.style.display = 'none');
-            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-            if (!isVisible) { list.style.display = 'block'; btn.classList.add('active'); }
+            list.style.display = isVisible ? 'none' : 'block';
         }
 
         function toggleI(id) {
@@ -239,9 +230,10 @@
         function confirmPay(m) {
             document.getElementById('check-status').style.display = 'flex';
             setTimeout(() => {
-                tg.showPopup({ message: "Yêu cầu đã được gửi. Vui lòng chờ hệ thống kiểm tra và gửi key cho bạn." });
+                tg.showPopup({ message: "Yêu cầu đã được gửi. Key sẽ được gửi vào Telegram của bạn sau khi duyệt." });
                 closeModal();
-            }, 2000);
+                document.getElementById('check-status').style.display = 'none';
+            }, 2500);
         }
 
         function closeModal() { document.getElementById('modal-pay').style.display = 'none'; }
