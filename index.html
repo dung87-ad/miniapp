@@ -14,7 +14,7 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
         body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; padding-bottom: 220px; }
 
-        /* USER PROFILE & DATE */
+        /* USER PROFILE */
         .user-profile { background: var(--card); padding: 15px; border-radius: 20px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 12px; }
         .user-avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 12px; background: #333; }
         .user-info b { font-size: 15px; display: block; }
@@ -30,12 +30,12 @@
         .stat-item span { display: block; font-size: 10px; color: var(--hint); }
         .stat-item b { font-size: 13px; color: var(--success); }
 
-        /* ADMINS - ĐÃ THÊM ĐỦ 3 ADMIN */
+        /* ADMINS */
         .support-box { background: var(--card); border-radius: 18px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 20px; }
         .support-item { display: flex; align-items: center; padding: 12px 15px; border-bottom: 1px solid var(--border); text-decoration: none; color: white; font-size: 14px; }
         .support-icon { width: 28px; height: 28px; background: rgba(88,101,242,0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--accent); margin-right: 12px; }
 
-        /* PRODUCT UI - CÓ MŨI TÊN */
+        /* PRODUCT UI */
         .cat-btn { background: var(--card); border-radius: 15px; padding: 15px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 10px; cursor: pointer; border-left: 4px solid var(--accent); position: relative; }
         .cat-btn i.arrow-icon { position: absolute; right: 15px; color: var(--hint); transition: 0.3s; }
         .cat-btn.active i.arrow-icon { transform: rotate(180deg); }
@@ -57,7 +57,6 @@
         .pay-box { background: #fff; color: #000; padding: 20px; border-radius: 25px; text-align: center; }
         .key-box { background: #1c1c1e; border: 2px dashed var(--success); padding: 15px; border-radius: 12px; margin-top: 15px; }
         .key-text { color: var(--success); font-family: monospace; font-size: 18px; word-break: break-all; }
-        
         .loader { border: 4px solid #333; border-top: 4px solid var(--success); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 20px auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
@@ -74,14 +73,14 @@
     </div>
 
     <div class="news-ticker">
-        <i class="fas fa-bullhorn" style="margin-right: 8px;"></i>
-        <marquee scrollamount="5">Tokyo Shop - Hack VIP, Acc FF & Cloud Phone - Tự động duyệt SePay 24/7!</marquee>
+        <i class="fas fa-bullhorn" style="margin-right:8px"></i>
+        <marquee scrollamount="5">Tokyo Shop - Hệ thống nạp tự động SePay 24/7 - Uy tín tạo niềm tin!</marquee>
     </div>
 
     <div class="stats-bar">
-        <div class="stat-item"><span>Đơn hàng</span><b>9.950+</b></div>
-        <div class="stat-item"><span>Online</span><b>1.920</b></div>
-        <div class="stat-item"><span>Hệ thống</span><b style="color:var(--success)">Tốt</b></div>
+        <div class="stat-item"><span>Đơn hàng</span><b>9.980+</b></div>
+        <div class="stat-item"><span>Online</span><b>1.950</b></div>
+        <div class="stat-item"><span>Hệ thống</span><b style="color:var(--success)">Mượt</b></div>
     </div>
 
     <div class="support-box">
@@ -104,19 +103,17 @@
 
     <div id="modal-pay" class="modal">
         <div id="back-btn" onclick="closeModal()" style="color:white; margin-bottom:15px; cursor:pointer"><i class="fas fa-arrow-left"></i> QUAY LẠI</div>
-        
         <div id="pay-content" class="pay-box">
-            <b style="color:var(--accent)">THANH TOÁN QUA SEPAY</b>
+            <b style="color:var(--accent)">MB BANK - NGUYEN KIEN CUONG</b>
             <img id="qr-img" src="" style="width:100%; max-width:220px; margin:15px 0; border:1px solid #eee; border-radius:10px;">
             <div id="bank-info" style="text-align:left; background:#f8f9fa; padding:12px; border-radius:10px; font-size:13px;"></div>
             <button class="btn-check" style="background:var(--success); color:white; border:none; padding:15px; width:100%; border-radius:12px; font-weight:bold; margin-top:15px;" onclick="verifyPayment()">XÁC NHẬN ĐÃ CHUYỂN</button>
         </div>
-
         <div id="check-ui" style="display:none; text-align:center; padding-top:40px;">
             <div id="loader-icon" class="loader"></div>
             <div id="result-ui">
                 <h3 id="status-title" style="color:white">ĐANG KIỂM TRA...</h3>
-                <p id="status-desc" style="color:var(--hint)">Hệ thống đang quét giao dịch...</p>
+                <p id="status-desc" style="color:var(--hint)">Hệ thống SePay đang quét giao dịch.</p>
             </div>
         </div>
     </div>
@@ -143,13 +140,18 @@
             { cat: 'HACK VIP FREE FIRE', icon: 'fa-fire', color: 'red', items: [
                 { id:'h1', name:'Br Mods VIP', stock: 50, opts: ['1 Ngày', '7 Ngày', '30 Ngày'] },
                 { id:'h2', name:'ZyGame Menu', stock: 20, opts: ['1 Ngày', '7 Ngày', '30 Ngày'] },
-                { id:'h3', name:'Fluorite iOS', stock: 15, opts: ['1 Ngày', '30 Ngày'] }
+                { id:'h3', name:'Fluorite iOS', stock: 15, opts: ['1 Ngày', '30 Ngày'] },
+                { id:'h4', name:'Drip OB51 VIP', stock: 40, opts: ['1 Ngày', '7 Ngày', '30 Ngày'] },
+                { id:'h5', name:'HG Cheat VIP', stock: 35, opts: ['1 Ngày', '7 Ngày', '30 Ngày'] }
             ]},
             { cat: 'ACC FREE FIRE', icon: 'fa-user-circle', color: 'lime', items: [
-                { id:'a1', name:'Acc FF Level 5', stock: 100, opts: ['Gói 1 Acc'] }
+                { id:'a1', name:'Acc FF Level 5', stock: 100, opts: ['Gói 1 Acc'] },
+                { id:'a2', name:'Acc FF Level 15', stock: 50, opts: ['Gói 1 Acc'] }
             ]},
             { cat: 'CLOUD PHONE', icon: 'fa-cloud', color: 'cyan', items: [
-                { id:'c1', name:'Redfinger Cloud', stock: 45, opts: ['1 Ngày', '7 Ngày', '30 Ngày'] }
+                { id:'c1', name:'Redfinger Cloud', stock: 45, opts: ['1 Ngày', '7 Ngày', '30 Ngày'] },
+                { id:'c2', name:'CC Cloud Phone', stock: 100, opts: ['7 Ngày', '30 Ngày'] },
+                { id:'c3', name:'Vip Player Cloud', stock: 30, opts: ['30 Ngày'] }
             ]}
         ];
 
@@ -185,11 +187,10 @@
 
         function toggleCat(cat) {
             const list = document.getElementById('list-'+cat);
-            const btn = document.getElementById('btn-'+cat.replace(/\s/g, ''));
             const isO = list.style.display === 'block';
             document.querySelectorAll('.list-container').forEach(c => c.style.display='none');
             document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-            if(!isO) { list.style.display = 'block'; btn.classList.add('active'); }
+            if(!isO) { list.style.display = 'block'; document.getElementById('btn-'+cat.replace(/\s/g, '')).classList.add('active'); }
         }
 
         function toggleOpts(id) {
@@ -211,7 +212,7 @@
         function openPay() {
             curCode = "TK" + Math.random().toString(36).substring(7).toUpperCase();
             document.getElementById('qr-img').src = `https://img.vietqr.io/image/MB-${BANK_ACC}-compact2.png?amount=${curAmount}&addInfo=${curCode}`;
-            document.getElementById('bank-info').innerHTML = `<b>Nội dung:</b> <b style="color:blue">${curCode}</b><br><b>Tiền:</b> ${curAmount.toLocaleString()}đ<br><b>Chủ TK:</b> NGUYEN KIEN CUONG`;
+            document.getElementById('bank-info').innerHTML = `<b>Nội dung:</b> <b style="color:blue">${curCode}</b><br><b>Số tiền:</b> ${curAmount.toLocaleString()}đ<br><b>Sản phẩm:</b> ${curName}`;
             document.getElementById('modal-pay').style.display = 'block';
             document.getElementById('pay-content').style.display = 'block';
             document.getElementById('check-ui').style.display = 'none';
@@ -230,26 +231,19 @@
                 else setTimeout(() => {
                     document.getElementById('check-ui').style.display = 'none';
                     document.getElementById('pay-content').style.display = 'block';
-                    tg.showAlert("Chưa thấy giao dịch. Vui lòng đợi 30 giây!");
+                    tg.showAlert("Chưa thấy giao dịch. Hãy thử lại sau ít giây!");
                 }, 4000);
-            } catch (e) { tg.showAlert("Lỗi kết nối!"); closeModal(); }
+            } catch (e) { tg.showAlert("Lỗi SePay!"); closeModal(); }
         }
 
         function showSuccess() {
-            const randomKey = "TOKYO-" + Math.random().toString(36).substring(2, 15).toUpperCase();
+            const rK = "TOKYO-" + Math.random().toString(36).substring(2, 15).toUpperCase();
             document.getElementById('loader-icon').style.display = 'none';
-            document.getElementById('status-title').innerHTML = "<span style='color:var(--success)'>THÀNH CÔNG!</span>";
-            document.getElementById('result-ui').innerHTML += `
-                <div class="key-box"><div class="key-text">${randomKey}</div></div>
-                <button class="btn-check" style="background:var(--accent); color:white; border:none; padding:15px; width:100%; border-radius:12px; font-weight:bold; margin-top:15px;" onclick="copyKey('${randomKey}')">SAO CHÉP KEY</button>
-            `;
+            document.getElementById('status-title').innerHTML = "<span style='color:var(--success)'>THANH TOÁN XONG!</span>";
+            document.getElementById('result-ui').innerHTML += `<div class="key-box"><div class="key-text">${rK}</div></div><button class="btn-check" style="background:var(--accent); color:white; border:none; padding:15px; width:100%; border-radius:12px; font-weight:bold; margin-top:15px;" onclick="copyK('${rK}')">SAO CHÉP KEY</button>`;
         }
 
-        function copyKey(text) {
-            navigator.clipboard.writeText(text);
-            tg.showAlert("Đã sao chép Key!");
-        }
-
+        function copyK(t) { navigator.clipboard.writeText(t); tg.showAlert("Đã sao chép!"); }
         function closeModal() { document.getElementById('modal-pay').style.display = 'none'; }
     </script>
 </body>
