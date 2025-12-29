@@ -121,7 +121,6 @@
         tg.ready();
         tg.expand();
 
-        // PROFILE
         const user = tg.initDataUnsafe?.user;
         if (user) {
             document.getElementById('u-name').innerText = user.first_name + (user.last_name ? ' ' + user.last_name : '');
@@ -129,7 +128,6 @@
             if (user.photo_url) document.getElementById('u-avatar').src = user.photo_url;
         }
 
-        // FULL 10 SẢN PHẨM
         const PRODUCTS = {
             hack: [
                 { id:'h1', name:'Br Mods OB51', stock:10, p:[["1 Ngày",50000],["7 Ngày",80000],["30 Ngày",140000]] },
@@ -144,8 +142,8 @@
                 { id:'c3', name:'Redfinger', stock:4, p:[["30 Ngày",320000]] }
             ],
             acc: [
-                { id:'a1', name:'Acc FF Level 5 VN', stock:100, p:[["1 Acc",15000]] },
-                { id:'a2', name:'Acc FF Level 15', stock:15, p:[["1 Acc",50000]] }
+                { id:'a1', name:'Acc FF Level 5 VN', stock:100, p:[["1 Acc",3000]] },
+                { id:'a2', name:'Acc FF Level 15', stock:15, p:[["1 Acc",5000]] }
             ]
         };
 
