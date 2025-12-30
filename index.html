@@ -14,21 +14,36 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
         body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; padding-bottom: 220px; }
 
-        /* HEADER & USER */
-        .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .user-profile { background: var(--card); padding: 12px 15px; border-radius: 20px; display: flex; align-items: center; border: 1px solid var(--border); flex: 1; margin-right: 10px; }
-        .user-avatar { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 12px; }
-        .user-info b { font-size: 14px; display: block; }
-        .user-balance { color: var(--success); font-weight: bold; font-size: 13px; }
-        .menu-btn { background: var(--card); border: 1px solid var(--border); color: white; width: 45px; height: 45px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+        /* HEADER & USER PROFILE */
+        .header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; gap: 10px; }
+        .user-profile { background: var(--card); padding: 12px 15px; border-radius: 20px; display: flex; align-items: center; border: 1px solid var(--border); flex: 1; }
+        .user-avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 12px; background: #333; }
+        .user-info b { font-size: 14px; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 120px; }
+        .user-info small { color: var(--hint); font-size: 10px; display: block; }
+        .user-balance { color: var(--success); font-weight: bold; font-size: 13px; margin-top: 2px; }
+        .date-display { font-size: 9px; color: var(--accent); font-weight: bold; text-transform: uppercase; margin-top: 3px; }
+        .menu-btn { background: var(--card); border: 1px solid var(--border); color: white; width: 48px; height: 48px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; }
 
         /* DRAWER MENU */
-        .drawer { position: fixed; top: 0; right: -100%; width: 75%; height: 100%; background: var(--card); z-index: 2000; transition: 0.4s; padding: 25px; border-left: 1px solid var(--border); }
+        .drawer { position: fixed; top: 0; right: -100%; width: 75%; height: 100%; background: var(--card); z-index: 2000; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); padding: 25px; border-left: 1px solid var(--border); }
         .drawer.active { right: 0; }
-        .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: none; z-index: 1999; backdrop-filter: blur(4px); }
-        .drawer-item { display: flex; align-items: center; padding: 15px; background: #2c2c2e; border-radius: 15px; margin-bottom: 12px; color: white; cursor: pointer; border: 1px solid transparent; }
-        .drawer-item:active { border-color: var(--accent); }
+        .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: none; z-index: 1999; backdrop-filter: blur(5px); }
+        .drawer-item { display: flex; align-items: center; padding: 15px; background: #2c2c2e; border-radius: 15px; margin-bottom: 12px; color: white; cursor: pointer; }
         .drawer-item i { margin-right: 15px; color: var(--accent); width: 20px; text-align: center; }
+
+        /* NEWS TICKER */
+        .news-ticker { background: rgba(88, 101, 242, 0.1); border: 1px solid var(--border); border-radius: 12px; padding: 10px; margin-bottom: 12px; display: flex; align-items: center; font-size: 12px; color: var(--yellow); }
+
+        /* STATS BAR */
+        .stats-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 15px; }
+        .stat-item { background: var(--card); border: 1px solid var(--border); padding: 10px; border-radius: 12px; text-align: center; }
+        .stat-item span { display: block; font-size: 10px; color: var(--hint); }
+        .stat-item b { font-size: 13px; color: var(--success); }
+
+        /* ADMINS */
+        .support-box { background: var(--card); border-radius: 18px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 20px; }
+        .support-item { display: flex; align-items: center; padding: 12px 15px; border-bottom: 1px solid var(--border); text-decoration: none; color: white; font-size: 14px; }
+        .support-icon { width: 28px; height: 28px; background: rgba(88,101,242,0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--accent); margin-right: 12px; }
 
         /* PRODUCT UI */
         .cat-btn { background: var(--card); border-radius: 15px; padding: 15px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 10px; cursor: pointer; border-left: 4px solid var(--accent); position: relative; }
@@ -50,7 +65,7 @@
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 3000; padding: 20px; overflow-y: auto; }
         .pay-box { background: #fff; color: #000; padding: 25px; border-radius: 25px; text-align: center; }
         .key-box { background: #1c1c1e; border: 2px dashed var(--success); padding: 15px; border-radius: 12px; margin: 15px 0; }
-        .key-text { color: var(--success); font-family: monospace; font-size: 18px; word-break: break-all; }
+        .key-text { color: var(--success); font-family: monospace; font-size: 16px; word-break: break-all; }
         
         .loader { border: 4px solid #333; border-top: 4px solid var(--success); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 20px auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
@@ -60,23 +75,23 @@
 
     <div class="drawer-overlay" id="overlay" onclick="toggleMenu()"></div>
     <div class="drawer" id="drawer">
-        <h3 style="margin-top:0; color:var(--accent)">MENU NẠP TIỀN</h3>
+        <h3 style="margin-top:0; color:var(--accent); font-size:22px;">Nạp Tiền</h3>
         <div class="drawer-item" onclick="openModal('modal-bank')">
             <i class="fas fa-university"></i>
-            <span>Nạp Bank (Auto)</span>
+            <span>Chuyển khoản (Auto)</span>
         </div>
         <div class="drawer-item" onclick="openModal('modal-card')">
             <i class="fas fa-credit-card"></i>
-            <span>Nạp Thẻ Cào</span>
+            <span>Nạp thẻ cào</span>
         </div>
-        <div class="drawer-item" onclick="toggleMenu()">
+        <div class="drawer-item" onclick="tg.showAlert('Tính năng đang phát triển!')">
             <i class="fas fa-history"></i>
-            <span>Lịch sử mua</span>
+            <span>Lịch sử mua hàng</span>
         </div>
         <hr style="border:0; border-top:1px solid var(--border); margin:20px 0">
         <div class="drawer-item" onclick="toggleMenu()" style="background:rgba(255,0,0,0.1)">
             <i class="fas fa-times" style="color:red"></i>
-            <span>Đóng Menu</span>
+            <span style="color:red">Đóng Menu</span>
         </div>
     </div>
 
@@ -84,8 +99,10 @@
         <div class="user-profile">
             <img id="u-avatar" src="https://ui-avatars.com/api/?background=5865f2&color=fff&name=U" class="user-avatar">
             <div class="user-info">
-                <b id="u-name">Khách</b>
+                <b id="u-name">Đang tải...</b>
+                <small id="u-id">ID: 00000000</small>
                 <div class="user-balance" id="u-balance">Số dư: 0đ</div>
+                <div class="date-display" id="u-date">ĐANG TẢI...</div>
             </div>
         </div>
         <div class="menu-btn" onclick="toggleMenu()">
@@ -93,12 +110,29 @@
         </div>
     </div>
 
+    <div class="news-ticker">
+        <i class="fas fa-bullhorn" style="margin-right:8px"></i>
+        <marquee scrollamount="5">Tokyo Shop - Hệ thống nạp tự động SePay 24/7 - Bấm Menu để nạp tiền ngay!</marquee>
+    </div>
+
+    <div class="stats-bar">
+        <div class="stat-item"><span>Đơn hàng</span><b>10.500+</b></div>
+        <div class="stat-item"><span>Online</span><b>2.105</b></div>
+        <div class="stat-item"><span>Hệ thống</span><b style="color:var(--success)">Ổn định</b></div>
+    </div>
+
+    <div class="support-box">
+        <a href="https://t.me/muadongtokyo36" class="support-item"><div class="support-icon"><i class="fas fa-crown"></i></div><b>Admin Muadong</b></a>
+        <a href="https://t.me/muahatokyo1919" class="support-item"><div class="support-icon"><i class="fas fa-bolt"></i></div><b>Admin Muaha</b></a>
+        <a href="https://t.me/muathutokyo27" class="support-item"><div class="support-icon"><i class="fas fa-headset"></i></div><b>Admin Muathu</b></a>
+    </div>
+
     <div id="product-area"></div>
 
     <div class="footer">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
             <div>
-                <span id="f-info" style="font-size:12px; color:var(--hint)">Chọn sản phẩm...</span>
+                <span id="f-info" style="font-size:12px; color:var(--hint)">Vui lòng chọn sản phẩm...</span>
                 <div id="f-total" style="color:var(--success); font-size:22px; font-weight:bold">0đ</div>
             </div>
         </div>
@@ -108,20 +142,33 @@
     <div id="modal-bank" class="modal">
         <div onclick="closeModal('modal-bank')" style="color:white; margin-bottom:15px; cursor:pointer"><i class="fas fa-arrow-left"></i> QUAY LẠI</div>
         <div class="pay-box">
-            <b>NẠP TIỀN VÀO TÀI KHOẢN</b>
-            <img id="qr-img" src="" style="width:100%; max-width:200px; margin:15px 0; border-radius:10px;">
+            <b style="color:var(--accent)">NẠP TIỀN AUTO SEPAY</b>
+            <img id="qr-img" src="" style="width:100%; max-width:210px; margin:15px 0; border-radius:12px; border:1px solid #eee;">
             <div id="bank-info" style="text-align:left; background:#f8f9fa; padding:12px; border-radius:10px; font-size:12px; line-height:1.6"></div>
             <button class="btn-buy ready" style="margin-top:15px; background:var(--success)" onclick="checkDeposit()">XÁC NHẬN ĐÃ CHUYỂN</button>
         </div>
     </div>
 
+    <div id="modal-card" class="modal">
+        <div onclick="closeModal('modal-card')" style="color:white; margin-bottom:15px; cursor:pointer"><i class="fas fa-arrow-left"></i> QUAY LẠI</div>
+        <div class="pay-box">
+            <b>NẠP THẺ CÀO CHIẾT KHẤU 20%</b>
+            <p style="font-size:12px; color:red; margin:10px 0;">* Thẻ cào sẽ được duyệt thủ công sau 5-10p.</p>
+            <div style="text-align:left">
+                <input type="text" placeholder="Số Seri" style="width:100%; padding:12px; margin-bottom:10px; border-radius:8px; border:1px solid #ddd;">
+                <input type="text" placeholder="Mã Thẻ" style="width:100%; padding:12px; margin-bottom:10px; border-radius:8px; border:1px solid #ddd;">
+                <button class="btn-buy ready" onclick="tg.showAlert('Yêu cầu đã gửi! Vui lòng chờ Admin.')">GỬI THẺ</button>
+            </div>
+        </div>
+    </div>
+
     <div id="modal-key" class="modal">
         <div class="pay-box" style="margin-top:50px">
-            <i class="fas fa-check-circle" style="color:var(--success); font-size:40px"></i>
-            <h3 style="margin:10px 0">MUA THÀNH CÔNG!</h3>
-            <p style="font-size:13px; color:#666">Cảm ơn bạn đã ủng hộ Tokyo Shop</p>
+            <i class="fas fa-check-circle" style="color:var(--success); font-size:45px"></i>
+            <h3 style="margin:10px 0">GIAO DỊCH HOÀN TẤT</h3>
+            <p style="font-size:12px; color:#666">Cảm ơn bạn đã tin dùng Tokyo Shop</p>
             <div class="key-box"><div class="key-text" id="final-key"></div></div>
-            <button class="btn-buy ready" onclick="closeModal('modal-key')">ĐÓNG</button>
+            <button class="btn-buy ready" onclick="copyKey()">SAO CHÉP & ĐÓNG</button>
         </div>
     </div>
 
@@ -129,13 +176,26 @@
         const tg = window.Telegram.WebApp;
         tg.ready(); tg.expand();
 
-        let userBalance = 0; // Số dư mặc định
+        let userBalance = 0; 
         const SEPAY_API_KEY = "ETWMHV6CBNUSQKEYIRPLLOW2CUTPU9P58GREFP0KL1QXSZDNHAHAFWBZV34IN7ZY";
         const BANK_ACC = "79991312006";
         const PRICE = 2000;
 
         let selectedProduct = null;
         let depositCode = "TK" + Math.random().toString(36).substring(7).toUpperCase();
+
+        // DATE DISPLAY
+        const d = new Date();
+        const days = ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'];
+        document.getElementById('u-date').innerText = `${days[d.getDay()]}, ${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`;
+
+        // USER INFO
+        const user = tg.initDataUnsafe?.user;
+        if(user) {
+            document.getElementById('u-name').innerText = user.first_name + (user.last_name ? ' ' + user.last_name : '');
+            document.getElementById('u-id').innerText = "ID: " + user.id;
+            if(user.photo_url) document.getElementById('u-avatar').src = user.photo_url;
+        }
 
         const DATA = [
             { cat: 'HACK VIP FREE FIRE', icon: 'fa-fire', color: 'red', items: [
@@ -157,9 +217,13 @@
         ];
 
         function toggleMenu() {
-            document.getElementById('drawer').classList.toggle('active');
-            const overlay = document.getElementById('overlay');
-            overlay.style.display = overlay.style.display === 'block' ? 'none' : 'block';
+            const dr = document.getElementById('drawer');
+            const ov = document.getElementById('overlay');
+            if(dr.classList.contains('active')) {
+                dr.classList.remove('active'); ov.style.display = 'none';
+            } else {
+                dr.classList.add('active'); ov.style.display = 'block';
+            }
         }
 
         function render() {
@@ -172,7 +236,7 @@
                     ${g.items.map(i => `
                         <div class="item-card">
                             <div class="item-top" onclick="toggleOpts('${i.id}')">
-                                <b>${i.name}</b> <i class="fas fa-chevron-down" style="font-size:12px; color:var(--hint)"></i>
+                                <b>${i.name}</b> <div style="display:flex; align-items:center"><small style="color:var(--hint)">Kho: ${i.stock}</small><i class="fas fa-chevron-down" style="margin-left:8px; font-size:12px; color:var(--hint)"></i></div>
                             </div>
                             <div class="options-area" id="opt-${i.id}">
                                 ${i.opts.map(o => `<div class="opt-row" onclick="selectOpt('${i.name} (${o})', this)"><span>${o}</span><b>${PRICE.toLocaleString()}đ</b></div>`).join('')}
@@ -207,48 +271,34 @@
             document.getElementById('pay-btn').classList.add('ready');
         }
 
-        // MUA HÀNG BẰNG SỐ DƯ
         function buyWithBalance() {
             if (userBalance < PRICE) {
-                tg.showConfirm(`Số dư không đủ (${userBalance.toLocaleString()}đ). Bạn có muốn nạp thêm tiền không?`, (ok) => {
-                    if(ok) openModal('modal-bank');
-                });
+                tg.showConfirm(`Số dư không đủ. Bạn có muốn nạp thêm không?`, (ok) => { if(ok) openModal('modal-bank'); });
                 return;
             }
-
             userBalance -= PRICE;
             updateBalanceUI();
-            
             const rK = "TOKYO-" + Math.random().toString(36).substring(2, 15).toUpperCase();
             document.getElementById('final-key').innerText = rK;
             openModal('modal-key');
         }
 
-        // KIỂM TRA NẠP TIỀN QUA SEPAY
         async function checkDeposit() {
             try {
                 const response = await fetch(`https://api.sepay.vn/userinfo/transactions/list?account_number=${BANK_ACC}`, {
                     headers: { 'Authorization': `Bearer ${SEPAY_API_KEY}` }
                 });
                 const data = await response.json();
-                
-                // Tìm bất kỳ giao dịch nào khớp mã nạp
                 const found = data.transactions.find(t => t.content.includes(depositCode));
-                
                 if (found) {
-                    const amount = parseInt(found.amount);
-                    userBalance += amount;
+                    const amt = parseInt(found.amount);
+                    userBalance += amt;
                     updateBalanceUI();
-                    tg.showAlert(`Nạp thành công ${amount.toLocaleString()}đ vào tài khoản!`);
+                    tg.showAlert(`Đã cộng +${amt.toLocaleString()}đ vào số dư!`);
                     closeModal('modal-bank');
-                    // Tạo mã mới cho lần nạp sau
                     depositCode = "TK" + Math.random().toString(36).substring(7).toUpperCase();
-                } else {
-                    tg.showAlert("Chưa tìm thấy giao dịch chuyển khoản với nội dung: " + depositCode);
-                }
-            } catch (e) {
-                tg.showAlert("Lỗi hệ thống nạp!");
-            }
+                } else tg.showAlert("Chưa tìm thấy giao dịch với nội dung: " + depositCode);
+            } catch (e) { tg.showAlert("Lỗi API!"); }
         }
 
         function updateBalanceUI() {
@@ -258,7 +308,7 @@
         function openModal(id) {
             if(id === 'modal-bank') {
                 document.getElementById('qr-img').src = `https://img.vietqr.io/image/MB-${BANK_ACC}-compact2.png?addInfo=${depositCode}`;
-                document.getElementById('bank-info').innerHTML = `<b>STK:</b> ${BANK_ACC}<br><b>Chủ TK:</b> NGUYEN KIEN CUONG<br><b>Nội dung nạp:</b> <b style="color:blue; font-size:16px">${depositCode}</b><br><small>* Vui lòng chuyển đúng nội dung để được cộng tiền tự động.</small>`;
+                document.getElementById('bank-info').innerHTML = `<b>STK:</b> ${BANK_ACC}<br><b>Chủ TK:</b> NGUYEN KIEN CUONG<br><b>Nội dung:</b> <b style="color:blue; font-size:16px">${depositCode}</b>`;
             }
             if(document.getElementById('drawer').classList.contains('active')) toggleMenu();
             document.getElementById(id).style.display = 'block';
@@ -266,11 +316,11 @@
 
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
-        // Telegram Info
-        const user = tg.initDataUnsafe?.user;
-        if(user) {
-            document.getElementById('u-name').innerText = user.first_name;
-            if(user.photo_url) document.getElementById('u-avatar').src = user.photo_url;
+        function copyKey() {
+            const text = document.getElementById('final-key').innerText;
+            navigator.clipboard.writeText(text);
+            tg.showAlert("Đã sao chép Key!");
+            closeModal('modal-key');
         }
     </script>
 </body>
