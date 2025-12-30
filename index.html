@@ -14,86 +14,99 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
         body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; padding-bottom: 220px; }
 
-        /* HEADER */
+        /* HEADER: AVATAR, NAME, ID, DATE */
         .header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; gap: 10px; }
         .user-profile { background: var(--card); padding: 12px 15px; border-radius: 20px; display: flex; align-items: center; border: 1px solid var(--border); flex: 1; }
-        .user-avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 12px; }
-        .user-info b { font-size: 14px; display: block; }
-        .user-balance { color: var(--success); font-weight: bold; font-size: 13px; margin-top: 2px; }
-        .menu-btn { background: var(--card); border: 1px solid var(--border); color: white; width: 48px; height: 48px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; }
+        .user-avatar { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 12px; object-fit: cover; background: #333; }
+        .user-info b { font-size: 15px; display: block; color: var(--text); }
+        .user-info small { color: var(--hint); font-size: 11px; display: block; margin-top: 1px; }
+        .user-balance { color: var(--success); font-weight: bold; font-size: 13px; margin-top: 3px; }
+        .date-display { font-size: 10px; color: var(--accent); font-weight: 800; text-transform: uppercase; margin-top: 4px; letter-spacing: 0.5px; }
+        .menu-btn { background: var(--card); border: 1px solid var(--border); color: white; width: 50px; height: 50px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 22px; cursor: pointer; }
 
-        /* DRAWER */
-        .drawer { position: fixed; top: 0; right: -100%; width: 75%; height: 100%; background: var(--card); z-index: 2000; transition: 0.4s; padding: 25px; border-left: 1px solid var(--border); }
+        /* DRAWER & OVERLAY */
+        .drawer { position: fixed; top: 0; right: -100%; width: 75%; height: 100%; background: var(--card); z-index: 2000; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); padding: 25px; border-left: 1px solid var(--border); }
         .drawer.active { right: 0; }
         .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: none; z-index: 1999; backdrop-filter: blur(5px); }
-        .drawer-item { display: flex; align-items: center; padding: 15px; background: #2c2c2e; border-radius: 15px; margin-bottom: 12px; color: white; cursor: pointer; }
+        .drawer-item { display: flex; align-items: center; padding: 15px; background: #2c2c2e; border-radius: 15px; margin-bottom: 12px; color: white; cursor: pointer; border: 1px solid transparent; }
         .drawer-item i { margin-right: 15px; color: var(--accent); width: 20px; text-align: center; }
 
-        /* STATS & NEWS */
+        /* NEWS & STATS */
         .news-ticker { background: rgba(88, 101, 242, 0.1); border: 1px solid var(--border); border-radius: 12px; padding: 10px; margin-bottom: 12px; display: flex; align-items: center; font-size: 12px; color: var(--yellow); }
         .stats-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 15px; }
         .stat-item { background: var(--card); border: 1px solid var(--border); padding: 10px; border-radius: 12px; text-align: center; }
-        .stat-item b { font-size: 13px; color: var(--success); display: block;}
+        .stat-item span { display: block; font-size: 10px; color: var(--hint); margin-bottom: 2px; }
+        .stat-item b { font-size: 13px; color: var(--success); }
 
-        /* ADMINS */
+        /* ADMIN BOX */
         .support-box { background: var(--card); border-radius: 18px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 20px; }
         .support-item { display: flex; align-items: center; padding: 12px 15px; border-bottom: 1px solid var(--border); text-decoration: none; color: white; font-size: 14px; }
-        .support-icon { width: 28px; height: 28px; background: rgba(88,101,242,0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--accent); margin-right: 12px; }
+        .support-icon { width: 30px; height: 30px; background: rgba(88,101,242,0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--accent); margin-right: 12px; }
 
-        /* PRODUCT UI */
+        /* PRODUCT UI WITH ARROWS */
         .cat-btn { background: var(--card); border-radius: 15px; padding: 15px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 10px; cursor: pointer; border-left: 4px solid var(--accent); position: relative; }
         .cat-btn i.arrow-icon { position: absolute; right: 15px; color: var(--hint); transition: 0.3s; }
-        .cat-btn.active i.arrow-icon { transform: rotate(180deg); }
-        .list-container { display: none; margin-bottom: 15px; }
+        .cat-btn.active i.arrow-icon { transform: rotate(180deg); color: var(--accent); }
+        
+        .list-container { display: none; margin-bottom: 15px; animation: fadeIn 0.3s; }
         .item-card { background: var(--card); border-radius: 15px; border: 1px solid var(--border); margin-bottom: 8px; overflow: hidden; }
         .item-top { padding: 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-        .item-top i { transition: 0.3s; }
-        .item-top.active i { transform: rotate(180deg); }
+        .item-top i { transition: 0.3s; color: var(--hint); font-size: 12px; }
+        .item-top.active i { transform: rotate(180deg); color: var(--accent); }
+        
         .options-area { display: none; background: #111; border-top: 1px solid var(--border); }
         .opt-row { padding: 12px 15px; display: flex; justify-content: space-between; border-bottom: 1px solid #222; font-size: 13px; cursor: pointer; }
-        .opt-row.active { background: rgba(88, 101, 242, 0.2); border-left: 3px solid var(--accent); }
+        .opt-row.active { background: rgba(88, 101, 242, 0.15); border-left: 3px solid var(--accent); }
 
         /* FOOTER */
         .footer { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(11,11,13,0.98); padding: 15px 20px 35px; border-top: 1px solid var(--border); backdrop-filter: blur(10px); z-index: 100; }
-        .btn-buy { width: 100%; background: var(--accent); color: white; border: none; border-radius: 15px; padding: 16px; font-weight: bold; opacity: 0.4; pointer-events: none; }
-        .btn-buy.ready { opacity: 1; pointer-events: auto; }
+        .btn-buy { width: 100%; background: var(--accent); color: white; border: none; border-radius: 15px; padding: 16px; font-weight: bold; opacity: 0.4; pointer-events: none; transition: 0.3s; }
+        .btn-buy.ready { opacity: 1; pointer-events: auto; box-shadow: 0 4px 15px rgba(88, 101, 242, 0.3); }
 
         /* MODALS */
-        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 3000; padding: 20px; overflow-y: auto; }
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.96); z-index: 3000; padding: 20px; overflow-y: auto; }
         .pay-box { background: #fff; color: #000; padding: 25px; border-radius: 25px; text-align: center; }
-        .history-item { background: #2c2c2e; padding: 12px; border-radius: 12px; margin-bottom: 10px; text-align: left; border: 1px solid var(--border); }
+        .history-card { background: #2c2c2e; padding: 15px; border-radius: 15px; margin-bottom: 10px; border-left: 4px solid var(--success); }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
     <div class="drawer-overlay" id="overlay" onclick="toggleMenu()"></div>
     <div class="drawer" id="drawer">
-        <h3 style="margin-top:0; color:var(--accent)">HỆ THỐNG TOKYO</h3>
-        <div class="drawer-item" onclick="openModal('modal-bank')"><i class="fas fa-university"></i><span>Nạp Bank Auto</span></div>
+        <h3 style="margin-top:0; color:var(--accent); font-size:24px;">TOKYO SHOP</h3>
+        <div class="drawer-item" onclick="openModal('modal-bank')"><i class="fas fa-university"></i><span>Nạp Bank (Auto)</span></div>
         <div class="drawer-item" onclick="openModal('modal-card')"><i class="fas fa-credit-card"></i><span>Nạp Thẻ Cào</span></div>
         <div class="drawer-item" onclick="openModal('modal-history')"><i class="fas fa-history"></i><span>Lịch sử mua hàng</span></div>
         <hr style="border:0; border-top:1px solid var(--border); margin:20px 0">
-        <div class="drawer-item" onclick="toggleMenu()" style="background:rgba(255,0,0,0.1)"><i class="fas fa-times" style="color:red"></i><span style="color:red">Đóng</span></div>
+        <div class="drawer-item" onclick="toggleMenu()" style="background:rgba(255,0,0,0.1); border-color:rgba(255,0,0,0.2)">
+            <i class="fas fa-times" style="color:red"></i><span style="color:red; font-weight:bold">Đóng Menu</span>
+        </div>
     </div>
 
     <div class="header-top">
         <div class="user-profile">
             <img id="u-avatar" src="https://ui-avatars.com/api/?background=5865f2&color=fff&name=U" class="user-avatar">
             <div class="user-info">
-                <b id="u-name">Đang tải...</b>
-                <div class="user-balance" id="u-balance">Số dư: 0đ</div>
+                <b id="u-name">Khách Tokyo</b>
                 <small id="u-id">ID: 00000000</small>
+                <div class="user-balance" id="u-balance">Số dư: 0đ</div>
+                <div class="date-display" id="u-date">THỨ HAI, 01/01/2024</div>
             </div>
         </div>
         <div class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
     </div>
 
-    <div class="news-ticker"><i class="fas fa-bullhorn" style="margin-right:8px"></i><marquee>Chào mừng đến Tokyo Shop - Mua sắm an toàn, nạp tiền tự động!</marquee></div>
+    <div class="news-ticker">
+        <i class="fas fa-bullhorn" style="margin-right:8px"></i>
+        <marquee scrollamount="5">Tokyo Shop - Cam kết uy tín - Hỗ trợ nạp tiền 24/7 - Chúc các bạn chơi game vui vẻ!</marquee>
+    </div>
 
     <div class="stats-bar">
-        <div class="stat-item"><span>Đơn hàng</span><b>10.500+</b></div>
-        <div class="stat-item"><span>Online</span><b>2.105</b></div>
-        <div class="stat-item"><span>Hệ thống</span><b style="color:var(--success)">Ổn định</b></div>
+        <div class="stat-item"><span>Đơn hàng</span><b>15.200+</b></div>
+        <div class="stat-item"><span>Online</span><b>2.840</b></div>
+        <div class="stat-item"><span>Hệ thống</span><b style="color:var(--success)">Tốt</b></div>
     </div>
 
     <div class="support-box">
@@ -106,16 +119,29 @@
 
     <div class="footer">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-            <div><span id="f-info" style="font-size:12px; color:var(--hint)">Vui lòng chọn...</span><div id="f-total" style="color:var(--success); font-size:22px; font-weight:bold">0đ</div></div>
+            <div>
+                <span id="f-info" style="font-size:12px; color:var(--hint)">Chọn một sản phẩm...</span>
+                <div id="f-total" style="color:var(--success); font-size:22px; font-weight:bold">0đ</div>
+            </div>
         </div>
         <button class="btn-buy" id="pay-btn" onclick="buyWithBalance()">MUA BẰNG SỐ DƯ</button>
     </div>
 
     <div id="modal-history" class="modal">
         <div onclick="closeModal('modal-history')" style="color:white; margin-bottom:15px; cursor:pointer"><i class="fas fa-arrow-left"></i> QUAY LẠI</div>
-        <h3 style="color:white">Lịch sử đơn hàng</h3>
-        <div id="history-list">
-            <p style="color:var(--hint); text-align:center">Chưa có giao dịch nào.</p>
+        <h3 style="color:white; margin-top:0">Đơn hàng của bạn</h3>
+        <div id="history-container">
+            <p style="color:var(--hint); text-align:center; margin-top:30px">Chưa có giao dịch nào được thực hiện.</p>
+        </div>
+    </div>
+
+    <div id="modal-bank" class="modal">
+        <div onclick="closeModal('modal-bank')" style="color:white; margin-bottom:15px; cursor:pointer"><i class="fas fa-arrow-left"></i> QUAY LẠI</div>
+        <div class="pay-box">
+            <b style="color:var(--accent); font-size:18px">NẠP TIỀN QUA BANK</b>
+            <img id="qr-img" src="" style="width:100%; max-width:210px; margin:15px 0; border-radius:15px;">
+            <div id="bank-details" style="text-align:left; background:#f0f2f5; padding:15px; border-radius:12px; font-size:13px; line-height:1.6"></div>
+            <button class="btn-buy ready" style="margin-top:15px; background:var(--success)" onclick="tg.showAlert('Hệ thống đang kiểm tra giao dịch của bạn!')">XÁC NHẬN ĐÃ CHUYỂN</button>
         </div>
     </div>
 
@@ -124,22 +150,12 @@
         <div class="pay-box">
             <b>NẠP THẺ CÀO</b>
             <div style="text-align:left; margin-top:15px">
-                <select id="card-net" style="width:100%; padding:12px; margin-bottom:10px; border-radius:10px;"><option>Viettel</option><option>Vina</option><option>Mobi</option></select>
-                <select id="card-val" style="width:100%; padding:12px; margin-bottom:10px; border-radius:10px;"><option>10.000đ</option><option>20.000đ</option><option>50.000đ</option><option>100.000đ</option></select>
+                <select id="c-net" style="width:100%; padding:12px; margin-bottom:10px; border-radius:10px;"><option>Viettel</option><option>Vinaphone</option><option>Mobifone</option><option>Zing</option></select>
+                <select id="c-val" style="width:100%; padding:12px; margin-bottom:10px; border-radius:10px;"><option>20.000đ</option><option>50.000đ</option><option>100.000đ</option><option>200.000đ</option></select>
                 <input type="number" placeholder="Số Seri" style="width:100%; padding:12px; margin-bottom:10px; border-radius:10px; border:1px solid #ddd;">
                 <input type="number" placeholder="Mã Thẻ" style="width:100%; padding:12px; margin-bottom:10px; border-radius:10px; border:1px solid #ddd;">
-                <button class="btn-buy ready" onclick="tg.showAlert('Đã gửi thẻ!')">GỬI THẺ</button>
+                <button class="btn-buy ready" onclick="tg.showAlert('Đã gửi thẻ cào tới hệ thống!')">GỬI THẺ</button>
             </div>
-        </div>
-    </div>
-
-    <div id="modal-bank" class="modal">
-        <div onclick="closeModal('modal-bank')" style="color:white; margin-bottom:15px; cursor:pointer"><i class="fas fa-arrow-left"></i> QUAY LẠI</div>
-        <div class="pay-box">
-            <b>BANK AUTO</b>
-            <img id="qr-img" src="" style="width:100%; max-width:200px; margin:15px 0;">
-            <div id="bank-info" style="font-size:12px; text-align:left;"></div>
-            <button class="btn-buy ready" style="background:var(--success); margin-top:15px;" onclick="tg.showAlert('Đang quét...')">XÁC NHẬN</button>
         </div>
     </div>
 
@@ -148,10 +164,25 @@
         tg.ready(); tg.expand();
 
         let userBalance = 0;
-        let history = [];
+        let purchaseHistory = [];
+        const BANK_ACC = "79991312006";
         const PRICE = 2000;
         let depositCode = "TK" + Math.random().toString(36).substring(7).toUpperCase();
 
+        // 1. HIỂN THỊ THỜI GIAN
+        const d = new Date();
+        const days = ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'];
+        document.getElementById('u-date').innerText = `${days[d.getDay()]}, ${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`;
+
+        // 2. HIỂN THỊ THÔNG TIN USER
+        const user = tg.initDataUnsafe?.user;
+        if(user) {
+            document.getElementById('u-name').innerText = user.first_name + (user.last_name ? ' ' + user.last_name : '');
+            document.getElementById('u-id').innerText = "ID: " + user.id;
+            if(user.photo_url) document.getElementById('u-avatar').src = user.photo_url;
+        }
+
+        // 3. DANH SÁCH SẢN PHẨM ĐẦY ĐỦ
         const DATA = [
             { cat: 'HACK VIP FREE FIRE', icon: 'fa-fire', color: 'red', items: [
                 { id:'h1', name:'Br Mods VIP', opts: ['1 Ngày', '7 Ngày', '30 Ngày'] },
@@ -173,7 +204,7 @@
 
         function render() {
             document.getElementById('product-area').innerHTML = DATA.map(g => `
-                <div class="cat-btn" id="cat-${g.cat.replace(/\s/g, '')}" onclick="toggleCat('${g.cat}')">
+                <div class="cat-btn" id="cat-btn-${g.cat.replace(/\s/g, '')}" onclick="toggleCat('${g.cat}')">
                     <i class="fas ${g.icon}" style="margin-right:10px; color:${g.color}"></i><b>${g.cat}</b>
                     <i class="fas fa-chevron-down arrow-icon"></i>
                 </div>
@@ -181,7 +212,7 @@
                     ${g.items.map(i => `
                         <div class="item-card">
                             <div class="item-top" id="top-${i.id}" onclick="toggleOpts('${i.id}')">
-                                <b>${i.name}</b><i class="fas fa-chevron-down" style="font-size:12px; color:var(--hint)"></i>
+                                <b>${i.name}</b><i class="fas fa-chevron-down"></i>
                             </div>
                             <div class="options-area" id="opt-${i.id}">
                                 ${i.opts.map(o => `<div class="opt-row" onclick="selectOpt('${i.name} (${o})', this)"><span>${o}</span><b>${PRICE.toLocaleString()}đ</b></div>`).join('')}
@@ -193,9 +224,10 @@
         }
         render();
 
+        // 4. LOGIC ĐÓNG MỞ CÓ MŨI TÊN
         function toggleCat(cat) {
-            const btn = document.getElementById('cat-'+cat.replace(/\s/g, ''));
             const list = document.getElementById('list-'+cat);
+            const btn = document.getElementById('cat-btn-'+cat.replace(/\s/g, ''));
             const isO = list.style.display === 'block';
             document.querySelectorAll('.list-container').forEach(c => c.style.display='none');
             document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
@@ -203,14 +235,15 @@
         }
 
         function toggleOpts(id) {
-            const top = document.getElementById('top-'+id);
             const el = document.getElementById('opt-'+id);
+            const top = document.getElementById('top-'+id);
             const isO = el.style.display === 'block';
             document.querySelectorAll('.options-area').forEach(a => a.style.display='none');
             document.querySelectorAll('.item-top').forEach(t => t.classList.remove('active'));
             if(!isO) { el.style.display = 'block'; top.classList.add('active'); }
         }
 
+        // 5. LOGIC MUA HÀNG & LỊCH SỬ
         function selectOpt(n, el) {
             document.querySelectorAll('.opt-row').forEach(r => r.classList.remove('active'));
             el.classList.add('active');
@@ -220,44 +253,40 @@
         }
 
         function buyWithBalance() {
-            if (userBalance < PRICE) { tg.showAlert("Bạn cần nạp thêm tiền!"); return; }
+            if (userBalance < PRICE) { tg.showAlert("Số dư không đủ! Vui lòng nạp tiền vào tài khoản."); return; }
             userBalance -= PRICE;
-            const newKey = "KEY-" + Math.random().toString(36).substring(2, 10).toUpperCase();
-            history.unshift({ name: document.getElementById('f-info').innerText, key: newKey, date: new Date().toLocaleString() });
-            updateBalanceUI();
-            updateHistoryUI();
-            tg.showAlert("Mua thành công! Xem mã trong Lịch sử.");
+            const newKey = "TOKYO-" + Math.random().toString(36).substring(2, 12).toUpperCase();
+            purchaseHistory.unshift({ name: document.getElementById('f-info').innerText, key: newKey, time: new Date().toLocaleString() });
+            updateUI();
+            tg.showAlert("Thanh toán thành công! Mã Key đã được lưu vào Lịch Sử.");
         }
 
-        function updateBalanceUI() { document.getElementById('u-balance').innerText = `Số dư: ${userBalance.toLocaleString()}đ`; }
-        
-        function updateHistoryUI() {
-            const hList = document.getElementById('history-list');
-            if(history.length === 0) return;
-            hList.innerHTML = history.map(h => `
-                <div class="history-item">
-                    <b style="color:var(--accent); font-size:13px">${h.name}</b><br>
-                    <small style="color:var(--hint)">${h.date}</small><br>
-                    <div style="margin-top:5px; color:var(--success); font-family:monospace; background:#000; padding:5px; border-radius:5px">Key: ${h.key}</div>
-                </div>
-            `).join('');
+        function updateUI() {
+            document.getElementById('u-balance').innerText = `Số dư: ${userBalance.toLocaleString()}đ`;
+            const container = document.getElementById('history-container');
+            if(purchaseHistory.length > 0) {
+                container.innerHTML = purchaseHistory.map(h => `
+                    <div class="history-card">
+                        <b style="color:var(--accent); font-size:14px">${h.name}</b><br>
+                        <small style="color:#888">${h.time}</small>
+                        <div style="background:#000; padding:10px; border-radius:8px; margin-top:8px; color:var(--success); font-family:monospace; border:1px solid #333">${h.key}</div>
+                    </div>
+                `).join('');
+            }
         }
 
+        // 6. MENU & MODALS
         function toggleMenu() { document.getElementById('drawer').classList.toggle('active'); document.getElementById('overlay').style.display = document.getElementById('overlay').style.display === 'block' ? 'none' : 'block'; }
+        
         function openModal(id) {
             if(id === 'modal-bank') {
-                document.getElementById('qr-img').src = `https://img.vietqr.io/image/MB-79991312006-compact2.png?addInfo=${depositCode}`;
-                document.getElementById('bank-info').innerHTML = `STK: 79991312006<br>ND: ${depositCode}`;
+                document.getElementById('qr-img').src = `https://img.vietqr.io/image/MB-${BANK_ACC}-compact2.png?addInfo=${depositCode}`;
+                document.getElementById('bank-details').innerHTML = `<b>STK:</b> ${BANK_ACC}<br><b>Chủ TK:</b> NGUYEN KIEN CUONG<br><b>Nội dung nạp:</b> <b style="color:blue">${depositCode}</b>`;
             }
             toggleMenu(); document.getElementById(id).style.display = 'block';
         }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-
-        const user = tg.initDataUnsafe?.user;
-        if(user) {
-            document.getElementById('u-name').innerText = user.first_name;
-            document.getElementById('u-id').innerText = "ID: " + user.id;
-        }
     </script>
 </body>
-</html>
+                    </html>
+                    
