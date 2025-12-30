@@ -24,29 +24,26 @@
         .date-display { font-size: 9px; color: var(--accent); font-weight: bold; text-transform: uppercase; margin-top: 3px; }
         .menu-btn { background: var(--card); border: 1px solid var(--border); color: white; width: 48px; height: 48px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; }
 
-        /* DRAWER MENU */
+        /* DRAWER */
         .drawer { position: fixed; top: 0; right: -100%; width: 75%; height: 100%; background: var(--card); z-index: 2000; transition: 0.4s; padding: 25px; border-left: 1px solid var(--border); }
         .drawer.active { right: 0; }
         .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: none; z-index: 1999; backdrop-filter: blur(5px); }
         .drawer-item { display: flex; align-items: center; padding: 15px; background: #2c2c2e; border-radius: 15px; margin-bottom: 12px; color: white; cursor: pointer; }
         .drawer-item i { margin-right: 15px; color: var(--accent); width: 20px; text-align: center; }
 
-        /* FORM NẠP THẺ CÀO */
-        .card-form { text-align: left; margin-top: 15px; }
-        .form-group { margin-bottom: 12px; }
-        .form-group label { display: block; font-size: 11px; color: #666; margin-bottom: 5px; font-weight: bold; }
-        .form-group select, .form-group input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd; background: #f9f9f9; font-size: 14px; }
-
-        /* CÁC THÀNH PHẦN KHÁC */
+        /* STATS & NEWS */
         .news-ticker { background: rgba(88, 101, 242, 0.1); border: 1px solid var(--border); border-radius: 12px; padding: 10px; margin-bottom: 12px; display: flex; align-items: center; font-size: 12px; color: var(--yellow); }
         .stats-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 15px; }
         .stat-item { background: var(--card); border: 1px solid var(--border); padding: 10px; border-radius: 12px; text-align: center; }
         .stat-item span { display: block; font-size: 10px; color: var(--hint); }
         .stat-item b { font-size: 13px; color: var(--success); }
+
+        /* ADMINS */
         .support-box { background: var(--card); border-radius: 18px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 20px; }
         .support-item { display: flex; align-items: center; padding: 12px 15px; border-bottom: 1px solid var(--border); text-decoration: none; color: white; font-size: 14px; }
         .support-icon { width: 28px; height: 28px; background: rgba(88,101,242,0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--accent); margin-right: 12px; }
-        
+
+        /* PRODUCT UI */
         .cat-btn { background: var(--card); border-radius: 15px; padding: 15px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 10px; cursor: pointer; border-left: 4px solid var(--accent); position: relative; }
         .cat-btn i.arrow-icon { position: absolute; right: 15px; color: var(--hint); transition: 0.3s; }
         .cat-btn.active i.arrow-icon { transform: rotate(180deg); }
@@ -57,22 +54,28 @@
         .opt-row { padding: 12px 15px; display: flex; justify-content: space-between; border-bottom: 1px solid #222; font-size: 13px; cursor: pointer; }
         .opt-row.active { background: rgba(88, 101, 242, 0.2); border-left: 3px solid var(--accent); }
 
+        /* FOOTER */
         .footer { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(11,11,13,0.98); padding: 15px 20px 35px; border-top: 1px solid var(--border); backdrop-filter: blur(10px); z-index: 100; }
         .btn-buy { width: 100%; background: var(--accent); color: white; border: none; border-radius: 15px; padding: 16px; font-weight: bold; opacity: 0.4; pointer-events: none; }
         .btn-buy.ready { opacity: 1; pointer-events: auto; }
+
+        /* MODALS */
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 3000; padding: 20px; overflow-y: auto; }
         .pay-box { background: #fff; color: #000; padding: 25px; border-radius: 25px; text-align: center; }
+        .form-group { text-align: left; margin-bottom: 12px; }
+        .form-group label { display: block; font-size: 11px; font-weight: bold; margin-bottom: 5px; color: #444; }
+        .form-group select, .form-group input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd; background: #f9f9f9; }
     </style>
 </head>
 <body>
 
     <div class="drawer-overlay" id="overlay" onclick="toggleMenu()"></div>
     <div class="drawer" id="drawer">
-        <h3 style="margin-top:0; color:var(--accent)">MENU NẠP</h3>
-        <div class="drawer-item" onclick="openModal('modal-bank')"><i class="fas fa-university"></i><span>Nạp Bank (Auto)</span></div>
+        <h3 style="margin-top:0; color:var(--accent)">HỆ THỐNG NẠP</h3>
+        <div class="drawer-item" onclick="openModal('modal-bank')"><i class="fas fa-university"></i><span>Nạp Bank Auto</span></div>
         <div class="drawer-item" onclick="openModal('modal-card')"><i class="fas fa-credit-card"></i><span>Nạp Thẻ Cào</span></div>
         <hr style="border:0; border-top:1px solid var(--border); margin:20px 0">
-        <div class="drawer-item" onclick="toggleMenu()" style="background:rgba(255,0,0,0.1)"><i class="fas fa-times" style="color:red"></i><span style="color:red">Đóng</span></div>
+        <div class="drawer-item" onclick="toggleMenu()" style="background:rgba(255,0,0,0.1)"><i class="fas fa-times" style="color:red"></i><span style="color:red">Đóng Menu</span></div>
     </div>
 
     <div class="header-top">
@@ -88,12 +91,12 @@
         <div class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
     </div>
 
-    <div class="news-ticker"><i class="fas fa-bullhorn" style="margin-right:8px"></i><marquee>Tokyo Shop - Hệ thống nạp tự động SePay 24/7!</marquee></div>
+    <div class="news-ticker"><i class="fas fa-bullhorn" style="margin-right:8px"></i><marquee>Chào mừng đến Tokyo Shop - Nạp tiền để bắt đầu mua sắm!</marquee></div>
 
     <div class="stats-bar">
         <div class="stat-item"><span>Đơn hàng</span><b>10.500+</b></div>
         <div class="stat-item"><span>Online</span><b>2.105</b></div>
-        <div class="stat-item"><span>Hệ thống</span><b style="color:var(--success)">Tốt</b></div>
+        <div class="stat-item"><span>Hệ thống</span><b style="color:var(--success)">Ổn định</b></div>
     </div>
 
     <div class="support-box">
@@ -106,7 +109,7 @@
 
     <div class="footer">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-            <div><span id="f-info" style="font-size:12px; color:var(--hint)">Chọn sản phẩm...</span><div id="f-total" style="color:var(--success); font-size:22px; font-weight:bold">0đ</div></div>
+            <div><span id="f-info" style="font-size:12px; color:var(--hint)">Vui lòng chọn...</span><div id="f-total" style="color:var(--success); font-size:22px; font-weight:bold">0đ</div></div>
         </div>
         <button class="btn-buy" id="pay-btn" onclick="buyWithBalance()">MUA BẰNG SỐ DƯ</button>
     </div>
@@ -115,47 +118,30 @@
         <div onclick="closeModal('modal-card')" style="color:white; margin-bottom:15px; cursor:pointer"><i class="fas fa-arrow-left"></i> QUAY LẠI</div>
         <div class="pay-box">
             <b style="color:var(--accent); font-size:18px;">NẠP THẺ CÀO</b>
-            <div class="card-form">
-                <div class="form-group">
-                    <label>NHÀ MẠNG</label>
-                    <select id="card-type">
-                        <option value="viettel">Viettel</option>
-                        <option value="vinaphone">Vinaphone</option>
-                        <option value="mobifone">Mobifone</option>
-                        <option value="vietnamobile">Vietnamobile</option>
-                        <option value="zing">Thẻ Zing</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>MỆNH GIÁ</label>
-                    <select id="card-amount">
-                        <option value="10000">10.000đ</option>
-                        <option value="20000">20.000đ</option>
-                        <option value="50000">50.000đ</option>
-                        <option value="100000">100.000đ</option>
-                        <option value="200000">200.000đ</option>
-                        <option value="500000">500.000đ</option>
-                        <option value="1000000">1.000.000đ</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>SỐ SERI</label>
-                    <input type="number" id="card-seri" placeholder="Nhập số seri thẻ...">
-                </div>
-                <div class="form-group">
-                    <label>MÃ THẺ</label>
-                    <input type="number" id="card-code" placeholder="Nhập mã bí mật sau lớp cào...">
-                </div>
-                <p style="font-size:10px; color:#888; margin-bottom:15px;">* Thẻ sẽ được duyệt thủ công. Vui lòng chọn đúng mệnh giá, sai sẽ mất thẻ.</p>
-                <button class="btn-buy ready" onclick="tg.showAlert('Đã gửi yêu cầu nạp thẻ! Vui lòng đợi Admin kiểm tra.')">GỬI THẺ NGAY</button>
+            <div class="form-group" style="margin-top:15px">
+                <label>NHÀ MẠNG</label>
+                <select id="card-net"><option>Viettel</option><option>Vinaphone</option><option>Mobifone</option><option>Zing</option></select>
             </div>
+            <div class="form-group">
+                <label>MỆNH GIÁ</label>
+                <select id="card-val"><option>10.000đ</option><option>20.000đ</option><option>50.000đ</option><option>100.000đ</option><option>200.000đ</option><option>500.000đ</option></select>
+            </div>
+            <div class="form-group">
+                <label>SỐ SERI</label>
+                <input type="number" placeholder="Nhập số seri...">
+            </div>
+            <div class="form-group">
+                <label>MÃ THẺ</label>
+                <input type="number" placeholder="Nhập mã thẻ...">
+            </div>
+            <button class="btn-buy ready" style="margin-top:10px;" onclick="tg.showAlert('Đã gửi thẻ! Vui lòng đợi 5-10p Admin duyệt.')">NẠP NGAY</button>
         </div>
     </div>
 
     <div id="modal-bank" class="modal">
         <div onclick="closeModal('modal-bank')" style="color:white; margin-bottom:15px; cursor:pointer"><i class="fas fa-arrow-left"></i> QUAY LẠI</div>
         <div class="pay-box">
-            <b>NẠP BANK AUTO</b>
+            <b>CHUYỂN KHOẢN AUTO</b>
             <img id="qr-img" src="" style="width:100%; max-width:200px; margin:15px 0; border-radius:12px;">
             <div id="bank-info" style="text-align:left; background:#f8f9fa; padding:12px; border-radius:10px; font-size:12px;"></div>
             <button class="btn-buy ready" style="margin-top:15px; background:var(--success)" onclick="checkDeposit()">XÁC NHẬN CHUYỂN</button>
@@ -185,13 +171,19 @@
         const DATA = [
             { cat: 'HACK VIP FREE FIRE', icon: 'fa-fire', color: 'red', items: [
                 { id:'h1', name:'Br Mods VIP', opts: ['1 Ngày', '7 Ngày', '30 Ngày'] },
-                { id:'h2', name:'ZyGame Menu', opts: ['1 Ngày', '7 Ngày', '30 Ngày'] }
+                { id:'h2', name:'ZyGame Menu', opts: ['1 Ngày', '7 Ngày', '30 Ngày'] },
+                { id:'h3', name:'Fluorite iOS', opts: ['1 Ngày', '30 Ngày'] },
+                { id:'h4', name:'Drip OB51 VIP', opts: ['1 Ngày', '7 Ngày', '30 Ngày'] },
+                { id:'h5', name:'HG Cheat VIP', opts: ['1 Ngày', '7 Ngày', '30 Ngày'] }
             ]},
             { cat: 'ACC FREE FIRE', icon: 'fa-user-circle', color: 'lime', items: [
-                { id:'a1', name:'Acc FF Level 5', opts: ['Gói 1 Acc'] }
+                { id:'a1', name:'Acc FF Level 5', opts: ['Gói 1 Acc'] },
+                { id:'a2', name:'Acc FF Level 15', opts: ['Gói 1 Acc'] }
             ]},
             { cat: 'CLOUD PHONE', icon: 'fa-cloud', color: 'cyan', items: [
-                { id:'c1', name:'Redfinger Cloud', opts: ['1 Ngày', '7 Ngày', '30 Ngày'] }
+                { id:'c1', name:'Redfinger Cloud', opts: ['1 Ngày', '7 Ngày', '30 Ngày'] },
+                { id:'c2', name:'CC Cloud Phone', opts: ['7 Ngày', '30 Ngày'] },
+                { id:'c3', name:'Vip Player Cloud', opts: ['30 Ngày'] }
             ]}
         ];
 
@@ -233,6 +225,7 @@
             toggleMenu(); document.getElementById(id).style.display = 'block';
         }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+        function checkDeposit() { tg.showAlert("Hệ thống đang quét giao dịch..."); }
     </script>
 </body>
 </html>
