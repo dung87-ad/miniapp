@@ -14,32 +14,38 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
         body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; padding-bottom: 220px; }
 
+        /* HEADER & MENU */
+        .header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+        .menu-btn { background: var(--card); border: 1px solid var(--border); color: white; width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; }
+
         /* USER PROFILE */
-        .user-profile { background: var(--card); padding: 15px; border-radius: 20px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 12px; }
-        .user-avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 12px; background: #333; }
+        .user-profile { background: var(--card); padding: 15px; border-radius: 20px; display: flex; align-items: center; border: 1px solid var(--border); flex: 1; margin-right: 10px; }
+        .user-avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 12px; }
         .user-info b { font-size: 15px; display: block; }
-        .user-info small { color: var(--hint); font-size: 11px; }
-        .date-display { font-size: 10px; color: var(--accent); font-weight: bold; margin-top: 4px; text-transform: uppercase; }
+        .user-info small { color: var(--hint); font-size: 11px; display: block; }
+        .user-balance { color: var(--success); font-weight: bold; font-size: 13px; margin-top: 2px; }
 
-        /* NEWS TICKER */
+        /* SIDE MENU DRAWER */
+        .drawer { position: fixed; top: 0; right: -100%; width: 70%; height: 100%; background: var(--card); z-index: 2000; transition: 0.3s; padding: 20px; border-left: 1px solid var(--border); box-shadow: -5px 0 15px rgba(0,0,0,0.5); }
+        .drawer.active { right: 0; }
+        .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: none; z-index: 1999; }
+        .drawer-item { display: flex; align-items: center; padding: 15px; background: #2c2c2e; border-radius: 12px; margin-bottom: 10px; color: white; text-decoration: none; cursor: pointer; }
+        .drawer-item i { margin-right: 12px; color: var(--accent); }
+
+        /* CÁC THÀNH PHẦN CŨ GIỮ NGUYÊN */
         .news-ticker { background: rgba(88, 101, 242, 0.1); border: 1px solid var(--border); border-radius: 12px; padding: 10px; margin-bottom: 12px; display: flex; align-items: center; font-size: 12px; color: var(--yellow); }
-
-        /* STATS BAR */
         .stats-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 15px; }
         .stat-item { background: var(--card); border: 1px solid var(--border); padding: 10px; border-radius: 12px; text-align: center; }
         .stat-item span { display: block; font-size: 10px; color: var(--hint); }
         .stat-item b { font-size: 13px; color: var(--success); }
-
-        /* ADMINS */
         .support-box { background: var(--card); border-radius: 18px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 20px; }
         .support-item { display: flex; align-items: center; padding: 12px 15px; border-bottom: 1px solid var(--border); text-decoration: none; color: white; font-size: 14px; }
         .support-icon { width: 28px; height: 28px; background: rgba(88,101,242,0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--accent); margin-right: 12px; }
-
+        
         /* PRODUCT UI */
         .cat-btn { background: var(--card); border-radius: 15px; padding: 15px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 10px; cursor: pointer; border-left: 4px solid var(--accent); position: relative; }
         .cat-btn i.arrow-icon { position: absolute; right: 15px; color: var(--hint); transition: 0.3s; }
         .cat-btn.active i.arrow-icon { transform: rotate(180deg); }
-
         .list-container { display: none; margin-bottom: 15px; }
         .item-card { background: var(--card); border-radius: 15px; border: 1px solid var(--border); margin-bottom: 8px; overflow: hidden; }
         .item-top { padding: 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
@@ -52,35 +58,60 @@
         .btn-buy { width: 100%; background: var(--accent); color: white; border: none; border-radius: 12px; padding: 16px; font-weight: bold; opacity: 0.4; pointer-events: none; }
         .btn-buy.ready { opacity: 1; pointer-events: auto; }
 
-        /* MODAL */
-        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 1000; padding: 20px; overflow-y: auto; }
+        /* MODAL NẠP THẺ */
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 3000; padding: 20px; overflow-y: auto; }
         .pay-box { background: #fff; color: #000; padding: 20px; border-radius: 25px; text-align: center; }
-        .key-box { background: #1c1c1e; border: 2px dashed var(--success); padding: 15px; border-radius: 12px; margin-top: 15px; }
-        .key-text { color: var(--success); font-family: monospace; font-size: 18px; word-break: break-all; }
+        .input-group { text-align: left; margin-bottom: 10px; }
+        .input-group label { font-size: 12px; font-weight: bold; margin-bottom: 4px; display: block; }
+        .input-group input, .input-group select { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd; }
+        
         .loader { border: 4px solid #333; border-top: 4px solid var(--success); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 20px auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-    <div class="user-profile">
-        <img id="u-avatar" src="https://ui-avatars.com/api/?background=5865f2&color=fff&name=U" class="user-avatar">
-        <div class="user-info">
-            <b id="u-name">Đang tải...</b>
-            <small id="u-id">ID: 00000000</small>
-            <div class="date-display" id="u-date">Đang cập nhật...</div>
+    <div class="drawer-overlay" id="overlay" onclick="toggleMenu()"></div>
+    <div class="drawer" id="drawer">
+        <h3 style="margin-top:0">Hệ thống nạp</h3>
+        <div class="drawer-item" onclick="openModal('modal-pay')">
+            <i class="fas fa-university"></i>
+            <span>Chuyển khoản (Auto)</span>
+        </div>
+        <div class="drawer-item" onclick="openModal('modal-card')">
+            <i class="fas fa-credit-card"></i>
+            <span>Nạp thẻ cào (Chậm)</span>
+        </div>
+        <hr style="border:0; border-top:1px solid var(--border); margin:20px 0">
+        <div class="drawer-item" onclick="toggleMenu()">
+            <i class="fas fa-times"></i>
+            <span>Đóng Menu</span>
+        </div>
+    </div>
+
+    <div class="header-top">
+        <div class="user-profile">
+            <img id="u-avatar" src="https://ui-avatars.com/api/?background=5865f2&color=fff&name=U" class="user-avatar">
+            <div class="user-info">
+                <b id="u-name">Đang tải...</b>
+                <small id="u-id">ID: 00000000</small>
+                <div class="user-balance" id="u-balance">Số dư: 0đ</div>
+            </div>
+        </div>
+        <div class="menu-btn" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
         </div>
     </div>
 
     <div class="news-ticker">
         <i class="fas fa-bullhorn" style="margin-right:8px"></i>
-        <marquee scrollamount="5">Tokyo Shop - Hệ thống nạp tự động SePay 24/7 - Uy tín tạo niềm tin!</marquee>
+        <marquee scrollamount="5">Tokyo Shop - Bấm nút 3 gạch để Nạp Card hoặc Bank Auto!</marquee>
     </div>
 
     <div class="stats-bar">
-        <div class="stat-item"><span>Đơn hàng</span><b>9.980+</b></div>
-        <div class="stat-item"><span>Online</span><b>1.950</b></div>
-        <div class="stat-item"><span>Hệ thống</span><b style="color:var(--success)">Mượt</b></div>
+        <div class="stat-item"><span>Đơn hàng</span><b>9.999+</b></div>
+        <div class="stat-item"><span>Hệ thống</span><b style="color:var(--success)">Sẵn sàng</b></div>
+        <div class="stat-item"><span>Online</span><b>1.890</b></div>
     </div>
 
     <div class="support-box">
@@ -98,22 +129,54 @@
                 <div id="f-total" style="color:var(--success); font-size:22px; font-weight:bold">0đ</div>
             </div>
         </div>
-        <button class="btn-buy" id="pay-btn" onclick="openPay()">THANH TOÁN AUTO</button>
+        <button class="btn-buy" id="pay-btn" onclick="openPay()">THANH TOÁN BANK (AUTO)</button>
     </div>
 
     <div id="modal-pay" class="modal">
-        <div id="back-btn" onclick="closeModal()" style="color:white; margin-bottom:15px; cursor:pointer"><i class="fas fa-arrow-left"></i> QUAY LẠI</div>
+        <div onclick="closeModal('modal-pay')" style="color:white; margin-bottom:15px; cursor:pointer"><i class="fas fa-arrow-left"></i> QUAY LẠI</div>
         <div id="pay-content" class="pay-box">
             <b style="color:var(--accent)">MB BANK - NGUYEN KIEN CUONG</b>
-            <img id="qr-img" src="" style="width:100%; max-width:220px; margin:15px 0; border:1px solid #eee; border-radius:10px;">
-            <div id="bank-info" style="text-align:left; background:#f8f9fa; padding:12px; border-radius:10px; font-size:13px;"></div>
-            <button class="btn-check" style="background:var(--success); color:white; border:none; padding:15px; width:100%; border-radius:12px; font-weight:bold; margin-top:15px;" onclick="verifyPayment()">XÁC NHẬN ĐÃ CHUYỂN</button>
+            <img id="qr-img" src="" style="width:100%; max-width:200px; margin:15px 0; border-radius:10px;">
+            <div id="bank-info" style="text-align:left; background:#f8f9fa; padding:12px; border-radius:10px; font-size:12px;"></div>
+            <button class="btn-buy ready" style="margin-top:15px;" onclick="verifyPayment()">XÁC NHẬN ĐÃ CHUYỂN</button>
         </div>
         <div id="check-ui" style="display:none; text-align:center; padding-top:40px;">
-            <div id="loader-icon" class="loader"></div>
-            <div id="result-ui">
-                <h3 id="status-title" style="color:white">ĐANG KIỂM TRA...</h3>
-                <p id="status-desc" style="color:var(--hint)">Hệ thống SePay đang quét giao dịch.</p>
+            <div class="loader"></div>
+            <h3 style="color:white">ĐANG KIỂM TRA...</h3>
+        </div>
+    </div>
+
+    <div id="modal-card" class="modal">
+        <div onclick="closeModal('modal-card')" style="color:white; margin-bottom:15px; cursor:pointer"><i class="fas fa-arrow-left"></i> QUAY LẠI</div>
+        <div class="pay-box">
+            <b style="color:var(--accent)">NẠP THẺ CÀO (CHIẾT KHẤU 20%)</b>
+            <div style="text-align:left; margin-top:15px;">
+                <div class="input-group">
+                    <label>Loại thẻ</label>
+                    <select id="card-type">
+                        <option>Viettel</option>
+                        <option>Vinaphone</option>
+                        <option>Mobifone</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Mệnh giá</label>
+                    <select id="card-value">
+                        <option>10.000đ</option>
+                        <option>20.000đ</option>
+                        <option>50.000đ</option>
+                        <option>100.000đ</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Số Seri</label>
+                    <input type="number" placeholder="Nhập số seri thẻ">
+                </div>
+                <div class="input-group">
+                    <label>Mã thẻ</label>
+                    <input type="number" placeholder="Nhập mã thẻ">
+                </div>
+                <button class="btn-buy ready" style="margin-top:10px;" onclick="tg.showAlert('Yêu cầu nạp thẻ đã được gửi! Vui lòng chờ Admin duyệt.')">GỬI THẺ NGAY</button>
             </div>
         </div>
     </div>
@@ -122,13 +185,10 @@
         const tg = window.Telegram.WebApp;
         tg.ready(); tg.expand();
 
-        const d = new Date();
-        const days = ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'];
-        document.getElementById('u-date').innerText = `${days[d.getDay()]}, ${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`;
-
+        // USER DATA
         const user = tg.initDataUnsafe?.user;
         if(user) {
-            document.getElementById('u-name').innerText = user.first_name + (user.last_name ? ' ' + user.last_name : '');
+            document.getElementById('u-name').innerText = user.first_name;
             document.getElementById('u-id').innerText = "ID: " + user.id;
             if(user.photo_url) document.getElementById('u-avatar').src = user.photo_url;
         }
@@ -155,8 +215,18 @@
             ]}
         ];
 
-        let curName='', curAmount=0, curCode='';
+        let curAmount=0, curCode='';
         const PRICE = 2000;
+
+        function toggleMenu() {
+            const d = document.getElementById('drawer');
+            const o = document.getElementById('overlay');
+            if(d.classList.contains('active')) {
+                d.classList.remove('active'); o.style.display = 'none';
+            } else {
+                d.classList.add('active'); o.style.display = 'block';
+            }
+        }
 
         function render() {
             document.getElementById('product-area').innerHTML = DATA.map(g => `
@@ -170,10 +240,7 @@
                         <div class="item-card">
                             <div class="item-top" onclick="toggleOpts('${i.id}')">
                                 <b>${i.name}</b> 
-                                <div style="display:flex; align-items:center">
-                                    <small style="color:var(--hint)">Kho: ${i.stock}</small>
-                                    <i class="fas fa-chevron-down" style="margin-left:8px; font-size:12px; color:var(--hint)"></i>
-                                </div>
+                                <i class="fas fa-chevron-down" style="color:var(--hint)"></i>
                             </div>
                             <div class="options-area" id="opt-${i.id}">
                                 ${i.opts.map(o => `<div class="opt-row" onclick="selectOpt('${i.name} (${o})', this)"><span>${o}</span><b>${PRICE.toLocaleString()}đ</b></div>`).join('')}
@@ -189,8 +256,7 @@
             const list = document.getElementById('list-'+cat);
             const isO = list.style.display === 'block';
             document.querySelectorAll('.list-container').forEach(c => c.style.display='none');
-            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-            if(!isO) { list.style.display = 'block'; document.getElementById('btn-'+cat.replace(/\s/g, '')).classList.add('active'); }
+            if(!isO) list.style.display = 'block';
         }
 
         function toggleOpts(id) {
@@ -201,7 +267,7 @@
         }
 
         function selectOpt(n, el) {
-            curName = n; curAmount = PRICE;
+            curAmount = PRICE;
             document.querySelectorAll('.opt-row').forEach(r => r.classList.remove('active'));
             el.classList.add('active');
             document.getElementById('f-info').innerText = n;
@@ -212,10 +278,8 @@
         function openPay() {
             curCode = "TK" + Math.random().toString(36).substring(7).toUpperCase();
             document.getElementById('qr-img').src = `https://img.vietqr.io/image/MB-${BANK_ACC}-compact2.png?amount=${curAmount}&addInfo=${curCode}`;
-            document.getElementById('bank-info').innerHTML = `<b>Nội dung:</b> <b style="color:blue">${curCode}</b><br><b>Số tiền:</b> ${curAmount.toLocaleString()}đ<br><b>Sản phẩm:</b> ${curName}`;
-            document.getElementById('modal-pay').style.display = 'block';
-            document.getElementById('pay-content').style.display = 'block';
-            document.getElementById('check-ui').style.display = 'none';
+            document.getElementById('bank-info').innerHTML = `<b>Nội dung:</b> <b style="color:blue">${curCode}</b><br><b>Tiền:</b> ${curAmount.toLocaleString()}đ`;
+            openModal('modal-pay');
         }
 
         async function verifyPayment() {
@@ -227,24 +291,21 @@
                 });
                 const data = await response.json();
                 const found = data.transactions.find(t => t.content.includes(curCode) && parseInt(t.amount) >= curAmount);
-                if (found) showSuccess();
-                else setTimeout(() => {
-                    document.getElementById('check-ui').style.display = 'none';
-                    document.getElementById('pay-content').style.display = 'block';
-                    tg.showAlert("Chưa thấy giao dịch. Hãy thử lại sau ít giây!");
-                }, 4000);
-            } catch (e) { tg.showAlert("Lỗi SePay!"); closeModal(); }
+                if (found) {
+                    tg.showAlert("Thành công! Key đã được gửi.");
+                    closeModal('modal-pay');
+                } else {
+                    setTimeout(() => {
+                        document.getElementById('check-ui').style.display = 'none';
+                        document.getElementById('pay-content').style.display = 'block';
+                        tg.showAlert("Chưa thấy giao dịch!");
+                    }, 3000);
+                }
+            } catch (e) { closeModal('modal-pay'); }
         }
 
-        function showSuccess() {
-            const rK = "TOKYO-" + Math.random().toString(36).substring(2, 15).toUpperCase();
-            document.getElementById('loader-icon').style.display = 'none';
-            document.getElementById('status-title').innerHTML = "<span style='color:var(--success)'>THANH TOÁN XONG!</span>";
-            document.getElementById('result-ui').innerHTML += `<div class="key-box"><div class="key-text">${rK}</div></div><button class="btn-check" style="background:var(--accent); color:white; border:none; padding:15px; width:100%; border-radius:12px; font-weight:bold; margin-top:15px;" onclick="copyK('${rK}')">SAO CHÉP KEY</button>`;
-        }
-
-        function copyK(t) { navigator.clipboard.writeText(t); tg.showAlert("Đã sao chép!"); }
-        function closeModal() { document.getElementById('modal-pay').style.display = 'none'; }
+        function openModal(id) { toggleMenu(); document.getElementById(id).style.display = 'block'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
     </script>
 </body>
 </html>
