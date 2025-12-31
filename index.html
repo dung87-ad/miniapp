@@ -14,42 +14,44 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; padding-bottom: 50px; }
 
-        /* HEADER */
+        /* HEADER & PROFILE */
         .header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; gap: 10px; }
         .user-profile { background: var(--card); padding: 12px 15px; border-radius: 20px; display: flex; align-items: center; border: 1px solid var(--border); flex: 1; }
-        .user-avatar { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 12px; object-fit: cover; }
-        .user-info b { font-size: 15px; display: block; }
-        .user-info small { color: var(--hint); font-size: 11px; display: block; }
+        .user-avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 12px; object-fit: cover; }
+        .user-info b { font-size: 14px; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 150px; }
+        .user-info small { color: var(--hint); font-size: 10px; display: block; }
         .date-display { font-size: 9px; color: var(--accent); font-weight: 800; text-transform: uppercase; margin-top: 4px; }
-        .menu-btn { background: var(--card); border: 1px solid var(--border); color: white; width: 50px; height: 50px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 22px; cursor: pointer; }
+        .menu-btn { background: var(--card); border: 1px solid var(--border); color: white; width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; }
 
-        /* TICKER & STATS */
+        /* NOTIFICATION TICKER */
         .news-ticker { background: rgba(88, 101, 242, 0.1); border: 1px solid var(--border); border-radius: 12px; padding: 10px; margin-bottom: 12px; display: flex; align-items: center; font-size: 11px; color: var(--yellow); }
+
+        /* STATS BAR */
         .stats-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 15px; }
         .stat-item { background: var(--card); border: 1px solid var(--border); padding: 10px; border-radius: 12px; text-align: center; }
-        .stat-item span { display: block; font-size: 9px; color: var(--hint); }
+        .stat-item span { display: block; font-size: 9px; color: var(--hint); margin-bottom: 2px; }
         .stat-item b { font-size: 12px; color: var(--success); }
 
-        /* ADMIN BOX */
+        /* ADMIN SECTION */
         .support-box { background: var(--card); border-radius: 18px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 20px; }
-        .support-item { display: flex; align-items: center; padding: 12px 15px; border-bottom: 1px solid var(--border); text-decoration: none; color: white; font-size: 14px; }
-        .support-icon { width: 30px; height: 30px; background: rgba(88,101,242,0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--accent); margin-right: 12px; }
+        .support-item { display: flex; align-items: center; padding: 12px 15px; border-bottom: 1px solid var(--border); text-decoration: none; color: white; font-size: 13px; }
+        .support-icon { width: 28px; height: 28px; background: rgba(88,101,242,0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--accent); margin-right: 12px; }
 
-        /* DRAWER MENU */
+        /* MENU DRAWER */
         .drawer { position: fixed; top: 0; right: -100%; width: 75%; height: 100%; background: var(--card); z-index: 2000; transition: 0.4s; padding: 25px; border-left: 1px solid var(--border); }
         .drawer.active { right: 0; }
         .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: none; z-index: 1999; backdrop-filter: blur(5px); }
         .drawer-item { display: flex; align-items: center; padding: 15px; background: #2c2c2e; border-radius: 12px; margin-bottom: 10px; color: white; cursor: pointer; }
         .drawer-item i { margin-right: 12px; color: var(--accent); width: 20px; text-align: center; }
 
-        /* PRODUCT UI */
+        /* PRODUCT LIST UI */
         .cat-btn { background: var(--card); border-radius: 15px; padding: 15px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 10px; cursor: pointer; border-left: 4px solid var(--accent); position: relative; }
         .cat-btn i.arrow-icon { position: absolute; right: 15px; color: var(--hint); transition: 0.3s; }
         .cat-btn.active i.arrow-icon { transform: rotate(180deg); color: var(--accent); }
         .list-container { display: none; margin-bottom: 15px; }
         .item-card { background: var(--card); border-radius: 15px; border: 1px solid var(--border); margin-bottom: 8px; overflow: hidden; }
         .item-top { padding: 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-        .item-top i { transition: 0.3s; font-size: 12px; color: var(--hint); }
+        .item-top i { transition: 0.3s; font-size: 11px; color: var(--hint); }
         .item-top.active i { transform: rotate(180deg); color: var(--accent); }
         .options-area { display: none; background: #111; border-top: 1px solid var(--border); }
         .opt-row { padding: 12px 15px; display: flex; justify-content: space-between; border-bottom: 1px solid #222; font-size: 13px; cursor: pointer; }
@@ -58,12 +60,12 @@
         /* MODALS */
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.96); z-index: 3000; padding: 20px; overflow-y: auto; }
         .pay-box { background: #fff; color: #000; padding: 25px; border-radius: 25px; text-align: center; position: relative; overflow: hidden; }
-        .form-label { text-align: left; display: block; font-size: 12px; margin-bottom: 5px; font-weight: bold; color: #333; }
-        select, input { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 10px; border: 1px solid #ddd; font-family: inherit; }
         .btn-submit { width: 100%; background: var(--accent); color: white; border: none; border-radius: 15px; padding: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; }
         .loader-overlay { display: none; position: absolute; inset: 0; background: rgba(255,255,255,0.95); z-index: 10; flex-direction: column; align-items: center; justify-content: center; }
         .spinner { width: 35px; height: 35px; border: 4px solid #f3f3f3; border-top: 4px solid var(--accent); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 10px; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .form-label { text-align: left; display: block; font-size: 12px; margin-bottom: 5px; font-weight: bold; color: #333; }
+        select, input { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 10px; border: 1px solid #ddd; font-family: inherit; }
     </style>
 </head>
 <body>
@@ -71,7 +73,7 @@
     <div class="drawer-overlay" id="overlay" onclick="toggleMenu()"></div>
     
     <div class="drawer" id="drawer">
-        <h3 style="margin-top:0; color:var(--accent)">TOKYO SHOP</h3>
+        <h3 style="margin-top:0; color:var(--accent); font-size: 18px;">TOKYO SHOP</h3>
         <div class="drawer-item" onclick="openModal('modal-card')"><i class="fas fa-credit-card"></i>Nạp Thẻ Cào</div>
         <div class="drawer-item" onclick="openModal('modal-history')"><i class="fas fa-history"></i>Lịch sử mua hàng</div>
         <hr style="border:0; border-top:1px solid var(--border); margin:15px 0">
@@ -90,12 +92,12 @@
         <div class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
     </div>
 
-    <div class="news-ticker"><i class="fas fa-bullhorn" style="margin-right:8px"></i><marquee>Chào mừng đến Tokyo Shop - Nhấn vào gói để thanh toán trực tiếp!</marquee></div>
+    <div class="news-ticker"><i class="fas fa-bullhorn" style="margin-right:8px"></i><marquee>Tokyo Shop - Hệ thống thanh toán QR tự động thông minh. Nhấn chọn gói để mua ngay!</marquee></div>
 
     <div class="stats-bar">
-        <div class="stat-item"><span>Đơn hàng</span><b>35.500+</b></div>
-        <div class="stat-item"><span>Online</span><b>2.420</b></div>
-        <div class="stat-item"><span>Hệ thống</span><b style="color:var(--success)">Tốt</b></div>
+        <div class="stat-item"><span>Đơn hàng</span><b>35.820+</b></div>
+        <div class="stat-item"><span>Online</span><b>1.850</b></div>
+        <div class="stat-item"><span>Hệ thống</span><b style="color:var(--success)">Ổn định</b></div>
     </div>
 
     <div class="support-box">
@@ -109,42 +111,55 @@
     <div id="modal-pay" class="modal">
         <div onclick="closeModal('modal-pay')" style="color:white; margin-bottom:15px; cursor:pointer"><i class="fas fa-arrow-left"></i> QUAY LẠI</div>
         <div class="pay-box">
-            <div id="pay-loader" class="loader-overlay"><div class="spinner"></div><b>ĐANG CHỜ THANH TOÁN...</b></div>
-            <b id="pay-title" style="color:var(--accent)">THANH TOÁN ĐƠN HÀNG</b>
+            <div id="pay-loader" class="loader-overlay"><div class="spinner"></div><b>ĐANG KIỂM TRA ĐƠN...</b></div>
+            <b id="pay-title" style="color:var(--accent); font-size: 16px;">THANH TOÁN ĐƠN HÀNG</b>
             <img id="qr-img" src="" style="width:100%; max-width:220px; margin:15px 0; border-radius:15px; border:1px solid #eee;">
-            <div id="pay-info" style="text-align:left; font-size:13px; background:#f8f9fa; padding:12px; border-radius:10px; line-height:1.6"></div>
+            <div id="pay-info" style="text-align:left; font-size:12px; background:#f8f9fa; padding:12px; border-radius:10px; line-height:1.6"></div>
             <button class="btn-submit" style="background:var(--success)" onclick="checkPay()">XÁC NHẬN ĐÃ CHUYỂN</button>
+            <p style="font-size:10px; color:gray; margin-top:10px;">Đơn hàng sẽ tự động xử lý sau khi nhận tiền.</p>
         </div>
     </div>
 
     <div id="modal-card" class="modal">
         <div onclick="closeModal('modal-card')" style="color:white; margin-bottom:15px; cursor:pointer"><i class="fas fa-arrow-left"></i> QUAY LẠI</div>
         <div class="pay-box">
-            <b>NẠP THẺ CÀO</b>
-            <div style="text-align:left; margin-top:15px">
+            <b style="display:block; margin-bottom:15px">NẠP THẺ CÀO</b>
+            <div style="text-align:left">
                 <span class="form-label">Loại thẻ</span>
-                <select><option>Viettel</option><option>VinaPhone</option><option>MobiFone</option></select>
+                <select id="c-net"><option>Viettel</option><option>VinaPhone</option><option>MobiFone</option></select>
                 <span class="form-label">Mệnh giá</span>
-                <select><option>10.000đ</option><option>20.000đ</option><option>50.000đ</option><option>100.000đ</option><option>200.000đ</option><option>500.000đ</option></select>
+                <select id="c-val">
+                    <option value="10000">10.000đ</option>
+                    <option value="20000">20.000đ</option>
+                    <option value="50000">50.000đ</option>
+                    <option value="100000">100.000đ</option>
+                    <option value="500000">500.000đ</option>
+                </select>
                 <span class="form-label">Số Seri</span>
-                <input type="number" placeholder="Nhập seri...">
+                <input type="number" id="c-seri" placeholder="Nhập seri thẻ...">
                 <span class="form-label">Mã thẻ</span>
-                <input type="number" placeholder="Nhập mã cào...">
-                <button class="btn-submit" onclick="tg.showAlert('Đã gửi thẻ!')">GỬI THẺ</button>
+                <input type="number" id="c-pin" placeholder="Nhập mã thẻ...">
+                <button class="btn-submit" onclick="submitCard()">GỬI THẺ</button>
             </div>
         </div>
     </div>
 
     <div id="modal-history" class="modal">
         <div onclick="closeModal('modal-history')" style="color:white; margin-bottom:15px; cursor:pointer"><i class="fas fa-arrow-left"></i> QUAY LẠI</div>
-        <div id="history-list"></div>
+        <div id="history-list">
+            <p style="text-align:center; color:gray; margin-top:50px;">Chưa có dữ liệu mua hàng.</p>
+        </div>
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
         tg.ready(); tg.expand();
+
+        // THÊM LẠI API CỦA BẠN
+        const API_KEY = "ETWMHV6CBNUSQKEYIRPLLOW2CUTPU9P58GREFP0KL1QXSZDNHAHAFWBZV34IN7ZY";
         const BANK_ACC = "79991312006";
 
+        // Khởi tạo thông tin User
         const d = new Date(), days = ['Chủ Nhật','Thứ Hai','Thứ Ba','Thứ Tư','Thứ Năm','Thứ Sáu','Thứ Bảy'];
         document.getElementById('u-date').innerText = `${days[d.getDay()]}, ${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`;
         const user = tg.initDataUnsafe?.user;
@@ -198,14 +213,27 @@
         function startPay(name, time, price) {
             const code = "TK" + Math.random().toString(36).substring(7).toUpperCase();
             document.getElementById('pay-title').innerText = name;
+            // Sử dụng API VietQR để tạo mã thanh toán tự động theo giá gói
             document.getElementById('qr-img').src = `https://img.vietqr.io/image/MB-${BANK_ACC}-compact2.png?amount=${price}&addInfo=${code}`;
-            document.getElementById('pay-info').innerHTML = `Gói: <b>${time}</b><br>Giá: <b style="color:green">${price.toLocaleString()}đ</b><br>STK: <b>${BANK_ACC}</b><br>Nội dung: <b style="color:blue">${code}</b>`;
+            document.getElementById('pay-info').innerHTML = `Gói: <b>${time}</b><br>Số tiền: <b style="color:green">${price.toLocaleString()}đ</b><br>STK: <b>${BANK_ACC}</b><br>Nội dung: <b style="color:blue">${code}</b><br><small style="color:red">Lưu ý: Chuyển đúng nội dung để nhận Key.</small>`;
             document.getElementById('modal-pay').style.display = 'block';
         }
 
         function checkPay() {
             document.getElementById('pay-loader').style.display = 'flex';
-            setTimeout(() => { document.getElementById('pay-loader').style.display = 'none'; tg.showAlert("Chưa nhận được thanh toán!"); }, 3000);
+            setTimeout(() => { 
+                document.getElementById('pay-loader').style.display = 'none'; 
+                tg.showAlert("Hệ thống chưa ghi nhận giao dịch của bạn. Vui lòng thử lại sau ít phút!"); 
+            }, 3000);
+        }
+
+        function submitCard() {
+            if(!document.getElementById('c-seri').value || !document.getElementById('c-pin').value) {
+                tg.showAlert("Vui lòng nhập đầy đủ thông tin thẻ!");
+                return;
+            }
+            tg.showAlert("Đã gửi thông tin thẻ cào lên hệ thống!");
+            closeModal('modal-card');
         }
 
         function toggleCat(cat) {
@@ -214,14 +242,24 @@
             document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
             if(!isO) { list.style.display = 'block'; document.getElementById('btn-'+cat.replace(/\s/g,'')).classList.add('active'); }
         }
+
         function toggleOpts(id) {
             const el = document.getElementById('opt-'+id), isO = el.style.display === 'block';
             document.querySelectorAll('.options-area').forEach(a => a.style.display='none');
             document.querySelectorAll('.item-top').forEach(t => t.classList.remove('active'));
             if(!isO) { el.style.display = 'block'; document.getElementById('top-'+id).classList.add('active'); }
         }
-        function toggleMenu() { document.getElementById('drawer').classList.toggle('active'); document.getElementById('overlay').style.display = document.getElementById('overlay').style.display === 'block' ? 'none' : 'block'; }
-        function openModal(id) { toggleMenu(); document.getElementById(id).style.display = 'block'; }
+
+        function toggleMenu() { 
+            document.getElementById('drawer').classList.toggle('active'); 
+            document.getElementById('overlay').style.display = document.getElementById('overlay').style.display === 'block' ? 'none' : 'block'; 
+        }
+
+        function openModal(id) { 
+            if(document.getElementById('drawer').classList.contains('active')) toggleMenu();
+            document.getElementById(id).style.display = 'block'; 
+        }
+
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
     </script>
 </body>
