@@ -20,7 +20,11 @@
         .user-avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 12px; object-fit: cover; }
         .user-info b { font-size: 14px; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 150px; }
         .user-info small { color: var(--hint); font-size: 10px; display: block; }
-        .date-display { font-size: 9px; color: var(--accent); font-weight: 800; text-transform: uppercase; margin-top: 4px; }
+        
+        /* TIME & DATE DISPLAY */
+        .date-display { font-size: 10px; color: var(--accent); font-weight: 800; text-transform: uppercase; margin-top: 4px; display: flex; gap: 5px; align-items: center; }
+        .time-now { color: var(--success); background: rgba(52, 199, 89, 0.1); padding: 2px 5px; border-radius: 4px; }
+
         .menu-btn { background: var(--card); border: 1px solid var(--border); color: white; width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; }
 
         /* NOTIFICATION TICKER */
@@ -86,7 +90,10 @@
             <div class="user-info">
                 <b id="u-name">Khách Tokyo</b>
                 <small id="u-id">ID: 00000000</small>
-                <div class="date-display" id="u-date">...</div>
+                <div class="date-display">
+                    <span id="u-date">...</span>
+                    <span class="time-now" id="u-time">00:00:00</span>
+                </div>
             </div>
         </div>
         <div class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
@@ -95,8 +102,8 @@
     <div class="news-ticker"><i class="fas fa-bullhorn" style="margin-right:8px"></i><marquee>Tokyo Shop - Hệ thống thanh toán QR tự động thông minh. Nhấn chọn gói để mua ngay!</marquee></div>
 
     <div class="stats-bar">
-        <div class="stat-item"><span>Đơn hàng</span><b>35.820+</b></div>
-        <div class="stat-item"><span>Online</span><b>1.850</b></div>
+        <div class="stat-item"><span>Đơn hàng</span><b>35.910+</b></div>
+        <div class="stat-item"><span>Online</span><b>1.720</b></div>
         <div class="stat-item"><span>Hệ thống</span><b style="color:var(--success)">Ổn định</b></div>
     </div>
 
@@ -116,7 +123,6 @@
             <img id="qr-img" src="" style="width:100%; max-width:220px; margin:15px 0; border-radius:15px; border:1px solid #eee;">
             <div id="pay-info" style="text-align:left; font-size:12px; background:#f8f9fa; padding:12px; border-radius:10px; line-height:1.6"></div>
             <button class="btn-submit" style="background:var(--success)" onclick="checkPay()">XÁC NHẬN ĐÃ CHUYỂN</button>
-            <p style="font-size:10px; color:gray; margin-top:10px;">Đơn hàng sẽ tự động xử lý sau khi nhận tiền.</p>
         </div>
     </div>
 
@@ -128,15 +134,9 @@
                 <span class="form-label">Loại thẻ</span>
                 <select id="c-net"><option>Viettel</option><option>VinaPhone</option><option>MobiFone</option></select>
                 <span class="form-label">Mệnh giá</span>
-                <select id="c-val">
-                    <option value="10000">10.000đ</option>
-                    <option value="20000">20.000đ</option>
-                    <option value="50000">50.000đ</option>
-                    <option value="100000">100.000đ</option>
-                    <option value="500000">500.000đ</option>
-                </select>
+                <select id="c-val"><option>10.000đ</option><option>20.000đ</option><option>50.000đ</option><option>100.000đ</option><option>500.000đ</option></select>
                 <span class="form-label">Số Seri</span>
-                <input type="number" id="c-seri" placeholder="Nhập seri thẻ...">
+                <input type="number" id="c-seri" placeholder="Nhập seri...">
                 <span class="form-label">Mã thẻ</span>
                 <input type="number" id="c-pin" placeholder="Nhập mã thẻ...">
                 <button class="btn-submit" onclick="submitCard()">GỬI THẺ</button>
@@ -146,22 +146,32 @@
 
     <div id="modal-history" class="modal">
         <div onclick="closeModal('modal-history')" style="color:white; margin-bottom:15px; cursor:pointer"><i class="fas fa-arrow-left"></i> QUAY LẠI</div>
-        <div id="history-list">
-            <p style="text-align:center; color:gray; margin-top:50px;">Chưa có dữ liệu mua hàng.</p>
-        </div>
+        <div id="history-list"><p style="text-align:center; color:gray; margin-top:50px;">Chưa có dữ liệu mua hàng.</p></div>
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
         tg.ready(); tg.expand();
 
-        // THÊM LẠI API CỦA BẠN
         const API_KEY = "ETWMHV6CBNUSQKEYIRPLLOW2CUTPU9P58GREFP0KL1QXSZDNHAHAFWBZV34IN7ZY";
         const BANK_ACC = "79991312006";
 
-        // Khởi tạo thông tin User
-        const d = new Date(), days = ['Chủ Nhật','Thứ Hai','Thứ Ba','Thứ Tư','Thứ Năm','Thứ Sáu','Thứ Bảy'];
-        document.getElementById('u-date').innerText = `${days[d.getDay()]}, ${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`;
+        // Cập nhật Ngày và Giờ liên tục
+        function updateClock() {
+            const now = new Date();
+            const days = ['Chủ Nhật','Thứ Hai','Thứ Ba','Thứ Tư','Thứ Năm','Thứ Sáu','Thứ Bảy'];
+            
+            const dateStr = `${days[now.getDay()]}, ${now.getDate()}/${now.getMonth()+1}/${now.getFullYear()}`;
+            const timeStr = now.getHours().toString().padStart(2, '0') + ":" + 
+                            now.getMinutes().toString().padStart(2, '0') + ":" + 
+                            now.getSeconds().toString().padStart(2, '0');
+
+            document.getElementById('u-date').innerText = dateStr;
+            document.getElementById('u-time').innerText = timeStr;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
         const user = tg.initDataUnsafe?.user;
         if(user) {
             document.getElementById('u-name').innerText = user.first_name;
@@ -213,27 +223,19 @@
         function startPay(name, time, price) {
             const code = "TK" + Math.random().toString(36).substring(7).toUpperCase();
             document.getElementById('pay-title').innerText = name;
-            // Sử dụng API VietQR để tạo mã thanh toán tự động theo giá gói
             document.getElementById('qr-img').src = `https://img.vietqr.io/image/MB-${BANK_ACC}-compact2.png?amount=${price}&addInfo=${code}`;
-            document.getElementById('pay-info').innerHTML = `Gói: <b>${time}</b><br>Số tiền: <b style="color:green">${price.toLocaleString()}đ</b><br>STK: <b>${BANK_ACC}</b><br>Nội dung: <b style="color:blue">${code}</b><br><small style="color:red">Lưu ý: Chuyển đúng nội dung để nhận Key.</small>`;
+            document.getElementById('pay-info').innerHTML = `Gói: <b>${time}</b><br>Số tiền: <b style="color:green">${price.toLocaleString()}đ</b><br>STK: <b>${BANK_ACC}</b><br>Nội dung: <b style="color:blue">${code}</b>`;
             document.getElementById('modal-pay').style.display = 'block';
         }
 
         function checkPay() {
             document.getElementById('pay-loader').style.display = 'flex';
-            setTimeout(() => { 
-                document.getElementById('pay-loader').style.display = 'none'; 
-                tg.showAlert("Hệ thống chưa ghi nhận giao dịch của bạn. Vui lòng thử lại sau ít phút!"); 
-            }, 3000);
+            setTimeout(() => { document.getElementById('pay-loader').style.display = 'none'; tg.showAlert("Giao dịch đang được xử lý, vui lòng đợi!"); }, 3000);
         }
 
         function submitCard() {
-            if(!document.getElementById('c-seri').value || !document.getElementById('c-pin').value) {
-                tg.showAlert("Vui lòng nhập đầy đủ thông tin thẻ!");
-                return;
-            }
-            tg.showAlert("Đã gửi thông tin thẻ cào lên hệ thống!");
-            closeModal('modal-card');
+            if(!document.getElementById('c-seri').value || !document.getElementById('c-pin').value) { tg.showAlert("Vui lòng nhập đủ!"); return; }
+            tg.showAlert("Đã gửi thẻ cào!"); closeModal('modal-card');
         }
 
         function toggleCat(cat) {
@@ -259,7 +261,6 @@
             if(document.getElementById('drawer').classList.contains('active')) toggleMenu();
             document.getElementById(id).style.display = 'block'; 
         }
-
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
     </script>
 </body>
