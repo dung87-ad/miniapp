@@ -14,62 +14,48 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; padding-bottom: 50px; }
 
-        /* HEADER & PROFILE */
+        /* PROFILE HEADER */
         .header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; gap: 10px; }
         .user-profile { background: var(--card); padding: 12px 15px; border-radius: 20px; display: flex; align-items: center; border: 1px solid var(--border); flex: 1; }
         .user-avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 12px; object-fit: cover; }
         .user-info b { font-size: 14px; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 150px; }
         .user-info small { color: var(--hint); font-size: 10px; display: block; }
-        
-        /* TIME & DATE DISPLAY */
         .date-display { font-size: 10px; color: var(--accent); font-weight: 800; text-transform: uppercase; margin-top: 4px; display: flex; gap: 5px; align-items: center; }
         .time-now { color: var(--success); background: rgba(52, 199, 89, 0.1); padding: 2px 5px; border-radius: 4px; }
-
         .menu-btn { background: var(--card); border: 1px solid var(--border); color: white; width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; }
 
-        /* NOTIFICATION TICKER */
+        /* UI ELEMENTS */
         .news-ticker { background: rgba(88, 101, 242, 0.1); border: 1px solid var(--border); border-radius: 12px; padding: 10px; margin-bottom: 12px; display: flex; align-items: center; font-size: 11px; color: var(--yellow); }
-
-        /* STATS BAR */
-        .stats-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 15px; }
-        .stat-item { background: var(--card); border: 1px solid var(--border); padding: 10px; border-radius: 12px; text-align: center; }
-        .stat-item span { display: block; font-size: 9px; color: var(--hint); margin-bottom: 2px; }
-        .stat-item b { font-size: 12px; color: var(--success); }
-
-        /* ADMIN SECTION */
         .support-box { background: var(--card); border-radius: 18px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 20px; }
         .support-item { display: flex; align-items: center; padding: 12px 15px; border-bottom: 1px solid var(--border); text-decoration: none; color: white; font-size: 13px; }
         .support-icon { width: 28px; height: 28px; background: rgba(88,101,242,0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--accent); margin-right: 12px; }
 
-        /* MENU DRAWER */
-        .drawer { position: fixed; top: 0; right: -100%; width: 75%; height: 100%; background: var(--card); z-index: 2000; transition: 0.4s; padding: 25px; border-left: 1px solid var(--border); }
-        .drawer.active { right: 0; }
-        .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: none; z-index: 1999; backdrop-filter: blur(5px); }
-        .drawer-item { display: flex; align-items: center; padding: 15px; background: #2c2c2e; border-radius: 12px; margin-bottom: 10px; color: white; cursor: pointer; }
-        .drawer-item i { margin-right: 12px; color: var(--accent); width: 20px; text-align: center; }
-
-        /* PRODUCT LIST UI */
+        /* PRODUCT LIST */
         .cat-btn { background: var(--card); border-radius: 15px; padding: 15px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 10px; cursor: pointer; border-left: 4px solid var(--accent); position: relative; }
         .cat-btn i.arrow-icon { position: absolute; right: 15px; color: var(--hint); transition: 0.3s; }
         .cat-btn.active i.arrow-icon { transform: rotate(180deg); color: var(--accent); }
         .list-container { display: none; margin-bottom: 15px; }
         .item-card { background: var(--card); border-radius: 15px; border: 1px solid var(--border); margin-bottom: 8px; overflow: hidden; }
         .item-top { padding: 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-        .item-top i { transition: 0.3s; font-size: 11px; color: var(--hint); }
         .item-top.active i { transform: rotate(180deg); color: var(--accent); }
         .options-area { display: none; background: #111; border-top: 1px solid var(--border); }
         .opt-row { padding: 12px 15px; display: flex; justify-content: space-between; border-bottom: 1px solid #222; font-size: 13px; cursor: pointer; }
-        .opt-row:active { background: var(--accent); }
 
         /* MODALS */
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.96); z-index: 3000; padding: 20px; overflow-y: auto; }
-        .pay-box { background: #fff; color: #000; padding: 25px; border-radius: 25px; text-align: center; position: relative; overflow: hidden; }
-        .btn-submit { width: 100%; background: var(--accent); color: white; border: none; border-radius: 15px; padding: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; }
-        .loader-overlay { display: none; position: absolute; inset: 0; background: rgba(255,255,255,0.95); z-index: 10; flex-direction: column; align-items: center; justify-content: center; }
-        .spinner { width: 35px; height: 35px; border: 4px solid #f3f3f3; border-top: 4px solid var(--accent); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 10px; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .pay-box { background: #fff; color: #000; padding: 25px; border-radius: 25px; text-align: center; position: relative; }
+        .pay-tabs { display: flex; gap: 10px; margin-bottom: 20px; }
+        .tab-btn { flex: 1; padding: 10px; border-radius: 10px; border: 1px solid #ddd; font-weight: bold; font-size: 12px; cursor: pointer; background: #f8f9fa; }
+        .tab-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+        
         .form-label { text-align: left; display: block; font-size: 12px; margin-bottom: 5px; font-weight: bold; color: #333; }
-        select, input { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 10px; border: 1px solid #ddd; font-family: inherit; }
+        select, input { width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 10px; border: 1px solid #ddd; font-family: inherit; }
+        .btn-submit { width: 100%; background: var(--accent); color: white; border: none; border-radius: 15px; padding: 16px; font-weight: bold; cursor: pointer; }
+
+        /* DRAWER */
+        .drawer { position: fixed; top: 0; right: -100%; width: 75%; height: 100%; background: var(--card); z-index: 2000; transition: 0.4s; padding: 25px; border-left: 1px solid var(--border); }
+        .drawer.active { right: 0; }
+        .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: none; z-index: 1999; backdrop-filter: blur(5px); }
     </style>
 </head>
 <body>
@@ -77,11 +63,12 @@
     <div class="drawer-overlay" id="overlay" onclick="toggleMenu()"></div>
     
     <div class="drawer" id="drawer">
-        <h3 style="margin-top:0; color:var(--accent); font-size: 18px;">TOKYO SHOP</h3>
-        <div class="drawer-item" onclick="openModal('modal-card')"><i class="fas fa-credit-card"></i>Nạp Thẻ Cào</div>
-        <div class="drawer-item" onclick="openModal('modal-history')"><i class="fas fa-history"></i>Lịch sử mua hàng</div>
+        <h3 style="margin-top:0; color:var(--accent)">TOKYO SHOP</h3>
+        <div class="drawer-item" style="display:flex; align-items:center; padding:15px; background:#2c2c2e; border-radius:12px; color:white;" onclick="openHistory()">
+            <i class="fas fa-history" style="margin-right:12px; color:var(--accent)"></i>Lịch sử mua hàng
+        </div>
         <hr style="border:0; border-top:1px solid var(--border); margin:15px 0">
-        <div class="drawer-item" onclick="toggleMenu()" style="color:var(--danger)"><i class="fas fa-times-circle"></i>Đóng Menu</div>
+        <div onclick="toggleMenu()" style="color:var(--danger); padding:10px;"><i class="fas fa-times-circle"></i> Đóng Menu</div>
     </div>
 
     <div class="header-top">
@@ -90,22 +77,13 @@
             <div class="user-info">
                 <b id="u-name">Khách Tokyo</b>
                 <small id="u-id">ID: 00000000</small>
-                <div class="date-display">
-                    <span id="u-date">...</span>
-                    <span class="time-now" id="u-time">00:00:00</span>
-                </div>
+                <div class="date-display"><span id="u-date">...</span><span class="time-now" id="u-time">00:00:00</span></div>
             </div>
         </div>
         <div class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
     </div>
 
-    <div class="news-ticker"><i class="fas fa-bullhorn" style="margin-right:8px"></i><marquee>Tokyo Shop - Hệ thống thanh toán QR tự động thông minh. Nhấn chọn gói để mua ngay!</marquee></div>
-
-    <div class="stats-bar">
-        <div class="stat-item"><span>Đơn hàng</span><b>35.910+</b></div>
-        <div class="stat-item"><span>Online</span><b>1.720</b></div>
-        <div class="stat-item"><span>Hệ thống</span><b style="color:var(--success)">Ổn định</b></div>
-    </div>
+    <div class="news-ticker"><i class="fas fa-bullhorn" style="margin-right:8px"></i><marquee>Tokyo Shop - Hệ thống thanh toán tự động. Chọn gói sản phẩm để bắt đầu thanh toán bằng Card hoặc Bank!</marquee></div>
 
     <div class="support-box">
         <a href="https://t.me/muadongtokyo36" class="support-item"><div class="support-icon"><i class="fas fa-crown"></i></div><b>Admin Muadong</b></a>
@@ -115,38 +93,41 @@
 
     <div id="product-area"></div>
 
-    <div id="modal-pay" class="modal">
-        <div onclick="closeModal('modal-pay')" style="color:white; margin-bottom:15px; cursor:pointer"><i class="fas fa-arrow-left"></i> QUAY LẠI</div>
+    <div id="modal-buy" class="modal">
+        <div onclick="closeModal('modal-buy')" style="color:white; margin-bottom:15px; cursor:pointer"><i class="fas fa-arrow-left"></i> QUAY LẠI</div>
         <div class="pay-box">
-            <div id="pay-loader" class="loader-overlay"><div class="spinner"></div><b>ĐANG KIỂM TRA ĐƠN...</b></div>
-            <b id="pay-title" style="color:var(--accent); font-size: 16px;">THANH TOÁN ĐƠN HÀNG</b>
-            <img id="qr-img" src="" style="width:100%; max-width:220px; margin:15px 0; border-radius:15px; border:1px solid #eee;">
-            <div id="pay-info" style="text-align:left; font-size:12px; background:#f8f9fa; padding:12px; border-radius:10px; line-height:1.6"></div>
-            <button class="btn-submit" style="background:var(--success)" onclick="checkPay()">XÁC NHẬN ĐÃ CHUYỂN</button>
-        </div>
-    </div>
+            <h3 id="buy-name" style="margin-top:0; color:var(--accent); font-size:16px;">Tên sản phẩm</h3>
+            <p id="buy-price" style="font-weight:bold; color:var(--success); margin-bottom:15px;">Giá: 0đ</p>
+            
+            <div class="pay-tabs">
+                <div class="tab-btn active" onclick="switchTab('bank')"><i class="fas fa-university"></i> BANK QR</div>
+                <div class="tab-btn" onclick="switchTab('card')"><i class="fas fa-credit-card"></i> THẺ CÀO</div>
+            </div>
 
-    <div id="modal-card" class="modal">
-        <div onclick="closeModal('modal-card')" style="color:white; margin-bottom:15px; cursor:pointer"><i class="fas fa-arrow-left"></i> QUAY LẠI</div>
-        <div class="pay-box">
-            <b style="display:block; margin-bottom:15px">NẠP THẺ CÀO</b>
-            <div style="text-align:left">
+            <div id="tab-bank">
+                <img id="qr-img" src="" style="width:100%; max-width:200px; border-radius:15px; border:1px solid #eee;">
+                <div id="bank-info" style="text-align:left; font-size:12px; background:#f8f9fa; padding:12px; border-radius:10px; margin-top:10px; line-height:1.6"></div>
+                <button class="btn-submit" style="background:var(--success); margin-top:15px;" onclick="checkPay()">XÁC NHẬN ĐÃ CHUYỂN</button>
+            </div>
+
+            <div id="tab-card" style="display:none; text-align:left;">
                 <span class="form-label">Loại thẻ</span>
                 <select id="c-net"><option>Viettel</option><option>VinaPhone</option><option>MobiFone</option></select>
-                <span class="form-label">Mệnh giá</span>
-                <select id="c-val"><option>10.000đ</option><option>20.000đ</option><option>50.000đ</option><option>100.000đ</option><option>500.000đ</option></select>
+                <span class="form-label">Mệnh giá khớp với giá gói</span>
+                <select id="c-val"><option id="match-val">Chọn đúng mệnh giá</option></select>
                 <span class="form-label">Số Seri</span>
-                <input type="number" id="c-seri" placeholder="Nhập seri...">
+                <input type="number" id="c-seri" placeholder="Nhập số seri...">
                 <span class="form-label">Mã thẻ</span>
-                <input type="number" id="c-pin" placeholder="Nhập mã thẻ...">
-                <button class="btn-submit" onclick="submitCard()">GỬI THẺ</button>
+                <input type="number" id="c-pin" placeholder="Nhập mã cào...">
+                <button class="btn-submit" onclick="submitCard()">GỬI THẺ & THANH TOÁN</button>
+                <p style="font-size:10px; color:red; margin-top:10px;">* Lưu ý: Gửi sai mệnh giá sẽ bị mất thẻ.</p>
             </div>
         </div>
     </div>
 
     <div id="modal-history" class="modal">
         <div onclick="closeModal('modal-history')" style="color:white; margin-bottom:15px; cursor:pointer"><i class="fas fa-arrow-left"></i> QUAY LẠI</div>
-        <div id="history-list"><p style="text-align:center; color:gray; margin-top:50px;">Chưa có dữ liệu mua hàng.</p></div>
+        <div id="history-list" style="color:white; text-align:center; padding-top:50px;">Chưa có lịch sử đơn hàng.</div>
     </div>
 
     <script>
@@ -156,62 +137,38 @@
         const API_KEY = "ETWMHV6CBNUSQKEYIRPLLOW2CUTPU9P58GREFP0KL1QXSZDNHAHAFWBZV34IN7ZY";
         const BANK_ACC = "79991312006";
 
-        // Cập nhật Ngày và Giờ liên tục
         function updateClock() {
             const now = new Date();
             const days = ['Chủ Nhật','Thứ Hai','Thứ Ba','Thứ Tư','Thứ Năm','Thứ Sáu','Thứ Bảy'];
-            
-            const dateStr = `${days[now.getDay()]}, ${now.getDate()}/${now.getMonth()+1}/${now.getFullYear()}`;
-            const timeStr = now.getHours().toString().padStart(2, '0') + ":" + 
-                            now.getMinutes().toString().padStart(2, '0') + ":" + 
-                            now.getSeconds().toString().padStart(2, '0');
-
-            document.getElementById('u-date').innerText = dateStr;
-            document.getElementById('u-time').innerText = timeStr;
+            document.getElementById('u-date').innerText = `${days[now.getDay()]}, ${now.getDate()}/${now.getMonth()+1}/${now.getFullYear()}`;
+            document.getElementById('u-time').innerText = now.getHours().toString().padStart(2,'0')+":"+now.getMinutes().toString().padStart(2,'0')+":"+now.getSeconds().toString().padStart(2,'0');
         }
-        setInterval(updateClock, 1000);
-        updateClock();
-
-        const user = tg.initDataUnsafe?.user;
-        if(user) {
-            document.getElementById('u-name').innerText = user.first_name;
-            document.getElementById('u-id').innerText = "ID: " + user.id;
-            if(user.photo_url) document.getElementById('u-avatar').src = user.photo_url;
-        }
+        setInterval(updateClock, 1000); updateClock();
 
         const DATA = [
             { cat: 'HACK VIP FREE FIRE', icon: 'fa-fire', color: 'red', items: [
                 { id:'h1', name:'Br Mods VIP', opts: [['1 Ngày', 2000], ['30 Ngày', 30000]] },
                 { id:'h2', name:'ZyGame Menu', opts: [['1 Ngày', 2000], ['30 Ngày', 30000]] },
-                { id:'h3', name:'Fluorite iOS', opts: [['1 Ngày', 5000], ['30 Ngày', 50000]] },
-                { id:'h4', name:'Drip OB51 VIP', opts: [['1 Ngày', 2000], ['30 Ngày', 30000]] },
-                { id:'h5', name:'HG Cheat VIP', opts: [['1 Ngày', 2000], ['30 Ngày', 30000]] }
+                { id:'h3', name:'Fluorite iOS', opts: [['1 Ngày', 5000], ['30 Ngày', 50000]] }
             ]},
             { cat: 'ACC FREE FIRE', icon: 'fa-user-circle', color: 'lime', items: [
                 { id:'a1', name:'Acc FF Level 5', opts: [['Gói 1 Acc', 5000]] },
                 { id:'a2', name:'Acc FF Level 15', opts: [['Gói 1 Acc', 15000]] }
-            ]},
-            { cat: 'CLOUD PHONE', icon: 'fa-cloud', color: 'cyan', items: [
-                { id:'c1', name:'Redfinger Cloud', opts: [['1 Ngày', 5000], ['7 Ngày', 25000]] },
-                { id:'c2', name:'CC Cloud Phone', opts: [['7 Ngày', 25000], ['30 Ngày', 80000]] },
-                { id:'c3', name:'Vip Player Cloud', opts: [['30 Ngày', 90000]] }
             ]}
         ];
 
         function render() {
             document.getElementById('product-area').innerHTML = DATA.map(g => `
-                <div class="cat-btn" id="btn-${g.cat.replace(/\s/g,'')}" onclick="toggleCat('${g.cat}')">
+                <div class="cat-btn" onclick="toggleCat('${g.cat}')">
                     <i class="fas ${g.icon}" style="margin-right:10px; color:${g.color}"></i><b>${g.cat}</b>
                     <i class="fas fa-chevron-down arrow-icon"></i>
                 </div>
                 <div id="list-${g.cat}" class="list-container">
                     ${g.items.map(i => `
                         <div class="item-card">
-                            <div class="item-top" id="top-${i.id}" onclick="toggleOpts('${i.id}')">
-                                <b>${i.name}</b><i class="fas fa-chevron-down"></i>
-                            </div>
+                            <div class="item-top" onclick="toggleOpts('${i.id}')"><b>${i.name}</b><i class="fas fa-chevron-down"></i></div>
                             <div class="options-area" id="opt-${i.id}">
-                                ${i.opts.map(o => `<div class="opt-row" onclick="startPay('${i.name}','${o[0]}',${o[1]})"><span>${o[0]}</span><b>${o[1].toLocaleString()}đ</b></div>`).join('')}
+                                ${i.opts.map(o => `<div class="opt-row" onclick="openBuyModal('${i.name} - ${o[0]}', ${o[1]})"><span>${o[0]}</span><b>${o[1].toLocaleString()}đ</b></div>`).join('')}
                             </div>
                         </div>
                     `).join('')}
@@ -220,48 +177,53 @@
         }
         render();
 
-        function startPay(name, time, price) {
+        function openBuyModal(name, price) {
             const code = "TK" + Math.random().toString(36).substring(7).toUpperCase();
-            document.getElementById('pay-title').innerText = name;
+            document.getElementById('buy-name').innerText = name;
+            document.getElementById('buy-price').innerText = `Giá: ${price.toLocaleString()}đ`;
+            
+            // Setup Bank
             document.getElementById('qr-img').src = `https://img.vietqr.io/image/MB-${BANK_ACC}-compact2.png?amount=${price}&addInfo=${code}`;
-            document.getElementById('pay-info').innerHTML = `Gói: <b>${time}</b><br>Số tiền: <b style="color:green">${price.toLocaleString()}đ</b><br>STK: <b>${BANK_ACC}</b><br>Nội dung: <b style="color:blue">${code}</b>`;
-            document.getElementById('modal-pay').style.display = 'block';
+            document.getElementById('bank-info').innerHTML = `STK: <b>${BANK_ACC}</b><br>Nội dung: <b style="color:blue">${code}</b>`;
+            
+            // Setup Card
+            document.getElementById('match-val').innerText = `${price.toLocaleString()}đ`;
+            document.getElementById('match-val').value = price;
+
+            switchTab('bank');
+            document.getElementById('modal-buy').style.display = 'block';
         }
 
-        function checkPay() {
-            document.getElementById('pay-loader').style.display = 'flex';
-            setTimeout(() => { document.getElementById('pay-loader').style.display = 'none'; tg.showAlert("Giao dịch đang được xử lý, vui lòng đợi!"); }, 3000);
+        function switchTab(type) {
+            const tabs = document.querySelectorAll('.tab-btn');
+            if(type === 'bank') {
+                tabs[0].classList.add('active'); tabs[1].classList.remove('active');
+                document.getElementById('tab-bank').style.display = 'block';
+                document.getElementById('tab-card').style.display = 'none';
+            } else {
+                tabs[1].classList.add('active'); tabs[0].classList.remove('active');
+                document.getElementById('tab-card').style.display = 'block';
+                document.getElementById('tab-bank').style.display = 'none';
+            }
         }
 
-        function submitCard() {
-            if(!document.getElementById('c-seri').value || !document.getElementById('c-pin').value) { tg.showAlert("Vui lòng nhập đủ!"); return; }
-            tg.showAlert("Đã gửi thẻ cào!"); closeModal('modal-card');
-        }
-
+        function checkPay() { tg.showAlert("Đang kiểm tra giao dịch Bank..."); }
+        function submitCard() { tg.showAlert("Đang xử lý thẻ cào cho đơn hàng này..."); }
+        
         function toggleCat(cat) {
-            const list = document.getElementById('list-'+cat), isO = list.style.display === 'block';
-            document.querySelectorAll('.list-container').forEach(c => c.style.display='none');
-            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-            if(!isO) { list.style.display = 'block'; document.getElementById('btn-'+cat.replace(/\s/g,'')).classList.add('active'); }
+            const list = document.getElementById('list-'+cat);
+            list.style.display = (list.style.display === 'block') ? 'none' : 'block';
         }
-
         function toggleOpts(id) {
-            const el = document.getElementById('opt-'+id), isO = el.style.display === 'block';
-            document.querySelectorAll('.options-area').forEach(a => a.style.display='none');
-            document.querySelectorAll('.item-top').forEach(t => t.classList.remove('active'));
-            if(!isO) { el.style.display = 'block'; document.getElementById('top-'+id).classList.add('active'); }
+            const el = document.getElementById('opt-'+id);
+            el.style.display = (el.style.display === 'block') ? 'none' : 'block';
         }
-
         function toggleMenu() { 
             document.getElementById('drawer').classList.toggle('active'); 
-            document.getElementById('overlay').style.display = document.getElementById('overlay').style.display === 'block' ? 'none' : 'block'; 
-        }
-
-        function openModal(id) { 
-            if(document.getElementById('drawer').classList.contains('active')) toggleMenu();
-            document.getElementById(id).style.display = 'block'; 
+            document.getElementById('overlay').style.display = (document.getElementById('overlay').style.display === 'block') ? 'none' : 'block';
         }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+        function openHistory() { toggleMenu(); document.getElementById('modal-history').style.display = 'block'; }
     </script>
 </body>
 </html>
