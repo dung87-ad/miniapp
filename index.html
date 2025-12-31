@@ -14,30 +14,35 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; padding-bottom: 50px; }
 
-        /* PROFILE HEADER (KHÔI PHỤC) */
+        /* USER PROFILE */
         .header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; gap: 10px; }
         .user-profile { background: var(--card); padding: 12px 15px; border-radius: 20px; display: flex; align-items: center; border: 1px solid var(--border); flex: 1; }
         .user-avatar { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 12px; object-fit: cover; }
         .user-info b { font-size: 14px; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 140px; }
         .user-info small { color: var(--hint); font-size: 10px; display: block; }
-        .date-display { font-size: 9px; color: var(--accent); font-weight: 800; text-transform: uppercase; margin-top: 4px; display: flex; gap: 4px; }
+        .date-display { font-size: 9px; color: var(--accent); font-weight: 800; text-transform: uppercase; margin-top: 4px; display: flex; gap: 5px; }
         .time-now { color: var(--success); }
-        .menu-btn { background: var(--card); border: 1px solid var(--border); color: white; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+        .menu-btn { background: var(--card); border: 1px solid var(--border); color: white; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; }
 
-        /* CHỈ SỐ STATS (KHÔI PHỤC) */
+        /* STATS & TICKER */
+        .news-ticker { background: rgba(88, 101, 242, 0.1); border: 1px solid var(--border); border-radius: 12px; padding: 10px; margin-bottom: 12px; display: flex; align-items: center; font-size: 11px; color: var(--yellow); }
         .stats-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 15px; }
         .stat-item { background: var(--card); border: 1px solid var(--border); padding: 10px; border-radius: 12px; text-align: center; }
-        .stat-item span { display: block; font-size: 9px; color: var(--hint); margin-bottom: 2px; }
+        .stat-item span { display: block; font-size: 9px; color: var(--hint); }
         .stat-item b { font-size: 12px; color: var(--success); }
 
-        .news-ticker { background: rgba(88, 101, 242, 0.1); border: 1px solid var(--border); border-radius: 12px; padding: 10px; margin-bottom: 12px; display: flex; align-items: center; font-size: 11px; color: var(--yellow); }
+        /* 3 ADMINS SECTION */
+        .support-box { background: var(--card); border-radius: 18px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 20px; }
+        .support-item { display: flex; align-items: center; padding: 12px 15px; border-bottom: 1px solid var(--border); text-decoration: none; color: white; font-size: 13px; }
+        .support-icon { width: 28px; height: 28px; background: rgba(88,101,242,0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--accent); margin-right: 12px; }
 
         /* PRODUCT UI */
         .cat-btn { background: var(--card); border-radius: 15px; padding: 15px; display: flex; align-items: center; border: 1px solid var(--border); margin-bottom: 10px; cursor: pointer; border-left: 4px solid var(--accent); position: relative; }
-        .cat-btn i.arrow-icon { position: absolute; right: 15px; color: var(--hint); }
+        .cat-btn i.arrow-icon { position: absolute; right: 15px; transition: 0.3s; color: var(--hint); }
+        .cat-btn.active i.arrow-icon { transform: rotate(180deg); color: var(--accent); }
         .list-container { display: none; margin-bottom: 15px; }
         .item-card { background: var(--card); border-radius: 15px; border: 1px solid var(--border); margin-bottom: 8px; overflow: hidden; }
-        .item-top { padding: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .item-top { padding: 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
         .options-area { display: none; background: #111; border-top: 1px solid var(--border); }
         .opt-row { padding: 12px 15px; display: flex; justify-content: space-between; border-bottom: 1px solid #222; font-size: 13px; cursor: pointer; }
 
@@ -45,13 +50,13 @@
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.96); z-index: 3000; padding: 20px; overflow-y: auto; }
         .pay-box { background: #fff; color: #000; padding: 25px; border-radius: 25px; text-align: center; }
         .pay-tabs { display: flex; gap: 8px; margin-bottom: 15px; }
-        .tab-btn { flex: 1; padding: 10px; border-radius: 10px; border: 1px solid #ddd; font-weight: bold; font-size: 11px; background: #f8f9fa; }
+        .tab-btn { flex: 1; padding: 10px; border-radius: 10px; border: 1px solid #ddd; font-weight: bold; font-size: 11px; background: #f8f9fa; cursor: pointer; }
         .tab-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
         .form-label { text-align: left; display: block; font-size: 11px; margin-bottom: 4px; font-weight: bold; color: #333; }
         select, input { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 10px; border: 1px solid #ddd; font-family: inherit; }
-        .btn-submit { width: 100%; background: var(--accent); color: white; border: none; border-radius: 15px; padding: 16px; font-weight: bold; }
+        .btn-submit { width: 100%; background: var(--accent); color: white; border: none; border-radius: 15px; padding: 16px; font-weight: bold; cursor: pointer; }
 
-        /* DRAWER */
+        /* DRAWER MENU */
         .drawer { position: fixed; top: 0; right: -100%; width: 75%; height: 100%; background: var(--card); z-index: 2000; transition: 0.4s; padding: 25px; border-left: 1px solid var(--border); }
         .drawer.active { right: 0; }
         .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: none; z-index: 1999; backdrop-filter: blur(5px); }
@@ -63,11 +68,11 @@
     
     <div class="drawer" id="drawer">
         <h3 style="margin-top:0; color:var(--accent)">TOKYO SHOP</h3>
-        <div style="padding:15px; background:#2c2c2e; border-radius:12px; color:white;" onclick="openHistory()">
+        <div style="padding:15px; background:#2c2c2e; border-radius:12px; color:white; cursor:pointer" onclick="tg.showAlert('Chưa có lịch sử!')">
             <i class="fas fa-history" style="margin-right:10px; color:var(--accent)"></i>Lịch sử mua hàng
         </div>
         <hr style="border:0; border-top:1px solid var(--border); margin:15px 0">
-        <div onclick="toggleMenu()" style="color:var(--danger)"><i class="fas fa-times-circle"></i> Đóng Menu</div>
+        <div onclick="toggleMenu()" style="color:var(--danger); cursor:pointer"><i class="fas fa-times-circle"></i> Đóng Menu</div>
     </div>
 
     <div class="header-top">
@@ -82,43 +87,46 @@
         <div class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
     </div>
 
-    <div class="news-ticker"><i class="fas fa-bullhorn" style="margin-right:8px"></i><marquee>Chào mừng bạn! Hệ thống mua trực tiếp qua Bank hoặc Card tự động 100%.</marquee></div>
+    <div class="news-ticker"><i class="fas fa-bullhorn" style="margin-right:8px"></i><marquee>Chào mừng! Chọn gói để mua trực tiếp bằng Bank hoặc Thẻ cào tự động.</marquee></div>
 
     <div class="stats-bar">
-        <div class="stat-item"><span>Đơn hàng</span><b>36.150+</b></div>
-        <div class="stat-item"><span>Online</span><b>2.105</b></div>
+        <div class="stat-item"><span>Đơn hàng</span><b>36.420+</b></div>
+        <div class="stat-item"><span>Online</span><b>1.550</b></div>
         <div class="stat-item"><span>Hệ thống</span><b style="color:var(--success)">Tốt</b></div>
+    </div>
+
+    <div class="support-box">
+        <a href="https://t.me/muadongtokyo36" class="support-item"><div class="support-icon"><i class="fas fa-crown"></i></div><b>Admin Muadong</b></a>
+        <a href="https://t.me/muahatokyo1919" class="support-item"><div class="support-icon"><i class="fas fa-bolt"></i></div><b>Admin Muaha</b></a>
+        <a href="https://t.me/muathutokyo27" class="support-item"><div class="support-icon"><i class="fas fa-headset"></i></div><b>Admin Muathu</b></a>
     </div>
 
     <div id="product-area"></div>
 
     <div id="modal-buy" class="modal">
-        <div onclick="closeModal('modal-buy')" style="color:white; margin-bottom:15px;"><i class="fas fa-arrow-left"></i> QUAY LẠI</div>
+        <div onclick="closeModal('modal-buy')" style="color:white; margin-bottom:15px; cursor:pointer"><i class="fas fa-arrow-left"></i> QUAY LẠI</div>
         <div class="pay-box">
-            <h3 id="buy-name" style="margin:0; color:var(--accent); font-size:16px;">Tên sản phẩm</h3>
-            <p id="buy-price" style="font-weight:bold; color:var(--success); margin:10px 0 20px 0;">Giá: 0đ</p>
-            
+            <h3 id="buy-name" style="margin:0; color:var(--accent); font-size:16px;">Sản phẩm</h3>
+            <p id="buy-price" style="font-weight:bold; color:var(--success); margin:10px 0;">Giá: 0đ</p>
             <div class="pay-tabs">
-                <div class="tab-btn active" id="tab-b-btn" onclick="switchTab('bank')">BANK QR</div>
-                <div class="tab-btn" id="tab-c-btn" onclick="switchTab('card')">THẺ CÀO</div>
+                <div class="tab-btn active" id="btn-b" onclick="switchTab('bank')">BANK QR</div>
+                <div class="tab-btn" id="btn-c" onclick="switchTab('card')">THẺ CÀO</div>
             </div>
-
             <div id="tab-bank">
                 <img id="qr-img" src="" style="width:100%; max-width:180px; border-radius:15px; border:1px solid #eee;">
                 <div id="bank-info" style="text-align:left; font-size:12px; background:#f8f9fa; padding:12px; border-radius:10px; margin-top:10px;"></div>
-                <button class="btn-submit" style="background:var(--success); margin-top:15px;" onclick="tg.showAlert('Đang kiểm tra giao dịch...')">XÁC NHẬN CHUYỂN</button>
+                <button class="btn-submit" style="background:var(--success); margin-top:15px;" onclick="tg.showAlert('Đang kiểm tra đơn hàng...')">XÁC NHẬN CHUYỂN</button>
             </div>
-
             <div id="tab-card" style="display:none; text-align:left;">
                 <span class="form-label">Loại thẻ</span>
                 <select><option>Viettel</option><option>VinaPhone</option><option>MobiFone</option></select>
-                <span class="form-label">Mệnh giá (Phải khớp giá gói)</span>
+                <span class="form-label">Mệnh giá (Bắt buộc khớp giá gói)</span>
                 <select><option id="match-val">Chọn đúng mệnh giá</option></select>
                 <span class="form-label">Số Seri</span>
                 <input type="number" placeholder="Nhập seri...">
                 <span class="form-label">Mã thẻ</span>
                 <input type="number" placeholder="Nhập mã thẻ...">
-                <button class="btn-submit" onclick="tg.showAlert('Hệ thống đang xử lý thẻ!')">MUA BẰNG THẺ</button>
+                <button class="btn-submit" onclick="tg.showAlert('Đang xử lý thẻ cào...')">MUA BẰNG THẺ</button>
             </div>
         </div>
     </div>
@@ -144,24 +152,29 @@
             if(user.photo_url) document.getElementById('u-avatar').src = user.photo_url;
         }
 
-        // KHÔI PHỤC DANH SÁCH ĐẦY ĐỦ
+        // ĐẦY ĐỦ 5 HACK - 2 ACC FF - 3 CLOUD PHONE
         const DATA = [
-            { cat: 'HACK ACC FREE FIRE', icon: 'fa-user-secret', color: '#ffcc00', items: [
-                { id:'ha1', name:'Hack Acc FF (Basic)', opts: [['Gói 1 Acc', 10000]] },
-                { id:'ha2', name:'Hack Acc FF (Pro)', opts: [['Gói 1 Acc', 50000]] }
-            ]},
             { cat: 'HACK VIP FREE FIRE', icon: 'fa-fire', color: 'red', items: [
                 { id:'h1', name:'Br Mods VIP', opts: [['1 Ngày', 2000], ['30 Ngày', 30000]] },
-                { id:'h2', name:'ZyGame Menu', opts: [['1 Ngày', 2000], ['30 Ngày', 30000]] }
+                { id:'h2', name:'ZyGame Menu', opts: [['1 Ngày', 2000], ['30 Ngày', 30000]] },
+                { id:'h3', name:'Fluorite iOS', opts: [['1 Ngày', 5000], ['30 Ngày', 50000]] },
+                { id:'h4', name:'Drip OB51 VIP', opts: [['1 Ngày', 2000], ['30 Ngày', 30000]] },
+                { id:'h5', name:'HG Cheat VIP', opts: [['1 Ngày', 2000], ['30 Ngày', 30000]] }
+            ]},
+            { cat: 'ACC FREE FIRE', icon: 'fa-user-circle', color: 'lime', items: [
+                { id:'a1', name:'Acc FF Level 5', opts: [['Gói 1 Acc', 5000]] },
+                { id:'a2', name:'Acc FF Level 15', opts: [['Gói 1 Acc', 15000]] }
             ]},
             { cat: 'CLOUD PHONE', icon: 'fa-cloud', color: 'cyan', items: [
-                { id:'c1', name:'Redfinger Cloud', opts: [['1 Ngày', 5000]] }
+                { id:'c1', name:'Redfinger Cloud', opts: [['1 Ngày', 5000], ['7 Ngày', 25000]] },
+                { id:'c2', name:'CC Cloud Phone', opts: [['7 Ngày', 25000], ['30 Ngày', 80000]] },
+                { id:'c3', name:'Vip Player Cloud', opts: [['30 Ngày', 90000]] }
             ]}
         ];
 
         function render() {
             document.getElementById('product-area').innerHTML = DATA.map(g => `
-                <div class="cat-btn" onclick="toggleCat('${g.cat}')">
+                <div class="cat-btn" id="cat-${g.cat.replace(/\s/g,'')}" onclick="toggleCat('${g.cat}')">
                     <i class="fas ${g.icon}" style="margin-right:10px; color:${g.color}"></i><b>${g.cat}</b>
                     <i class="fas fa-chevron-down arrow-icon"></i>
                 </div>
@@ -190,22 +203,24 @@
             document.getElementById('modal-buy').style.display = 'block';
         }
 
-        function switchTab(type) {
-            if(type === 'bank') {
-                document.getElementById('tab-b-btn').classList.add('active'); document.getElementById('tab-c-btn').classList.remove('active');
-                document.getElementById('tab-bank').style.display = 'block'; document.getElementById('tab-card').style.display = 'none';
-            } else {
-                document.getElementById('tab-c-btn').classList.add('active'); document.getElementById('tab-b-btn').classList.remove('active');
-                document.getElementById('tab-card').style.display = 'block'; document.getElementById('tab-bank').style.display = 'none';
-            }
+        function switchTab(t) {
+            if(t==='bank'){ document.getElementById('btn-b').classList.add('active'); document.getElementById('btn-c').classList.remove('active'); document.getElementById('tab-bank').style.display='block'; document.getElementById('tab-card').style.display='none'; }
+            else { document.getElementById('btn-c').classList.add('active'); document.getElementById('btn-b').classList.remove('active'); document.getElementById('tab-card').style.display='block'; document.getElementById('tab-bank').style.display='none'; }
         }
 
-        function toggleCat(cat) { const l = document.getElementById('list-'+cat); l.style.display = l.style.display === 'block' ? 'none' : 'block'; }
-        function toggleOpts(id) { const e = document.getElementById('opt-'+id); e.style.display = e.style.display === 'block' ? 'none' : 'block'; }
-        function toggleMenu() { 
-            document.getElementById('drawer').classList.toggle('active'); 
-            document.getElementById('overlay').style.display = document.getElementById('overlay').style.display === 'block' ? 'none' : 'block';
+        function toggleCat(cat) { 
+            const l = document.getElementById('list-'+cat); 
+            const b = document.getElementById('cat-'+cat.replace(/\s/g,''));
+            const isO = l.style.display === 'block';
+            document.querySelectorAll('.list-container').forEach(el=>el.style.display='none');
+            document.querySelectorAll('.cat-btn').forEach(el=>el.classList.remove('active'));
+            if(!isO){ l.style.display='block'; b.classList.add('active'); }
         }
+        function toggleOpts(id) { 
+            const e = document.getElementById('opt-'+id); 
+            e.style.display = e.style.display === 'block' ? 'none' : 'block'; 
+        }
+        function toggleMenu() { document.getElementById('drawer').classList.toggle('active'); document.getElementById('overlay').style.display = document.getElementById('overlay').style.display === 'block' ? 'none' : 'block'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
     </script>
 </body>
