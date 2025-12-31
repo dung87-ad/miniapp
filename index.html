@@ -14,7 +14,7 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; padding-bottom: 120px; }
 
-        /* HEADER PROFILE */
+        /* HEADER & PROFILE */
         .header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; gap: 10px; }
         .user-profile { background: var(--card); padding: 12px 15px; border-radius: 20px; display: flex; align-items: center; border: 1px solid var(--border); flex: 1; }
         .user-avatar { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 12px; object-fit: cover; }
@@ -27,21 +27,29 @@
         .news-ticker { background: rgba(88, 101, 242, 0.1); border: 1px solid var(--border); border-radius: 12px; padding: 10px; margin-bottom: 12px; display: flex; align-items: center; font-size: 11px; color: var(--yellow); }
         .stats-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 15px; }
         .stat-item { background: var(--card); border: 1px solid var(--border); padding: 10px; border-radius: 12px; text-align: center; }
-        .stat-item span { display: block; font-size: 9px; color: var(--hint); }
+        .stat-item span { font-size: 9px; color: var(--hint); display: block; }
         .stat-item b { font-size: 12px; color: var(--success); }
+
+        /* 3 ADMINS */
+        .support-box { background: var(--card); border-radius: 18px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 20px; display: grid; grid-template-columns: repeat(3, 1fr); }
+        .support-item { display: flex; flex-direction: column; align-items: center; padding: 12px 5px; text-decoration: none; color: white; font-size: 10px; border-right: 1px solid var(--border); }
+        .support-item:last-child { border-right: none; }
+        .support-icon { font-size: 18px; color: var(--accent); margin-bottom: 5px; }
 
         /* PRODUCT LIST */
         .cat-btn { background: var(--card); border-radius: 15px; padding: 15px; display: flex; align-items: center; justify-content: space-between; border: 1px solid var(--border); margin-bottom: 10px; cursor: pointer; border-left: 4px solid var(--accent); }
+        .cat-btn i.fa-chevron-down { transition: 0.3s; font-size: 12px; color: var(--hint); }
         .list-container { display: none; margin-bottom: 15px; }
         .item-card { background: var(--card); border-radius: 15px; border: 1px solid var(--border); margin-bottom: 8px; overflow: hidden; }
         .item-top { padding: 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-size: 14px; font-weight: bold; }
-        .opt-row { padding: 14px 15px; display: flex; justify-content: space-between; border-top: 1px solid #222; font-size: 13px; cursor: pointer; }
-        .opt-row.selected { background: rgba(88, 101, 242, 0.2); border-left: 3px solid var(--accent); }
+        .opt-row { padding: 14px 15px; display: flex; justify-content: space-between; border-top: 1px solid #222; font-size: 13px; cursor: pointer; transition: 0.2s; }
+        .opt-row.selected { background: rgba(88, 101, 242, 0.2); border-left: 4px solid var(--accent); }
 
-        /* BOTTOM BUY BAR */
+        /* BOTTOM ACTION BAR */
         .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #1c1c1e; padding: 15px 20px; border-top: 1px solid var(--border); display: none; z-index: 1000; box-shadow: 0 -5px 20px rgba(0,0,0,0.5); border-radius: 20px 20px 0 0; }
         .bar-content { display: flex; justify-content: space-between; align-items: center; }
         .btn-buy-now { background: var(--accent); color: white; border: none; padding: 12px 25px; border-radius: 12px; font-weight: bold; }
+        .close-bar { color: var(--danger); margin-left: 15px; font-size: 18px; cursor: pointer; }
 
         /* MODAL & DRAWER */
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 3000; padding: 20px; overflow-y: auto; }
@@ -49,10 +57,9 @@
         .drawer { position: fixed; top: 0; right: -100%; width: 75%; height: 100%; background: var(--card); z-index: 2000; transition: 0.4s; padding: 25px; }
         .drawer.active { right: 0; }
         .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: none; z-index: 1999; backdrop-filter: blur(5px); }
-        
         .copy-btn { background: #e8ebff; color: var(--accent); padding: 4px 10px; border-radius: 6px; font-size: 10px; font-weight: 800; cursor: pointer; border: 1px solid #c2c9ff; }
         input, select { width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 10px; border: 1px solid #ddd; }
-        .btn-final { width: 100%; color: white; border: none; border-radius: 15px; padding: 18px; font-weight: 800; margin-top: 10px; cursor: pointer; }
+        .btn-final { width: 100%; color: white; border: none; border-radius: 15px; padding: 18px; font-weight: 800; margin-top: 10px; }
     </style>
 </head>
 <body>
@@ -87,15 +94,24 @@
         <div class="stat-item"><span>Server</span><b style="color:var(--success)">ON</b></div>
     </div>
 
+    <div class="support-box">
+        <a href="https://t.me/muadongtokyo36" class="support-item"><i class="fas fa-crown support-icon"></i>Muadong</a>
+        <a href="https://t.me/muahatokyo1919" class="support-item"><i class="fas fa-bolt support-icon"></i>Muaha</a>
+        <a href="https://t.me/muathutokyo27" class="support-item"><i class="fas fa-headset support-icon"></i>Muathu</a>
+    </div>
+
     <div id="product-area"></div>
 
     <div class="bottom-bar" id="bottom-bar">
         <div class="bar-content">
             <div class="bar-info">
-                <b id="sel-name" style="font-size:14px">Sản phẩm</b>
+                <b id="sel-name" style="font-size:13px">Sản phẩm</b>
                 <span id="sel-price" style="font-size:16px; color:var(--success); font-weight:bold">0đ</span>
             </div>
-            <button class="btn-buy-now" onclick="openPayment()">MUA NGAY</button>
+            <div style="display:flex; align-items:center;">
+                <button class="btn-buy-now" onclick="openPayment()">MUA NGAY</button>
+                <i class="fas fa-times-circle close-bar" onclick="cancelSelection()"></i>
+            </div>
         </div>
     </div>
 
@@ -113,7 +129,11 @@
             </div>
             <div id="pay-card" style="display:none; text-align:left;">
                 <select id="c-net"><option>Viettel</option><option>VinaPhone</option><option>MobiFone</option></select>
-                <select id="c-val"><option value="2000">2.000đ</option><option value="5000">5.000đ</option><option value="15000">15.000đ</option><option value="30000">30.000đ</option><option value="50000">50.000đ</option></select>
+                <select id="c-val">
+                    <option value="2000">2.000đ</option><option value="5000">5.000đ</option><option value="10000">10.000đ</option>
+                    <option value="15000">15.000đ</option><option value="20000">20.000đ</option><option value="30000">30.000đ</option>
+                    <option value="50000">50.000đ</option><option value="100000">100.000đ</option>
+                </select>
                 <input type="number" id="c-seri" placeholder="Số Seri">
                 <input type="number" id="c-pin" placeholder="Mã thẻ">
                 <button class="btn-final" style="background:var(--accent)" onclick="submitCard()">THANH TOÁN THẺ</button>
@@ -126,20 +146,21 @@
         tg.ready(); tg.expand();
         const BANK_ACC = "79991312006";
         let selectedProduct = null;
+        let selectedRowId = null;
 
         const DATA = [
-            { cat: 'HACK VIP FREE FIRE', items: [
+            { cat: 'HACK VIP FREE FIRE', icon: 'fa-fire', items: [
                 { id:'h1', name:'Br Mods VIP', opts: [['1 Ngày', 2000], ['30 Ngày', 30000]] },
                 { id:'h2', name:'ZyGame Menu', opts: [['1 Ngày', 2000], ['30 Ngày', 30000]] },
                 { id:'h3', name:'Fluorite iOS', opts: [['1 Ngày', 5000], ['30 Ngày', 50000]] },
                 { id:'h4', name:'Drip OB51 VIP', opts: [['1 Ngày', 2000], ['30 Ngày', 30000]] },
                 { id:'h5', name:'HG Cheat VIP', opts: [['1 Ngày', 2000], ['30 Ngày', 30000]] }
             ]},
-            { cat: 'ACC FREE FIRE', items: [
+            { cat: 'ACC FREE FIRE', icon: 'fa-user-circle', items: [
                 { id:'a1', name:'Acc FF Level 5', opts: [['Gói 1 Acc', 5000]] },
                 { id:'a2', name:'Acc FF Level 15', opts: [['Gói 1 Acc', 15000]] }
             ]},
-            { cat: 'CLOUD PHONE', items: [
+            { cat: 'CLOUD PHONE', icon: 'fa-cloud', items: [
                 { id:'c1', name:'Redfinger Cloud', opts: [['1 Ngày', 5000], ['7 Ngày', 25000]] },
                 { id:'c2', name:'CC Cloud Phone', opts: [['7 Ngày', 25000], ['30 Ngày', 80000]] },
                 { id:'c3', name:'Vip Player Cloud', opts: [['30 Ngày', 90000]] }
@@ -149,7 +170,8 @@
         function render() {
             document.getElementById('product-area').innerHTML = DATA.map(g => `
                 <div class="cat-btn" onclick="toggleCat('${g.cat.replace(/\s/g,'')}')">
-                    <b>${g.cat}</b> <i class="fas fa-chevron-down" id="arrow-cat-${g.cat.replace(/\s/g,'')}"></i>
+                    <span><i class="fas ${g.icon}" style="margin-right:10px; color:var(--accent)"></i><b>${g.cat}</b></span>
+                    <i class="fas fa-chevron-down" id="arrow-cat-${g.cat.replace(/\s/g,'')}"></i>
                 </div>
                 <div id="list-${g.cat.replace(/\s/g,'')}" class="list-container">
                     ${g.items.map(i => `
@@ -172,7 +194,12 @@
         render();
 
         function selectItem(name, time, price, rowId) {
+            if(selectedRowId === rowId) {
+                cancelSelection();
+                return;
+            }
             selectedProduct = { name, time, price };
+            selectedRowId = rowId;
             document.querySelectorAll('.opt-row').forEach(el => el.classList.remove('selected'));
             document.getElementById('row-' + rowId).classList.add('selected');
             document.getElementById('sel-name').innerText = name + " (" + time + ")";
@@ -180,10 +207,22 @@
             document.getElementById('bottom-bar').style.display = 'block';
         }
 
+        function cancelSelection() {
+            selectedProduct = null;
+            selectedRowId = null;
+            document.querySelectorAll('.opt-row').forEach(el => el.classList.remove('selected'));
+            document.getElementById('bottom-bar').style.display = 'none';
+        }
+
         function openPayment() {
             const code = "TK" + Math.random().toString(36).substring(7).toUpperCase();
             document.getElementById('qr-img').src = `https://img.vietqr.io/image/MB-${BANK_ACC}-compact2.png?amount=${selectedProduct.price}&addInfo=${code}`;
-            document.getElementById('bank-details').innerHTML = `Sản phẩm: <b>${selectedProduct.name}</b><br>Gói: <b>${selectedProduct.time}</b><br>STK: <b>${BANK_ACC}</b> <span class="copy-btn" onclick="copyText('${BANK_ACC}')">COPY</span><br>Nội dung: <b>${code}</b> <span class="copy-btn" onclick="copyText('${code}')">COPY</span>`;
+            document.getElementById('bank-details').innerHTML = `
+                Sản phẩm: <b>${selectedProduct.name}</b><br>
+                Gói: <b>${selectedProduct.time}</b><br>
+                STK: <b>${BANK_ACC}</b> <span class="copy-btn" onclick="copyText('${BANK_ACC}')">COPY</span><br>
+                Nội dung: <b>${code}</b> <span class="copy-btn" onclick="copyText('${code}')">COPY</span>
+            `;
             document.getElementById('c-val').value = selectedProduct.price;
             document.getElementById('modal-pay').style.display = 'block';
         }
