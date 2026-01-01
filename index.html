@@ -12,9 +12,9 @@
             --hint: #8e8e93; --border: #2c2c2e;
         }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; padding-bottom: 120px; }
+        body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; padding-bottom: 120px; overflow-x: hidden; }
 
-        /* HEADER & USER PROFILE */
+        /* HEADER & USER */
         .header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; gap: 10px; }
         .user-profile { background: var(--card); padding: 12px 15px; border-radius: 20px; display: flex; align-items: center; border: 1px solid var(--border); flex: 1; }
         .user-avatar { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 12px; object-fit: cover; }
@@ -30,7 +30,7 @@
         .stat-item span { font-size: 9px; color: var(--hint); display: block; }
         .stat-item b { font-size: 12px; color: var(--success); }
 
-        /* ADMIN BOX */
+        /* ADMINS */
         .support-box { background: var(--card); border-radius: 18px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 20px; display: grid; grid-template-columns: repeat(3, 1fr); }
         .support-item { display: flex; flex-direction: column; align-items: center; padding: 15px 5px; text-decoration: none; color: white; border-right: 1px solid var(--border); text-align: center; }
         .support-item:last-child { border-right: none; }
@@ -38,48 +38,77 @@
         .support-item b { font-size: 10px; display: block; margin-bottom: 2px; }
         .support-item span { font-size: 8px; color: var(--hint); }
 
-        /* PRODUCT LIST */
+        /* PRODUCT LIST & ARROW ANIMATION */
         .cat-btn { background: var(--card); border-radius: 15px; padding: 15px; display: flex; align-items: center; justify-content: space-between; border: 1px solid var(--border); margin-bottom: 10px; cursor: pointer; border-left: 4px solid var(--accent); }
         .list-container { display: none; margin-bottom: 15px; }
         .item-card { background: var(--card); border-radius: 15px; border: 1px solid var(--border); margin-bottom: 8px; overflow: hidden; }
         .item-top { padding: 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-size: 14px; font-weight: bold; }
+        .fa-chevron-down { transition: transform 0.3s ease; font-size: 12px; color: var(--hint); }
+        .rotate { transform: rotate(180deg); }
+
         .opt-row { padding: 14px 15px; display: flex; justify-content: space-between; border-top: 1px solid #222; font-size: 13px; cursor: pointer; }
         .opt-row.selected { background: rgba(88, 101, 242, 0.2); border-left: 4px solid var(--accent); }
 
-        /* PAYMENT MODAL */
-        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 3000; padding: 20px; overflow-y: auto; }
-        .pay-box { background: #fff; color: #000; padding: 20px; border-radius: 25px; text-align: center; max-width: 400px; margin: auto; }
-        .tab-btn { flex: 1; padding: 12px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; }
-        input, select { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 10px; border: 1px solid #ddd; }
-        .btn-final { width: 100%; padding: 15px; border-radius: 15px; border: none; color: #fff; font-weight: bold; cursor: pointer; }
-
+        /* DRAWER & FULLPAGE MODAL */
+        .drawer { position: fixed; top: 0; right: -100%; width: 80%; height: 100%; background: var(--bg); z-index: 2000; transition: 0.4s; padding: 25px; border-left: 1px solid var(--border); }
+        .drawer.active { right: 0; }
+        .full-page { display: none; position: fixed; inset: 0; background: var(--bg); z-index: 3000; padding: 20px; overflow-y: auto; }
+        .history-item { background: var(--card); border-radius: 15px; padding: 15px; border: 1px solid var(--border); margin-bottom: 10px; display: flex; align-items: center; gap: 15px; }
+        
         /* BOTTOM BAR */
         .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #1c1c1e; padding: 15px 20px; border-top: 1px solid var(--border); display: none; z-index: 1000; border-radius: 20px 20px 0 0; }
         .bar-content { display: flex; justify-content: space-between; align-items: center; }
         .btn-buy-now { background: var(--accent); color: white; border: none; padding: 12px 25px; border-radius: 12px; font-weight: bold; cursor: pointer; }
 
-        /* DRAWER MENU */
-        .drawer { position: fixed; top: 0; right: -100%; width: 75%; height: 100%; background: var(--card); z-index: 2000; transition: 0.4s; padding: 25px; }
-        .drawer.active { right: 0; }
-        .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: none; z-index: 1999; }
+        /* PAYMENT BOX */
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 4000; padding: 20px; overflow-y: auto; }
+        .pay-box { background: #fff; color: #000; padding: 20px; border-radius: 25px; text-align: center; max-width: 400px; margin: auto; }
+        input, select { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 10px; border: 1px solid #ddd; }
     </style>
 </head>
 <body>
 
-    <div class="drawer-overlay" id="overlay" onclick="toggleMenu()"></div>
     <div class="drawer" id="drawer">
-        <h3 style="color:var(--accent)">MENU</h3>
-        <div style="padding:15px; background:#2c2c2e; border-radius:12px; margin-bottom:15px;" onclick="tg.showAlert('Chưa có lịch sử!')">Lịch sử mua hàng</div>
-        <div onclick="toggleMenu()" style="color:var(--danger)">Đóng</div>
+        <h2 style="color:var(--accent); margin-bottom:30px;"><i class="fas fa-th-large"></i> Danh mục</h2>
+        <div style="padding:18px; background:var(--card); border:1px solid var(--border); border-radius:15px; margin-bottom:15px; display:flex; align-items:center; cursor:pointer;" onclick="openHistory()">
+            <i class="fas fa-history" style="margin-right:12px; color:var(--accent); font-size:20px;"></i>
+            <b>Lịch sử mua hàng</b>
+        </div>
+        <div style="padding:18px; background:var(--card); border:1px solid var(--border); border-radius:15px; margin-bottom:15px; display:flex; align-items:center; cursor:pointer;" onclick="tg.showAlert('Chưa có thông báo mới')">
+            <i class="fas fa-bell" style="margin-right:12px; color:var(--yellow); font-size:20px;"></i>
+            <b>Thông báo shop</b>
+        </div>
+        <button onclick="toggleMenu()" style="width:100%; padding:15px; border-radius:12px; background:var(--danger); color:white; border:none; font-weight:bold; margin-top:50px;">ĐÓNG MENU</button>
+    </div>
+
+    <div id="page-history" class="full-page">
+        <div onclick="closeHistory()" style="color:var(--accent); font-weight:bold; margin-bottom:20px; cursor:pointer;"><i class="fas fa-chevron-left"></i> QUAY LẠI CỬA HÀNG</div>
+        <h3 style="margin-bottom:20px">ĐƠN HÀNG GẦN ĐÂY</h3>
+        <div id="history-list">
+            <div class="history-item">
+                <i class="fas fa-shopping-bag" style="font-size:24px; color:var(--success)"></i>
+                <div>
+                    <b style="display:block">Br Mods VIP - 1 Ngày</b>
+                    <small style="color:var(--hint)">#FF9823 - 2,000đ - 10:30</small>
+                </div>
+            </div>
+            <div class="history-item">
+                <i class="fas fa-clock" style="font-size:24px; color:var(--yellow)"></i>
+                <div>
+                    <b style="display:block">Acc FF Level 15</b>
+                    <small style="color:var(--hint)">#FF9821 - 15,000đ - 09:15</small>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="header-top">
         <div class="user-profile">
             <img id="u-avatar" src="https://ui-avatars.com/api/?name=U&background=5865f2&color=fff" class="user-avatar">
             <div class="user-info">
-                <b id="u-name">Đang tải...</b>
+                <b id="u-name">Tokyo Guest</b>
                 <small id="u-id">ID: 00000000</small>
-                <div class="date-display"><span id="u-date"></span> <span id="u-time" style="color:var(--success)"></span></div>
+                <div class="date-display"><span id="u-date">--/--/--</span> <span id="u-time" style="color:var(--success)">00:00:00</span></div>
             </div>
         </div>
         <div class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
@@ -87,7 +116,7 @@
 
     <div class="news-ticker">
         <i class="fas fa-bullhorn" style="margin-right:8px"></i>
-        <marquee>Tokyo Shop - Hệ thống nạp tự động cực nhanh, hỗ trợ 24/7!</marquee>
+        <marquee>Hệ thống tự động cập nhật liên tục - Hỗ trợ nạp Bank & Card 24/7!</marquee>
     </div>
 
     <div class="stats-bar">
@@ -130,22 +159,19 @@
         <div onclick="closeModal()" style="color:white; margin-bottom:15px; font-weight:bold; cursor:pointer"><i class="fas fa-arrow-left"></i> QUAY LẠI</div>
         <div class="pay-box">
             <div style="display:flex; gap:10px; margin-bottom:15px;">
-                <button id="t-bank" class="tab-btn" style="background:var(--accent); color:#fff" onclick="switchTab('bank')">CHUYỂN KHOẢN</button>
-                <button id="t-card" class="tab-btn" style="background:#f0f0f0; color:#000" onclick="switchTab('card')">THẺ CÀO</button>
+                <button id="t-bank" style="flex:1; padding:12px; border-radius:12px; background:var(--accent); color:white; border:none; font-weight:bold;" onclick="switchTab('bank')">BANK</button>
+                <button id="t-card" style="flex:1; padding:12px; border-radius:12px; background:#f0f0f0; color:black; border:none; font-weight:bold;" onclick="switchTab('card')">CARD</button>
             </div>
-
             <div id="pay-bank">
                 <img id="qr-img" src="" style="width:180px; margin-bottom:10px; border-radius:10px;">
                 <div id="bank-info" style="text-align:left; font-size:12px; background:#f4f4f4; padding:15px; border-radius:12px; line-height:2;"></div>
-                <button class="btn-final" style="background:var(--success)" onclick="tg.showAlert('Hệ thống đang kiểm tra giao dịch...')">XÁC NHẬN BANK</button>
+                <button onclick="tg.showAlert('Đang kiểm tra đơn hàng...')" style="width:100%; padding:15px; margin-top:10px; border-radius:15px; background:var(--success); border:none; color:white; font-weight:bold;">XÁC NHẬN</button>
             </div>
-
-            <div id="pay-card" style="display:none; text-align:left;">
-                <select id="c-type"><option>Viettel</option><option>VinaPhone</option><option>MobiFone</option></select>
-                <select id="c-amount"><option value="10000">10.000đ</option><option value="20000">20.000đ</option><option value="50000">50.000đ</option><option value="100000">100.000đ</option></select>
-                <input type="number" placeholder="Số Seri">
+            <div id="pay-card" style="display:none;">
+                <select id="c-type"><option>Viettel</option><option>MobiFone</option></select>
+                <select id="c-amount"><option value="10000">10,000đ</option><option value="50000">50,000đ</option></select>
                 <input type="number" placeholder="Mã thẻ">
-                <button class="btn-final" style="background:var(--accent)" onclick="tg.showAlert('Đã gửi thẻ, vui lòng đợi duyệt!')">GỬI THẺ CÀO</button>
+                <button onclick="tg.showAlert('Thẻ đã gửi!')" style="width:100%; padding:15px; border-radius:15px; background:var(--accent); border:none; color:white; font-weight:bold;">NẠP THẺ</button>
             </div>
         </div>
     </div>
@@ -179,12 +205,14 @@
             document.getElementById('product-area').innerHTML = DATA.map(g => `
                 <div class="cat-btn" onclick="toggleCat('${g.cat.replace(/\s/g,'')}')">
                     <span><i class="fas ${g.icon}" style="margin-right:10px; color:var(--accent)"></i><b>${g.cat}</b></span>
-                    <i class="fas fa-chevron-down"></i>
+                    <i class="fas fa-chevron-down arrow-cat" id="arrow-cat-${g.cat.replace(/\s/g,'')}"></i>
                 </div>
                 <div id="list-${g.cat.replace(/\s/g,'')}" class="list-container">
                     ${g.items.map(i => `
                         <div class="item-card">
-                            <div class="item-top" onclick="toggleOpts('${i.id}')">${i.name} <i class="fas fa-chevron-down"></i></div>
+                            <div class="item-top" onclick="toggleOpts('${i.id}')">
+                                ${i.name} <i class="fas fa-chevron-down arrow-opt" id="arrow-opt-${i.id}"></i>
+                            </div>
                             <div id="opt-${i.id}" style="display:none">
                                 ${i.opts.map((o, idx) => `
                                     <div class="opt-row" id="row-${i.id}-${idx}" onclick="selectItem('${i.name}', '${o[0]}', ${o[1]}, '${i.id}-${idx}')">
@@ -199,6 +227,22 @@
         }
         render();
 
+        function toggleCat(id) {
+            const el = document.getElementById('list-' + id);
+            const arrow = document.getElementById('arrow-cat-' + id);
+            const isO = el.style.display === 'block';
+            el.style.display = isO ? 'none' : 'block';
+            arrow.classList.toggle('rotate');
+        }
+
+        function toggleOpts(id) {
+            const el = document.getElementById('opt-' + id);
+            const arrow = document.getElementById('arrow-opt-' + id);
+            const isO = el.style.display === 'block';
+            el.style.display = isO ? 'none' : 'block';
+            arrow.classList.toggle('rotate');
+        }
+
         function selectItem(name, time, price, rowId) {
             if(selectedRowId === rowId) { selectedRowId = null; document.getElementById('bottom-bar').style.display='none'; return; }
             selectedRowId = rowId;
@@ -207,11 +251,15 @@
             document.getElementById('sel-name').innerText = name + " (" + time + ")";
             document.getElementById('sel-price').innerText = price.toLocaleString() + "đ";
             document.getElementById('bottom-bar').style.display = 'block';
-            window.lastSel = { name, time, price };
+            window.currentBuy = { name, time, price };
         }
 
+        function toggleMenu() { document.getElementById('drawer').classList.toggle('active'); }
+        function openHistory() { document.getElementById('page-history').style.display = 'block'; toggleMenu(); }
+        function closeHistory() { document.getElementById('page-history').style.display = 'none'; }
+        
         function openPayment() {
-            const p = window.lastSel;
+            const p = window.currentBuy;
             const code = "TK" + Math.random().toString(36).substring(7).toUpperCase();
             document.getElementById('qr-img').src = `https://img.vietqr.io/image/MB-${BANK_ACC}-compact2.png?amount=${p.price}&addInfo=${code}`;
             document.getElementById('bank-info').innerHTML = `STK: <b>${BANK_ACC}</b><br>Nội dung: <b>${code}</b><br>Tiền: <b>${p.price.toLocaleString()}đ</b>`;
@@ -226,9 +274,6 @@
             document.getElementById('t-card').style.cssText = isB ? 'background:#f0f0f0; color:#000' : 'background:var(--accent); color:#fff';
         }
 
-        function toggleCat(id) { const el = document.getElementById('list-'+id); el.style.display = el.style.display==='block'?'none':'block'; }
-        function toggleOpts(id) { const el = document.getElementById('opt-'+id); el.style.display = el.style.display==='block'?'none':'block'; }
-        function toggleMenu() { document.getElementById('drawer').classList.toggle('active'); document.getElementById('overlay').style.display = document.getElementById('overlay').style.display==='block'?'none':'block'; }
         function closeModal() { document.getElementById('modal-pay').style.display = 'none'; }
 
         setInterval(() => {
