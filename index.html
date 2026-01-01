@@ -23,13 +23,16 @@
         .date-display { font-size: 9px; color: var(--accent); font-weight: 800; margin-top: 4px; display: flex; gap: 5px; }
         .menu-btn { background: var(--card); border: 1px solid var(--border); color: white; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; }
 
+        /* THANH THÔNG BÁO (NEWS TICKER) */
+        .news-ticker { background: rgba(88, 101, 242, 0.1); border: 1px solid var(--border); border-radius: 12px; padding: 10px; margin-bottom: 12px; display: flex; align-items: center; font-size: 11px; color: var(--yellow); }
+
         /* STATS BAR */
         .stats-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 15px; }
         .stat-item { background: var(--card); border: 1px solid var(--border); padding: 10px; border-radius: 12px; text-align: center; }
         .stat-item span { font-size: 9px; color: var(--hint); display: block; }
         .stat-item b { font-size: 12px; color: var(--success); }
 
-        /* 3 ADMINS SECTION - THEO ẢNH MẪU */
+        /* 3 ADMINS SECTION */
         .support-box { background: var(--card); border-radius: 18px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 20px; display: grid; grid-template-columns: repeat(3, 1fr); }
         .support-item { display: flex; flex-direction: column; align-items: center; padding: 15px 5px; text-decoration: none; color: white; border-right: 1px solid var(--border); text-align: center; }
         .support-item:last-child { border-right: none; }
@@ -42,16 +45,18 @@
         .list-container { display: none; margin-bottom: 15px; }
         .item-card { background: var(--card); border-radius: 15px; border: 1px solid var(--border); margin-bottom: 8px; overflow: hidden; }
         .item-top { padding: 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-size: 14px; font-weight: bold; }
-        .opt-row { padding: 14px 15px; display: flex; justify-content: space-between; border-top: 1px solid #222; font-size: 13px; cursor: pointer; transition: 0.2s; }
+        .opt-row { padding: 14px 15px; display: flex; justify-content: space-between; border-top: 1px solid #222; font-size: 13px; cursor: pointer; }
         .opt-row.selected { background: rgba(88, 101, 242, 0.2); border-left: 4px solid var(--accent); }
 
-        /* DRAWER & BOTTOM BAR */
+        /* MENU DRAWER */
         .drawer { position: fixed; top: 0; right: -100%; width: 75%; height: 100%; background: var(--card); z-index: 2000; transition: 0.4s; padding: 25px; border-left: 1px solid var(--border); }
         .drawer.active { right: 0; }
         .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: none; z-index: 1999; backdrop-filter: blur(5px); }
+
+        /* BOTTOM BAR */
         .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #1c1c1e; padding: 15px 20px; border-top: 1px solid var(--border); display: none; z-index: 1000; border-radius: 20px 20px 0 0; }
         .bar-content { display: flex; justify-content: space-between; align-items: center; }
-        .btn-buy-now { background: var(--accent); color: white; border: none; padding: 12px 25px; border-radius: 12px; font-weight: bold; cursor: pointer; }
+        .btn-buy-now { background: var(--accent); color: white; border: none; padding: 12px 25px; border-radius: 12px; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -70,12 +75,17 @@
         <div class="user-profile">
             <img id="u-avatar" src="https://ui-avatars.com/api/?background=5865f2&color=fff&name=U" class="user-avatar">
             <div class="user-info">
-                <b id="u-name">Đang tải...</b>
+                <b id="u-name">Khách Tokyo</b>
                 <small id="u-id">ID: 00000000</small>
                 <div class="date-display"><span id="u-date">...</span><span style="color:var(--success)" id="u-time">00:00:00</span></div>
             </div>
         </div>
         <div class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+    </div>
+
+    <div class="news-ticker">
+        <i class="fas fa-bullhorn" style="margin-right:8px"></i>
+        <marquee>Chào mừng bạn đến với Tokyo Shop! Hệ thống hỗ trợ Bank & Card tự động uy tín số 1.</marquee>
     </div>
 
     <div class="stats-bar">
@@ -110,7 +120,7 @@
                 <b id="sel-name" style="font-size:13px">Sản phẩm</b>
                 <span id="sel-price" style="font-size:16px; color:var(--success); font-weight:bold">0đ</span>
             </div>
-            <button class="btn-buy-now" onclick="tg.showAlert('Tính năng thanh toán đang mở...')">MUA NGAY</button>
+            <button class="btn-buy-now" onclick="tg.showAlert('Đang chuyển hướng thanh toán...')">MUA NGAY</button>
         </div>
     </div>
 
@@ -119,6 +129,7 @@
         tg.ready(); tg.expand();
         let selectedRowId = null;
 
+        // ĐẦY ĐỦ 10 SẢN PHẨM
         const DATA = [
             { cat: 'HACK VIP FREE FIRE', icon: 'fa-fire', items: [
                 { id:'h1', name:'Br Mods VIP', opts: [['1 Ngày', 2000], ['30 Ngày', 30000]] },
@@ -142,13 +153,13 @@
             document.getElementById('product-area').innerHTML = DATA.map(g => `
                 <div class="cat-btn" onclick="toggleCat('${g.cat.replace(/\s/g,'')}')">
                     <span><i class="fas ${g.icon}" style="margin-right:10px; color:var(--accent)"></i><b>${g.cat}</b></span>
-                    <i class="fas fa-chevron-down" id="arrow-cat-${g.cat.replace(/\s/g,'')}"></i>
+                    <i class="fas fa-chevron-down"></i>
                 </div>
                 <div id="list-${g.cat.replace(/\s/g,'')}" class="list-container">
                     ${g.items.map(i => `
                         <div class="item-card">
                             <div class="item-top" onclick="toggleOpts('${i.id}')">
-                                ${i.name} <i class="fas fa-chevron-down" id="arrow-opt-${i.id}"></i>
+                                ${i.name} <i class="fas fa-chevron-down"></i>
                             </div>
                             <div id="opt-${i.id}" style="display:none">
                                 ${i.opts.map((o, idx) => `
@@ -165,7 +176,12 @@
         render();
 
         function selectItem(name, time, price, rowId) {
-            if(selectedRowId === rowId) { cancelSelection(); return; }
+            if(selectedRowId === rowId) {
+                selectedRowId = null;
+                document.getElementById('bottom-bar').style.display = 'none';
+                document.getElementById('row-' + rowId).classList.remove('selected');
+                return;
+            }
             selectedRowId = rowId;
             document.querySelectorAll('.opt-row').forEach(el => el.classList.remove('selected'));
             document.getElementById('row-' + rowId).classList.add('selected');
@@ -174,22 +190,14 @@
             document.getElementById('bottom-bar').style.display = 'block';
         }
 
-        function cancelSelection() {
-            selectedRowId = null;
-            document.querySelectorAll('.opt-row').forEach(el => el.classList.remove('selected'));
-            document.getElementById('bottom-bar').style.display = 'none';
-        }
-
         function toggleCat(id) {
             const el = document.getElementById('list-' + id);
-            const isO = el.style.display === 'block';
-            el.style.display = isO ? 'none' : 'block';
+            el.style.display = el.style.display === 'block' ? 'none' : 'block';
         }
 
         function toggleOpts(id) {
             const el = document.getElementById('opt-' + id);
-            const isO = el.style.display === 'block';
-            el.style.display = isO ? 'none' : 'block';
+            el.style.display = el.style.display === 'block' ? 'none' : 'block';
         }
 
         function toggleMenu() {
