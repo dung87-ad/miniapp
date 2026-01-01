@@ -23,21 +23,20 @@
         .date-display { font-size: 9px; color: var(--accent); font-weight: 800; margin-top: 4px; display: flex; gap: 5px; }
         .menu-btn { background: var(--card); border: 1px solid var(--border); color: white; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; }
 
-        /* NEWS */
         .news-ticker { background: rgba(88, 101, 242, 0.1); border: 1px solid var(--border); border-radius: 12px; padding: 10px; margin-bottom: 12px; display: flex; align-items: center; font-size: 11px; color: var(--yellow); }
 
-        /* STATS BAR */
+        /* STATS BAR (THANH CHỈ SỐ) */
         .stats-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 15px; }
         .stat-item { background: var(--card); border: 1px solid var(--border); padding: 10px; border-radius: 12px; text-align: center; }
         .stat-item span { font-size: 9px; color: var(--hint); display: block; }
         .stat-item b { font-size: 12px; color: var(--success); }
 
-        /* ADMINS */
+        /* 3 ADMINS SECTION */
         .support-box { background: var(--card); border-radius: 18px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 20px; display: grid; grid-template-columns: repeat(3, 1fr); }
         .support-item { display: flex; flex-direction: column; align-items: center; padding: 15px 5px; text-decoration: none; color: white; border-right: 1px solid var(--border); text-align: center; }
         .support-item:last-child { border-right: none; }
-        .support-icon { font-size: 18px; color: var(--accent); margin-bottom: 6px; }
-        .support-item b { font-size: 10px; display: block; color: var(--text); }
+        .support-icon { font-size: 18px; margin-bottom: 6px; }
+        .support-item b { font-size: 10px; display: block; }
         .support-item span { font-size: 8px; color: var(--hint); }
 
         /* PRODUCT LIST */
@@ -45,7 +44,7 @@
         .list-container { display: none; margin-bottom: 15px; }
         .item-card { background: var(--card); border-radius: 15px; border: 1px solid var(--border); margin-bottom: 8px; overflow: hidden; }
         .item-top { padding: 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-size: 14px; font-weight: bold; }
-        .opt-row { padding: 14px 15px; display: flex; justify-content: space-between; border-top: 1px solid #222; font-size: 13px; cursor: pointer; transition: 0.2s; }
+        .opt-row { padding: 14px 15px; display: flex; justify-content: space-between; border-top: 1px solid #222; font-size: 13px; cursor: pointer; }
         .opt-row.selected { background: rgba(88, 101, 242, 0.2); border-left: 4px solid var(--accent); }
 
         /* BOTTOM BAR */
@@ -62,7 +61,7 @@
         .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: none; z-index: 1999; backdrop-filter: blur(5px); }
         .copy-btn { background: #e8ebff; color: var(--accent); padding: 4px 10px; border-radius: 6px; font-size: 10px; font-weight: 800; cursor: pointer; border: 1px solid #c2c9ff; }
         input, select { width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 10px; border: 1px solid #ddd; }
-        .btn-final { width: 100%; color: white; border: none; border-radius: 15px; padding: 18px; font-weight: 800; margin-top: 10px; }
+        .btn-final { width: 100%; color: white; border: none; border-radius: 15px; padding: 18px; font-weight: 800; margin-top: 10px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -70,7 +69,7 @@
     <div class="drawer-overlay" id="overlay" onclick="toggleMenu()"></div>
     <div class="drawer" id="drawer">
         <h3 style="margin-top:0; color:var(--accent)">MENU</h3>
-        <div style="padding:15px; background:#2c2c2e; border-radius:12px; color:white; cursor:pointer;" onclick="tg.showAlert('Lịch sử mua hàng hiện đang trống!')">
+        <div style="padding:15px; background:#2c2c2e; border-radius:12px; color:white; cursor:pointer;" onclick="tg.showAlert('Lịch sử mua hàng trống!')">
             <i class="fas fa-history" style="margin-right:10px; color:var(--accent)"></i> Lịch sử mua hàng
         </div>
         <hr style="border:0; border-top:1px solid var(--border); margin:20px 0">
@@ -89,7 +88,7 @@
         <div class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
     </div>
 
-    <div class="news-ticker"><i class="fas fa-bullhorn" style="margin-right:8px"></i><marquee>Chào mừng bạn đến với Tokyo Shop - Hệ thống hỗ trợ Bank & Card tự động.</marquee></div>
+    <div class="news-ticker"><i class="fas fa-bullhorn" style="margin-right:8px"></i><marquee>Chào mừng bạn đến với Tokyo Shop! Hệ thống hỗ trợ Bank & Card tự động.</marquee></div>
 
     <div class="stats-bar">
         <div class="stat-item"><span>Đơn hàng</span><b>48.200+</b></div>
@@ -99,17 +98,15 @@
 
     <div class="support-box">
         <a href="https://t.me/muadongtokyo36" class="support-item">
-            <i class="fas fa-crown support-icon"></i>
-            <b>muadongtokyo</b>
+            <i class="fas fa-poop support-icon" style="color: #8B4513;"></i> <b>muadongtokyo</b>
             <span>@muadongtokyo36</span>
         </a>
         <a href="https://t.me/muahatokyo1919" class="support-item">
-            <i class="fas fa-bolt support-icon"></i>
-            <b>muahatokyo</b>
+            <i class="fas fa-crown support-icon" style="color: var(--yellow);"></i> <b>muahatokyo</b>
             <span>@muahatokyo1919</span>
         </a>
         <a href="https://t.me/muathutokyo27" class="support-item">
-            <i class="fas fa-headset support-icon"></i>
+            <i class="fas fa-headset support-icon" style="color: var(--accent);"></i>
             <b>muathutokyo</b>
             <span>@muathutokyo27</span>
         </a>
@@ -144,7 +141,7 @@
             </div>
             <div id="pay-card" style="display:none; text-align:left;">
                 <select id="c-net"><option>Viettel</option><option>VinaPhone</option><option>MobiFone</option></select>
-                <select id="c-val"><option value="2000">2.000đ</option><option value="5000">5.000đ</option><option value="10000">10.000đ</option><option value="20000">20.000đ</option><option value="50000">50.000đ</option></select>
+                <select id="c-val"><option value="2000">2.000đ</option><option value="5000">5.000đ</option><option value="20000">20.000đ</option><option value="50000">50.000đ</option></select>
                 <input type="number" id="c-seri" placeholder="Số Seri">
                 <input type="number" id="c-pin" placeholder="Mã thẻ">
                 <button class="btn-final" style="background:var(--accent)" onclick="submitCard()">GỬI THẺ</button>
