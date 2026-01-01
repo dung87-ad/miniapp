@@ -59,7 +59,9 @@
         .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #1c1c1e; padding: 15px 20px; border-top: 1px solid var(--border); display: none; z-index: 1000; border-radius: 20px 20px 0 0; }
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 4000; padding: 20px; overflow-y: auto; }
         .pay-box { background: #fff; color: #000; padding: 20px; border-radius: 25px; text-align: center; max-width: 400px; margin: auto; }
-        input, select { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 10px; border: 1px solid #ddd; }
+        .input-group { text-align: left; margin-bottom: 10px; }
+        .input-group label { font-size: 12px; font-weight: bold; color: #555; display: block; margin-bottom: 5px; }
+        input, select { width: 100%; padding: 12px; margin-bottom: 5px; border-radius: 10px; border: 1px solid #ddd; font-family: inherit; }
     </style>
 </head>
 <body>
@@ -91,7 +93,7 @@
         <div class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
     </div>
 
-    <div class="news-ticker"><i class="fas fa-bullhorn" style="margin-right:8px"></i><marquee>Hệ thống tự động uy tín - Chúc bạn mua sắm vui vẻ!</marquee></div>
+    <div class="news-ticker"><i class="fas fa-bullhorn" style="margin-right:8px"></i><marquee>Hệ thống nạp thẻ và chuyển khoản tự động 24/7 - Tokyo Shop xin chào!</marquee></div>
 
     <div class="stats-bar">
         <div class="stat-item"><span>Đơn hàng</span><b>48.200+</b></div>
@@ -118,18 +120,47 @@
         <div onclick="closeModal()" style="color:white; margin-bottom:15px; cursor:pointer"><i class="fas fa-arrow-left"></i> QUAY LẠI</div>
         <div class="pay-box">
             <div style="display:flex; gap:10px; margin-bottom:15px;">
-                <button id="t-bank" style="flex:1; padding:10px; border-radius:10px; background:var(--accent); color:white; border:none;" onclick="switchTab('bank')">BANK</button>
-                <button id="t-card" style="flex:1; padding:10px; border-radius:10px; background:#eee; border:none;" onclick="switchTab('card')">CARD</button>
+                <button id="t-bank" style="flex:1; padding:10px; border-radius:10px; background:var(--accent); color:white; border:none; font-weight:bold;" onclick="switchTab('bank')">BANK</button>
+                <button id="t-card" style="flex:1; padding:10px; border-radius:10px; background:#eee; border:none; font-weight:bold;" onclick="switchTab('card')">CARD</button>
             </div>
+
             <div id="pay-bank">
                 <img id="qr-img" src="" style="width:180px; border-radius:10px;">
                 <div id="bank-info" style="text-align:left; font-size:12px; background:#f4f4f4; padding:15px; border-radius:12px; margin-top:10px;"></div>
                 <button onclick="confirmPurchase('Chuyển khoản')" style="width:100%; padding:15px; margin-top:10px; border-radius:15px; background:var(--success); color:white; border:none; font-weight:bold;">XÁC NHẬN BANK</button>
             </div>
+
             <div id="pay-card" style="display:none;">
-                <select id="c-type"><option>Viettel</option></select>
-                <input type="number" placeholder="Mã thẻ">
-                <button onclick="confirmPurchase('Thẻ cào')" style="width:100%; padding:15px; border-radius:15px; background:var(--accent); color:white; border:none; font-weight:bold;">XÁC NHẬN THẺ</button>
+                <div class="input-group">
+                    <label>Nhà mạng</label>
+                    <select id="c-type">
+                        <option>Viettel</option>
+                        <option>VinaPhone</option>
+                        <option>MobiFone</option>
+                        <option>Vietnamobile</option>
+                        <option>Zing</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Mệnh giá</label>
+                    <select id="c-amount">
+                        <option value="10000">10,000đ</option>
+                        <option value="20000">20,000đ</option>
+                        <option value="50000">50,000đ</option>
+                        <option value="100000">100,000đ</option>
+                        <option value="200000">200,000đ</option>
+                        <option value="500000">500,000đ</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Số Seri</label>
+                    <input type="number" id="c-seri" placeholder="Nhập số seri thẻ">
+                </div>
+                <div class="input-group">
+                    <label>Mã thẻ</label>
+                    <input type="number" id="c-pin" placeholder="Nhập mã cào dưới lớp bạc">
+                </div>
+                <button onclick="confirmPurchase('Thẻ cào')" style="width:100%; padding:15px; border-radius:15px; background:var(--accent); color:white; border:none; font-weight:bold; margin-top:5px;">GỬI THẺ NGAY</button>
             </div>
         </div>
     </div>
@@ -209,6 +240,14 @@
 
         function confirmPurchase(method) {
             const p = window.currentBuy;
+            
+            // Nếu là thẻ cào, kiểm tra nhập liệu
+            if(method === 'Thẻ cào') {
+                const seri = document.getElementById('c-seri').value;
+                const pin = document.getElementById('c-pin').value;
+                if(!seri || !pin) { tg.showAlert('Vui lòng nhập đầy đủ Seri và Mã thẻ!'); return; }
+            }
+
             const history = JSON.parse(localStorage.getItem('tokyo_history') || '[]');
             const newOrder = {
                 name: p.name + " (" + p.time + ")",
@@ -218,8 +257,11 @@
             };
             history.unshift(newOrder);
             localStorage.setItem('tokyo_history', JSON.stringify(history));
-            tg.showAlert('Đơn hàng đã được lưu! Vui lòng chờ hệ thống duyệt.');
+            tg.showAlert('Yêu cầu đã gửi! Hệ thống sẽ duyệt và gửi Key vào Lịch sử sau ít phút.');
             closeModal();
+            // Reset form card
+            document.getElementById('c-seri').value = '';
+            document.getElementById('c-pin').value = '';
         }
 
         function openHistory() {
@@ -228,11 +270,11 @@
             toggleMenu();
             document.getElementById('page-history').style.display = 'block';
             if(history.length === 0) {
-                list.innerHTML = '<div class="empty-history">Bạn chưa mua sản phẩm nào.</div>';
+                list.innerHTML = '<div class="empty-history">Bạn chưa có giao dịch nào.</div>';
             } else {
                 list.innerHTML = history.map(h => `
                     <div class="history-item">
-                        <i class="fas fa-box-open" style="font-size:24px; color:var(--accent)"></i>
+                        <i class="fas fa-receipt" style="font-size:24px; color:var(--accent)"></i>
                         <div>
                             <b>${h.name}</b>
                             <small style="display:block; color:var(--hint)">${h.date} - ${h.method}</small>
@@ -254,6 +296,7 @@
         function toggleMenu() { document.getElementById('drawer').classList.toggle('active'); }
         function closeHistory() { document.getElementById('page-history').style.display = 'none'; }
         function closeModal() { document.getElementById('modal-pay').style.display = 'none'; }
+        
         function switchTab(t) {
             const isB = t === 'bank';
             document.getElementById('pay-bank').style.display = isB ? 'block' : 'none';
