@@ -31,7 +31,7 @@
         .stat-item span { font-size: 9px; color: var(--hint); display: block; }
         .stat-item b { font-size: 12px; color: var(--success); }
 
-        /* 3 ADMINS SECTION - PHONG CÁCH ĐẦY ĐỦ */
+        /* 3 ADMINS SECTION - PHONG CÁCH CŨ */
         .support-box { background: var(--card); border-radius: 18px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 20px; display: grid; grid-template-columns: repeat(3, 1fr); }
         .support-item { display: flex; flex-direction: column; align-items: center; padding: 15px 5px; text-decoration: none; color: white; border-right: 1px solid var(--border); text-align: center; }
         .support-item:last-child { border-right: none; }
@@ -53,26 +53,12 @@
         .btn-buy-now { background: var(--accent); color: white; border: none; padding: 12px 25px; border-radius: 12px; font-weight: bold; }
         .close-bar { color: var(--danger); margin-left: 15px; font-size: 20px; cursor: pointer; }
 
-        /* MODAL & DRAWER */
+        /* MODAL */
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 3000; padding: 20px; overflow-y: auto; }
         .pay-box { background: #fff; color: #000; padding: 20px; border-radius: 25px; text-align: center; }
-        .drawer { position: fixed; top: 0; right: -100%; width: 75%; height: 100%; background: var(--card); z-index: 2000; transition: 0.4s; padding: 25px; }
-        .drawer.active { right: 0; }
-        .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: none; z-index: 1999; backdrop-filter: blur(5px); }
-        .copy-btn { background: #e8ebff; color: var(--accent); padding: 4px 10px; border-radius: 6px; font-size: 10px; font-weight: 800; cursor: pointer; border: 1px solid #c2c9ff; }
     </style>
 </head>
 <body>
-
-    <div class="drawer-overlay" id="overlay" onclick="toggleMenu()"></div>
-    <div class="drawer" id="drawer">
-        <h3 style="margin-top:0; color:var(--accent)">MENU</h3>
-        <div style="padding:15px; background:#2c2c2e; border-radius:12px; color:white; cursor:pointer;" onclick="tg.showAlert('Lịch sử mua hàng trống!')">
-            <i class="fas fa-history" style="margin-right:10px; color:var(--accent)"></i> Lịch sử mua hàng
-        </div>
-        <hr style="border:0; border-top:1px solid var(--border); margin:20px 0">
-        <div onclick="toggleMenu()" style="color:var(--danger); cursor:pointer;"><i class="fas fa-times-circle"></i> Đóng</div>
-    </div>
 
     <div class="header-top">
         <div class="user-profile">
@@ -83,10 +69,10 @@
                 <div class="date-display"><span id="u-date">...</span><span style="color:var(--success)" id="u-time">00:00:00</span></div>
             </div>
         </div>
-        <div class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+        <div class="menu-btn" onclick="tg.showAlert('Menu đang cập nhật')"><i class="fas fa-bars"></i></div>
     </div>
 
-    <div class="news-ticker"><i class="fas fa-bullhorn" style="margin-right:8px"></i><marquee>Tokyo Shop - Hệ thống Hack FF & Cloud Phone tự động uy tín!</marquee></div>
+    <div class="news-ticker"><i class="fas fa-bullhorn" style="margin-right:8px"></i><marquee>Chào mừng bạn đến với Tokyo Shop! Hệ thống hỗ trợ tự động uy tín.</marquee></div>
 
     <div class="stats-bar">
         <div class="stat-item"><span>Đơn hàng</span><b>48.200+</b></div>
@@ -96,17 +82,17 @@
 
     <div class="support-box">
         <a href="https://t.me/muadongtokyo36" class="support-item">
-            <i class="fas fa-poop support-icon" style="color: #8B4513;"></i>
+            <i class="fas fa-crown support-icon" style="color: var(--yellow);"></i>
             <b>muadongtokyo</b>
             <span>@muadongtokyo36</span>
         </a>
         <a href="https://t.me/muahatokyo1919" class="support-item">
-            <i class="fas fa-crown support-icon" style="color: var(--yellow);"></i>
+            <i class="fas fa-bolt support-icon" style="color: var(--accent);"></i>
             <b>muahatokyo</b>
             <span>@muahatokyo1919</span>
         </a>
         <a href="https://t.me/muathutokyo27" class="support-item">
-            <i class="fas fa-headset support-icon" style="color: var(--accent);"></i>
+            <i class="fas fa-headset support-icon" style="color: var(--success);"></i>
             <b>muathutokyo</b>
             <span>@muathutokyo27</span>
         </a>
@@ -127,50 +113,18 @@
         </div>
     </div>
 
-    <div id="modal-pay" class="modal">
-        <div onclick="closeModal()" style="color:white; margin-bottom:15px; font-weight:bold; cursor:pointer"><i class="fas fa-arrow-left"></i> QUAY LẠI</div>
-        <div class="pay-box">
-            <div style="display:flex; gap:10px; margin-bottom:15px;">
-                <button id="t-bank" onclick="switchTab('bank')" style="flex:1; padding:12px; border-radius:12px; border:none; background:var(--accent); color:white; font-weight:bold;">BANK</button>
-                <button id="t-card" onclick="switchTab('card')" style="flex:1; padding:12px; border-radius:12px; border:1px solid #ddd; background:#f9f9f9; font-weight:bold;">THẺ CÀO</button>
-            </div>
-            <div id="pay-bank">
-                <img id="qr-img" src="" style="width:180px; margin-bottom:10px; border-radius:10px;">
-                <div id="bank-details" style="text-align:left; font-size:12px; background:#f4f4f4; padding:15px; border-radius:12px; line-height:2;"></div>
-                <button class="btn-final" style="background:var(--success)" onclick="tg.showAlert('Đang kiểm tra...')">XÁC NHẬN BANK</button>
-            </div>
-            <div id="pay-card" style="display:none; text-align:left;">
-                <select id="c-net"><option>Viettel</option><option>VinaPhone</option><option>MobiFone</option></select>
-                <select id="c-val"><option value="2000">2.000đ</option><option value="5000">5.000đ</option><option value="20000">20.000đ</option></select>
-                <input type="number" id="c-seri" placeholder="Số Seri">
-                <input type="number" id="c-pin" placeholder="Mã thẻ">
-                <button class="btn-final" style="background:var(--accent)" onclick="submitCard()">GỬI THẺ</button>
-            </div>
-        </div>
-    </div>
-
     <script>
         const tg = window.Telegram.WebApp;
         tg.ready(); tg.expand();
-        const BANK_ACC = "79991312006";
-        let selectedRowId = null;
 
         const DATA = [
             { cat: 'HACK VIP FREE FIRE', icon: 'fa-fire', items: [
                 { id:'h1', name:'Br Mods VIP', opts: [['1 Ngày', 2000], ['30 Ngày', 30000]] },
                 { id:'h2', name:'ZyGame Menu', opts: [['1 Ngày', 2000], ['30 Ngày', 30000]] },
-                { id:'h3', name:'Fluorite iOS', opts: [['1 Ngày', 5000], ['30 Ngày', 50000]] },
-                { id:'h4', name:'Drip OB51 VIP', opts: [['1 Ngày', 2000], ['30 Ngày', 30000]] },
-                { id:'h5', name:'HG Cheat VIP', opts: [['1 Ngày', 2000], ['30 Ngày', 30000]] }
-            ]},
-            { cat: 'ACC FREE FIRE', icon: 'fa-user-circle', items: [
-                { id:'a1', name:'Acc FF Level 5', opts: [['Gói 1 Acc', 5000]] },
-                { id:'a2', name:'Acc FF Level 15', opts: [['Gói 1 Acc', 15000]] }
+                { id:'h3', name:'Fluorite iOS', opts: [['1 Ngày', 5000], ['30 Ngày', 50000]] }
             ]},
             { cat: 'CLOUD PHONE', icon: 'fa-cloud', items: [
-                { id:'c1', name:'Redfinger Cloud', opts: [['1 Ngày', 5000], ['7 Ngày', 25000]] },
-                { id:'c2', name:'CC Cloud Phone', opts: [['7 Ngày', 25000], ['30 Ngày', 80000]] },
-                { id:'c3', name:'Vip Player Cloud', opts: [['30 Ngày', 90000]] }
+                { id:'c1', name:'Redfinger Cloud', opts: [['1 Ngày', 5000], ['7 Ngày', 25000]] }
             ]}
         ];
 
@@ -208,21 +162,12 @@
             document.getElementById('sel-name').innerText = name + " (" + time + ")";
             document.getElementById('sel-price').innerText = price.toLocaleString() + "đ";
             document.getElementById('bottom-bar').style.display = 'block';
-            window.lastSelected = { name, time, price };
         }
 
         function cancelSelection() {
             selectedRowId = null;
             document.querySelectorAll('.opt-row').forEach(el => el.classList.remove('selected'));
             document.getElementById('bottom-bar').style.display = 'none';
-        }
-
-        function openPayment() {
-            const p = window.lastSelected;
-            const code = "TK" + Math.random().toString(36).substring(7).toUpperCase();
-            document.getElementById('qr-img').src = `https://img.vietqr.io/image/MB-${BANK_ACC}-compact2.png?amount=${p.price}&addInfo=${code}`;
-            document.getElementById('bank-details').innerHTML = `STK: <b>${BANK_ACC}</b> <span class="copy-btn" onclick="copyText('${BANK_ACC}')">COPY</span><br>Nội dung: <b>${code}</b> <span class="copy-btn" onclick="copyText('${code}')">COPY</span><br>Tiền: <b>${p.price.toLocaleString()}đ</b>`;
-            document.getElementById('modal-pay').style.display = 'block';
         }
 
         function toggleCat(id) {
@@ -247,30 +192,6 @@
             document.getElementById('u-time').innerText = now.toLocaleTimeString('vi-VN');
         }
         setInterval(updateClock, 1000); updateClock();
-
-        const user = tg.initDataUnsafe?.user;
-        if(user) {
-            document.getElementById('u-name').innerText = user.first_name;
-            document.getElementById('u-id').innerText = "ID: " + user.id;
-            if(user.photo_url) document.getElementById('u-avatar').src = user.photo_url;
-        }
-
-        function toggleMenu() {
-            document.getElementById('drawer').classList.toggle('active');
-            document.getElementById('overlay').style.display = document.getElementById('overlay').style.display === 'block' ? 'none' : 'block';
-        }
-        function switchTab(t) {
-            const isB = t === 'bank';
-            document.getElementById('pay-bank').style.display = isB ? 'block' : 'none';
-            document.getElementById('pay-card').style.display = isB ? 'none' : 'block';
-            document.getElementById('t-bank').style.background = isB ? 'var(--accent)' : '#f9f9f9';
-            document.getElementById('t-bank').style.color = isB ? 'white' : 'black';
-            document.getElementById('t-card').style.background = isB ? '#f9f9f9' : 'var(--accent)';
-            document.getElementById('t-card').style.color = isB ? 'black' : 'white';
-        }
-        function copyText(txt) { navigator.clipboard.writeText(txt); tg.showProgress({message:'Đã copy'}); setTimeout(()=>tg.hideProgress(),700); }
-        function closeModal() { document.getElementById('modal-pay').style.display = 'none'; }
-        function submitCard() { tg.showAlert('Đã gửi thông tin thẻ!'); }
     </script>
 </body>
 </html>
