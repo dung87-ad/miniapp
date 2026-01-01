@@ -14,7 +14,7 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; padding-bottom: 120px; }
 
-        /* HEADER */
+        /* HEADER & USER PROFILE */
         .header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; gap: 10px; }
         .user-profile { background: var(--card); padding: 12px 15px; border-radius: 20px; display: flex; align-items: center; border: 1px solid var(--border); flex: 1; }
         .user-avatar { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 12px; object-fit: cover; }
@@ -23,22 +23,20 @@
         .date-display { font-size: 9px; color: var(--accent); font-weight: 800; margin-top: 4px; display: flex; gap: 5px; }
         .menu-btn { background: var(--card); border: 1px solid var(--border); color: white; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; }
 
-        /* THANH THÔNG BÁO (NEWS TICKER) */
+        /* TICKER & STATS */
         .news-ticker { background: rgba(88, 101, 242, 0.1); border: 1px solid var(--border); border-radius: 12px; padding: 10px; margin-bottom: 12px; display: flex; align-items: center; font-size: 11px; color: var(--yellow); }
-
-        /* STATS BAR */
         .stats-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 15px; }
         .stat-item { background: var(--card); border: 1px solid var(--border); padding: 10px; border-radius: 12px; text-align: center; }
         .stat-item span { font-size: 9px; color: var(--hint); display: block; }
         .stat-item b { font-size: 12px; color: var(--success); }
 
-        /* 3 ADMINS SECTION */
+        /* ADMIN BOX */
         .support-box { background: var(--card); border-radius: 18px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 20px; display: grid; grid-template-columns: repeat(3, 1fr); }
         .support-item { display: flex; flex-direction: column; align-items: center; padding: 15px 5px; text-decoration: none; color: white; border-right: 1px solid var(--border); text-align: center; }
         .support-item:last-child { border-right: none; }
         .support-icon { font-size: 22px; color: var(--accent); margin-bottom: 8px; }
-        .support-item b { font-size: 11px; display: block; color: var(--text); margin-bottom: 2px; }
-        .support-item span { font-size: 9px; color: var(--hint); }
+        .support-item b { font-size: 10px; display: block; margin-bottom: 2px; }
+        .support-item span { font-size: 8px; color: var(--hint); }
 
         /* PRODUCT LIST */
         .cat-btn { background: var(--card); border-radius: 15px; padding: 15px; display: flex; align-items: center; justify-content: space-between; border: 1px solid var(--border); margin-bottom: 10px; cursor: pointer; border-left: 4px solid var(--accent); }
@@ -48,36 +46,40 @@
         .opt-row { padding: 14px 15px; display: flex; justify-content: space-between; border-top: 1px solid #222; font-size: 13px; cursor: pointer; }
         .opt-row.selected { background: rgba(88, 101, 242, 0.2); border-left: 4px solid var(--accent); }
 
-        /* MENU DRAWER */
-        .drawer { position: fixed; top: 0; right: -100%; width: 75%; height: 100%; background: var(--card); z-index: 2000; transition: 0.4s; padding: 25px; border-left: 1px solid var(--border); }
-        .drawer.active { right: 0; }
-        .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: none; z-index: 1999; backdrop-filter: blur(5px); }
+        /* PAYMENT MODAL */
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 3000; padding: 20px; overflow-y: auto; }
+        .pay-box { background: #fff; color: #000; padding: 20px; border-radius: 25px; text-align: center; max-width: 400px; margin: auto; }
+        .tab-btn { flex: 1; padding: 12px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; }
+        input, select { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 10px; border: 1px solid #ddd; }
+        .btn-final { width: 100%; padding: 15px; border-radius: 15px; border: none; color: #fff; font-weight: bold; cursor: pointer; }
 
         /* BOTTOM BAR */
         .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #1c1c1e; padding: 15px 20px; border-top: 1px solid var(--border); display: none; z-index: 1000; border-radius: 20px 20px 0 0; }
         .bar-content { display: flex; justify-content: space-between; align-items: center; }
-        .btn-buy-now { background: var(--accent); color: white; border: none; padding: 12px 25px; border-radius: 12px; font-weight: bold; }
+        .btn-buy-now { background: var(--accent); color: white; border: none; padding: 12px 25px; border-radius: 12px; font-weight: bold; cursor: pointer; }
+
+        /* DRAWER MENU */
+        .drawer { position: fixed; top: 0; right: -100%; width: 75%; height: 100%; background: var(--card); z-index: 2000; transition: 0.4s; padding: 25px; }
+        .drawer.active { right: 0; }
+        .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: none; z-index: 1999; }
     </style>
 </head>
 <body>
 
     <div class="drawer-overlay" id="overlay" onclick="toggleMenu()"></div>
     <div class="drawer" id="drawer">
-        <h3 style="margin-top:0; color:var(--accent)">MENU</h3>
-        <div style="padding:15px; background:#2c2c2e; border-radius:12px; color:white; cursor:pointer;" onclick="tg.showAlert('Lịch sử mua hàng trống!')">
-            <i class="fas fa-history" style="margin-right:10px; color:var(--accent)"></i> Lịch sử đơn hàng
-        </div>
-        <hr style="border:0; border-top:1px solid var(--border); margin:20px 0">
-        <div onclick="toggleMenu()" style="color:var(--danger); cursor:pointer;"><i class="fas fa-times-circle"></i> Đóng Menu</div>
+        <h3 style="color:var(--accent)">MENU</h3>
+        <div style="padding:15px; background:#2c2c2e; border-radius:12px; margin-bottom:15px;" onclick="tg.showAlert('Chưa có lịch sử!')">Lịch sử mua hàng</div>
+        <div onclick="toggleMenu()" style="color:var(--danger)">Đóng</div>
     </div>
 
     <div class="header-top">
         <div class="user-profile">
-            <img id="u-avatar" src="https://ui-avatars.com/api/?background=5865f2&color=fff&name=U" class="user-avatar">
+            <img id="u-avatar" src="https://ui-avatars.com/api/?name=U&background=5865f2&color=fff" class="user-avatar">
             <div class="user-info">
-                <b id="u-name">Khách Tokyo</b>
+                <b id="u-name">Đang tải...</b>
                 <small id="u-id">ID: 00000000</small>
-                <div class="date-display"><span id="u-date">...</span><span style="color:var(--success)" id="u-time">00:00:00</span></div>
+                <div class="date-display"><span id="u-date"></span> <span id="u-time" style="color:var(--success)"></span></div>
             </div>
         </div>
         <div class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
@@ -85,7 +87,7 @@
 
     <div class="news-ticker">
         <i class="fas fa-bullhorn" style="margin-right:8px"></i>
-        <marquee>Chào mừng bạn đến với Tokyo Shop! Hệ thống hỗ trợ Bank & Card tự động uy tín số 1.</marquee>
+        <marquee>Tokyo Shop - Hệ thống nạp tự động cực nhanh, hỗ trợ 24/7!</marquee>
     </div>
 
     <div class="stats-bar">
@@ -120,16 +122,40 @@
                 <b id="sel-name" style="font-size:13px">Sản phẩm</b>
                 <span id="sel-price" style="font-size:16px; color:var(--success); font-weight:bold">0đ</span>
             </div>
-            <button class="btn-buy-now" onclick="tg.showAlert('Đang chuyển hướng thanh toán...')">MUA NGAY</button>
+            <button class="btn-buy-now" onclick="openPayment()">MUA NGAY</button>
+        </div>
+    </div>
+
+    <div id="modal-pay" class="modal">
+        <div onclick="closeModal()" style="color:white; margin-bottom:15px; font-weight:bold; cursor:pointer"><i class="fas fa-arrow-left"></i> QUAY LẠI</div>
+        <div class="pay-box">
+            <div style="display:flex; gap:10px; margin-bottom:15px;">
+                <button id="t-bank" class="tab-btn" style="background:var(--accent); color:#fff" onclick="switchTab('bank')">CHUYỂN KHOẢN</button>
+                <button id="t-card" class="tab-btn" style="background:#f0f0f0; color:#000" onclick="switchTab('card')">THẺ CÀO</button>
+            </div>
+
+            <div id="pay-bank">
+                <img id="qr-img" src="" style="width:180px; margin-bottom:10px; border-radius:10px;">
+                <div id="bank-info" style="text-align:left; font-size:12px; background:#f4f4f4; padding:15px; border-radius:12px; line-height:2;"></div>
+                <button class="btn-final" style="background:var(--success)" onclick="tg.showAlert('Hệ thống đang kiểm tra giao dịch...')">XÁC NHẬN BANK</button>
+            </div>
+
+            <div id="pay-card" style="display:none; text-align:left;">
+                <select id="c-type"><option>Viettel</option><option>VinaPhone</option><option>MobiFone</option></select>
+                <select id="c-amount"><option value="10000">10.000đ</option><option value="20000">20.000đ</option><option value="50000">50.000đ</option><option value="100000">100.000đ</option></select>
+                <input type="number" placeholder="Số Seri">
+                <input type="number" placeholder="Mã thẻ">
+                <button class="btn-final" style="background:var(--accent)" onclick="tg.showAlert('Đã gửi thẻ, vui lòng đợi duyệt!')">GỬI THẺ CÀO</button>
+            </div>
         </div>
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
         tg.ready(); tg.expand();
+        const BANK_ACC = "79991312006";
         let selectedRowId = null;
 
-        // ĐẦY ĐỦ 10 SẢN PHẨM
         const DATA = [
             { cat: 'HACK VIP FREE FIRE', icon: 'fa-fire', items: [
                 { id:'h1', name:'Br Mods VIP', opts: [['1 Ngày', 2000], ['30 Ngày', 30000]] },
@@ -158,9 +184,7 @@
                 <div id="list-${g.cat.replace(/\s/g,'')}" class="list-container">
                     ${g.items.map(i => `
                         <div class="item-card">
-                            <div class="item-top" onclick="toggleOpts('${i.id}')">
-                                ${i.name} <i class="fas fa-chevron-down"></i>
-                            </div>
+                            <div class="item-top" onclick="toggleOpts('${i.id}')">${i.name} <i class="fas fa-chevron-down"></i></div>
                             <div id="opt-${i.id}" style="display:none">
                                 ${i.opts.map((o, idx) => `
                                     <div class="opt-row" id="row-${i.id}-${idx}" onclick="selectItem('${i.name}', '${o[0]}', ${o[1]}, '${i.id}-${idx}')">
@@ -176,47 +200,48 @@
         render();
 
         function selectItem(name, time, price, rowId) {
-            if(selectedRowId === rowId) {
-                selectedRowId = null;
-                document.getElementById('bottom-bar').style.display = 'none';
-                document.getElementById('row-' + rowId).classList.remove('selected');
-                return;
-            }
+            if(selectedRowId === rowId) { selectedRowId = null; document.getElementById('bottom-bar').style.display='none'; return; }
             selectedRowId = rowId;
             document.querySelectorAll('.opt-row').forEach(el => el.classList.remove('selected'));
             document.getElementById('row-' + rowId).classList.add('selected');
             document.getElementById('sel-name').innerText = name + " (" + time + ")";
             document.getElementById('sel-price').innerText = price.toLocaleString() + "đ";
             document.getElementById('bottom-bar').style.display = 'block';
+            window.lastSel = { name, time, price };
         }
 
-        function toggleCat(id) {
-            const el = document.getElementById('list-' + id);
-            el.style.display = el.style.display === 'block' ? 'none' : 'block';
+        function openPayment() {
+            const p = window.lastSel;
+            const code = "TK" + Math.random().toString(36).substring(7).toUpperCase();
+            document.getElementById('qr-img').src = `https://img.vietqr.io/image/MB-${BANK_ACC}-compact2.png?amount=${p.price}&addInfo=${code}`;
+            document.getElementById('bank-info').innerHTML = `STK: <b>${BANK_ACC}</b><br>Nội dung: <b>${code}</b><br>Tiền: <b>${p.price.toLocaleString()}đ</b>`;
+            document.getElementById('modal-pay').style.display = 'block';
         }
 
-        function toggleOpts(id) {
-            const el = document.getElementById('opt-' + id);
-            el.style.display = el.style.display === 'block' ? 'none' : 'block';
+        function switchTab(t) {
+            const isB = t === 'bank';
+            document.getElementById('pay-bank').style.display = isB ? 'block' : 'none';
+            document.getElementById('pay-card').style.display = isB ? 'none' : 'block';
+            document.getElementById('t-bank').style.cssText = isB ? 'background:var(--accent); color:#fff' : 'background:#f0f0f0; color:#000';
+            document.getElementById('t-card').style.cssText = isB ? 'background:#f0f0f0; color:#000' : 'background:var(--accent); color:#fff';
         }
 
-        function toggleMenu() {
-            document.getElementById('drawer').classList.toggle('active');
-            document.getElementById('overlay').style.display = document.getElementById('overlay').style.display === 'block' ? 'none' : 'block';
-        }
+        function toggleCat(id) { const el = document.getElementById('list-'+id); el.style.display = el.style.display==='block'?'none':'block'; }
+        function toggleOpts(id) { const el = document.getElementById('opt-'+id); el.style.display = el.style.display==='block'?'none':'block'; }
+        function toggleMenu() { document.getElementById('drawer').classList.toggle('active'); document.getElementById('overlay').style.display = document.getElementById('overlay').style.display==='block'?'none':'block'; }
+        function closeModal() { document.getElementById('modal-pay').style.display = 'none'; }
 
-        function updateClock() {
+        setInterval(() => {
             const now = new Date();
             document.getElementById('u-date').innerText = now.toLocaleDateString('vi-VN');
             document.getElementById('u-time').innerText = now.toLocaleTimeString('vi-VN');
-        }
-        setInterval(updateClock, 1000); updateClock();
+        }, 1000);
 
-        const user = tg.initDataUnsafe?.user;
-        if(user) {
-            document.getElementById('u-name').innerText = user.first_name + (user.last_name ? " " + user.last_name : "");
-            document.getElementById('u-id').innerText = "ID: " + user.id;
-            if(user.photo_url) document.getElementById('u-avatar').src = user.photo_url;
+        const u = tg.initDataUnsafe?.user;
+        if(u) {
+            document.getElementById('u-name').innerText = u.first_name + (u.last_name?" "+u.last_name:"");
+            document.getElementById('u-id').innerText = "ID: " + u.id;
+            if(u.photo_url) document.getElementById('u-avatar').src = u.photo_url;
         }
     </script>
 </body>
