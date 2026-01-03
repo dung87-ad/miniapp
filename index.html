@@ -11,14 +11,39 @@
             --glass: rgba(255, 255, 255, 0.55);
             --glass-border: rgba(255, 255, 255, 0.8);
             --accent: #ec407a; --success: #43a047; --text: #4a148c; --hint: #880e4f;
-            --petal-color: #ff4081; 
+            --petal-color: #ff4081; /* Màu hoa đậm */
         }
 
+        /* HIỆU ỨNG BÔNG HOA ANH ĐÀO 5 CÁNH */
         @keyframes sakuraFall {
             0% { transform: translate3d(0, -10vh, 0) rotate(0deg); opacity: 0; }
             10% { opacity: 1; }
-            100% { transform: translate3d(150px, 100vh, 0) rotate(720deg); opacity: 0; }
+            100% { transform: translate3d(150px, 100vh, 0) rotate(360deg); opacity: 0; }
         }
+
+        .sakura-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+        
+        /* Tạo hình bông hoa từ CSS */
+        .flower { 
+            position: absolute; 
+            width: 20px; height: 20px; 
+            animation: sakuraFall infinite linear; 
+            will-change: transform;
+        }
+        .flower, .flower::before, .flower::after {
+            background: var(--petal-color);
+            border-radius: 50% 50% 50% 50% / 10% 10% 90% 90%;
+            box-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        /* Các cánh hoa ghép lại */
+        .flower { transform: rotate(0deg); }
+        .flower::before, .flower::after { content: ''; position: absolute; width: 100%; height: 100%; top: 0; left: 0; }
+        .flower::before { transform: rotate(72deg); }
+        .flower::after { transform: rotate(144deg); }
+        /* Thêm nhụy hoa nhỏ ở giữa */
+        .flower-inner { position: absolute; width: 100%; height: 100%; }
+        .flower-inner::before { content: ''; position: absolute; width: 100%; height: 100%; transform: rotate(216deg); background: var(--petal-color); border-radius: inherit; }
+        .flower-inner::after { content: ''; position: absolute; width: 100%; height: 100%; transform: rotate(288deg); background: var(--petal-color); border-radius: inherit; }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { 
@@ -27,9 +52,6 @@
             margin: 0; padding: 12px; padding-bottom: 110px;
             min-height: 100vh; overflow-x: hidden;
         }
-
-        .sakura-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
-        .petal { position: absolute; background: var(--petal-color); border-radius: 150% 0 150% 150%; animation: sakuraFall infinite linear; will-change: transform; box-shadow: 1px 1px 3px rgba(236, 64, 122, 0.4); }
 
         .glass { background: var(--glass); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--glass-border); border-radius: 20px; }
 
@@ -46,12 +68,11 @@
         .stat-item { padding: 10px; text-align: center; }
         .stat-item b { display: block; font-size: 14px; color: var(--accent); }
         .stat-item span { font-size: 9px; color: var(--hint); font-weight: bold; text-transform: uppercase; }
-        
         .ticker { padding: 10px 15px; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; overflow: hidden; }
         .ticker i { color: var(--accent); font-size: 14px; }
         .ticker marquee { font-size: 11px; font-weight: bold; }
 
-        /* ADMIN GRID */
+        /* ADMIN */
         .admin-grid { display: grid; grid-template-columns: repeat(3, 1fr); margin-bottom: 15px; }
         .admin-item { padding: 12px 2px; text-align: center; text-decoration: none; color: var(--text); border-right: 1px solid var(--glass-border); }
         .admin-item i { font-size: 18px; color: var(--accent); margin-bottom: 4px; display: block; }
@@ -64,7 +85,7 @@
         .drawer { position: fixed; top: 0; right: 0; width: 75%; height: 100%; z-index: 5000; background: #fffafb; transform: translate3d(100%, 0, 0); transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1); padding: 25px; border-left: 3px solid var(--accent); }
         .drawer.active { transform: translate3d(0, 0, 0); }
 
-        /* PRODUCTS */
+        /* LIST & ARROWS */
         .cat-card { margin-bottom: 12px; border-radius: 20px; overflow: hidden; }
         .cat-btn { padding: 16px; display: flex; justify-content: space-between; align-items: center; color: var(--accent); font-weight: bold; cursor: pointer; }
         .cat-body { display: none; padding: 8px; }
@@ -75,7 +96,7 @@
         .arrow { transition: 0.3s; font-size: 10px; }
         .rotate { transform: rotate(180deg); }
 
-        /* PAY PAGE */
+        /* PAY */
         .pay-choice { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
         .choice-btn { padding: 12px; text-align: center; border-radius: 12px; border: 1px solid var(--accent); color: var(--accent); font-weight: bold; cursor: pointer; }
         .choice-btn.active { background: var(--accent); color: white; }
@@ -88,7 +109,7 @@
 </head>
 <body>
 
-    <div class="sakura-container" id="sakura-box"></div>
+    <div class="sakura-container" id="flower-box"></div>
     <div class="drawer-overlay" id="overlay" onclick="toggleMenu()"></div>
 
     <div class="drawer" id="menu">
@@ -122,10 +143,7 @@
         <div class="stat-item glass"><b>9,210</b><span>Đơn hàng</span></div>
     </div>
 
-    <div class="ticker glass">
-        <i class="fas fa-bullhorn"></i>
-        <marquee scrollamount="4">Chào mừng đến Tokyo Sakura Shop - Menu Hack & Acc Free Fire uy tín nhất!</marquee>
-    </div>
+    <div class="ticker glass"><i class="fas fa-bullhorn"></i><marquee scrollamount="4">Chào mừng đến Tokyo Sakura Shop - Menu Hack Free Fire!</marquee></div>
 
     <div class="admin-grid glass">
         <a href="https://t.me/muadongtokyo36" class="admin-item"><i class="fas fa-crown"></i><b>muadongtokyo</b><span>@muadongtokyo36</span></a>
@@ -143,31 +161,25 @@
 
     <div id="modal-pay" class="page">
         <div onclick="closePages()" style="color:var(--accent); font-weight: bold; margin-bottom: 20px; cursor:pointer;"><i class="fas fa-chevron-left"></i> QUAY LẠI</div>
-        
         <div class="pay-choice" id="pay-tabs">
             <div class="choice-btn active" id="btn-atm" onclick="setPayMethod('atm')">ATM / MOMO</div>
             <div class="choice-btn" id="btn-card" onclick="setPayMethod('card')">NẠP THẺ CÀO</div>
         </div>
-
         <div id="section-atm" class="glass" style="padding:20px; text-align:center;">
             <img id="qr" src="" style="width:100%; max-width:200px; border-radius:15px; border:2px solid var(--accent); margin-bottom:15px;">
-            <div id="info-bank" style="text-align:left; font-size:12px; line-height:1.6;"></div>
+            <div id="info-bank" style="text-align:left; font-size:12px;"></div>
             <button class="btn-main" onclick="confirmWait()">TÔI ĐÃ CHUYỂN KHOẢN</button>
         </div>
-
         <div id="section-card" class="glass" style="padding:20px; display:none;">
-            <h3 style="color:var(--accent); margin-top:0;">Thông tin thẻ</h3>
             <select id="card-type"><option>Viettel</option><option>Vinaphone</option><option>Mobifone</option></select>
-            <select id="card-val"><option>20,000đ</option><option>50,000đ</option><option>100,000đ</option><option>200,000đ</option></select>
+            <select id="card-val"><option>20,000đ</option><option>50,000đ</option><option>100,000đ</option></select>
             <input type="text" placeholder="Số Seri" id="c-seri">
             <input type="text" placeholder="Mã thẻ" id="c-code">
             <button class="btn-main" onclick="confirmWait()">GỬI THẺ DUYỆT</button>
         </div>
-
         <div id="wait-check" class="glass" style="padding:50px 20px; text-align:center; display:none; background:white;">
             <i class="fas fa-spinner fa-spin" style="font-size:45px; color:#fbc02d; margin-bottom:20px;"></i>
-            <h2 style="color:var(--accent); margin:0;">Đang đợi check...</h2>
-            <p style="font-size:13px; color:#666;">Hệ thống đang kiểm tra giao dịch, vui lòng giữ nguyên màn hình.</p>
+            <h2 style="color:var(--accent);">Đang đợi check...</h2>
         </div>
     </div>
 
@@ -182,37 +194,29 @@
         const tg = window.Telegram.WebApp;
         tg.ready(); tg.expand();
 
-        function createSakura() {
-            const box = document.getElementById('sakura-box');
-            for (let i = 0; i < 50; i++) {
-                const petal = document.createElement('div');
-                petal.className = 'petal';
-                const size = Math.random() * 8 + 10;
-                petal.style.width = size + 'px'; petal.style.height = size*1.2 + 'px';
-                petal.style.left = Math.random() * 100 + '%';
-                petal.style.animationDuration = (Math.random() * 5 + 4) + 's';
-                petal.style.animationDelay = (Math.random() * 10) + 's';
-                box.appendChild(petal);
+        function createFlowers() {
+            const box = document.getElementById('flower-box');
+            for (let i = 0; i < 40; i++) {
+                const flower = document.createElement('div');
+                flower.className = 'flower';
+                flower.innerHTML = '<div class="flower-inner"></div>';
+                const size = Math.random() * 10 + 15;
+                flower.style.width = size + 'px'; flower.style.height = size + 'px';
+                flower.style.left = Math.random() * 100 + '%';
+                flower.style.animationDuration = (Math.random() * 6 + 5) + 's';
+                flower.style.animationDelay = (Math.random() * 10) + 's';
+                box.appendChild(flower);
             }
         }
-        createSakura();
+        createFlowers();
 
         const DATA = [
             { cat: 'HACK VIP FREE FIRE', icon: 'fa-fire', items: [
                 { id:'h1', name:'Br Mod', opts: [['1 Ngày', 5000], ['30 Ngày', 50000]] },
-                { id:'h2', name:'HG Cheat', opts: [['1 Ngày', 5000], ['30 Ngày', 50000]] },
-                { id:'h3', name:'Drip Client', opts: [['1 Ngày', 7000], ['30 Ngày', 70000]] },
-                { id:'h4', name:'Flu', opts: [['1 Ngày', 6000], ['30 Ngày', 60000]] },
-                { id:'h5', name:'Zygame', opts: [['1 Ngày', 5000], ['30 Ngày', 50000]] }
+                { id:'h2', name:'HG Cheat', opts: [['1 Ngày', 5000], ['30 Ngày', 50000]] }
             ]},
             { cat: 'ACC FREE FIRE', icon: 'fa-user-circle', items: [
-                { id:'a1', name:'Acc Level 5', opts: [['Gói 1 Acc', 5000]] },
-                { id:'a2', name:'Acc Level 15', opts: [['Gói 1 Acc', 15000]] }
-            ]},
-            { cat: 'CLOUD PHONE', icon: 'fa-cloud', items: [
-                { id:'c1', name:'Redfinger', opts: [['30 Ngày', 85000]] },
-                { id:'c2', name:'CC Cloud', opts: [['30 Ngày', 90000]] },
-                { id:'c3', name:'VIP Player', opts: [['30 Ngày', 100000]] }
+                { id:'a1', name:'Acc Level 5', opts: [['Gói 1 Acc', 5000]] }
             ]}
         ];
 
@@ -260,7 +264,7 @@
 
         function selectItem(name, time, price, rid) {
             const target = document.getElementById('r-' + rid);
-            if(lastId === rid) {
+            if(lastId === rid) { // HỦY CHỌN
                 target.classList.remove('selected');
                 document.getElementById('buy-bar').style.display = 'none';
                 curSelect = null; lastId = null; return;
@@ -283,7 +287,7 @@
         function openPay() {
             const code = "TK" + Math.random().toString(36).substring(7).toUpperCase();
             document.getElementById('qr').src = `https://img.vietqr.io/image/MB-79991312006-compact2.png?amount=${curSelect.price}&addInfo=${code}`;
-            document.getElementById('info-bank').innerHTML = `STK: <b>79991312006</b><br>Bank: <b>MB BANK</b><br>Nội dung: <b style="color:var(--accent)">${code}</b>`;
+            document.getElementById('info-bank').innerHTML = `STK: <b>79991312006</b><br>Bank: <b>MB BANK</b><br>Nội dung: <b>${code}</b>`;
             document.getElementById('modal-pay').style.display = 'block';
             document.getElementById('wait-check').style.display = 'none';
         }
@@ -314,7 +318,6 @@
         if(usr) {
             document.getElementById('u-name').innerText = usr.first_name;
             document.getElementById('u-id').innerText = "ID: " + usr.id;
-            if(usr.photo_url) document.getElementById('u-avatar').src = usr.photo_url;
         }
     </script>
 </body>
