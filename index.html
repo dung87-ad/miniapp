@@ -11,12 +11,15 @@
             --glass: rgba(255, 255, 255, 0.5);
             --glass-border: rgba(255, 255, 255, 0.7);
             --accent: #ec407a; --success: #43a047; --text: #4a148c; --hint: #880e4f;
+            /* Màu cánh hoa đậm hơn */
+            --petal-color: #ff80ab; 
         }
 
-        /* Tối ưu hiệu ứng hoa rơi */
         @keyframes sakuraFall {
-            0% { transform: translate3d(0, -10vh, 0) rotate(0deg); opacity: 1; }
-            100% { transform: translate3d(100px, 100vh, 0) rotate(360deg); opacity: 0.2; }
+            0% { transform: translate3d(0, -10vh, 0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 0.8; }
+            100% { transform: translate3d(150px, 100vh, 0) rotate(720deg); opacity: 0; }
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -27,8 +30,16 @@
             min-height: 100vh; overflow-x: hidden; position: relative;
         }
 
+        /* Container hoa anh đào */
         .sakura-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
-        .petal { position: absolute; background: #ffcdd2; border-radius: 150% 0 150% 150%; animation: sakuraFall infinite linear; will-change: transform; }
+        .petal { 
+            position: absolute; 
+            background: var(--petal-color); 
+            border-radius: 150% 0 150% 150%; 
+            animation: sakuraFall infinite linear; 
+            will-change: transform;
+            box-shadow: 1px 1px 3px rgba(236, 64, 122, 0.4); /* Thêm bóng cho lá đậm hơn */
+        }
 
         .glass { background: var(--glass); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--glass-border); border-radius: 20px; }
 
@@ -58,13 +69,13 @@
         .admin-item b { font-size: 9px; display: block; color: var(--text); }
         .admin-item span { font-size: 7.5px; color: var(--accent); display: block; font-weight: bold; }
 
-        /* DRAWER - SIÊU MƯỢT */
+        /* DRAWER - SMOOTH */
         .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.3); opacity: 0; visibility: hidden; transition: opacity 0.3s ease; z-index: 4999; }
         .drawer-overlay.active { opacity: 1; visibility: visible; }
         .drawer { 
             position: fixed; top: 0; right: 0; width: 75%; height: 100%; 
             z-index: 5000; background: #fffafb; border-left: 3px solid var(--accent);
-            transform: translate3d(100%, 0, 0); /* Sử dụng 3D tăng tốc GPU */
+            transform: translate3d(100%, 0, 0); 
             transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1); 
             will-change: transform;
             padding: 25px;
@@ -88,7 +99,7 @@
         .footer { position: fixed; bottom: 0; left: 0; right: 0; padding: 15px 20px; background: rgba(255,255,255,0.98); border-top: 1px solid var(--glass-border); display: none; z-index: 1000; border-radius: 20px 20px 0 0; }
         .buy-btn { background: var(--accent); color: white; border: none; padding: 12px 25px; border-radius: 15px; font-weight: bold; }
         .page { display: none; position: fixed; inset: 0; background: var(--bg-sakura); z-index: 4000; padding: 20px; overflow-y: auto; }
-        .pay-card { background: #fff; padding: 25px; border-radius: 30px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .pay-card { background: #fff; padding: 25px; border-radius: 30px; text-align: center; }
     </style>
 </head>
 <body>
@@ -97,14 +108,11 @@
     <div class="drawer-overlay" id="overlay" onclick="toggleMenu()"></div>
 
     <div class="drawer" id="menu">
-        <h3 style="color:var(--accent); font-size: 18px; margin-bottom: 25px;"><i class="fas fa-heart"></i> Tokyo Sakura</h3>
+        <h3 style="color:var(--accent);"><i class="fas fa-heart"></i> Tokyo Sakura</h3>
         <div class="glass" style="padding:15px; margin-top:15px; cursor:pointer;" onclick="openHistory()">
             <i class="fas fa-history" style="color:var(--accent); margin-right:12px"></i> Lịch sử đơn hàng
         </div>
-        <div class="glass" style="padding:15px; margin-top:12px; cursor:pointer;" onclick="tg.showAlert('Chương trình đang xây dựng!')">
-            <i class="fas fa-gem" style="color:var(--accent); margin-right:12px"></i> Nạp VIP Member
-        </div>
-        <button onclick="toggleMenu()" style="width:100%; padding:14px; background:var(--accent); border:none; color:white; border-radius:15px; margin-top:40px; font-weight:bold; box-shadow: 0 4px 15px rgba(236,64,122,0.3);">ĐÓNG MENU</button>
+        <button onclick="toggleMenu()" style="width:100%; padding:14px; background:var(--accent); border:none; color:white; border-radius:15px; margin-top:40px; font-weight:bold;">ĐÓNG</button>
     </div>
 
     <div class="header">
@@ -128,10 +136,7 @@
         <div class="stat-item glass"><b>8,902</b><span>Đơn hàng</span></div>
     </div>
 
-    <div class="ticker glass">
-        <i class="fas fa-bullhorn"></i>
-        <marquee scrollamount="4">Chào mừng đến Tokyo Sakura Shop - Menu Hack & Acc Free Fire uy tín nhất!</marquee>
-    </div>
+    <div class="ticker glass"><i class="fas fa-bullhorn"></i><marquee scrollamount="4">Chào mừng đến Tokyo Sakura Shop!</marquee></div>
 
     <div class="admin-grid glass">
         <a href="https://t.me/muadongtokyo36" class="admin-item"><i class="fas fa-crown"></i><b>muadongtokyo</b><span>@muadongtokyo36</span></a>
@@ -151,15 +156,15 @@
     <div id="page-history" class="page">
         <div onclick="closePages()" style="color:var(--accent); cursor:pointer; margin-bottom:20px; font-weight: bold;"><i class="fas fa-chevron-left"></i> QUAY LẠI</div>
         <h3 style="color:var(--accent);">Lịch sử mua hàng</h3>
-        <div id="history-list"><div class="glass" style="padding:15px; text-align:center; font-size:12px; color:var(--hint);">Chưa có đơn hàng nào.</div></div>
+        <div id="history-list"><div class="glass" style="padding:15px; text-align:center;">Chưa có đơn hàng.</div></div>
     </div>
 
     <div id="modal-pay" class="page">
         <div onclick="closePages()" style="color:var(--accent); cursor:pointer; margin-bottom:20px; font-weight: bold;"><i class="fas fa-chevron-left"></i> QUAY LẠI</div>
         <div class="pay-card">
-            <img id="qr" src="" style="width:100%; max-width:200px; border-radius:15px; margin-bottom:15px; border: 2px solid var(--accent);">
-            <div id="info-bank" style="text-align:left; background:#fff5f8; padding:15px; border-radius:15px; font-size:12px; color: #4a148c; line-height:1.5"></div>
-            <button onclick="tg.showAlert('Yêu cầu đã được gửi!')" style="width:100%; padding:14px; background:var(--accent); color:white; border:none; border-radius:15px; font-weight:bold; margin-top:15px;">XÁC NHẬN NẠP</button>
+            <img id="qr" src="" style="width:100%; max-width:200px; border-radius:15px; margin-bottom:15px;">
+            <div id="info-bank" style="font-size:12px; color: #4a148c;"></div>
+            <button onclick="tg.showAlert('Yêu cầu đã gửi!')" style="width:100%; padding:14px; background:var(--accent); color:white; border:none; border-radius:15px; font-weight:bold; margin-top:15px;">XÁC NHẬN NẠP</button>
         </div>
     </div>
 
@@ -169,19 +174,23 @@
 
         function createSakura() {
             const box = document.getElementById('sakura-box');
-            for (let i = 0; i < 15; i++) { // Giảm số lượng để mượt hơn
+            // Tăng số lượng cánh hoa lên 50 để nhìn nhiều hơn
+            for (let i = 0; i < 50; i++) { 
                 const petal = document.createElement('div');
                 petal.className = 'petal';
-                const size = Math.random() * 8 + 10;
-                petal.style.width = size + 'px'; petal.style.height = size + 'px';
+                // Kích thước ngẫu nhiên cho tự nhiên
+                const size = Math.random() * 7 + 8;
+                petal.style.width = size + 'px'; 
+                petal.style.height = (size * 1.2) + 'px';
                 petal.style.left = Math.random() * 100 + '%';
-                petal.style.animationDuration = (Math.random() * 5 + 5) + 's';
-                petal.style.animationDelay = (Math.random() * 5) + 's';
+                petal.style.animationDuration = (Math.random() * 6 + 4) + 's';
+                petal.style.animationDelay = (Math.random() * 8) + 's';
                 box.appendChild(petal);
             }
         }
         createSakura();
 
+        // LOGIC SẢN PHẨM VÀ ĐIỀU HƯỚNG GIỮ NGUYÊN
         const DATA = [
             { cat: 'HACK VIP FREE FIRE', icon: 'fa-fire', items: [
                 { id:'h1', name:'Br Mod', opts: [['1 Ngày', 5000], ['30 Ngày', 50000]] },
@@ -259,22 +268,14 @@
         }
 
         function toggleMenu() { 
-            const m = document.getElementById('menu');
-            const o = document.getElementById('overlay');
-            const s = document.getElementById('sakura-box');
-            
-            m.classList.toggle('active'); 
-            o.classList.toggle('active');
-            
-            // Tạm dừng Sakura khi mở menu để mượt hơn
-            if(m.classList.contains('active')) s.style.opacity = "0.3";
-            else s.style.opacity = "1";
+            document.getElementById('menu').classList.toggle('active'); 
+            document.getElementById('overlay').classList.toggle('active');
         }
 
         function openPay() {
             const code = "TK" + Math.random().toString(36).substring(7).toUpperCase();
             document.getElementById('qr').src = `https://img.vietqr.io/image/MB-79991312006-compact2.png?amount=${curSelect.price}&addInfo=${code}`;
-            document.getElementById('info-bank').innerHTML = `STK: <b>79991312006</b><br>Ngân hàng: <b>MB BANK</b><br>Nội dung: <b style="color:var(--accent)">${code}</b>`;
+            document.getElementById('info-bank').innerHTML = `STK: <b>79991312006</b><br>Ngân hàng: <b>MB BANK</b><br>Nội dung: <b>${code}</b>`;
             document.getElementById('modal-pay').style.display = 'block';
         }
 
