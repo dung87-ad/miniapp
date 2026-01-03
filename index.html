@@ -35,13 +35,14 @@
 
         /* HEADER */
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; gap: 8px; }
-        .user-box { padding: 10px 12px; display: flex; align-items: center; flex: 1; position: relative; min-height: 60px; }
+        .user-box { padding: 10px 12px; display: flex; align-items: center; flex: 1; position: relative; min-height: 65px; }
         .avatar { width: 42px; height: 42px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 10px; }
         .user-info b { font-size: 13px; display: block; max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .user-info small { font-size: 10px; color: var(--hint); display: block; margin-top: 1px; }
         .battery { position: absolute; top: 10px; right: 12px; font-size: 10px; color: var(--success); font-weight: bold; display: flex; align-items: center; gap: 4px; }
         .menu-btn { width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; }
 
-        /* ADMIN - COMPACT VERSION */
+        /* ADMIN GRID */
         .admin-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-bottom: 15px; overflow: hidden; }
         .admin-item { padding: 10px 2px; text-align: center; text-decoration: none; color: #fff; border-right: 1px solid var(--glass-border); }
         .admin-item:last-child { border-right: none; }
@@ -49,18 +50,17 @@
         .admin-item b { font-size: 9px; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 0 2px; }
         .admin-item span { font-size: 7.5px; color: var(--hint); display: block; opacity: 0.8; }
 
-        /* TICKER */
         .ticker { padding: 10px 12px; margin-bottom: 15px; font-size: 11px; color: var(--yellow); display: flex; align-items: center; }
 
-        /* PRODUCTS - REMOVED PURPLE BAR */
+        /* PRODUCTS */
         .cat-card { margin-bottom: 10px; border: 1px solid var(--glass-border); overflow: hidden; border-radius: 15px; background: var(--glass); }
-        .cat-btn { padding: 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; background: transparent; }
+        .cat-btn { padding: 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
         .cat-body { display: none; padding: 5px; background: rgba(0,0,0,0.15); }
         .prod-card { margin: 5px; overflow: hidden; background: rgba(255,255,255,0.03); border-radius: 10px; border: 1px solid rgba(255,255,255,0.05); }
         .prod-btn { padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 600; cursor: pointer; }
         .opt-list { display: none; }
-        .opt-item { padding: 12px 20px; display: flex; justify-content: space-between; border-top: 1px solid var(--glass-border); font-size: 12.5px; cursor: pointer; }
-        .opt-item.selected { background: var(--accent); color: #fff; }
+        .opt-item { padding: 12px 20px; display: flex; justify-content: space-between; border-top: 1px solid var(--glass-border); font-size: 12.5px; cursor: pointer; transition: background 0.2s; }
+        .opt-item.selected { background: var(--accent) !important; color: #fff; }
 
         .arrow { transition: 0.3s; font-size: 10px; color: var(--hint); }
         .rotate { transform: rotate(180deg); }
@@ -71,30 +71,28 @@
 
         /* MODALS */
         .page { display: none; position: fixed; inset: 0; background: var(--bg-gradient); z-index: 4000; padding: 20px; overflow-y: auto; }
-        .pay-card { background: #fff; color: #333; padding: 20px; border-radius: 25px; max-width: 400px; margin: 20px auto; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .pay-card { background: #fff; color: #333; padding: 20px; border-radius: 25px; max-width: 400px; margin: 20px auto; text-align: center; }
         .tab-box { display: flex; background: #f0f0f0; padding: 5px; border-radius: 12px; margin-bottom: 20px; }
-        .tab { flex: 1; padding: 10px; border-radius: 10px; border: none; font-weight: bold; font-size: 12px; cursor: pointer; transition: 0.2s; }
+        .tab { flex: 1; padding: 10px; border-radius: 10px; border: none; font-weight: bold; font-size: 12px; cursor: pointer; }
         .tab.active { background: var(--accent); color: white; }
-        input, select { width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 10px; border: 1px solid #ddd; font-size: 14px; }
+        input, select { width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 10px; border: 1px solid #ddd; }
 
-        .drawer { position: fixed; top: 0; right: -100%; width: 75%; height: 100%; z-index: 5000; transition: 0.4s; padding: 25px; box-shadow: -10px 0 30px rgba(0,0,0,0.5); }
+        .drawer { position: fixed; top: 0; right: -100%; width: 75%; height: 100%; z-index: 5000; transition: 0.4s; padding: 25px; }
         .drawer.active { right: 0; }
     </style>
 </head>
 <body>
 
     <div class="drawer glass" id="menu">
-        <h3 style="color:var(--accent); margin-top:0; border-bottom: 1px solid var(--glass-border); padding-bottom: 10px;">Tokyo Menu</h3>
+        <h3 style="color:var(--accent); margin-top:0;">Tokyo Menu</h3>
         <div class="glass" style="padding:15px; margin-top:20px; cursor:pointer;" onclick="openHistory()">
             <i class="fas fa-history" style="color:var(--accent); margin-right:10px"></i> Lịch sử đơn hàng
         </div>
-        <button onclick="toggleMenu()" style="width:100%; padding:14px; background:var(--danger); border:none; color:white; border-radius:12px; margin-top:50px; font-weight:bold; letter-spacing: 1px;">ĐÓNG</button>
+        <button onclick="toggleMenu()" style="width:100%; padding:14px; background:var(--danger); border:none; color:white; border-radius:12px; margin-top:50px; font-weight:bold;">ĐÓNG</button>
     </div>
 
     <div id="page-history" class="page">
-        <div onclick="closeHistory()" style="margin-bottom:25px; font-weight:bold; color:var(--accent); cursor:pointer; display: flex; align-items: center; gap: 8px;">
-            <i class="fas fa-chevron-left"></i> QUAY LẠI
-        </div>
+        <div onclick="closeHistory()" style="margin-bottom:25px; font-weight:bold; color:var(--accent); cursor:pointer;"><i class="fas fa-chevron-left"></i> QUAY LẠI</div>
         <h3 style="margin-top:0">LỊCH SỬ MUA HÀNG</h3>
         <div id="hist-list"></div>
     </div>
@@ -104,7 +102,8 @@
             <img id="u-avatar" src="https://ui-avatars.com/api/?name=T&background=5865f2&color=fff" class="avatar">
             <div class="user-info">
                 <b id="u-name">Tokyo Guest</b>
-                <div style="font-size:9px; color:var(--accent); margin-top:5px; font-weight: bold; letter-spacing: 0.5px;">
+                <small id="u-id">ID: 00000000</small>
+                <div style="font-size:9px; color:var(--accent); margin-top:3px; font-weight: bold;">
                     <span id="u-date">--/--/----</span> | <span id="u-time">00:00:00</span>
                 </div>
             </div>
@@ -113,21 +112,12 @@
         <div class="menu-btn glass" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
     </div>
 
-    <div class="ticker glass">
-        <i class="fas fa-bullhorn" style="margin-right:10px"></i>
-        <marquee scrollamount="4">Hệ thống nạp tự động - Tokyo Shop chúc bạn một ngày tốt lành!</marquee>
-    </div>
+    <div class="ticker glass"><i class="fas fa-bullhorn" style="margin-right:10px"></i><marquee scrollamount="4">Hệ thống nạp tự động - Tokyo Shop chúc bạn một ngày tốt lành!</marquee></div>
 
     <div class="admin-grid glass">
-        <a href="https://t.me/muadongtokyo36" class="admin-item">
-            <i class="fas fa-crown"></i><b>muadongtokyo</b><span>@muadongtokyo36</span>
-        </a>
-        <a href="https://t.me/muahatokyo1919" class="admin-item">
-            <i class="fas fa-bolt"></i><b>muahatokyo</b><span>@muahatokyo1919</span>
-        </a>
-        <a href="https://t.me/muathutokyo27" class="admin-item">
-            <i class="fas fa-headset"></i><b>muathutokyo</b><span>@muathutokyo27</span>
-        </a>
+        <a href="https://t.me/muadongtokyo36" class="admin-item"><i class="fas fa-crown"></i><b>muadongtokyo</b><span>@muadongtokyo36</span></a>
+        <a href="https://t.me/muahatokyo1919" class="admin-item"><i class="fas fa-bolt"></i><b>muahatokyo</b><span>@muahatokyo1919</span></a>
+        <a href="https://t.me/muathutokyo27" class="admin-item"><i class="fas fa-headset"></i><b>muathutokyo</b><span>@muathutokyo27</span></a>
     </div>
 
     <div id="product-list"></div>
@@ -135,7 +125,7 @@
     <div class="footer glass" id="buy-bar">
         <div style="display:flex; justify-content:space-between; align-items:center;">
             <div>
-                <b id="cur-name" style="font-size:12px; opacity: 0.9;">Sản phẩm</b>
+                <b id="cur-name" style="font-size:12px;">Sản phẩm</b>
                 <span id="cur-price" style="display:block; color:var(--success); font-weight:800; font-size:16px; margin-top:2px;">0đ</span>
             </div>
             <button class="buy-btn" onclick="openPay()">MUA NGAY</button>
@@ -152,16 +142,14 @@
             <div id="box-bank">
                 <img id="qr" src="" style="width:190px; border-radius:15px; margin-bottom:15px; border: 1px solid #eee;">
                 <div id="info-bank" style="text-align:left; background:#f9f9f9; padding:15px; border-radius:12px; font-size:12px; line-height:1.7"></div>
-                <button onclick="confirmPurchase('Chuyển khoản')" style="width:100%; padding:14px; background:var(--success); color:white; border:none; border-radius:12px; font-weight:bold; margin-top:15px; font-size:14px;">XÁC NHẬN NẠP</button>
+                <button onclick="confirmPurchase('Chuyển khoản')" style="width:100%; padding:14px; background:var(--success); color:white; border:none; border-radius:12px; font-weight:bold; margin-top:15px;">XÁC NHẬN NẠP</button>
             </div>
             <div id="box-card" style="display:none; text-align:left;">
-                <label style="font-size:11px; font-weight:bold; color: #666; margin-left: 5px;">NHÀ MẠNG</label>
                 <select id="card-t"><option>Viettel</option><option>VinaPhone</option><option>MobiFone</option></select>
-                <label style="font-size:11px; font-weight:bold; color: #666; margin-left: 5px;">MỆNH GIÁ</label>
                 <select id="card-v"><option value="10000">10,000đ</option><option value="50000">50,000đ</option><option value="100000">100,000đ</option></select>
-                <input type="number" id="card-s" placeholder="Nhập số Seri">
-                <input type="number" id="card-p" placeholder="Nhập mã thẻ">
-                <button onclick="confirmPurchase('Thẻ cào')" style="width:100%; padding:14px; background:var(--accent); color:white; border:none; border-radius:12px; font-weight:bold; margin-top:5px;">GỬI THẺ DUYỆT</button>
+                <input type="number" id="card-s" placeholder="Số Seri">
+                <input type="number" id="card-p" placeholder="Mã thẻ">
+                <button onclick="confirmPurchase('Thẻ cào')" style="width:100%; padding:14px; background:var(--accent); color:white; border:none; border-radius:12px; font-weight:bold;">GỬI THẺ DUYỆT</button>
             </div>
         </div>
     </div>
@@ -187,6 +175,7 @@
         ];
 
         let curSelect = null;
+        let lastId = null;
 
         function render() {
             document.getElementById('product-list').innerHTML = DATA.map(g => `
@@ -231,9 +220,23 @@
         }
 
         function selectItem(name, time, price, rid) {
-            curSelect = { name, time, price };
+            const target = document.getElementById('r-' + rid);
+            
+            // Nếu bấm lại vào chính item đang chọn -> Hủy chọn
+            if(lastId === rid) {
+                target.classList.remove('selected');
+                document.getElementById('buy-bar').style.display = 'none';
+                curSelect = null;
+                lastId = null;
+                return;
+            }
+
+            // Chọn mới
             document.querySelectorAll('.opt-item').forEach(r => r.classList.remove('selected'));
-            document.getElementById('r-' + rid).classList.add('selected');
+            target.classList.add('selected');
+            curSelect = { name, time, price };
+            lastId = rid;
+            
             document.getElementById('cur-name').innerText = name + " (" + time + ")";
             document.getElementById('cur-price').innerText = price.toLocaleString() + "đ";
             document.getElementById('buy-bar').style.display = 'block';
@@ -248,24 +251,24 @@
 
         function confirmPurchase(m) {
             if(m === 'Thẻ cào' && (!document.getElementById('card-s').value || !document.getElementById('card-p').value)) {
-                tg.showAlert('Vui lòng nhập đầy đủ Seri và Mã thẻ!'); return;
+                tg.showAlert('Vui lòng nhập đủ thông tin!'); return;
             }
             const h = JSON.parse(localStorage.getItem('tokyo_h') || '[]');
             h.unshift({ t: curSelect.name+' ('+curSelect.time+')', p: curSelect.price.toLocaleString()+'đ', d: new Date().toLocaleString('vi-VN'), m: m });
             localStorage.setItem('tokyo_h', JSON.stringify(h));
-            tg.showAlert('Đã gửi yêu cầu giao dịch!'); closePay();
+            tg.showAlert('Gửi yêu cầu thành công!'); closePay();
         }
 
         function openHistory() {
             const h = JSON.parse(localStorage.getItem('tokyo_h') || '[]');
             toggleMenu(); document.getElementById('page-history').style.display = 'block';
             document.getElementById('hist-list').innerHTML = h.length ? h.map(i => `
-                <div class="glass" style="padding:15px; margin-bottom:10px; display:flex; align-items:center; gap:12px; border: 1px solid var(--glass-border);">
-                    <i class="fas fa-receipt" style="color:var(--accent); font-size: 18px;"></i>
-                    <div style="flex:1"><b style="font-size:13px">${i.t}</b><small style="display:block; color:var(--hint); font-size:10px; margin-top:3px">${i.d} | ${i.m}</small></div>
+                <div class="glass" style="padding:15px; margin-bottom:10px; display:flex; align-items:center; gap:12px;">
+                    <i class="fas fa-receipt" style="color:var(--accent)"></i>
+                    <div style="flex:1"><b style="font-size:13px">${i.t}</b><small style="display:block; color:var(--hint); font-size:10px;">${i.d} | ${i.m}</small></div>
                     <b style="color:var(--success); font-size:14px">${i.p}</b>
                 </div>
-            `).join('') : '<center style="margin-top:50px; color:var(--hint)">Bạn chưa có đơn hàng nào.</center>';
+            `).join('') : '<center style="margin-top:50px; color:var(--hint)">Chưa có đơn hàng.</center>';
         }
 
         function setTab(t) {
@@ -280,12 +283,11 @@
         function closeHistory() { document.getElementById('page-history').style.display = 'none'; }
         function closePay() { document.getElementById('modal-pay').style.display = 'none'; }
 
-        // BATTERY & SECOND CLOCK
+        // BATTERY & TIME
         navigator.getBattery().then(b => {
             const u = () => document.getElementById('u-bat').innerHTML = `<i class="fas fa-battery-half"></i> ${Math.floor(b.level*100)}%`;
             u(); b.addEventListener('levelchange', u);
         });
-
         setInterval(() => {
             const n = new Date();
             document.getElementById('u-date').innerText = n.toLocaleDateString('vi-VN');
@@ -295,6 +297,7 @@
         const usr = tg.initDataUnsafe?.user;
         if(usr) {
             document.getElementById('u-name').innerText = usr.first_name + (usr.last_name ? " " + usr.last_name : "");
+            document.getElementById('u-id').innerText = "ID: " + usr.id;
             if(usr.photo_url) document.getElementById('u-avatar').src = usr.photo_url;
         }
     </script>
