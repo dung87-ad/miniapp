@@ -32,7 +32,7 @@
         .glass { background: var(--glass); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--glass-border); border-radius: 20px; }
 
         /* HEADER */
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; gap: 8px; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; gap: 8px; }
         .user-box { padding: 10px 12px; display: flex; align-items: center; flex: 1; position: relative; min-height: 70px; }
         .avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 10px; background: #fff; }
         .user-info b { font-size: 14px; display: block; color: var(--accent); }
@@ -40,13 +40,23 @@
         .battery { position: absolute; top: 10px; right: 12px; font-size: 10px; color: var(--success); font-weight: bold; }
         .menu-btn { width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; font-size: 20px; color: var(--accent); cursor: pointer; }
 
-        /* ADMIN GRID */
+        /* STATS BAR */
+        .stats-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px; }
+        .stat-item { padding: 10px; text-align: center; }
+        .stat-item b { display: block; font-size: 14px; color: var(--accent); }
+        .stat-item span { font-size: 9px; color: var(--hint); font-weight: bold; text-transform: uppercase; }
+
+        /* TICKER */
+        .ticker { padding: 10px 15px; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; overflow: hidden; }
+        .ticker i { color: var(--accent); font-size: 14px; }
+        .ticker marquee { font-size: 11px; font-weight: bold; color: var(--text); }
+
+        /* ADMIN GRID - FIXED NAMES */
         .admin-grid { display: grid; grid-template-columns: repeat(3, 1fr); margin-bottom: 15px; overflow: hidden; }
-        .admin-item { padding: 12px 2px; text-align: center; text-decoration: none; color: var(--text); border-right: 1px solid var(--glass-border); }
+        .admin-item { padding: 15px 2px; text-align: center; text-decoration: none; color: var(--text); border-right: 1px solid var(--glass-border); }
         .admin-item:last-child { border-right: none; }
-        .admin-item i { font-size: 16px; color: var(--accent); margin-bottom: 4px; display: block; }
-        .admin-item b { font-size: 10px; display: block; color: var(--accent); }
-        .admin-item span { font-size: 7.5px; color: var(--hint); display: block; font-weight: bold; }
+        .admin-item i { font-size: 18px; color: var(--accent); margin-bottom: 6px; display: block; }
+        .admin-item b { font-size: 9px; display: block; color: var(--accent); margin-top: 2px; }
 
         /* PRODUCTS */
         .cat-card { margin-bottom: 12px; border: 1px solid var(--glass-border); overflow: hidden; border-radius: 20px; }
@@ -97,12 +107,21 @@
         <div class="menu-btn glass" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
     </div>
 
-    <div class="ticker glass"><marquee scrollamount="3">Chào mừng đến Tokyo Sakura Shop - Menu Hack & Acc Free Fire uy tín!</marquee></div>
+    <div class="stats-bar">
+        <div class="stat-item glass"><b>1,254</b><span>Thành viên</span></div>
+        <div class="stat-item glass"><b>342</b><span>Đang Online</span></div>
+        <div class="stat-item glass"><b>8,902</b><span>Đơn hàng</span></div>
+    </div>
+
+    <div class="ticker glass">
+        <i class="fas fa-bullhorn"></i>
+        <marquee scrollamount="4">Chào mừng đến Tokyo Sakura Shop - Hệ thống nạp tự động 24/7 - Uy tín tạo nên thương hiệu!</marquee>
+    </div>
 
     <div class="admin-grid glass">
-        <a href="https://t.me/muadongtokyo36" class="admin-item"><i class="fas fa-crown"></i><b>Admin</b><span>@muadongtokyo36</span></a>
-        <a href="https://t.me/muahatokyo1919" class="admin-item"><i class="fas fa-bolt"></i><b>Admin</b><span>@muahatokyo1919</span></a>
-        <a href="https://t.me/muathutokyo27" class="admin-item"><i class="fas fa-headset"></i><b>Admin</b><span>@muathutokyo27</span></a>
+        <a href="https://t.me/muadongtokyo36" class="admin-item"><i class="fas fa-crown"></i><b>muadongtokyo</b></a>
+        <a href="https://t.me/muahatokyo1919" class="admin-item"><i class="fas fa-bolt"></i><b>muahatokyo</b></a>
+        <a href="https://t.me/muathutokyo27" class="admin-item"><i class="fas fa-headset"></i><b>muathutokyo</b></a>
     </div>
 
     <div id="product-list"></div>
@@ -150,7 +169,6 @@
         }
         createSakura();
 
-        // DANH SÁCH 10 SẢN PHẨM MỚI
         const DATA = [
             { cat: 'HACK VIP FREE FIRE', icon: 'fa-fire', items: [
                 { id:'h1', name:'Br Mod', opts: [['1 Ngày', 5000], ['30 Ngày', 50000]] },
