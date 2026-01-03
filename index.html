@@ -7,141 +7,169 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { 
-            --bg: #0b0b0d; --card: #1c1c1e; --text: #ffffff; 
+            --bg-gradient: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #0b0b0d);
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
             --accent: #5865f2; --success: #34c759; --danger: #ff3b30; --yellow: #ffcc00; 
-            --hint: #8e8e93; --border: #2c2c2e;
+            --text: #ffffff; --hint: #a1a1aa;
         }
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
-        body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; padding-bottom: 110px; overflow-x: hidden; }
+
+        /* Hiệu ứng nền chuyển động */
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { 
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg-gradient);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: var(--text);
+            margin: 0; padding: 15px; padding-bottom: 120px;
+            min-height: 100vh;
+        }
+
+        /* Glassmorphism Card Style */
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+        }
 
         /* HEADER */
-        .header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; gap: 10px; }
-        .user-profile { background: var(--card); padding: 12px 15px; border-radius: 20px; display: flex; align-items: center; border: 1px solid var(--border); flex: 1; position: relative; }
-        .user-avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 12px; object-fit: cover; }
-        .user-info b { font-size: 14px; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 120px; }
-        .user-info small { color: var(--hint); font-size: 10px; display: block; }
-        .battery-status { position: absolute; top: 10px; right: 15px; font-size: 10px; color: var(--success); font-weight: bold; }
-        .menu-btn { background: var(--card); border: 1px solid var(--border); color: white; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; }
+        .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 10px; }
+        .user-profile { padding: 12px 15px; display: flex; align-items: center; flex: 1; position: relative; }
+        .user-avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 12px; }
+        .user-info b { font-size: 14px; display: block; max-width: 130px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .battery-box { position: absolute; top: 10px; right: 15px; font-size: 11px; color: var(--success); }
+        .menu-btn { width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; }
 
-        /* TICKER & STATS */
-        .news-ticker { background: rgba(88, 101, 242, 0.1); border: 1px solid var(--border); border-radius: 12px; padding: 10px; margin-bottom: 12px; display: flex; align-items: center; font-size: 11px; color: var(--yellow); }
-        .stats-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 15px; }
-        .stat-item { background: var(--card); border: 1px solid var(--border); padding: 10px; border-radius: 12px; text-align: center; }
-        .stat-item span { font-size: 9px; color: var(--hint); display: block; }
-        .stat-item b { font-size: 12px; color: var(--success); }
+        /* TICKER */
+        .ticker-wrap { padding: 10px; margin-bottom: 15px; font-size: 12px; color: var(--yellow); display: flex; align-items: center; }
 
-        /* ADMINS */
-        .support-box { background: var(--card); border-radius: 18px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 20px; display: grid; grid-template-columns: repeat(3, 1fr); }
-        .support-item { display: flex; flex-direction: column; align-items: center; padding: 15px 5px; text-decoration: none; color: white; border-right: 1px solid var(--border); }
-        .support-item:last-child { border-right: none; }
-        .support-icon { font-size: 20px; color: var(--accent); margin-bottom: 8px; }
+        /* ADMIN BOX */
+        .support-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; overflow: hidden; margin-bottom: 20px; }
+        .support-item { padding: 15px 5px; text-align: center; text-decoration: none; color: #fff; transition: 0.3s; }
+        .support-item:active { background: rgba(255,255,255,0.1); }
+        .support-item i { font-size: 20px; color: var(--accent); margin-bottom: 8px; display: block; }
         .support-item b { font-size: 10px; display: block; }
-        .support-item span { font-size: 8px; color: var(--hint); }
 
-        /* PRODUCTS & ANIMATION */
-        .cat-btn { background: var(--card); border-radius: 15px; padding: 15px; display: flex; align-items: center; justify-content: space-between; border: 1px solid var(--border); margin-bottom: 10px; cursor: pointer; border-left: 4px solid var(--accent); }
-        .list-container { display: none; margin-bottom: 15px; }
-        .item-card { background: var(--card); border-radius: 15px; border: 1px solid var(--border); margin-bottom: 8px; overflow: hidden; }
-        .item-top { padding: 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-size: 14px; font-weight: bold; }
-        .fa-chevron-down { transition: transform 0.3s ease; font-size: 12px; color: var(--hint); }
-        .rotate { transform: rotate(180deg); }
-        .opt-row { padding: 14px 15px; display: flex; justify-content: space-between; border-top: 1px solid #222; font-size: 13px; cursor: pointer; transition: 0.2s; }
-        .opt-row.selected { background: rgba(88, 101, 242, 0.2); border-left: 4px solid var(--accent); }
-
-        /* DRAWER & FULLPAGE */
-        .drawer { position: fixed; top: 0; right: -100%; width: 80%; height: 100%; background: var(--bg); z-index: 2000; transition: 0.4s; padding: 25px; border-left: 1px solid var(--border); }
-        .drawer.active { right: 0; }
-        .full-page { display: none; position: fixed; inset: 0; background: var(--bg); z-index: 3000; padding: 20px; overflow-y: auto; }
-        .history-item { background: var(--card); border-radius: 15px; padding: 15px; border: 1px solid var(--border); margin-bottom: 10px; display: flex; align-items: center; gap: 12px; }
+        /* PRODUCT LIST */
+        .cat-group { margin-bottom: 10px; }
+        .cat-header { padding: 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; border-left: 4px solid var(--accent); margin-bottom: 5px; }
+        .cat-content { display: none; padding-bottom: 10px; }
+        .product-item { margin-bottom: 8px; overflow: hidden; }
+        .product-top { padding: 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-weight: 600; }
+        .option-list { display: none; background: rgba(0,0,0,0.2); }
+        .option-row { padding: 12px 20px; display: flex; justify-content: space-between; border-top: 1px solid var(--glass-border); font-size: 13px; }
+        .option-row.active { background: var(--accent); color: white; }
 
         /* BOTTOM BAR */
-        .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #1c1c1e; padding: 15px 20px; border-top: 1px solid var(--border); display: none; z-index: 1000; border-radius: 20px 20px 0 0; }
-        .bar-content { display: flex; justify-content: space-between; align-items: center; }
-        .btn-buy-now { background: var(--accent); color: white; border: none; padding: 12px 25px; border-radius: 12px; font-weight: bold; cursor: pointer; }
+        .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; padding: 15px 20px; border-top: 1px solid var(--glass-border); display: none; z-index: 1000; border-radius: 25px 25px 0 0; }
+        .buy-btn { background: var(--accent); color: white; border: none; padding: 12px 25px; border-radius: 12px; font-weight: bold; }
 
-        /* MODAL PAYMENT */
-        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 4000; padding: 20px; overflow-y: auto; }
-        .pay-box { background: #fff; color: #000; padding: 20px; border-radius: 25px; text-align: center; max-width: 400px; margin: auto; }
-        .pay-input-group { text-align: left; margin-bottom: 10px; }
-        .pay-input-group label { font-size: 11px; font-weight: bold; color: #666; display: block; margin-bottom: 4px; padding-left: 5px; }
-        input, select { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #ddd; font-family: inherit; font-size: 14px; }
+        /* MODAL */
+        .modal-full { display: none; position: fixed; inset: 0; background: var(--bg-gradient); z-index: 4000; padding: 20px; overflow-y: auto; }
+        .payment-card { background: #fff; color: #333; padding: 25px; border-radius: 30px; max-width: 450px; margin: 30px auto; text-align: center; }
+        .tab-group { display: flex; background: #f0f0f0; padding: 5px; border-radius: 15px; margin-bottom: 20px; }
+        .tab-btn { flex: 1; padding: 10px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; }
+        .tab-btn.active { background: var(--accent); color: white; }
+        input, select { width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 12px; border: 1px solid #ddd; }
+
+        /* DRAWER & HISTORY */
+        .drawer { position: fixed; top: 0; right: -100%; width: 80%; height: 100%; z-index: 5000; transition: 0.4s; padding: 25px; }
+        .drawer.active { right: 0; }
+        .history-card { padding: 15px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; }
+
+        /* Animation mũi tên */
+        .arrow { transition: 0.3s ease; }
+        .rotate { transform: rotate(180deg); }
     </style>
 </head>
 <body>
 
-    <div class="drawer" id="drawer">
-        <h2 style="color:var(--accent);"><i class="fas fa-th-large"></i> Danh mục</h2>
-        <div style="padding:18px; background:var(--card); border-radius:15px; margin-top:20px; display:flex; align-items:center; cursor:pointer;" onclick="openHistory()">
-            <i class="fas fa-history" style="margin-right:12px; color:var(--accent); font-size:20px;"></i>
-            <b>Lịch sử mua hàng</b>
+    <div class="drawer glass-card" id="drawer">
+        <h2 style="color:var(--accent)"><i class="fas fa-th-large"></i> Tokyo Menu</h2>
+        <div class="glass-card" style="padding:15px; margin-top:20px; cursor:pointer;" onclick="showHistory()">
+            <i class="fas fa-history" style="color:var(--accent); margin-right:10px"></i> <b>Lịch sử mua hàng</b>
         </div>
-        <button onclick="toggleMenu()" style="width:100%; padding:15px; border-radius:12px; background:var(--danger); color:white; border:none; font-weight:bold; margin-top:50px;">ĐÓNG MENU</button>
+        <button onclick="toggleMenu()" style="width:100%; padding:15px; background:var(--danger); border:none; color:white; border-radius:15px; margin-top:50px; font-weight:bold">ĐÓNG</button>
     </div>
 
-    <div id="page-history" class="full-page">
-        <div onclick="closeHistory()" style="color:var(--accent); font-weight:bold; margin-bottom:20px; cursor:pointer;"><i class="fas fa-chevron-left"></i> QUAY LẠI</div>
-        <h3>GIAO DỊCH CỦA BẠN</h3>
-        <div id="history-list"></div>
+    <div id="page-history" class="modal-full" style="display:none; z-index: 6000;">
+        <div onclick="hideHistory()" style="margin-bottom:20px; font-weight:bold; color:var(--accent); cursor:pointer"><i class="fas fa-chevron-left"></i> QUAY LẠI</div>
+        <h3>LỊCH SỬ GIAO DỊCH</h3>
+        <div id="history-container"></div>
     </div>
 
     <div class="header-top">
-        <div class="user-profile">
-            <img id="u-avatar" src="https://ui-avatars.com/api/?name=U&background=5865f2&color=fff" class="user-avatar">
+        <div class="user-profile glass-card">
+            <img id="u-avatar" src="https://ui-avatars.com/api/?name=T&background=5865f2&color=fff" class="user-avatar">
             <div class="user-info">
-                <b id="u-name">Khách Tokyo</b>
+                <b id="u-name">Tokyo Guest</b>
                 <small id="u-id">ID: 00000000</small>
-                <div style="font-size: 9px; color: var(--accent); font-weight: 800; margin-top: 4px;">
-                    <span id="u-date"></span> <span id="u-time" style="color:var(--success)"></span>
+                <div style="font-size:9px; color:var(--accent); margin-top:4px;">
+                    <span id="u-date">00/00/0000</span> <span id="u-time">00:00</span>
                 </div>
             </div>
-            <div class="battery-status" id="battery-info"><i class="fas fa-battery-three-quarters"></i> --%</div>
+            <div class="battery-box" id="bat-val"><i class="fas fa-battery-full"></i> --%</div>
         </div>
-        <div class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+        <div class="menu-btn glass-card" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
     </div>
 
-    <div class="news-ticker"><i class="fas fa-bullhorn" style="margin-right:8px"></i><marquee>Chào mừng bạn! Hệ thống nạp tự động, an toàn và bảo mật tuyệt đối.</marquee></div>
-
-    <div class="stats-bar">
-        <div class="stat-item"><span>Đơn hàng</span><b>48.200+</b></div>
-        <div class="stat-item"><span>Online</span><b>2.150</b></div>
-        <div class="stat-item"><span>Server</span><b style="color:var(--success)">ON</b></div>
+    <div class="ticker-wrap glass-card">
+        <i class="fas fa-bullhorn" style="margin-right:10px"></i>
+        <marquee>Tokyo Shop - Hệ thống nạp Bank & Card tự động. Uy tín tạo nên thương hiệu!</marquee>
     </div>
 
-    <div class="support-box">
-        <a href="https://t.me/muadongtokyo36" class="support-item"><i class="fas fa-crown support-icon"></i><b>muadongtokyo</b><span>@muadongtokyo36</span></a>
-        <a href="https://t.me/muahatokyo1919" class="support-item"><i class="fas fa-bolt support-icon"></i><b>muahatokyo</b><span>@muahatokyo1919</span></a>
-        <a href="https://t.me/muathutokyo27" class="support-item"><i class="fas fa-headset support-icon"></i><b>muathutokyo</b><span>@muathutokyo27</span></a>
+    <div class="support-grid glass-card">
+        <a href="https://t.me/muadongtokyo36" class="support-item">
+            <i class="fas fa-crown"></i><b>muadongtokyo</b><span>@muadongtokyo36</span>
+        </a>
+        <a href="https://t.me/muahatokyo1919" class="support-item">
+            <i class="fas fa-bolt"></i><b>muahatokyo</b><span>@muahatokyo1919</span>
+        </a>
+        <a href="https://t.me/muathutokyo27" class="support-item">
+            <i class="fas fa-headset"></i><b>muathutokyo</b><span>@muathutokyo27</span>
+        </a>
     </div>
 
-    <div id="product-area"></div>
+    <div id="app"></div>
 
-    <div class="bottom-bar" id="bottom-bar">
-        <div class="bar-content">
-            <div class="bar-info"><b id="sel-name">Sản phẩm</b><span id="sel-price" style="color:var(--success); font-weight:bold; display:block">0đ</span></div>
-            <button onclick="openPayment()" class="btn-buy-now">MUA NGAY</button>
+    <div class="bottom-bar glass-card" id="bottom-bar">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div><b id="sel-name" style="font-size:13px">Sản phẩm</b><span id="sel-price" style="display:block; color:var(--success); font-weight:bold">0đ</span></div>
+            <button class="buy-btn" onclick="openPay()">MUA NGAY</button>
         </div>
     </div>
 
-    <div id="modal-pay" class="modal">
-        <div onclick="closeModal()" style="color:white; margin-bottom:15px; cursor:pointer"><i class="fas fa-arrow-left"></i> QUAY LẠI</div>
-        <div class="pay-box">
-            <div style="display:flex; gap:10px; margin-bottom:20px;">
-                <button id="t-bank" style="flex:1; padding:12px; border-radius:12px; background:var(--accent); color:white; border:none; font-weight:bold;" onclick="switchTab('bank')">BANK</button>
-                <button id="t-card" style="flex:1; padding:12px; border-radius:12px; background:#eee; border:none; font-weight:bold;" onclick="switchTab('card')">CARD</button>
+    <div id="modal-pay" class="modal-full">
+        <div onclick="closePay()" style="color:white; cursor:pointer; margin-bottom:20px"><i class="fas fa-times-circle"></i> THOÁT</div>
+        <div class="payment-card">
+            <div class="tab-group">
+                <button id="btn-tab-bank" class="tab-btn active" onclick="setTab('bank')">NGÂN HÀNG</button>
+                <button id="btn-tab-card" class="tab-btn" onclick="setTab('card')">THẺ CÀO</button>
             </div>
 
-            <div id="pay-bank">
-                <img id="qr-img" src="" style="width:180px; border-radius:12px;">
-                <div id="bank-info" style="text-align:left; font-size:12px; background:#f4f4f4; padding:15px; border-radius:12px; margin-top:10px; line-height:1.6"></div>
-                <button onclick="confirmPurchase('Chuyển khoản')" style="width:100%; padding:15px; margin-top:15px; border-radius:15px; background:var(--success); color:white; border:none; font-weight:bold;">XÁC NHẬN CHUYỂN KHOẢN</button>
+            <div id="pane-bank">
+                <img id="qr-code" src="" style="width:200px; border-radius:15px; margin-bottom:15px;">
+                <div id="bank-detail" style="text-align:left; background:#f9f9f9; padding:15px; border-radius:15px; font-size:13px; line-height:1.8"></div>
+                <button onclick="doConfirm('Chuyển khoản')" style="width:100%; padding:15px; background:var(--success); color:white; border:none; border-radius:15px; font-weight:bold; margin-top:15px;">XÁC NHẬN ĐÃ CHUYỂN</button>
             </div>
 
-            <div id="pay-card" style="display:none;">
-                <div class="pay-input-group"><label>Nhà mạng</label><select id="c-type"><option>Viettel</option><option>VinaPhone</option><option>MobiFone</option><option>Vietnamobile</option></select></div>
-                <div class="pay-input-group"><label>Mệnh giá</label><select id="c-amount"><option value="10000">10,000đ</option><option value="20000">20,000đ</option><option value="50000">50,000đ</option><option value="100000">100,000đ</option><option value="200000">200,000đ</option><option value="500000">500,000đ</option></select></div>
-                <div class="pay-input-group"><label>Số Seri</label><input type="number" id="c-seri" placeholder="Nhập seri thẻ"></div>
-                <div class="pay-input-group"><label>Mã thẻ</label><input type="number" id="c-pin" placeholder="Nhập mã thẻ"></div>
-                <button onclick="confirmPurchase('Thẻ cào')" style="width:100%; padding:15px; border-radius:15px; background:var(--accent); color:white; border:none; font-weight:bold; margin-top:10px;">GỬI THẺ DUYỆT</button>
+            <div id="pane-card" style="display:none; text-align:left;">
+                <label style="font-size:12px; font-weight:bold">Loại thẻ</label>
+                <select id="card-type"><option>Viettel</option><option>VinaPhone</option><option>MobiFone</option><option>Vietnamobile</option></select>
+                <label style="font-size:12px; font-weight:bold">Mệnh giá</label>
+                <select id="card-value"><option value="10000">10,000đ</option><option value="50000">50,000đ</option><option value="100000">100,000đ</option></select>
+                <input type="number" id="card-seri" placeholder="Số Seri">
+                <input type="number" id="card-pin" placeholder="Mã thẻ (Pin)">
+                <button onclick="doConfirm('Thẻ cào')" style="width:100%; padding:15px; background:var(--accent); color:white; border:none; border-radius:15px; font-weight:bold;">GỬI THẺ</button>
             </div>
         </div>
     </div>
@@ -149,9 +177,8 @@
     <script>
         const tg = window.Telegram.WebApp;
         tg.ready(); tg.expand();
-        let selectedRowId = null;
 
-        const DATA = [
+        const PRODUCTS = [
             { cat: 'HACK VIP FREE FIRE', icon: 'fa-fire', items: [
                 { id:'h1', name:'Br Mods VIP', opts: [['1 Ngày', 2000], ['30 Ngày', 30000]] },
                 { id:'h2', name:'ZyGame Menu', opts: [['1 Ngày', 2000], ['30 Ngày', 30000]] },
@@ -170,123 +197,123 @@
             ]}
         ];
 
+        let selection = null;
+
         function render() {
-            document.getElementById('product-area').innerHTML = DATA.map(g => `
-                <div class="cat-btn" onclick="toggleCat('${g.cat.replace(/\s/g,'')}')">
-                    <span><i class="fas ${g.icon}" style="margin-right:10px; color:var(--accent)"></i><b>${g.cat}</b></span>
-                    <i class="fas fa-chevron-down" id="arrow-cat-${g.cat.replace(/\s/g,'')}"></i>
-                </div>
-                <div id="list-${g.cat.replace(/\s/g,'')}" class="list-container">
-                    ${g.items.map(i => `
-                        <div class="item-card">
-                            <div class="item-top" onclick="toggleOpts('${i.id}')">${i.name} <i class="fas fa-chevron-down" id="arrow-opt-${i.id}"></i></div>
-                            <div id="opt-${i.id}" style="display:none">
-                                ${i.opts.map((o, idx) => `
-                                    <div class="opt-row" id="row-${i.id}-${idx}" onclick="selectItem('${i.name}', '${o[0]}', ${o[1]}, '${i.id}-${idx}')">
-                                        <span>${o[0]}</span><b>${o[1].toLocaleString()}đ</b>
-                                    </div>
-                                `).join('')}
+            document.getElementById('app').innerHTML = PRODUCTS.map(g => `
+                <div class="cat-group">
+                    <div class="cat-header glass-card" onclick="toggleCat('${g.cat}')">
+                        <span><i class="fas ${g.icon}" style="margin-right:10px; color:var(--accent)"></i><b>${g.cat}</b></span>
+                        <i class="fas fa-chevron-down arrow" id="arr-cat-${g.cat}"></i>
+                    </div>
+                    <div class="cat-content" id="content-${g.cat}">
+                        ${g.items.map(i => `
+                            <div class="product-item glass-card">
+                                <div class="product-top" onclick="toggleOpt('${i.id}')">
+                                    ${i.name} <i class="fas fa-chevron-down arrow" id="arr-opt-${i.id}"></i>
+                                </div>
+                                <div class="option-list" id="opt-${i.id}">
+                                    ${i.opts.map((o, idx) => `
+                                        <div class="option-row" id="row-${i.id}-${idx}" onclick="selectItem('${i.name}', '${o[0]}', ${o[1]}, '${i.id}-${idx}')">
+                                            <span>${o[0]}</span><b>${o[1].toLocaleString()}đ</b>
+                                        </div>
+                                    `).join('')}
+                                </div>
                             </div>
-                        </div>
-                    `).join('')}
+                        `).join('')}
+                    </div>
                 </div>
             `).join('');
         }
         render();
 
-        function toggleCat(id) {
-            const el = document.getElementById('list-' + id);
-            el.style.display = el.style.display === 'block' ? 'none' : 'block';
-            document.getElementById('arrow-cat-' + id).classList.toggle('rotate');
+        function toggleCat(cat) {
+            const el = document.getElementById('content-' + cat);
+            const arr = document.getElementById('arr-cat-' + cat);
+            const isO = el.style.display === 'block';
+            el.style.display = isO ? 'none' : 'block';
+            arr.classList.toggle('rotate', !isO);
         }
 
-        function toggleOpts(id) {
+        function toggleOpt(id) {
             const el = document.getElementById('opt-' + id);
-            el.style.display = el.style.display === 'block' ? 'none' : 'block';
-            document.getElementById('arrow-opt-' + id).classList.toggle('rotate');
+            const arr = document.getElementById('arr-opt-' + id);
+            const isO = el.style.display === 'block';
+            el.style.display = isO ? 'none' : 'block';
+            arr.classList.toggle('rotate', !isO);
         }
 
         function selectItem(name, time, price, rowId) {
-            if(selectedRowId === rowId) { selectedRowId = null; document.getElementById('bottom-bar').style.display='none'; return; }
-            selectedRowId = rowId;
-            document.querySelectorAll('.opt-row').forEach(el => el.classList.remove('selected'));
-            document.getElementById('row-' + rowId).classList.add('selected');
+            selection = { name, time, price };
+            document.querySelectorAll('.option-row').forEach(r => r.classList.remove('active'));
+            document.getElementById('row-' + rowId).classList.add('active');
             document.getElementById('sel-name').innerText = name + " (" + time + ")";
             document.getElementById('sel-price').innerText = price.toLocaleString() + "đ";
             document.getElementById('bottom-bar').style.display = 'block';
-            window.currentOrder = { name, time, price };
         }
 
-        function confirmPurchase(method) {
-            const o = window.currentOrder;
-            if(method === 'Thẻ cào' && (!document.getElementById('c-seri').value || !document.getElementById('c-pin').value)) {
-                tg.showAlert('Vui lòng nhập đủ Seri và Mã thẻ!'); return;
-            }
-            const history = JSON.parse(localStorage.getItem('tokyo_history') || '[]');
-            history.unshift({ name: o.name + ' ('+o.time+')', price: o.price.toLocaleString()+'đ', method: method, date: new Date().toLocaleString('vi-VN') });
-            localStorage.setItem('tokyo_history', JSON.stringify(history));
-            tg.showAlert('Đã gửi yêu cầu! Vui lòng chờ hệ thống xử lý.');
-            closeModal();
-        }
-
-        function openHistory() {
-            const h = JSON.parse(localStorage.getItem('tokyo_history') || '[]');
-            const list = document.getElementById('history-list');
-            toggleMenu();
-            document.getElementById('page-history').style.display = 'block';
-            list.innerHTML = h.length ? h.map(i => `
-                <div class="history-item">
-                    <i class="fas fa-receipt" style="font-size:20px; color:var(--accent)"></i>
-                    <div style="flex:1">
-                        <b style="font-size:13px">${i.name}</b>
-                        <small style="display:block; color:var(--hint)">${i.date} - ${i.method}</small>
-                    </div>
-                    <b style="color:var(--success)">${i.price}</b>
-                </div>
-            `).join('') : '<div style="text-align:center; margin-top:50px; color:var(--hint)">Chưa có đơn hàng nào.</div>';
-        }
-
-        function openPayment() {
-            const o = window.currentOrder;
+        function openPay() {
             const code = "TK" + Math.random().toString(36).substring(7).toUpperCase();
-            document.getElementById('qr-img').src = `https://img.vietqr.io/image/MB-79991312006-compact2.png?amount=${o.price}&addInfo=${code}`;
-            document.getElementById('bank-info').innerHTML = `Chủ thẻ: <b>TOKYO SHOP</b><br>STK: <b>79991312006</b><br>Nội dung: <b>${code}</b><br>Số tiền: <b>${o.price.toLocaleString()}đ</b>`;
+            document.getElementById('qr-code').src = `https://img.vietqr.io/image/MB-79991312006-compact2.png?amount=${selection.price}&addInfo=${code}`;
+            document.getElementById('bank-detail').innerHTML = `Chủ TK: <b>TOKYO SHOP</b><br>STK: <b>79991312006</b><br>Số tiền: <b>${selection.price.toLocaleString()}đ</b><br>Nội dung: <b style="color:var(--danger)">${code}</b>`;
             document.getElementById('modal-pay').style.display = 'block';
         }
 
-        function switchTab(t) {
+        function doConfirm(method) {
+            if(method === 'Thẻ cào' && (!document.getElementById('card-seri').value || !document.getElementById('card-pin').value)) {
+                tg.showAlert('Vui lòng nhập đầy đủ thông tin thẻ!'); return;
+            }
+            const history = JSON.parse(localStorage.getItem('tokyo_logs') || '[]');
+            history.unshift({ 
+                title: selection.name + ' - ' + selection.time, 
+                price: selection.price.toLocaleString() + 'đ', 
+                date: new Date().toLocaleString('vi-VN'),
+                method: method
+            });
+            localStorage.setItem('tokyo_logs', JSON.stringify(history));
+            tg.showAlert('Yêu cầu đã gửi! Vui lòng chờ 1-3 phút để hệ thống duyệt.');
+            closePay();
+        }
+
+        function showHistory() {
+            const logs = JSON.parse(localStorage.getItem('tokyo_logs') || '[]');
+            const container = document.getElementById('history-container');
+            toggleMenu();
+            document.getElementById('page-history').style.display = 'block';
+            container.innerHTML = logs.length ? logs.map(l => `
+                <div class="history-card glass-card">
+                    <i class="fas fa-box" style="color:var(--accent); font-size:20px"></i>
+                    <div style="flex:1">
+                        <b style="font-size:13px">${l.title}</b>
+                        <small style="display:block; color:var(--hint)">${l.date} | ${l.method}</small>
+                    </div>
+                    <b style="color:var(--success)">${l.price}</b>
+                </div>
+            `).join('') : '<div style="text-align:center; margin-top:50px; color:var(--hint)">Chưa có giao dịch.</div>';
+        }
+
+        function setTab(t) {
             const isB = t === 'bank';
-            document.getElementById('pay-bank').style.display = isB ? 'block' : 'none';
-            document.getElementById('pay-card').style.display = isB ? 'none' : 'block';
-            document.getElementById('t-bank').style.cssText = isB ? 'background:var(--accent); color:white;' : 'background:#eee;';
-            document.getElementById('t-card').style.cssText = isB ? 'background:#eee;' : 'background:var(--accent); color:white;';
+            document.getElementById('pane-bank').style.display = isB ? 'block' : 'none';
+            document.getElementById('pane-card').style.display = isB ? 'none' : 'block';
+            document.getElementById('btn-tab-bank').className = isB ? 'tab-btn active' : 'tab-btn';
+            document.getElementById('btn-tab-card').className = isB ? 'tab-btn' : 'tab-btn active';
         }
-
-        // PIN & TIME
-        async function updateBattery() {
-            try {
-                const b = await navigator.getBattery();
-                const update = () => {
-                    const level = Math.floor(b.level * 100);
-                    let icon = 'fa-battery-full';
-                    if(level < 20) icon = 'fa-battery-quarter';
-                    else if(level < 50) icon = 'fa-battery-half';
-                    document.getElementById('battery-info').innerHTML = `<i class="fas ${icon}"></i> ${level}%`;
-                };
-                update(); b.addEventListener('levelchange', update);
-            } catch(e) { document.getElementById('battery-info').innerText = ""; }
-        }
-        updateBattery();
-
-        setInterval(() => {
-            const d = new Date();
-            document.getElementById('u-date').innerText = d.toLocaleDateString('vi-VN');
-            document.getElementById('u-time').innerText = d.toLocaleTimeString('vi-VN');
-        }, 1000);
 
         function toggleMenu() { document.getElementById('drawer').classList.toggle('active'); }
-        function closeHistory() { document.getElementById('page-history').style.display = 'none'; }
-        function closeModal() { document.getElementById('modal-pay').style.display = 'none'; }
+        function hideHistory() { document.getElementById('page-history').style.display = 'none'; }
+        function closePay() { document.getElementById('modal-pay').style.display = 'none'; }
+
+        // PIN & CLOCK
+        navigator.getBattery().then(bat => {
+            const upd = () => document.getElementById('bat-val').innerHTML = `<i class="fas fa-battery-three-quarters"></i> ${Math.floor(bat.level*100)}%`;
+            upd(); bat.addEventListener('levelchange', upd);
+        });
+        setInterval(() => {
+            const n = new Date();
+            document.getElementById('u-date').innerText = n.toLocaleDateString('vi-VN');
+            document.getElementById('u-time').innerText = n.toLocaleTimeString('vi-VN', {hour:'2-digit', minute:'2-digit'});
+        }, 1000);
 
         const u = tg.initDataUnsafe?.user;
         if(u) {
