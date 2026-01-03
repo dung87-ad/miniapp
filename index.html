@@ -11,86 +11,75 @@
             --glass: rgba(255, 255, 255, 0.55);
             --glass-border: rgba(255, 255, 255, 0.8);
             --accent: #ec407a; --success: #43a047; --text: #4a148c; --hint: #880e4f;
-            --petal-color: #ff4081; /* Màu lá hoa đậm nét hơn */
+            --petal-color: #ff4081; 
         }
 
-        /* HIỆU ỨNG HOA RƠI DÀY ĐẶC */
         @keyframes sakuraFall {
             0% { transform: translate3d(0, -10vh, 0) rotate(0deg); opacity: 0; }
             10% { opacity: 1; }
             100% { transform: translate3d(150px, 100vh, 0) rotate(720deg); opacity: 0; }
         }
 
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { 
             font-family: -apple-system, BlinkMacSystemFont, sans-serif;
             background: var(--bg-sakura); color: var(--text);
-            margin: 0; padding: 12px; padding-bottom: 120px;
+            margin: 0; padding: 12px; padding-bottom: 110px;
             min-height: 100vh; overflow-x: hidden;
         }
 
         .sakura-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
-        .petal { 
-            position: absolute; background: var(--petal-color); 
-            border-radius: 150% 0 150% 150%; animation: sakuraFall infinite linear; 
-            will-change: transform; box-shadow: 1px 1px 4px rgba(236, 64, 122, 0.5);
-        }
+        .petal { position: absolute; background: var(--petal-color); border-radius: 150% 0 150% 150%; animation: sakuraFall infinite linear; will-change: transform; box-shadow: 1px 1px 3px rgba(236, 64, 122, 0.4); }
 
-        .glass { background: var(--glass); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid var(--glass-border); border-radius: 20px; }
+        .glass { background: var(--glass); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--glass-border); border-radius: 20px; }
 
-        /* HEADER & STATS BAR */
+        /* HEADER */
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; gap: 8px; }
-        .user-box { padding: 10px 15px; display: flex; align-items: center; flex: 1; position: relative; }
-        .avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 12px; background: #fff; }
-        
-        .stats-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px; }
-        .stat-item { padding: 12px 5px; text-align: center; }
-        .stat-item b { display: block; font-size: 15px; color: var(--accent); }
-        .stat-item span { font-size: 9px; font-weight: 800; text-transform: uppercase; color: var(--hint); }
+        .user-box { padding: 10px 12px; display: flex; align-items: center; flex: 1; position: relative; min-height: 75px; }
+        .avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 10px; background: #fff; }
+        .user-info b { font-size: 14px; display: block; color: var(--accent); }
+        .user-info small { font-size: 10px; color: var(--hint); display: block; font-weight: bold; }
+        .battery { position: absolute; top: 10px; right: 12px; font-size: 10px; color: var(--success); font-weight: bold; }
 
-        /* ADMIN & TICKER */
-        .ticker { padding: 12px 15px; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; overflow: hidden; }
+        /* STATS BAR */
+        .stats-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px; }
+        .stat-item { padding: 10px; text-align: center; }
+        .stat-item b { display: block; font-size: 14px; color: var(--accent); }
+        .stat-item span { font-size: 9px; color: var(--hint); font-weight: bold; text-transform: uppercase; }
+
+        /* ADMIN GRID */
         .admin-grid { display: grid; grid-template-columns: repeat(3, 1fr); margin-bottom: 15px; }
         .admin-item { padding: 12px 2px; text-align: center; text-decoration: none; color: var(--text); border-right: 1px solid var(--glass-border); }
-        .admin-item b { font-size: 10px; display: block; color: var(--text); }
-        .admin-item span { font-size: 8px; color: var(--accent); font-weight: bold; }
+        .admin-item i { font-size: 18px; color: var(--accent); margin-bottom: 4px; display: block; }
+        .admin-item b { font-size: 9px; display: block; }
+        .admin-item span { font-size: 7.5px; color: var(--accent); font-weight: bold; }
 
-        /* MENU DRAWER (MƯỢT MÀ) */
+        /* DRAWER */
         .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); opacity: 0; visibility: hidden; transition: 0.3s; z-index: 4999; }
         .drawer-overlay.active { opacity: 1; visibility: visible; }
-        .drawer { 
-            position: fixed; top: 0; right: 0; width: 75%; height: 100%; z-index: 5000; 
-            background: #fffafb; transform: translate3d(100%, 0, 0); 
-            transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1); padding: 30px 20px;
-            box-shadow: -5px 0 20px rgba(0,0,0,0.1);
-        }
+        .drawer { position: fixed; top: 0; right: 0; width: 75%; height: 100%; z-index: 5000; background: #fffafb; transform: translate3d(100%, 0, 0); transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1); padding: 25px; border-left: 3px solid var(--accent); }
         .drawer.active { transform: translate3d(0, 0, 0); }
 
-        /* PAGES */
-        .page { display: none; position: fixed; inset: 0; background: var(--bg-sakura); z-index: 4000; padding: 20px; overflow-y: auto; }
-        
-        /* FORM NẠP THẺ */
-        .form-group { margin-bottom: 15px; text-align: left; }
-        .form-group label { font-size: 12px; font-weight: bold; color: var(--accent); margin-left: 5px; }
-        input, select { 
-            width: 100%; padding: 14px; margin-top: 5px; border-radius: 15px; 
-            border: 1px solid var(--glass-border); background: white;
-            color: var(--text); font-weight: bold; font-size: 14px;
-        }
-
-        /* BUTTONS */
-        .btn-main { width: 100%; padding: 15px; background: var(--accent); color: white; border: none; border-radius: 15px; font-weight: 800; cursor: pointer; margin-top: 15px; box-shadow: 0 4px 15px rgba(236,64,122,0.3); }
-        .buy-btn { background: var(--accent); color: white; border: none; padding: 12px 25px; border-radius: 15px; font-weight: bold; }
-        .footer { position: fixed; bottom: 0; left: 0; right: 0; padding: 15px 20px; background: rgba(255,255,255,0.95); border-top: 1px solid var(--glass-border); display: none; z-index: 1000; border-radius: 25px 25px 0 0; }
-
-        /* PRODUCT LIST */
-        .cat-card { margin-bottom: 15px; border-radius: 20px; overflow: hidden; border: 1px solid var(--glass-border); }
-        .cat-btn { padding: 18px; display: flex; justify-content: space-between; align-items: center; color: var(--accent); font-weight: 800; }
-        .cat-body { display: none; padding: 10px; background: rgba(255, 255, 255, 0.15); }
-        .prod-card { margin-bottom: 10px; background: rgba(255,255,255,0.3); border-radius: 15px; border: 1px solid rgba(255,255,255,0.2); }
-        .prod-btn { padding: 15px; display: flex; justify-content: space-between; font-size: 13px; font-weight: 800; }
-        .opt-item { padding: 15px 20px; display: flex; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.1); font-size: 13px; font-weight: 600; }
+        /* PRODUCTS & ARROWS */
+        .cat-card { margin-bottom: 12px; border-radius: 20px; overflow: hidden; }
+        .cat-btn { padding: 16px; display: flex; justify-content: space-between; align-items: center; color: var(--accent); font-weight: bold; cursor: pointer; }
+        .cat-body { display: none; padding: 8px; }
+        .prod-card { margin-bottom: 8px; background: rgba(255,255,255,0.3); border-radius: 12px; }
+        .prod-btn { padding: 12px 15px; display: flex; justify-content: space-between; font-size: 13px; font-weight: bold; cursor: pointer; }
+        .opt-item { padding: 12px 20px; display: flex; justify-content: space-between; font-size: 13px; border-top: 1px solid rgba(255,255,255,0.1); }
         .opt-item.selected { background: var(--accent) !important; color: #fff; }
+        .arrow { transition: 0.3s; font-size: 10px; }
+        .rotate { transform: rotate(180deg); }
+
+        /* PAYMENT CHOICE */
+        .pay-choice { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .choice-btn { padding: 12px; text-align: center; border-radius: 12px; border: 1px solid var(--accent); color: var(--accent); font-weight: bold; cursor: pointer; }
+        .choice-btn.active { background: var(--accent); color: white; }
+
+        input, select { width: 100%; padding: 12px; margin-top: 8px; border-radius: 12px; border: 1px solid #ddd; font-weight: bold; }
+        .btn-main { width: 100%; padding: 14px; background: var(--accent); color: white; border: none; border-radius: 15px; font-weight: bold; margin-top: 15px; }
+        .footer { position: fixed; bottom: 0; left: 0; right: 0; padding: 15px 20px; background: rgba(255,255,255,0.95); border-top: 1px solid var(--glass-border); display: none; z-index: 1000; border-radius: 20px 20px 0 0; }
+        .page { display: none; position: fixed; inset: 0; background: var(--bg-sakura); z-index: 4000; padding: 20px; overflow-y: auto; }
     </style>
 </head>
 <body>
@@ -99,26 +88,27 @@
     <div class="drawer-overlay" id="overlay" onclick="toggleMenu()"></div>
 
     <div class="drawer" id="menu">
-        <h2 style="color:var(--accent); text-align:center; margin-bottom:30px;"><i class="fas fa-cherry-blossom"></i> TOKYO SHOP</h2>
-        <div class="glass" style="padding:15px; margin-bottom:15px; cursor:pointer;" onclick="openPage('page-history')">
-            <i class="fas fa-history" style="color:var(--accent); margin-right:12px"></i> Lịch sử mua hàng
+        <h3 style="color:var(--accent);"><i class="fas fa-heart"></i> Tokyo Sakura</h3>
+        <div class="glass" style="padding:15px; margin-top:20px; cursor:pointer;" onclick="openHistory()">
+            <i class="fas fa-history" style="color:var(--accent); margin-right:10px"></i> Lịch sử đơn hàng
         </div>
-        <div class="glass" style="padding:15px; margin-bottom:15px; cursor:pointer;" onclick="openPage('page-card')">
-            <i class="fas fa-credit-card" style="color:var(--accent); margin-right:12px"></i> Nạp thẻ cào (Card)
-        </div>
-        <button class="btn-main" onclick="toggleMenu()" style="background:#666; margin-top:50px;">ĐÓNG MENU</button>
+        <button class="btn-main" onclick="toggleMenu()">ĐÓNG</button>
     </div>
 
     <div class="header">
         <div class="user-box glass">
-            <img id="u-avatar" src="https://ui-avatars.com/api/?name=User&background=ec407a&color=fff" class="avatar">
+            <img id="u-avatar" src="https://ui-avatars.com/api/?name=U&background=ec407a&color=fff" class="avatar">
             <div class="user-info">
                 <b id="u-name">Khách hàng</b>
                 <small id="u-id">ID: 000000000</small>
+                <div style="font-size:9px; color:var(--accent); margin-top:4px; font-weight: bold;">
+                    <span id="u-date">--/--/----</span> | <span id="u-time">00:00:00</span>
+                </div>
             </div>
+            <div class="battery" id="u-bat"><i class="fas fa-battery-half"></i> --%</div>
         </div>
-        <div class="glass" style="width:50px; height:68px; display:flex; align-items:center; justify-content:center; cursor:pointer;" onclick="toggleMenu()">
-            <i class="fas fa-bars" style="font-size:22px; color:var(--accent)"></i>
+        <div class="glass" style="width:50px; height:75px; display:flex; align-items:center; justify-content:center; cursor:pointer;" onclick="toggleMenu()">
+            <i class="fas fa-bars" style="color:var(--accent); font-size:20px;"></i>
         </div>
     </div>
 
@@ -128,84 +118,48 @@
         <div class="stat-item glass"><b>9,210</b><span>Đơn hàng</span></div>
     </div>
 
-    <div class="ticker glass">
-        <i class="fas fa-bullhorn" style="color:var(--accent)"></i>
-        <marquee scrollamount="5" style="font-weight: bold; font-size: 12px;">Hệ thống Tokyo Sakura - Nạp tự động 24/7 - Giá rẻ - Uy tín hàng đầu!</marquee>
-    </div>
-
     <div class="admin-grid glass">
-        <a href="https://t.me/muadongtokyo36" class="admin-item"><b>muadongtokyo</b><span>@muadongtokyo36</span></a>
-        <a href="https://t.me/muahatokyo1919" class="admin-item"><b>muahatokyo</b><span>@muahatokyo1919</span></a>
-        <a href="https://t.me/muathutokyo27" class="admin-item" style="border:none"><b>muathutokyo</b><span>@muathutokyo27</span></a>
+        <a href="https://t.me/muadongtokyo36" class="admin-item"><i class="fas fa-crown"></i><b>muadongtokyo</b><span>@muadongtokyo36</span></a>
+        <a href="https://t.me/muahatokyo1919" class="admin-item"><i class="fas fa-bolt"></i><b>muahatokyo</b><span>@muahatokyo1919</span></a>
+        <a href="https://t.me/muathutokyo27" class="admin-item" style="border:none"><i class="fas fa-headset"></i><b>muathutokyo</b><span>@muathutokyo27</span></a>
     </div>
 
     <div id="product-list"></div>
 
-    <div id="page-card" class="page">
-        <div onclick="closePages()" style="color:var(--accent); font-weight:800; margin-bottom:20px;"><i class="fas fa-chevron-left"></i> QUAY LẠI</div>
-        <div class="glass" style="padding: 25px;">
-            <h3 style="color:var(--accent); margin-top:0; text-align:center;">NẠP THẺ CÀO</h3>
-            <div class="form-group">
-                <label>Nhà mạng</label>
-                <select id="card-type">
-                    <option>Viettel</option>
-                    <option>Mobifone</option>
-                    <option>Vinaphone</option>
-                    <option>Zing</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Mệnh giá</label>
-                <select id="card-value">
-                    <option>10.000đ</option>
-                    <option>20.000đ</option>
-                    <option>50.000đ</option>
-                    <option>100.000đ</option>
-                    <option>200.000đ</option>
-                    <option>500.000đ</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Số Seri</label>
-                <input type="number" placeholder="Nhập số seri..." id="card-seri">
-            </div>
-            <div class="form-group">
-                <label>Mã thẻ</label>
-                <input type="number" placeholder="Nhập mã thẻ..." id="card-code">
-            </div>
-            <button class="btn-main" onclick="submitCard()">GỬI THẺ DUYỆT</button>
-        </div>
-    </div>
-
     <div id="modal-pay" class="page">
-        <div onclick="closePages()" style="color:var(--accent); font-weight:800; margin-bottom:20px;"><i class="fas fa-chevron-left"></i> QUAY LẠI</div>
+        <div onclick="closePages()" style="color:var(--accent); font-weight: bold; margin-bottom: 20px; cursor:pointer;"><i class="fas fa-chevron-left"></i> QUAY LẠI</div>
         
-        <div id="pay-content" class="glass" style="padding: 25px; text-align: center; background: white;">
-            <img id="qr" src="" style="width:100%; max-width:220px; border-radius:15px; border: 2px solid var(--accent); margin-bottom:15px;">
-            <div id="info-bank" style="text-align:left; font-size:14px; line-height:1.8; color: #333;"></div>
-            <button class="btn-main" onclick="confirmTransfer()">TÔI ĐÃ CHUYỂN KHOẢN</button>
+        <div class="pay-choice">
+            <div class="choice-btn active" id="btn-atm" onclick="setPayMethod('atm')">ATM / MOMO</div>
+            <div class="choice-btn" id="btn-card" onclick="setPayMethod('card')">NẠP THẺ CÀO</div>
         </div>
 
-        <div id="wait-check" class="glass" style="padding: 50px 20px; text-align: center; display: none; background: white;">
-            <div class="loading-icon" style="font-size: 60px; color: #fbc02d; margin-bottom: 25px;">
-                <i class="fas fa-spinner fa-spin"></i>
-            </div>
-            <h2 style="color:var(--accent); margin-bottom:10px;">Đang đợi check...</h2>
-            <p style="font-size: 14px; line-height:1.5;">Hệ thống đang kiểm tra giao dịch.<br>Quá trình này thường mất 1-3 phút.<br>Vui lòng giữ nguyên màn hình!</p>
-            <button class="btn-main" style="background:#555" onclick="closePages()">QUAY LẠI TRANG CHỦ</button>
+        <div id="section-atm" class="glass" style="padding:20px; text-align:center;">
+            <img id="qr" src="" style="width:100%; max-width:200px; border-radius:15px; border:2px solid var(--accent); margin-bottom:15px;">
+            <div id="info-bank" style="text-align:left; font-size:12px; line-height:1.6;"></div>
+            <button class="btn-main" onclick="confirmWait()">TÔI ĐÃ CHUYỂN KHOẢN</button>
         </div>
-    </div>
 
-    <div id="page-history" class="page">
-        <div onclick="closePages()" style="color:var(--accent); font-weight:800; margin-bottom:20px;"><i class="fas fa-chevron-left"></i> QUAY LẠI</div>
-        <h3 style="color:var(--accent);">LỊCH SỬ ĐƠN HÀNG</h3>
-        <div class="glass" style="padding:20px; text-align:center;">Bạn chưa mua sản phẩm nào.</div>
+        <div id="section-card" class="glass" style="padding:20px; display:none;">
+            <h3 style="color:var(--accent); margin-top:0;">Nạp thẻ cào</h3>
+            <select id="card-type"><option>Viettel</option><option>Vinaphone</option><option>Mobifone</option></select>
+            <select id="card-val"><option>20,000đ</option><option>50,000đ</option><option>100,000đ</option></select>
+            <input type="text" placeholder="Số Seri" id="c-seri">
+            <input type="text" placeholder="Mã thẻ" id="c-code">
+            <button class="btn-main" onclick="confirmWait()">GỬI THẺ DUYỆT</button>
+        </div>
+
+        <div id="wait-check" class="glass" style="padding:40px 20px; text-align:center; display:none; background:white;">
+            <i class="fas fa-spinner fa-spin" style="font-size:40px; color:#fbc02d; margin-bottom:15px;"></i>
+            <h2 style="color:var(--accent)">Đang đợi check...</h2>
+            <p style="font-size:12px;">Hệ thống đang xử lý, vui lòng chờ trong giây lát.</p>
+        </div>
     </div>
 
     <div class="footer" id="buy-bar">
         <div style="display:flex; justify-content:space-between; align-items:center;">
-            <div><b id="cur-name" style="font-size:12px;">Sản phẩm</b><span id="cur-price" style="display:block; color:var(--accent); font-weight:900; font-size:18px;">0đ</span></div>
-            <button class="buy-btn" onclick="openPay()">THANH TOÁN</button>
+            <div><b id="cur-name" style="font-size:12px;">Sản phẩm</b><span id="cur-price" style="display:block; color:var(--accent); font-weight:800; font-size:17px;">0đ</span></div>
+            <button style="background:var(--accent); color:white; border:none; padding:12px 20px; border-radius:12px; font-weight:bold;" onclick="openPay()">MUA NGAY</button>
         </div>
     </div>
 
@@ -213,15 +167,13 @@
         const tg = window.Telegram.WebApp;
         tg.ready(); tg.expand();
 
-        // TẠO HOA ANH ĐÀO DÀY ĐẶC
         function createSakura() {
             const box = document.getElementById('sakura-box');
-            for (let i = 0; i < 50; i++) { 
+            for (let i = 0; i < 50; i++) {
                 const petal = document.createElement('div');
                 petal.className = 'petal';
                 const size = Math.random() * 8 + 10;
-                petal.style.width = size + 'px'; 
-                petal.style.height = (size * 1.3) + 'px';
+                petal.style.width = size + 'px'; petal.style.height = size*1.2 + 'px';
                 petal.style.left = Math.random() * 100 + '%';
                 petal.style.animationDuration = (Math.random() * 5 + 4) + 's';
                 petal.style.animationDelay = (Math.random() * 10) + 's';
@@ -249,19 +201,19 @@
             ]}
         ];
 
-        let curSelect = null;
+        let curSelect = null, lastId = null;
 
         function render() {
             document.getElementById('product-list').innerHTML = DATA.map(g => `
                 <div class="cat-card glass">
                     <div class="cat-btn" onclick="toggleCat('${g.cat}')">
                         <span><i class="fas ${g.icon}" style="margin-right:10px;"></i>${g.cat}</span>
-                        <i class="fas fa-chevron-down"></i>
+                        <i class="fas fa-chevron-down arrow" id="a-cat-${g.cat}"></i>
                     </div>
                     <div class="cat-body" id="b-cat-${g.cat}">
                         ${g.items.map(i => `
                             <div class="prod-card">
-                                <div class="prod-btn" onclick="toggleOpt('${i.id}')">${i.name} <i class="fas fa-plus-circle" style="color:var(--accent)"></i></div>
+                                <div class="prod-btn" onclick="toggleOpt('${i.id}')">${i.name} <i class="fas fa-chevron-down arrow" id="a-opt-${i.id}"></i></div>
                                 <div id="b-opt-${i.id}" style="display:none">
                                     ${i.opts.map((o, idx) => `
                                         <div class="opt-item" id="r-${i.id}-${idx}" onclick="selectItem('${i.name}', '${o[0]}', ${o[1]}, '${i.id}-${idx}')">
@@ -277,48 +229,70 @@
         }
         render();
 
-        function toggleCat(cat) { const el = document.getElementById('b-cat-' + cat); el.style.display = el.style.display === 'block' ? 'none' : 'block'; }
-        function toggleOpt(id) { const el = document.getElementById('b-opt-' + id); el.style.display = el.style.display === 'block' ? 'none' : 'block'; }
+        function toggleCat(cat) {
+            const el = document.getElementById('b-cat-' + cat);
+            const isO = el.style.display === 'block';
+            el.style.display = isO ? 'none' : 'block';
+            document.getElementById('a-cat-' + cat).classList.toggle('rotate', !isO);
+        }
+
+        function toggleOpt(id) {
+            const el = document.getElementById('b-opt-' + id);
+            const isO = el.style.display === 'block';
+            el.style.display = isO ? 'none' : 'block';
+            document.getElementById('a-opt-' + id).classList.toggle('rotate', !isO);
+        }
 
         function selectItem(name, time, price, rid) {
+            const target = document.getElementById('r-' + rid);
+            if(lastId === rid) { // HỦY CHỌN SẢN PHẨM
+                target.classList.remove('selected');
+                document.getElementById('buy-bar').style.display = 'none';
+                curSelect = null; lastId = null; return;
+            }
             document.querySelectorAll('.opt-item').forEach(r => r.classList.remove('selected'));
-            document.getElementById('r-' + rid).classList.add('selected');
-            curSelect = { name, time, price };
+            target.classList.add('selected');
+            curSelect = { name, time, price }; lastId = rid;
             document.getElementById('cur-name').innerText = name + " (" + time + ")";
             document.getElementById('cur-price').innerText = price.toLocaleString() + "đ";
             document.getElementById('buy-bar').style.display = 'block';
         }
 
-        function toggleMenu() { 
-            document.getElementById('menu').classList.toggle('active'); 
-            document.getElementById('overlay').classList.toggle('active'); 
+        function setPayMethod(m) {
+            document.getElementById('section-atm').style.display = m === 'atm' ? 'block' : 'none';
+            document.getElementById('section-card').style.display = m === 'card' ? 'block' : 'none';
+            document.getElementById('btn-atm').classList.toggle('active', m === 'atm');
+            document.getElementById('btn-card').classList.toggle('active', m === 'card');
         }
-
-        function openPage(id) { closePages(); toggleMenu(); document.getElementById(id).style.display = 'block'; }
 
         function openPay() {
             const code = "TK" + Math.random().toString(36).substring(7).toUpperCase();
             document.getElementById('qr').src = `https://img.vietqr.io/image/MB-79991312006-compact2.png?amount=${curSelect.price}&addInfo=${code}`;
-            document.getElementById('info-bank').innerHTML = `STK: <b>79991312006</b><br>Ngân hàng: <b>MB BANK</b><br>Chủ TK: <b>TOKYO SHOP</b><br>Nội dung: <b style="color:var(--accent)">${code}</b>`;
-            document.getElementById('pay-content').style.display = 'block';
-            document.getElementById('wait-check').style.display = 'none';
+            document.getElementById('info-bank').innerHTML = `STK: <b>79991312006</b><br>Bank: <b>MB BANK</b><br>Nội dung: <b style="color:var(--accent)">${code}</b>`;
             document.getElementById('modal-pay').style.display = 'block';
+            document.getElementById('wait-check').style.display = 'none';
         }
 
-        function confirmTransfer() {
-            document.getElementById('pay-content').style.display = 'none';
+        function confirmWait() {
+            document.getElementById('section-atm').style.display = 'none';
+            document.getElementById('section-card').style.display = 'none';
+            document.querySelector('.pay-choice').style.display = 'none';
             document.getElementById('wait-check').style.display = 'block';
         }
 
-        function submitCard() {
-            const s = document.getElementById('card-seri').value;
-            const c = document.getElementById('card-code').value;
-            if(s.length < 5 || c.length < 5) return tg.showAlert("Vui lòng nhập đúng số Seri và Mã thẻ!");
-            tg.showAlert("Đã gửi thẻ lên hệ thống! Đang chờ duyệt.");
-            closePages();
-        }
+        function toggleMenu() { document.getElementById('menu').classList.toggle('active'); document.getElementById('overlay').classList.toggle('active'); }
+        function closePages() { document.querySelectorAll('.page').forEach(p => p.style.display='none'); document.querySelector('.pay-choice').style.display = 'grid'; }
 
-        function closePages() { document.querySelectorAll('.page').forEach(p => p.style.display='none'); }
+        setInterval(() => {
+            const n = new Date();
+            document.getElementById('u-date').innerText = n.toLocaleDateString('vi-VN');
+            document.getElementById('u-time').innerText = n.toLocaleTimeString('vi-VN');
+        }, 1000);
+
+        navigator.getBattery().then(b => {
+            const u = () => document.getElementById('u-bat').innerHTML = `<i class="fas fa-battery-half"></i> ${Math.floor(b.level*100)}%`;
+            u(); b.addEventListener('levelchange', u);
+        });
 
         const usr = tg.initDataUnsafe?.user;
         if(usr) {
