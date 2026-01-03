@@ -8,16 +8,18 @@
     <style>
         :root { 
             --bg-sakura: linear-gradient(135deg, #ffebee 0%, #fce4ec 50%, #f8bbd0 100%);
-            --glass: rgba(255, 255, 255, 0.4);
-            --glass-border: rgba(255, 255, 255, 0.6);
-            --accent: #ec407a; /* Hồng đậm Sakura */
-            --success: #43a047; --danger: #e91e63; --yellow: #fbc02d; 
-            --text: #4a148c; --hint: #880e4f;
+            --glass: rgba(255, 255, 255, 0.45);
+            --glass-border: rgba(255, 255, 255, 0.7);
+            --accent: #ec407a;
+            --success: #43a047;
+            --text: #4a148c;
+            --hint: #880e4f;
         }
 
+        /* Hiệu ứng hoa rơi */
         @keyframes sakuraFall {
             0% { transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(100vh) translateX(100px) rotate(360deg); opacity: 0.3; }
+            100% { transform: translateY(100vh) translateX(120px) rotate(360deg); opacity: 0.2; }
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -31,7 +33,7 @@
             position: relative;
         }
 
-        /* Sakura Petals Effect */
+        /* Container cho cánh hoa */
         .sakura-container {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1; overflow: hidden; pointer-events: none;
@@ -39,54 +41,54 @@
         .petal {
             position: absolute; background: #ffcdd2; border-radius: 150% 0 150% 150%;
             animation: sakuraFall infinite linear; opacity: 0.8;
-            filter: blur(1px);
+            filter: blur(0.5px); box-shadow: 0 0 5px rgba(255,255,255,0.5);
         }
 
-        .glass { background: var(--glass); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid var(--glass-border); border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .glass { background: var(--glass); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--glass-border); border-radius: 20px; }
 
         /* HEADER */
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; gap: 8px; }
         .user-box { padding: 10px 12px; display: flex; align-items: center; flex: 1; position: relative; min-height: 70px; }
         .avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 10px; background: #fff; }
         .user-info b { font-size: 14px; display: block; color: var(--accent); }
-        .user-info small { font-size: 10px; color: var(--hint); display: block; }
+        .user-info small { font-size: 10px; color: var(--hint); display: block; font-weight: bold; }
         .battery { position: absolute; top: 10px; right: 12px; font-size: 10px; color: var(--success); font-weight: bold; }
         .menu-btn { width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; font-size: 20px; color: var(--accent); cursor: pointer; }
 
-        /* ADMIN GRID */
+        /* ADMIN GRID - SỬA LỖI TRÀN */
         .admin-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-bottom: 15px; overflow: hidden; }
-        .admin-item { padding: 10px 2px; text-align: center; text-decoration: none; color: var(--text); border-right: 1px solid var(--glass-border); }
+        .admin-item { padding: 12px 2px; text-align: center; text-decoration: none; color: var(--text); border-right: 1px solid var(--glass-border); }
         .admin-item:last-child { border-right: none; }
-        .admin-item i { font-size: 16px; color: var(--accent); margin-bottom: 4px; display: block; }
+        .admin-item i { font-size: 16px; color: var(--accent); margin-bottom: 5px; display: block; }
         .admin-item b { font-size: 9px; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .admin-item span { font-size: 7.5px; color: var(--hint); display: block; }
+        .admin-item span { font-size: 7px; color: var(--hint); display: block; opacity: 0.8; }
 
         .ticker { padding: 10px 12px; margin-bottom: 15px; font-size: 11px; color: var(--accent); font-weight: bold; }
 
-        /* PRODUCTS */
+        /* PRODUCTS - BỎ THANH TÍM THỪA */
         .cat-card { margin-bottom: 12px; border: 1px solid var(--glass-border); overflow: hidden; border-radius: 20px; }
         .cat-btn { padding: 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; color: var(--accent); }
-        .cat-body { display: none; padding: 8px; background: rgba(255, 255, 255, 0.2); }
-        .prod-card { margin-bottom: 8px; background: rgba(255,255,255,0.4); border-radius: 12px; border: 1px solid rgba(255,255,255,0.3); }
+        .cat-body { display: none; padding: 8px; background: rgba(255, 255, 255, 0.15); }
+        .prod-card { margin-bottom: 8px; background: rgba(255,255,255,0.3); border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); }
         .prod-btn { padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: bold; color: var(--text); }
         .opt-list { display: none; }
-        .opt-item { padding: 12px 20px; display: flex; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.3); font-size: 13px; color: var(--text); }
+        .opt-item { padding: 12px 20px; display: flex; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.2); font-size: 13px; color: var(--text); cursor: pointer; transition: 0.2s; }
         .opt-item.selected { background: var(--accent) !important; color: #fff; }
 
         .arrow { transition: 0.3s; font-size: 10px; }
         .rotate { transform: rotate(180deg); }
 
         /* FOOTER */
-        .footer { position: fixed; bottom: 0; left: 0; right: 0; padding: 15px 20px; background: rgba(255,255,255,0.8); border-top: 1px solid var(--glass-border); display: none; z-index: 1000; border-radius: 25px 25px 0 0; }
-        .buy-btn { background: var(--accent); color: white; border: none; padding: 12px 25px; border-radius: 15px; font-weight: bold; box-shadow: 0 4px 10px rgba(233, 30, 99, 0.3); }
+        .footer { position: fixed; bottom: 0; left: 0; right: 0; padding: 15px 20px; background: rgba(255,255,255,0.9); border-top: 1px solid var(--glass-border); display: none; z-index: 1000; border-radius: 25px 25px 0 0; box-shadow: 0 -5px 20px rgba(0,0,0,0.05); }
+        .buy-btn { background: var(--accent); color: white; border: none; padding: 12px 25px; border-radius: 15px; font-weight: bold; font-size: 14px; }
 
         /* MODALS */
         .page { display: none; position: fixed; inset: 0; background: var(--bg-sakura); z-index: 4000; padding: 20px; overflow-y: auto; }
-        .pay-card { background: #fff; color: #333; padding: 25px; border-radius: 30px; text-align: center; }
-        .tab { flex: 1; padding: 10px; border-radius: 10px; border: none; font-weight: bold; cursor: pointer; }
+        .pay-card { background: #fff; color: #333; padding: 25px; border-radius: 30px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .tab { flex: 1; padding: 10px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; background: #f0f0f0; }
         .tab.active { background: var(--accent); color: white; }
         
-        .drawer { position: fixed; top: 0; right: -100%; width: 75%; height: 100%; z-index: 5000; transition: 0.4s; padding: 25px; background: #fffafb; }
+        .drawer { position: fixed; top: 0; right: -100%; width: 75%; height: 100%; z-index: 5000; transition: 0.4s; padding: 25px; background: #fffafb; border-left: 3px solid var(--accent); }
         .drawer.active { right: 0; }
     </style>
 </head>
@@ -94,8 +96,8 @@
 
     <div class="sakura-container" id="sakura-box"></div>
 
-    <div class="drawer" id="menu" style="border-left: 2px solid var(--accent);">
-        <h3 style="color:var(--accent);"><i class="fas fa-heart"></i> Tokyo Menu</h3>
+    <div class="drawer" id="menu">
+        <h3 style="color:var(--accent);"><i class="fas fa-heart"></i> Tokyo Sakura</h3>
         <div class="glass" style="padding:15px; margin-top:20px; cursor:pointer;" onclick="openHistory()">
             <i class="fas fa-history" style="color:var(--accent); margin-right:10px"></i> Lịch sử đơn hàng
         </div>
@@ -104,11 +106,11 @@
 
     <div class="header">
         <div class="user-box glass">
-            <img id="u-avatar" src="https://ui-avatars.com/api/?name=T&background=ec407a&color=fff" class="avatar">
+            <img id="u-avatar" src="https://ui-avatars.com/api/?name=S&background=ec407a&color=fff" class="avatar">
             <div class="user-info">
-                <b id="u-name">Tokyo Sakura</b>
-                <small id="u-id">ID: 00000000</small>
-                <div style="font-size:9px; color:var(--accent); margin-top:5px;">
+                <b id="u-name">Tokyo User</b>
+                <small id="u-id">ID: 000000000</small>
+                <div style="font-size:9px; color:var(--accent); margin-top:4px; font-weight: bold;">
                     <span id="u-date">--/--/----</span> | <span id="u-time">00:00:00</span>
                 </div>
             </div>
@@ -117,7 +119,7 @@
         <div class="menu-btn glass" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
     </div>
 
-    <div class="ticker glass"><i class="fas fa-leaf" style="margin-right:10px"></i><marquee scrollamount="3">Tokyo Shop - Sakura Edition - Chúc bạn mua sắm vui vẻ!</marquee></div>
+    <div class="ticker glass"><i class="fas fa-leaf" style="margin-right:8px"></i><marquee scrollamount="3">Tokyo Sakura Edition - Hệ thống nạp tự động - Chúc bạn một ngày tốt lành!</marquee></div>
 
     <div class="admin-grid glass">
         <a href="https://t.me/muadongtokyo36" class="admin-item"><i class="fas fa-crown"></i><b>muadongtokyo</b><span>Admin 1</span></a>
@@ -131,7 +133,7 @@
         <div style="display:flex; justify-content:space-between; align-items:center;">
             <div>
                 <b id="cur-name" style="font-size:12px; color: var(--text);">Sản phẩm</b>
-                <span id="cur-price" style="display:block; color:var(--accent); font-weight:800; font-size:16px;">0đ</span>
+                <span id="cur-price" style="display:block; color:var(--accent); font-weight:800; font-size:17px; margin-top:2px;">0đ</span>
             </div>
             <button class="buy-btn" onclick="openPay()">MUA NGAY</button>
         </div>
@@ -141,18 +143,18 @@
         <div onclick="closePay()" style="color:var(--accent); cursor:pointer; margin-bottom:20px; font-weight: bold;"><i class="fas fa-chevron-left"></i> QUAY LẠI</div>
         <div class="pay-card">
             <div style="display:flex; gap:10px; margin-bottom:20px;">
-                <button id="t1" class="tab active" onclick="setTab('bank')">BANK</button>
+                <button id="t1" class="tab active" onclick="setTab('bank')">NGÂN HÀNG</button>
                 <button id="t2" class="tab" onclick="setTab('card')">THẺ CÀO</button>
             </div>
             <div id="box-bank">
-                <img id="qr" src="" style="width:100%; max-width:200px; border-radius:15px; margin-bottom:15px; border: 2px solid var(--accent);">
-                <div id="info-bank" style="text-align:left; background:#fff5f8; padding:15px; border-radius:15px; font-size:12px; color: #4a148c;"></div>
+                <img id="qr" src="" style="width:100%; max-width:210px; border-radius:15px; margin-bottom:15px; border: 2px solid var(--accent);">
+                <div id="info-bank" style="text-align:left; background:#fff5f8; padding:15px; border-radius:15px; font-size:12px; color: #4a148c; line-height: 1.6;"></div>
                 <button onclick="confirmPurchase('Chuyển khoản')" style="width:100%; padding:14px; background:var(--accent); color:white; border:none; border-radius:15px; font-weight:bold; margin-top:15px;">XÁC NHẬN NẠP</button>
             </div>
             <div id="box-card" style="display:none; text-align:left;">
-                <input type="number" id="card-s" placeholder="Số Seri" style="width:100%; padding:12px; margin-bottom:10px; border-radius:10px; border: 1px solid #ddd;">
-                <input type="number" id="card-p" placeholder="Mã thẻ" style="width:100%; padding:12px; margin-bottom:10px; border-radius:10px; border: 1px solid #ddd;">
-                <button onclick="confirmPurchase('Thẻ cào')" style="width:100%; padding:14px; background:var(--accent); color:white; border:none; border-radius:15px; font-weight:bold;">GỬI THẺ</button>
+                <input type="number" id="card-s" placeholder="Số Seri" style="width:100%; padding:12px; margin-bottom:12px; border-radius:12px; border: 1px solid #ddd;">
+                <input type="number" id="card-p" placeholder="Mã thẻ" style="width:100%; padding:12px; margin-bottom:12px; border-radius:12px; border: 1px solid #ddd;">
+                <button onclick="confirmPurchase('Thẻ cào')" style="width:100%; padding:14px; background:var(--accent); color:white; border:none; border-radius:15px; font-weight:bold;">GỬI THẺ DUYỆT</button>
             </div>
         </div>
     </div>
@@ -161,18 +163,18 @@
         const tg = window.Telegram.WebApp;
         tg.ready(); tg.expand();
 
-        // HIỆU ỨNG HOA ANH ĐÀO RƠI
+        // HIỆU ỨNG HOA ANH ĐÀO
         function createSakura() {
             const box = document.getElementById('sakura-box');
-            for (let i = 0; i < 20; i++) {
+            for (let i = 0; i < 25; i++) {
                 const petal = document.createElement('div');
                 petal.className = 'petal';
-                const size = Math.random() * 10 + 10;
+                const size = Math.random() * 8 + 10;
                 petal.style.width = size + 'px';
                 petal.style.height = size + 'px';
                 petal.style.left = Math.random() * 100 + '%';
-                petal.style.animationDuration = (Math.random() * 5 + 5) + 's';
-                petal.style.animationDelay = (Math.random() * 5) + 's';
+                petal.style.animationDuration = (Math.random() * 6 + 4) + 's';
+                petal.style.animationDelay = (Math.random() * 8) + 's';
                 box.appendChild(petal);
             }
         }
@@ -182,6 +184,9 @@
             { cat: 'HACK VIP FREE FIRE', icon: 'fa-fire', items: [
                 { id:'h1', name:'Br Mods VIP', opts: [['1 Ngày', 2000], ['30 Ngày', 30000]] },
                 { id:'h2', name:'ZyGame Menu', opts: [['1 Ngày', 2000], ['30 Ngày', 30000]] }
+            ]},
+            { cat: 'ACC FREE FIRE', icon: 'fa-user-circle', items: [
+                { id:'a1', name:'Acc FF Level 5', opts: [['Gói 1 Acc', 5000]] }
             ]},
             { cat: 'CLOUD PHONE', icon: 'fa-cloud', items: [
                 { id:'c1', name:'Redfinger Cloud', opts: [['1 Ngày', 5000], ['30 Ngày', 80000]] }
@@ -233,6 +238,7 @@
 
         function selectItem(name, time, price, rid) {
             const target = document.getElementById('r-' + rid);
+            // HỦY CHỌN KHI BẤM LẠI
             if(lastId === rid) {
                 target.classList.remove('selected');
                 document.getElementById('buy-bar').style.display = 'none';
@@ -249,18 +255,27 @@
         function openPay() {
             const code = "TK" + Math.random().toString(36).substring(7).toUpperCase();
             document.getElementById('qr').src = `https://img.vietqr.io/image/MB-79991312006-compact2.png?amount=${curSelect.price}&addInfo=${code}`;
-            document.getElementById('info-bank').innerHTML = `STK: <b>79991312006</b><br>Ngân hàng: <b>MB BANK</b><br>Số tiền: <b>${curSelect.price.toLocaleString()}đ</b><br>Nội dung: <b style="color:var(--accent)">${code}</b>`;
+            document.getElementById('info-bank').innerHTML = `STK: <b>79991312006</b><br>Ngân hàng: <b>MB BANK</b><br>Chủ TK: <b>TOKYO SHOP</b><br>Nội dung: <b style="color:var(--accent)">${code}</b>`;
             document.getElementById('modal-pay').style.display = 'block';
         }
 
         function confirmPurchase(m) {
-            tg.showAlert('Đã gửi yêu cầu ' + m + '!');
+            tg.showAlert('Gửi yêu cầu thành công!');
             document.getElementById('modal-pay').style.display = 'none';
+        }
+
+        function setTab(t) {
+            const isB = t === 'bank';
+            document.getElementById('box-bank').style.display = isB ? 'block' : 'none';
+            document.getElementById('box-card').style.display = isB ? 'none' : 'block';
+            document.getElementById('t1').className = isB ? 'tab active' : 'tab';
+            document.getElementById('t2').className = isB ? 'tab' : 'tab active';
         }
 
         function toggleMenu() { document.getElementById('menu').classList.toggle('active'); }
         function closePay() { document.getElementById('modal-pay').style.display = 'none'; }
 
+        // ĐỒNG HỒ CÓ GIÂY & PIN
         setInterval(() => {
             const n = new Date();
             document.getElementById('u-date').innerText = n.toLocaleDateString('vi-VN');
@@ -272,9 +287,10 @@
             u(); b.addEventListener('levelchange', u);
         });
 
+        // LẤY DỮ LIỆU TELEGRAM
         const usr = tg.initDataUnsafe?.user;
         if(usr) {
-            document.getElementById('u-name').innerText = usr.first_name;
+            document.getElementById('u-name').innerText = usr.first_name + (usr.last_name ? " " + usr.last_name : "");
             document.getElementById('u-id').innerText = "ID: " + usr.id;
             if(usr.photo_url) document.getElementById('u-avatar').src = usr.photo_url;
         }
