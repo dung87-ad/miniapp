@@ -11,39 +11,36 @@
             --glass: rgba(255, 255, 255, 0.55);
             --glass-border: rgba(255, 255, 255, 0.8);
             --accent: #ec407a; --success: #43a047; --text: #4a148c; --hint: #880e4f;
-            --petal-color: #ff4081; /* Màu hoa đậm */
+            --petal: #ff80ab; 
         }
 
-        /* HIỆU ỨNG BÔNG HOA ANH ĐÀO 5 CÁNH */
+        /* HIỆU ỨNG RƠI BÔNG HOA 5 CÁNH */
         @keyframes sakuraFall {
             0% { transform: translate3d(0, -10vh, 0) rotate(0deg); opacity: 0; }
             10% { opacity: 1; }
-            100% { transform: translate3d(150px, 100vh, 0) rotate(360deg); opacity: 0; }
+            100% { transform: translate3d(100px, 100vh, 0) rotate(360deg); opacity: 0; }
         }
 
         .sakura-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
         
-        /* Tạo hình bông hoa từ CSS */
-        .flower { 
-            position: absolute; 
-            width: 20px; height: 20px; 
-            animation: sakuraFall infinite linear; 
-            will-change: transform;
+        /* Vẽ bông hoa 5 cánh từ CSS */
+        .flower { position: absolute; width: 25px; height: 25px; animation: sakuraFall infinite linear; }
+        .petal-unit {
+            position: absolute; width: 10px; height: 14px; background: var(--petal);
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+            top: 0; left: 7.5px; transform-origin: bottom center;
+            box-shadow: inset 0 0 4px rgba(255,255,255,0.5);
         }
-        .flower, .flower::before, .flower::after {
-            background: var(--petal-color);
-            border-radius: 50% 50% 50% 50% / 10% 10% 90% 90%;
-            box-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        .p1 { transform: rotate(0deg); }
+        .p2 { transform: rotate(72deg); }
+        .p3 { transform: rotate(144deg); }
+        .p4 { transform: rotate(216deg); }
+        .p5 { transform: rotate(288deg); }
+        /* Nhụy hoa */
+        .flower::after {
+            content: ''; position: absolute; top: 12px; left: 11px;
+            width: 3px; height: 3px; background: #fff176; border-radius: 50%; z-index: 2;
         }
-        /* Các cánh hoa ghép lại */
-        .flower { transform: rotate(0deg); }
-        .flower::before, .flower::after { content: ''; position: absolute; width: 100%; height: 100%; top: 0; left: 0; }
-        .flower::before { transform: rotate(72deg); }
-        .flower::after { transform: rotate(144deg); }
-        /* Thêm nhụy hoa nhỏ ở giữa */
-        .flower-inner { position: absolute; width: 100%; height: 100%; }
-        .flower-inner::before { content: ''; position: absolute; width: 100%; height: 100%; transform: rotate(216deg); background: var(--petal-color); border-radius: inherit; }
-        .flower-inner::after { content: ''; position: absolute; width: 100%; height: 100%; transform: rotate(288deg); background: var(--petal-color); border-radius: inherit; }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { 
@@ -53,58 +50,55 @@
             min-height: 100vh; overflow-x: hidden;
         }
 
-        .glass { background: var(--glass); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--glass-border); border-radius: 20px; }
+        .glass { background: var(--glass); backdrop-filter: blur(12px); border: 1px solid var(--glass-border); border-radius: 20px; }
 
         /* HEADER */
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; gap: 8px; }
         .user-box { padding: 10px 12px; display: flex; align-items: center; flex: 1; position: relative; min-height: 75px; }
-        .avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 10px; background: #fff; }
+        .avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 10px; background: #fff; object-fit: cover; }
         .user-info b { font-size: 14px; display: block; color: var(--accent); }
-        .user-info small { font-size: 10px; color: var(--hint); display: block; font-weight: bold; }
         .battery { position: absolute; top: 10px; right: 12px; font-size: 10px; color: var(--success); font-weight: bold; }
 
         /* STATS & TICKER */
         .stats-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px; }
         .stat-item { padding: 10px; text-align: center; }
         .stat-item b { display: block; font-size: 14px; color: var(--accent); }
-        .stat-item span { font-size: 9px; color: var(--hint); font-weight: bold; text-transform: uppercase; }
-        .ticker { padding: 10px 15px; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; overflow: hidden; }
-        .ticker i { color: var(--accent); font-size: 14px; }
+        .stat-item span { font-size: 8.5px; color: var(--hint); font-weight: bold; }
+        .ticker { padding: 10px 15px; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+        .ticker i { color: var(--accent); }
         .ticker marquee { font-size: 11px; font-weight: bold; }
 
         /* ADMIN */
         .admin-grid { display: grid; grid-template-columns: repeat(3, 1fr); margin-bottom: 15px; }
-        .admin-item { padding: 12px 2px; text-align: center; text-decoration: none; color: var(--text); border-right: 1px solid var(--glass-border); }
-        .admin-item i { font-size: 18px; color: var(--accent); margin-bottom: 4px; display: block; }
+        .admin-item { padding: 10px 2px; text-align: center; text-decoration: none; color: var(--text); border-right: 1px solid var(--glass-border); }
+        .admin-item i { font-size: 16px; color: var(--accent); display: block; margin-bottom: 3px; }
         .admin-item b { font-size: 9px; display: block; }
-        .admin-item span { font-size: 7.5px; color: var(--accent); font-weight: bold; }
+        .admin-item span { font-size: 7px; color: var(--accent); font-weight: bold; }
 
-        /* DRAWER */
-        .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); opacity: 0; visibility: hidden; transition: 0.3s; z-index: 4999; }
-        .drawer-overlay.active { opacity: 1; visibility: visible; }
-        .drawer { position: fixed; top: 0; right: 0; width: 75%; height: 100%; z-index: 5000; background: #fffafb; transform: translate3d(100%, 0, 0); transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1); padding: 25px; border-left: 3px solid var(--accent); }
-        .drawer.active { transform: translate3d(0, 0, 0); }
-
-        /* LIST & ARROWS */
+        /* PRODUCT LIST */
         .cat-card { margin-bottom: 12px; border-radius: 20px; overflow: hidden; }
-        .cat-btn { padding: 16px; display: flex; justify-content: space-between; align-items: center; color: var(--accent); font-weight: bold; cursor: pointer; }
+        .cat-btn { padding: 16px; display: flex; justify-content: space-between; align-items: center; color: var(--accent); font-weight: bold; }
         .cat-body { display: none; padding: 8px; }
         .prod-card { margin-bottom: 8px; background: rgba(255,255,255,0.3); border-radius: 12px; }
-        .prod-btn { padding: 12px 15px; display: flex; justify-content: space-between; font-size: 13px; font-weight: bold; cursor: pointer; }
+        .prod-btn { padding: 12px 15px; display: flex; justify-content: space-between; font-size: 13px; font-weight: bold; }
         .opt-item { padding: 12px 20px; display: flex; justify-content: space-between; font-size: 13px; border-top: 1px solid rgba(255,255,255,0.1); }
         .opt-item.selected { background: var(--accent) !important; color: #fff; }
         .arrow { transition: 0.3s; font-size: 10px; }
         .rotate { transform: rotate(180deg); }
 
-        /* PAY */
+        /* PAYMENT PAGE */
         .pay-choice { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .choice-btn { padding: 12px; text-align: center; border-radius: 12px; border: 1px solid var(--accent); color: var(--accent); font-weight: bold; cursor: pointer; }
+        .choice-btn { padding: 12px; text-align: center; border-radius: 12px; border: 1px solid var(--accent); color: var(--accent); font-weight: bold; }
         .choice-btn.active { background: var(--accent); color: white; }
         input, select { width: 100%; padding: 12px; margin-top: 8px; border-radius: 12px; border: 1px solid #ddd; font-weight: bold; }
         .btn-main { width: 100%; padding: 14px; background: var(--accent); color: white; border: none; border-radius: 15px; font-weight: bold; margin-top: 15px; }
 
         .footer { position: fixed; bottom: 0; left: 0; right: 0; padding: 15px 20px; background: rgba(255,255,255,0.95); border-top: 1px solid var(--glass-border); display: none; z-index: 1000; border-radius: 20px 20px 0 0; }
         .page { display: none; position: fixed; inset: 0; background: var(--bg-sakura); z-index: 4000; padding: 20px; overflow-y: auto; }
+        .drawer { position: fixed; top: 0; right: 0; width: 75%; height: 100%; z-index: 5000; background: #fffafb; transform: translate3d(100%, 0, 0); transition: 0.4s; padding: 25px; border-left: 3px solid var(--accent); }
+        .drawer.active { transform: translate3d(0, 0, 0); }
+        .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); opacity: 0; visibility: hidden; transition: 0.3s; z-index: 4999; }
+        .drawer-overlay.active { opacity: 1; visibility: visible; }
     </style>
 </head>
 <body>
@@ -113,7 +107,7 @@
     <div class="drawer-overlay" id="overlay" onclick="toggleMenu()"></div>
 
     <div class="drawer" id="menu">
-        <h3 style="color:var(--accent);"><i class="fas fa-heart"></i> Tokyo Sakura</h3>
+        <h3 style="color:var(--accent);"><i class="fas fa-heart"></i> Tokyo Menu</h3>
         <div class="glass" style="padding:15px; margin-top:20px; cursor:pointer;" onclick="openHistory()">
             <i class="fas fa-history" style="color:var(--accent); margin-right:10px"></i> Lịch sử đơn hàng
         </div>
@@ -122,7 +116,7 @@
 
     <div class="header">
         <div class="user-box glass">
-            <img id="u-avatar" src="https://ui-avatars.com/api/?name=U&background=ec407a&color=fff" class="avatar">
+            <img id="u-avatar" src="https://ui-avatars.com/api/?name=User&background=ec407a&color=fff" class="avatar">
             <div class="user-info">
                 <b id="u-name">Khách hàng</b>
                 <small id="u-id">ID: 000000000</small>
@@ -143,7 +137,7 @@
         <div class="stat-item glass"><b>9,210</b><span>Đơn hàng</span></div>
     </div>
 
-    <div class="ticker glass"><i class="fas fa-bullhorn"></i><marquee scrollamount="4">Chào mừng đến Tokyo Sakura Shop - Menu Hack Free Fire!</marquee></div>
+    <div class="ticker glass"><i class="fas fa-bullhorn"></i><marquee scrollamount="4">Chào mừng đến Tokyo Sakura Shop - Menu Hack & Acc uy tín!</marquee></div>
 
     <div class="admin-grid glass">
         <a href="https://t.me/muadongtokyo36" class="admin-item"><i class="fas fa-crown"></i><b>muadongtokyo</b><span>@muadongtokyo36</span></a>
@@ -196,14 +190,12 @@
 
         function createFlowers() {
             const box = document.getElementById('flower-box');
-            for (let i = 0; i < 40; i++) {
+            for (let i = 0; i < 30; i++) {
                 const flower = document.createElement('div');
                 flower.className = 'flower';
-                flower.innerHTML = '<div class="flower-inner"></div>';
-                const size = Math.random() * 10 + 15;
-                flower.style.width = size + 'px'; flower.style.height = size + 'px';
+                flower.innerHTML = '<div class="petal-unit p1"></div><div class="petal-unit p2"></div><div class="petal-unit p3"></div><div class="petal-unit p4"></div><div class="petal-unit p5"></div>';
                 flower.style.left = Math.random() * 100 + '%';
-                flower.style.animationDuration = (Math.random() * 6 + 5) + 's';
+                flower.style.animationDuration = (Math.random() * 5 + 5) + 's';
                 flower.style.animationDelay = (Math.random() * 10) + 's';
                 box.appendChild(flower);
             }
@@ -213,10 +205,18 @@
         const DATA = [
             { cat: 'HACK VIP FREE FIRE', icon: 'fa-fire', items: [
                 { id:'h1', name:'Br Mod', opts: [['1 Ngày', 5000], ['30 Ngày', 50000]] },
-                { id:'h2', name:'HG Cheat', opts: [['1 Ngày', 5000], ['30 Ngày', 50000]] }
+                { id:'h2', name:'HG Cheat', opts: [['1 Ngày', 5000], ['30 Ngày', 50000]] },
+                { id:'h3', name:'Drip Client', opts: [['1 Ngày', 7000], ['30 Ngày', 70000]] },
+                { id:'h4', name:'Flu', opts: [['1 Ngày', 6000], ['30 Ngày', 60000]] },
+                { id:'h5', name:'Zygame', opts: [['1 Ngày', 5000], ['30 Ngày', 50000]] }
             ]},
             { cat: 'ACC FREE FIRE', icon: 'fa-user-circle', items: [
-                { id:'a1', name:'Acc Level 5', opts: [['Gói 1 Acc', 5000]] }
+                { id:'a1', name:'Acc Level 5', opts: [['Gói 1 Acc', 5000]] },
+                { id:'a2', name:'Acc Level 15', opts: [['Gói 1 Acc', 15000]] }
+            ]},
+            { cat: 'CLOUD PHONE', icon: 'fa-cloud', items: [
+                { id:'c1', name:'Redfinger', opts: [['30 Ngày', 85000]] },
+                { id:'c2', name:'CC Cloud', opts: [['30 Ngày', 90000]] }
             ]}
         ];
 
@@ -264,7 +264,7 @@
 
         function selectItem(name, time, price, rid) {
             const target = document.getElementById('r-' + rid);
-            if(lastId === rid) { // HỦY CHỌN
+            if(lastId === rid) {
                 target.classList.remove('selected');
                 document.getElementById('buy-bar').style.display = 'none';
                 curSelect = null; lastId = null; return;
@@ -318,6 +318,7 @@
         if(usr) {
             document.getElementById('u-name').innerText = usr.first_name;
             document.getElementById('u-id').innerText = "ID: " + usr.id;
+            if(usr.photo_url) document.getElementById('u-avatar').src = usr.photo_url;
         }
     </script>
 </body>
