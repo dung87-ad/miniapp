@@ -51,12 +51,25 @@
         .ticker i { color: var(--accent); font-size: 14px; }
         .ticker marquee { font-size: 11px; font-weight: bold; color: var(--text); }
 
-        /* ADMIN GRID - FIXED NAMES */
+        /* ADMIN GRID - NAME + @ */
         .admin-grid { display: grid; grid-template-columns: repeat(3, 1fr); margin-bottom: 15px; overflow: hidden; }
-        .admin-item { padding: 15px 2px; text-align: center; text-decoration: none; color: var(--text); border-right: 1px solid var(--glass-border); }
+        .admin-item { padding: 12px 2px; text-align: center; text-decoration: none; color: var(--text); border-right: 1px solid var(--glass-border); }
         .admin-item:last-child { border-right: none; }
-        .admin-item i { font-size: 18px; color: var(--accent); margin-bottom: 6px; display: block; }
-        .admin-item b { font-size: 9px; display: block; color: var(--accent); margin-top: 2px; }
+        .admin-item i { font-size: 18px; color: var(--accent); margin-bottom: 4px; display: block; }
+        .admin-item b { font-size: 9px; display: block; color: var(--text); }
+        .admin-item span { font-size: 7.5px; color: var(--accent); display: block; font-weight: bold; }
+
+        /* DRAWER - SMOOTH ANIMATION */
+        .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); opacity: 0; visibility: hidden; transition: 0.4s; z-index: 4999; backdrop-filter: blur(2px); }
+        .drawer-overlay.active { opacity: 1; visibility: visible; }
+        .drawer { 
+            position: fixed; top: 0; right: -100%; width: 75%; height: 100%; 
+            z-index: 5000; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); 
+            padding: 25px; background: #fffafb; border-left: 3px solid var(--accent);
+            box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+        }
+        .drawer.active { right: 0; }
+        .drawer h3 { margin-top: 10px; border-bottom: 2px solid #ffebee; padding-bottom: 15px; }
 
         /* PRODUCTS */
         .cat-card { margin-bottom: 12px; border: 1px solid var(--glass-border); overflow: hidden; border-radius: 20px; }
@@ -71,9 +84,7 @@
         .arrow { transition: 0.3s; font-size: 10px; }
         .rotate { transform: rotate(180deg); }
 
-        /* DRAWER & PAGES */
-        .drawer { position: fixed; top: 0; right: -100%; width: 75%; height: 100%; z-index: 5000; transition: 0.4s; padding: 25px; background: #fffafb; border-left: 3px solid var(--accent); }
-        .drawer.active { right: 0; }
+        /* PAGES & FOOTER */
         .page { display: none; position: fixed; inset: 0; background: var(--bg-sakura); z-index: 4000; padding: 20px; overflow-y: auto; }
         .footer { position: fixed; bottom: 0; left: 0; right: 0; padding: 15px 20px; background: rgba(255,255,255,0.95); border-top: 1px solid var(--glass-border); display: none; z-index: 1000; border-radius: 25px 25px 0 0; }
         .buy-btn { background: var(--accent); color: white; border: none; padding: 12px 25px; border-radius: 15px; font-weight: bold; }
@@ -83,11 +94,15 @@
 <body>
 
     <div class="sakura-container" id="sakura-box"></div>
+    <div class="drawer-overlay" id="overlay" onclick="toggleMenu()"></div>
 
     <div class="drawer" id="menu">
         <h3 style="color:var(--accent);"><i class="fas fa-heart"></i> Tokyo Sakura</h3>
         <div class="glass" style="padding:15px; margin-top:20px; cursor:pointer;" onclick="openHistory()">
             <i class="fas fa-history" style="color:var(--accent); margin-right:10px"></i> Lịch sử đơn hàng
+        </div>
+        <div class="glass" style="padding:15px; margin-top:10px; cursor:pointer;" onclick="tg.showAlert('Chương trình cộng tác viên đang được phát triển!')">
+            <i class="fas fa-users" style="color:var(--accent); margin-right:10px"></i> Cộng tác viên
         </div>
         <button onclick="toggleMenu()" style="width:100%; padding:14px; background:var(--accent); border:none; color:white; border-radius:15px; margin-top:50px; font-weight:bold;">ĐÓNG</button>
     </div>
@@ -115,13 +130,13 @@
 
     <div class="ticker glass">
         <i class="fas fa-bullhorn"></i>
-        <marquee scrollamount="4">Chào mừng đến Tokyo Sakura Shop - Hệ thống nạp tự động 24/7 - Uy tín tạo nên thương hiệu!</marquee>
+        <marquee scrollamount="4">Chào mừng đến Tokyo Sakura Shop - Menu Hack & Acc Free Fire uy tín hàng đầu!</marquee>
     </div>
 
     <div class="admin-grid glass">
-        <a href="https://t.me/muadongtokyo36" class="admin-item"><i class="fas fa-crown"></i><b>muadongtokyo</b></a>
-        <a href="https://t.me/muahatokyo1919" class="admin-item"><i class="fas fa-bolt"></i><b>muahatokyo</b></a>
-        <a href="https://t.me/muathutokyo27" class="admin-item"><i class="fas fa-headset"></i><b>muathutokyo</b></a>
+        <a href="https://t.me/muadongtokyo36" class="admin-item"><i class="fas fa-crown"></i><b>muadongtokyo</b><span>@muadongtokyo36</span></a>
+        <a href="https://t.me/muahatokyo1919" class="admin-item"><i class="fas fa-bolt"></i><b>muahatokyo</b><span>@muahatokyo1919</span></a>
+        <a href="https://t.me/muathutokyo27" class="admin-item"><i class="fas fa-headset"></i><b>muathutokyo</b><span>@muathutokyo27</span></a>
     </div>
 
     <div id="product-list"></div>
@@ -136,17 +151,15 @@
     <div id="page-history" class="page">
         <div onclick="closePages()" style="color:var(--accent); cursor:pointer; margin-bottom:20px; font-weight: bold;"><i class="fas fa-chevron-left"></i> QUAY LẠI</div>
         <h3 style="color:var(--accent);">Lịch sử mua hàng</h3>
-        <div id="history-list">
-            <div class="glass" style="padding:15px; text-align:center; font-size:12px; color:var(--hint);">Bạn chưa có đơn hàng nào.</div>
-        </div>
+        <div id="history-list"><div class="glass" style="padding:15px; text-align:center; font-size:12px; color:var(--hint);">Chưa có đơn hàng nào.</div></div>
     </div>
 
     <div id="modal-pay" class="page">
         <div onclick="closePages()" style="color:var(--accent); cursor:pointer; margin-bottom:20px; font-weight: bold;"><i class="fas fa-chevron-left"></i> QUAY LẠI</div>
         <div class="pay-card">
             <img id="qr" src="" style="width:100%; max-width:200px; border-radius:15px; margin-bottom:15px; border: 2px solid var(--accent);">
-            <div id="info-bank" style="text-align:left; background:#fff5f8; padding:15px; border-radius:15px; font-size:12px; color: #4a148c; line-height:1.6"></div>
-            <button onclick="tg.showAlert('Đã gửi yêu cầu thanh toán!')" style="width:100%; padding:14px; background:var(--accent); color:white; border:none; border-radius:15px; font-weight:bold; margin-top:15px;">XÁC NHẬN NẠP</button>
+            <div id="info-bank" style="text-align:left; background:#fff5f8; padding:15px; border-radius:15px; font-size:12px; color: #4a148c;"></div>
+            <button onclick="tg.showAlert('Gửi yêu cầu thành công!')" style="width:100%; padding:14px; background:var(--accent); color:white; border:none; border-radius:15px; font-weight:bold; margin-top:15px;">XÁC NHẬN NẠP</button>
         </div>
     </div>
 
@@ -169,6 +182,7 @@
         }
         createSakura();
 
+        // ĐÚNG 10 SẢN PHẨM THEO YÊU CẦU
         const DATA = [
             { cat: 'HACK VIP FREE FIRE', icon: 'fa-fire', items: [
                 { id:'h1', name:'Br Mod', opts: [['1 Ngày', 5000], ['30 Ngày', 50000]] },
@@ -252,24 +266,31 @@
             document.getElementById('modal-pay').style.display = 'block';
         }
 
-        function toggleMenu() { document.getElementById('menu').classList.toggle('active'); }
+        // DRAWER CONTROLS
+        function toggleMenu() { 
+            document.getElementById('menu').classList.toggle('active'); 
+            document.getElementById('overlay').classList.toggle('active');
+        }
         function openHistory() { toggleMenu(); document.getElementById('page-history').style.display = 'block'; }
         function closePages() { 
             document.getElementById('page-history').style.display = 'none'; 
             document.getElementById('modal-pay').style.display = 'none'; 
         }
 
+        // CLOCK
         setInterval(() => {
             const n = new Date();
             document.getElementById('u-date').innerText = n.toLocaleDateString('vi-VN');
             document.getElementById('u-time').innerText = n.toLocaleTimeString('vi-VN');
         }, 1000);
 
+        // BATTERY
         navigator.getBattery().then(b => {
             const u = () => document.getElementById('u-bat').innerHTML = `<i class="fas fa-battery-half"></i> ${Math.floor(b.level*100)}%`;
             u(); b.addEventListener('levelchange', u);
         });
 
+        // TG DATA
         const usr = tg.initDataUnsafe?.user;
         if(usr) {
             document.getElementById('u-name').innerText = usr.first_name;
