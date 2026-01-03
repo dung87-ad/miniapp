@@ -8,8 +8,8 @@
     <style>
         :root { 
             --bg-gradient: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #0b0b0d);
-            --glass: rgba(255, 255, 255, 0.06);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass: rgba(255, 255, 255, 0.07);
+            --glass-border: rgba(255, 255, 255, 0.12);
             --accent: #5865f2; --success: #34c759; --danger: #ff3b30; --yellow: #ffcc00; 
             --text: #ffffff; --hint: #a1a1aa;
         }
@@ -31,68 +31,71 @@
             min-height: 100vh; overflow-x: hidden;
         }
 
-        .glass { background: var(--glass); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--glass-border); border-radius: 15px; }
+        .glass { background: var(--glass); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid var(--glass-border); border-radius: 15px; }
 
         /* HEADER */
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; gap: 8px; }
-        .user-box { padding: 10px 12px; display: flex; align-items: center; flex: 1; position: relative; }
-        .avatar { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 10px; }
-        .user-info b { font-size: 13px; display: block; max-width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .battery { position: absolute; top: 8px; right: 12px; font-size: 10px; color: var(--success); font-weight: bold; }
-        .menu-btn { width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+        .user-box { padding: 10px 12px; display: flex; align-items: center; flex: 1; position: relative; min-height: 60px; }
+        .avatar { width: 42px; height: 42px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 10px; }
+        .user-info b { font-size: 13px; display: block; max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .battery { position: absolute; top: 10px; right: 12px; font-size: 10px; color: var(--success); font-weight: bold; display: flex; align-items: center; gap: 4px; }
+        .menu-btn { width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; }
 
-        /* ADMIN SECTION - FIXED SIZE */
-        .admin-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-bottom: 15px; overflow: hidden; }
-        .admin-item { padding: 10px 2px; text-align: center; text-decoration: none; color: #fff; }
-        .admin-item i { font-size: 16px; color: var(--accent); margin-bottom: 4px; display: block; }
-        .admin-item b { font-size: 9px; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .admin-item span { font-size: 7px; color: var(--hint); display: block; }
+        /* ADMIN - COMPACT VERSION */
+        .admin-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-bottom: 15px; overflow: hidden; }
+        .admin-item { padding: 10px 2px; text-align: center; text-decoration: none; color: #fff; border-right: 1px solid var(--glass-border); }
+        .admin-item:last-child { border-right: none; }
+        .admin-item i { font-size: 15px; color: var(--accent); margin-bottom: 4px; display: block; }
+        .admin-item b { font-size: 9px; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 0 2px; }
+        .admin-item span { font-size: 7.5px; color: var(--hint); display: block; opacity: 0.8; }
 
         /* TICKER */
-        .ticker { padding: 8px 12px; margin-bottom: 15px; font-size: 11px; color: var(--yellow); display: flex; align-items: center; }
+        .ticker { padding: 10px 12px; margin-bottom: 15px; font-size: 11px; color: var(--yellow); display: flex; align-items: center; }
 
-        /* PRODUCTS */
-        .cat-card { margin-bottom: 8px; }
-        .cat-btn { padding: 14px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; border-left: 4px solid var(--accent); }
-        .cat-body { display: none; padding: 5px; }
-        .prod-card { margin-bottom: 6px; overflow: hidden; background: rgba(0,0,0,0.2); border-radius: 12px; }
+        /* PRODUCTS - REMOVED PURPLE BAR */
+        .cat-card { margin-bottom: 10px; border: 1px solid var(--glass-border); overflow: hidden; border-radius: 15px; background: var(--glass); }
+        .cat-btn { padding: 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; background: transparent; }
+        .cat-body { display: none; padding: 5px; background: rgba(0,0,0,0.15); }
+        .prod-card { margin: 5px; overflow: hidden; background: rgba(255,255,255,0.03); border-radius: 10px; border: 1px solid rgba(255,255,255,0.05); }
         .prod-btn { padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 600; cursor: pointer; }
         .opt-list { display: none; }
-        .opt-item { padding: 10px 15px; display: flex; justify-content: space-between; border-top: 1px solid var(--glass-border); font-size: 12px; cursor: pointer; }
-        .opt-item.selected { background: var(--accent); }
+        .opt-item { padding: 12px 20px; display: flex; justify-content: space-between; border-top: 1px solid var(--glass-border); font-size: 12.5px; cursor: pointer; }
+        .opt-item.selected { background: var(--accent); color: #fff; }
 
         .arrow { transition: 0.3s; font-size: 10px; color: var(--hint); }
         .rotate { transform: rotate(180deg); }
 
-        /* FOOTER BAR */
-        .footer { position: fixed; bottom: 0; left: 0; right: 0; padding: 12px 20px; border-top: 1px solid var(--glass-border); display: none; z-index: 1000; border-radius: 20px 20px 0 0; }
-        .buy-btn { background: var(--accent); color: white; border: none; padding: 10px 20px; border-radius: 10px; font-weight: bold; font-size: 13px; }
+        /* FOOTER */
+        .footer { position: fixed; bottom: 0; left: 0; right: 0; padding: 15px 20px; border-top: 1px solid var(--glass-border); display: none; z-index: 1000; border-radius: 20px 20px 0 0; }
+        .buy-btn { background: var(--accent); color: white; border: none; padding: 12px 25px; border-radius: 12px; font-weight: bold; font-size: 14px; box-shadow: 0 4px 15px rgba(88, 101, 242, 0.3); }
 
         /* MODALS */
         .page { display: none; position: fixed; inset: 0; background: var(--bg-gradient); z-index: 4000; padding: 20px; overflow-y: auto; }
-        .pay-card { background: #fff; color: #333; padding: 20px; border-radius: 25px; max-width: 400px; margin: 20px auto; text-align: center; }
-        .tab-box { display: flex; background: #f0f0f0; padding: 4px; border-radius: 12px; margin-bottom: 15px; }
-        .tab { flex: 1; padding: 8px; border-radius: 10px; border: none; font-weight: bold; font-size: 12px; cursor: pointer; }
+        .pay-card { background: #fff; color: #333; padding: 20px; border-radius: 25px; max-width: 400px; margin: 20px auto; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .tab-box { display: flex; background: #f0f0f0; padding: 5px; border-radius: 12px; margin-bottom: 20px; }
+        .tab { flex: 1; padding: 10px; border-radius: 10px; border: none; font-weight: bold; font-size: 12px; cursor: pointer; transition: 0.2s; }
         .tab.active { background: var(--accent); color: white; }
-        input, select { width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 10px; border: 1px solid #ddd; font-size: 13px; }
+        input, select { width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 10px; border: 1px solid #ddd; font-size: 14px; }
 
-        .drawer { position: fixed; top: 0; right: -100%; width: 75%; height: 100%; z-index: 5000; transition: 0.4s; padding: 20px; }
+        .drawer { position: fixed; top: 0; right: -100%; width: 75%; height: 100%; z-index: 5000; transition: 0.4s; padding: 25px; box-shadow: -10px 0 30px rgba(0,0,0,0.5); }
         .drawer.active { right: 0; }
     </style>
 </head>
 <body>
 
     <div class="drawer glass" id="menu">
-        <h3 style="color:var(--accent); margin-top:0"><i class="fas fa-th-large"></i> Danh mục</h3>
-        <div class="glass" style="padding:15px; margin-top:15px; cursor:pointer;" onclick="openHistory()">
-            <i class="fas fa-history" style="color:var(--accent); margin-right:8px"></i> Lịch sử mua hàng
+        <h3 style="color:var(--accent); margin-top:0; border-bottom: 1px solid var(--glass-border); padding-bottom: 10px;">Tokyo Menu</h3>
+        <div class="glass" style="padding:15px; margin-top:20px; cursor:pointer;" onclick="openHistory()">
+            <i class="fas fa-history" style="color:var(--accent); margin-right:10px"></i> Lịch sử đơn hàng
         </div>
-        <button onclick="toggleMenu()" style="width:100%; padding:12px; background:var(--danger); border:none; color:white; border-radius:10px; margin-top:40px; font-weight:bold">ĐÓNG MENU</button>
+        <button onclick="toggleMenu()" style="width:100%; padding:14px; background:var(--danger); border:none; color:white; border-radius:12px; margin-top:50px; font-weight:bold; letter-spacing: 1px;">ĐÓNG</button>
     </div>
 
     <div id="page-history" class="page">
-        <div onclick="closeHistory()" style="margin-bottom:20px; font-weight:bold; color:var(--accent); cursor:pointer"><i class="fas fa-chevron-left"></i> QUAY LẠI</div>
-        <h3 style="margin-top:0">LỊCH SỬ GIAO DỊCH</h3>
+        <div onclick="closeHistory()" style="margin-bottom:25px; font-weight:bold; color:var(--accent); cursor:pointer; display: flex; align-items: center; gap: 8px;">
+            <i class="fas fa-chevron-left"></i> QUAY LẠI
+        </div>
+        <h3 style="margin-top:0">LỊCH SỬ MUA HÀNG</h3>
         <div id="hist-list"></div>
     </div>
 
@@ -101,8 +104,8 @@
             <img id="u-avatar" src="https://ui-avatars.com/api/?name=T&background=5865f2&color=fff" class="avatar">
             <div class="user-info">
                 <b id="u-name">Tokyo Guest</b>
-                <div style="font-size:8px; color:var(--accent); margin-top:2px;">
-                    <span id="u-date">--/--/--</span> | <span id="u-time">--:--</span>
+                <div style="font-size:9px; color:var(--accent); margin-top:5px; font-weight: bold; letter-spacing: 0.5px;">
+                    <span id="u-date">--/--/----</span> | <span id="u-time">00:00:00</span>
                 </div>
             </div>
             <div class="battery" id="u-bat"><i class="fas fa-battery-half"></i> --%</div>
@@ -110,13 +113,16 @@
         <div class="menu-btn glass" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
     </div>
 
-    <div class="ticker glass"><i class="fas fa-bullhorn" style="margin-right:8px"></i><marquee>Tokyo Shop - Hệ thống nạp tự động 24/7 - Uy tín tạo thương hiệu!</marquee></div>
+    <div class="ticker glass">
+        <i class="fas fa-bullhorn" style="margin-right:10px"></i>
+        <marquee scrollamount="4">Hệ thống nạp tự động - Tokyo Shop chúc bạn một ngày tốt lành!</marquee>
+    </div>
 
-    <div class="admin-container glass">
+    <div class="admin-grid glass">
         <a href="https://t.me/muadongtokyo36" class="admin-item">
             <i class="fas fa-crown"></i><b>muadongtokyo</b><span>@muadongtokyo36</span>
         </a>
-        <a href="https://t.me/muahatokyo1919" class="admin-item" style="border-left:1px solid var(--glass-border); border-right:1px solid var(--glass-border);">
+        <a href="https://t.me/muahatokyo1919" class="admin-item">
             <i class="fas fa-bolt"></i><b>muahatokyo</b><span>@muahatokyo1919</span>
         </a>
         <a href="https://t.me/muathutokyo27" class="admin-item">
@@ -128,29 +134,34 @@
 
     <div class="footer glass" id="buy-bar">
         <div style="display:flex; justify-content:space-between; align-items:center;">
-            <div><b id="cur-name" style="font-size:12px">Sản phẩm</b><span id="cur-price" style="display:block; color:var(--success); font-weight:bold; font-size:14px">0đ</span></div>
+            <div>
+                <b id="cur-name" style="font-size:12px; opacity: 0.9;">Sản phẩm</b>
+                <span id="cur-price" style="display:block; color:var(--success); font-weight:800; font-size:16px; margin-top:2px;">0đ</span>
+            </div>
             <button class="buy-btn" onclick="openPay()">MUA NGAY</button>
         </div>
     </div>
 
     <div id="modal-pay" class="page">
-        <div onclick="closePay()" style="color:white; cursor:pointer; margin-bottom:15px"><i class="fas fa-times-circle"></i> ĐÓNG</div>
+        <div onclick="closePay()" style="color:white; cursor:pointer; margin-bottom:20px; font-weight: bold;"><i class="fas fa-times-circle"></i> THOÁT</div>
         <div class="pay-card">
             <div class="tab-box">
-                <button id="t1" class="tab active" onclick="setTab('bank')">BANK</button>
+                <button id="t1" class="tab active" onclick="setTab('bank')">NGÂN HÀNG</button>
                 <button id="t2" class="tab" onclick="setTab('card')">THẺ CÀO</button>
             </div>
             <div id="box-bank">
-                <img id="qr" src="" style="width:180px; border-radius:12px; margin-bottom:10px;">
-                <div id="info-bank" style="text-align:left; background:#f9f9f9; padding:12px; border-radius:12px; font-size:11px; line-height:1.6"></div>
-                <button onclick="confirm('Chuyển khoản')" style="width:100%; padding:12px; background:var(--success); color:white; border:none; border-radius:10px; font-weight:bold; margin-top:10px;">XÁC NHẬN</button>
+                <img id="qr" src="" style="width:190px; border-radius:15px; margin-bottom:15px; border: 1px solid #eee;">
+                <div id="info-bank" style="text-align:left; background:#f9f9f9; padding:15px; border-radius:12px; font-size:12px; line-height:1.7"></div>
+                <button onclick="confirmPurchase('Chuyển khoản')" style="width:100%; padding:14px; background:var(--success); color:white; border:none; border-radius:12px; font-weight:bold; margin-top:15px; font-size:14px;">XÁC NHẬN NẠP</button>
             </div>
             <div id="box-card" style="display:none; text-align:left;">
+                <label style="font-size:11px; font-weight:bold; color: #666; margin-left: 5px;">NHÀ MẠNG</label>
                 <select id="card-t"><option>Viettel</option><option>VinaPhone</option><option>MobiFone</option></select>
+                <label style="font-size:11px; font-weight:bold; color: #666; margin-left: 5px;">MỆNH GIÁ</label>
                 <select id="card-v"><option value="10000">10,000đ</option><option value="50000">50,000đ</option><option value="100000">100,000đ</option></select>
-                <input type="number" id="card-s" placeholder="Số Seri">
-                <input type="number" id="card-p" placeholder="Mã thẻ">
-                <button onclick="confirm('Thẻ cào')" style="width:100%; padding:12px; background:var(--accent); color:white; border:none; border-radius:10px; font-weight:bold;">GỬI THẺ</button>
+                <input type="number" id="card-s" placeholder="Nhập số Seri">
+                <input type="number" id="card-p" placeholder="Nhập mã thẻ">
+                <button onclick="confirmPurchase('Thẻ cào')" style="width:100%; padding:14px; background:var(--accent); color:white; border:none; border-radius:12px; font-weight:bold; margin-top:5px;">GỬI THẺ DUYỆT</button>
             </div>
         </div>
     </div>
@@ -163,18 +174,15 @@
             { cat: 'HACK VIP FREE FIRE', icon: 'fa-fire', items: [
                 { id:'h1', name:'Br Mods VIP', opts: [['1 Ngày', 2000], ['30 Ngày', 30000]] },
                 { id:'h2', name:'ZyGame Menu', opts: [['1 Ngày', 2000], ['30 Ngày', 30000]] },
-                { id:'h3', name:'Fluorite iOS', opts: [['1 Ngày', 5000], ['30 Ngày', 50000]] },
-                { id:'h4', name:'Drip OB51 VIP', opts: [['1 Ngày', 2000], ['30 Ngày', 30000]] },
-                { id:'h5', name:'HG Cheat VIP', opts: [['1 Ngày', 2000], ['30 Ngày', 30000]] }
+                { id:'h3', name:'Fluorite iOS', opts: [['1 Ngày', 5000], ['30 Ngày', 50000]] }
             ]},
             { cat: 'ACC FREE FIRE', icon: 'fa-user-circle', items: [
                 { id:'a1', name:'Acc FF Level 5', opts: [['Gói 1 Acc', 5000]] },
                 { id:'a2', name:'Acc FF Level 15', opts: [['Gói 1 Acc', 15000]] }
             ]},
-            { id:'c', cat: 'CLOUD PHONE', icon: 'fa-cloud', items: [
+            { cat: 'CLOUD PHONE', icon: 'fa-cloud', items: [
                 { id:'c1', name:'Redfinger Cloud', opts: [['1 Ngày', 5000], ['7 Ngày', 25000]] },
-                { id:'c2', name:'CC Cloud Phone', opts: [['7 Ngày', 25000], ['30 Ngày', 80000]] },
-                { id:'c3', name:'Vip Player Cloud', opts: [['30 Ngày', 90000]] }
+                { id:'c2', name:'CC Cloud Phone', opts: [['30 Ngày', 80000]] }
             ]}
         ];
 
@@ -182,9 +190,9 @@
 
         function render() {
             document.getElementById('product-list').innerHTML = DATA.map(g => `
-                <div class="cat-card glass">
+                <div class="cat-card">
                     <div class="cat-btn" onclick="toggleCat('${g.cat}')">
-                        <span><i class="fas ${g.icon}" style="margin-right:8px; color:var(--accent)"></i><b>${g.cat}</b></span>
+                        <span><i class="fas ${g.icon}" style="margin-right:10px; color:var(--accent)"></i><b>${g.cat}</b></span>
                         <i class="fas fa-chevron-down arrow" id="a-cat-${g.cat}"></i>
                     </div>
                     <div class="cat-body" id="b-cat-${g.cat}">
@@ -234,30 +242,30 @@
         function openPay() {
             const code = "TK" + Math.random().toString(36).substring(7).toUpperCase();
             document.getElementById('qr').src = `https://img.vietqr.io/image/MB-79991312006-compact2.png?amount=${curSelect.price}&addInfo=${code}`;
-            document.getElementById('info-bank').innerHTML = `STK: <b>79991312006</b><br>Tiền: <b>${curSelect.price.toLocaleString()}đ</b><br>Nội dung: <b style="color:var(--danger)">${code}</b>`;
+            document.getElementById('info-bank').innerHTML = `STK: <b>79991312006</b><br>Ngân hàng: <b>MB BANK</b><br>Số tiền: <b style="color:var(--success)">${curSelect.price.toLocaleString()}đ</b><br>Nội dung: <b style="color:var(--danger)">${code}</b>`;
             document.getElementById('modal-pay').style.display = 'block';
         }
 
-        function confirm(m) {
+        function confirmPurchase(m) {
             if(m === 'Thẻ cào' && (!document.getElementById('card-s').value || !document.getElementById('card-p').value)) {
-                tg.showAlert('Vui lòng nhập đủ thông tin!'); return;
+                tg.showAlert('Vui lòng nhập đầy đủ Seri và Mã thẻ!'); return;
             }
             const h = JSON.parse(localStorage.getItem('tokyo_h') || '[]');
             h.unshift({ t: curSelect.name+' ('+curSelect.time+')', p: curSelect.price.toLocaleString()+'đ', d: new Date().toLocaleString('vi-VN'), m: m });
             localStorage.setItem('tokyo_h', JSON.stringify(h));
-            tg.showAlert('Đã gửi yêu cầu nạp!'); closePay();
+            tg.showAlert('Đã gửi yêu cầu giao dịch!'); closePay();
         }
 
         function openHistory() {
             const h = JSON.parse(localStorage.getItem('tokyo_h') || '[]');
             toggleMenu(); document.getElementById('page-history').style.display = 'block';
             document.getElementById('hist-list').innerHTML = h.length ? h.map(i => `
-                <div class="glass" style="padding:12px; margin-bottom:8px; display:flex; align-items:center; gap:10px;">
-                    <i class="fas fa-receipt" style="color:var(--accent)"></i>
-                    <div style="flex:1"><b style="font-size:12px">${i.t}</b><small style="display:block; color:var(--hint); font-size:10px">${i.d} | ${i.m}</small></div>
-                    <b style="color:var(--success); font-size:12px">${i.p}</b>
+                <div class="glass" style="padding:15px; margin-bottom:10px; display:flex; align-items:center; gap:12px; border: 1px solid var(--glass-border);">
+                    <i class="fas fa-receipt" style="color:var(--accent); font-size: 18px;"></i>
+                    <div style="flex:1"><b style="font-size:13px">${i.t}</b><small style="display:block; color:var(--hint); font-size:10px; margin-top:3px">${i.d} | ${i.m}</small></div>
+                    <b style="color:var(--success); font-size:14px">${i.p}</b>
                 </div>
-            `).join('') : '<center style="margin-top:50px; color:var(--hint)">Chưa có giao dịch.</center>';
+            `).join('') : '<center style="margin-top:50px; color:var(--hint)">Bạn chưa có đơn hàng nào.</center>';
         }
 
         function setTab(t) {
@@ -272,14 +280,16 @@
         function closeHistory() { document.getElementById('page-history').style.display = 'none'; }
         function closePay() { document.getElementById('modal-pay').style.display = 'none'; }
 
+        // BATTERY & SECOND CLOCK
         navigator.getBattery().then(b => {
             const u = () => document.getElementById('u-bat').innerHTML = `<i class="fas fa-battery-half"></i> ${Math.floor(b.level*100)}%`;
             u(); b.addEventListener('levelchange', u);
         });
+
         setInterval(() => {
             const n = new Date();
             document.getElementById('u-date').innerText = n.toLocaleDateString('vi-VN');
-            document.getElementById('u-time').innerText = n.toLocaleTimeString('vi-VN', {hour:'2-digit', minute:'2-digit'});
+            document.getElementById('u-time').innerText = n.toLocaleTimeString('vi-VN');
         }, 1000);
 
         const usr = tg.initDataUnsafe?.user;
