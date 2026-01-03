@@ -48,8 +48,6 @@
         .admin-item b { font-size: 10px; display: block; color: var(--accent); }
         .admin-item span { font-size: 7.5px; color: var(--hint); display: block; font-weight: bold; }
 
-        .ticker { padding: 10px 12px; margin-bottom: 15px; font-size: 11px; color: var(--accent); font-weight: bold; }
-
         /* PRODUCTS */
         .cat-card { margin-bottom: 12px; border: 1px solid var(--glass-border); overflow: hidden; border-radius: 20px; }
         .cat-btn { padding: 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; color: var(--accent); font-weight: bold; }
@@ -63,17 +61,26 @@
         .arrow { transition: 0.3s; font-size: 10px; }
         .rotate { transform: rotate(180deg); }
 
-        /* FOOTER */
-        .footer { position: fixed; bottom: 0; left: 0; right: 0; padding: 15px 20px; background: rgba(255,255,255,0.95); border-top: 1px solid var(--glass-border); display: none; z-index: 1000; border-radius: 25px 25px 0 0; box-shadow: 0 -5px 15px rgba(0,0,0,0.05); }
-        .buy-btn { background: var(--accent); color: white; border: none; padding: 12px 25px; border-radius: 15px; font-weight: bold; }
-
+        /* DRAWER & PAGES */
+        .drawer { position: fixed; top: 0; right: -100%; width: 75%; height: 100%; z-index: 5000; transition: 0.4s; padding: 25px; background: #fffafb; border-left: 3px solid var(--accent); }
+        .drawer.active { right: 0; }
         .page { display: none; position: fixed; inset: 0; background: var(--bg-sakura); z-index: 4000; padding: 20px; overflow-y: auto; }
+        .footer { position: fixed; bottom: 0; left: 0; right: 0; padding: 15px 20px; background: rgba(255,255,255,0.95); border-top: 1px solid var(--glass-border); display: none; z-index: 1000; border-radius: 25px 25px 0 0; }
+        .buy-btn { background: var(--accent); color: white; border: none; padding: 12px 25px; border-radius: 15px; font-weight: bold; }
         .pay-card { background: #fff; padding: 25px; border-radius: 30px; text-align: center; }
     </style>
 </head>
 <body>
 
     <div class="sakura-container" id="sakura-box"></div>
+
+    <div class="drawer" id="menu">
+        <h3 style="color:var(--accent);"><i class="fas fa-heart"></i> Tokyo Sakura</h3>
+        <div class="glass" style="padding:15px; margin-top:20px; cursor:pointer;" onclick="openHistory()">
+            <i class="fas fa-history" style="color:var(--accent); margin-right:10px"></i> Lịch sử đơn hàng
+        </div>
+        <button onclick="toggleMenu()" style="width:100%; padding:14px; background:var(--accent); border:none; color:white; border-radius:15px; margin-top:50px; font-weight:bold;">ĐÓNG</button>
+    </div>
 
     <div class="header">
         <div class="user-box glass">
@@ -87,10 +94,10 @@
             </div>
             <div class="battery" id="u-bat"><i class="fas fa-battery-half"></i> --%</div>
         </div>
-        <div class="menu-btn glass" onclick="tg.showAlert('Chức năng đang cập nhật!')"><i class="fas fa-bars"></i></div>
+        <div class="menu-btn glass" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
     </div>
 
-    <div class="ticker glass"><marquee scrollamount="3">Chào mừng đến Tokyo Sakura Shop - Menu Hack & Acc Free Fire uy tín hàng đầu!</marquee></div>
+    <div class="ticker glass"><marquee scrollamount="3">Chào mừng đến Tokyo Sakura Shop - Menu Hack & Acc Free Fire uy tín!</marquee></div>
 
     <div class="admin-grid glass">
         <a href="https://t.me/muadongtokyo36" class="admin-item"><i class="fas fa-crown"></i><b>Admin</b><span>@muadongtokyo36</span></a>
@@ -107,12 +114,20 @@
         </div>
     </div>
 
+    <div id="page-history" class="page">
+        <div onclick="closePages()" style="color:var(--accent); cursor:pointer; margin-bottom:20px; font-weight: bold;"><i class="fas fa-chevron-left"></i> QUAY LẠI</div>
+        <h3 style="color:var(--accent);">Lịch sử mua hàng</h3>
+        <div id="history-list">
+            <div class="glass" style="padding:15px; text-align:center; font-size:12px; color:var(--hint);">Bạn chưa có đơn hàng nào.</div>
+        </div>
+    </div>
+
     <div id="modal-pay" class="page">
-        <div onclick="document.getElementById('modal-pay').style.display='none'" style="color:var(--accent); cursor:pointer; margin-bottom:20px; font-weight: bold;"><i class="fas fa-chevron-left"></i> QUAY LẠI</div>
+        <div onclick="closePages()" style="color:var(--accent); cursor:pointer; margin-bottom:20px; font-weight: bold;"><i class="fas fa-chevron-left"></i> QUAY LẠI</div>
         <div class="pay-card">
             <img id="qr" src="" style="width:100%; max-width:200px; border-radius:15px; margin-bottom:15px; border: 2px solid var(--accent);">
             <div id="info-bank" style="text-align:left; background:#fff5f8; padding:15px; border-radius:15px; font-size:12px; color: #4a148c; line-height:1.6"></div>
-            <button onclick="tg.showAlert('Yêu cầu đã được gửi!')" style="width:100%; padding:14px; background:var(--accent); color:white; border:none; border-radius:15px; font-weight:bold; margin-top:15px;">XÁC NHẬN NẠP</button>
+            <button onclick="tg.showAlert('Đã gửi yêu cầu thanh toán!')" style="width:100%; padding:14px; background:var(--accent); color:white; border:none; border-radius:15px; font-weight:bold; margin-top:15px;">XÁC NHẬN NẠP</button>
         </div>
     </div>
 
@@ -135,23 +150,23 @@
         }
         createSakura();
 
-        // 10 SẢN PHẨM CHIA VÀO 3 DANH MỤC CŨ
+        // DANH SÁCH 10 SẢN PHẨM MỚI
         const DATA = [
             { cat: 'HACK VIP FREE FIRE', icon: 'fa-fire', items: [
-                { id:'p1', name:'Br Mods VIP', opts: [['1 Ngày', 5000], ['30 Ngày', 50000]] },
-                { id:'p2', name:'ZyGame Menu', opts: [['1 Ngày', 5000], ['30 Ngày', 50000]] },
-                { id:'p3', name:'Fluorite iOS', opts: [['1 Ngày', 10000], ['30 Ngày', 100000]] }
+                { id:'h1', name:'Br Mod', opts: [['1 Ngày', 5000], ['30 Ngày', 50000]] },
+                { id:'h2', name:'HG Cheat', opts: [['1 Ngày', 5000], ['30 Ngày', 50000]] },
+                { id:'h3', name:'Drip Client', opts: [['1 Ngày', 7000], ['30 Ngày', 70000]] },
+                { id:'h4', name:'Flu', opts: [['1 Ngày', 6000], ['30 Ngày', 60000]] },
+                { id:'h5', name:'Zygame', opts: [['1 Ngày', 5000], ['30 Ngày', 50000]] }
             ]},
             { cat: 'ACC FREE FIRE', icon: 'fa-user-circle', items: [
-                { id:'p4', name:'Acc FF Level 5', opts: [['Gói 1 Acc', 5000]] },
-                { id:'p5', name:'Acc FF Level 15', opts: [['Gói 1 Acc', 15000]] },
-                { id:'p6', name:'Acc FF Rank KC', opts: [['Gói 1 Acc', 25000]] },
-                { id:'p7', name:'Acc FF Rank HT', opts: [['Gói 1 Acc', 55000]] }
+                { id:'a1', name:'Acc Level 5', opts: [['Gói 1 Acc', 5000]] },
+                { id:'a2', name:'Acc Level 15', opts: [['Gói 1 Acc', 15000]] }
             ]},
             { cat: 'CLOUD PHONE', icon: 'fa-cloud', items: [
-                { id:'p8', name:'Redfinger Cloud', opts: [['1 Ngày', 5000], ['30 Ngày', 85000]] },
-                { id:'p9', name:'CC Cloud Phone', opts: [['30 Ngày', 90000]] },
-                { id:'p10', name:'LT Cloud Mobile', opts: [['30 Ngày', 95000]] }
+                { id:'c1', name:'Redfinger', opts: [['30 Ngày', 85000]] },
+                { id:'c2', name:'CC Cloud', opts: [['30 Ngày', 90000]] },
+                { id:'c3', name:'VIP Player', opts: [['30 Ngày', 100000]] }
             ]}
         ];
 
@@ -219,6 +234,13 @@
             document.getElementById('modal-pay').style.display = 'block';
         }
 
+        function toggleMenu() { document.getElementById('menu').classList.toggle('active'); }
+        function openHistory() { toggleMenu(); document.getElementById('page-history').style.display = 'block'; }
+        function closePages() { 
+            document.getElementById('page-history').style.display = 'none'; 
+            document.getElementById('modal-pay').style.display = 'none'; 
+        }
+
         setInterval(() => {
             const n = new Date();
             document.getElementById('u-date').innerText = n.toLocaleDateString('vi-VN');
@@ -232,7 +254,7 @@
 
         const usr = tg.initDataUnsafe?.user;
         if(usr) {
-            document.getElementById('u-name').innerText = usr.first_name + (usr.last_name ? " " + usr.last_name : "");
+            document.getElementById('u-name').innerText = usr.first_name;
             document.getElementById('u-id').innerText = "ID: " + usr.id;
             if(usr.photo_url) document.getElementById('u-avatar').src = usr.photo_url;
         }
