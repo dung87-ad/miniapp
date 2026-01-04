@@ -7,84 +7,77 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { 
-            --bg-sakura: linear-gradient(135deg, #ffebee 0%, #fce4ec 50%, #f8bbd0 100%);
-            --glass: rgba(255, 255, 255, 0.55);
+            --bg-sakura: linear-gradient(135deg, #fff5f7 0%, #fce4ec 100%);
+            --glass: rgba(255, 255, 255, 0.65);
             --glass-border: rgba(255, 255, 255, 0.8);
-            --accent: #ec407a; --success: #43a047; --text: #4a148c; --hint: #880e4f;
-            --petal: #ff80ab; 
+            --accent: #ff80ab; --text: #4a148c; --hint: #ad1457;
+            --sakura-petal: #fff0f3; 
+            --sakura-center: #ff8fb1;
         }
 
-        /* HIỆU ỨNG HOA ANH ĐÀO 5 CÁNH RƠI */
+        /* HIỆU ỨNG HOA ANH ĐÀO 5 CÁNH XẺ RÃNH (GIỐNG THẬT) */
         @keyframes sakuraFall {
             0% { transform: translate3d(0, -10vh, 0) rotate(0deg); opacity: 0; }
             10% { opacity: 1; }
             100% { transform: translate3d(120px, 100vh, 0) rotate(360deg); opacity: 0; }
         }
         .sakura-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
-        .flower { position: absolute; width: 20px; height: 20px; animation: sakuraFall infinite linear; }
-        .petal-unit {
-            position: absolute; width: 8px; height: 12px; background: var(--petal);
-            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
-            top: 0; left: 6px; transform-origin: bottom center;
+        .sakura-flower { position: absolute; width: 25px; height: 25px; animation: sakuraFall infinite linear; }
+        .petal-real {
+            position: absolute; width: 10px; height: 14px;
+            background: radial-gradient(circle at bottom, var(--sakura-center) 0%, var(--sakura-petal) 75%);
+            clip-path: polygon(50% 100%, 0% 20%, 20% 0%, 50% 20%, 80% 0%, 100% 20%);
+            top: 0; left: 7.5px; transform-origin: bottom center;
         }
         .p1 { transform: rotate(0deg); } .p2 { transform: rotate(72deg); }
         .p3 { transform: rotate(144deg); } .p4 { transform: rotate(216deg); }
         .p5 { transform: rotate(288deg); }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg-sakura); color: var(--text);
-            margin: 0; padding: 12px; padding-bottom: 110px; min-height: 100vh;
-        }
+        body { font-family: -apple-system, system-ui, sans-serif; background: var(--bg-sakura); color: var(--text); margin: 0; padding: 12px; padding-bottom: 110px; overflow-x: hidden; }
 
         .glass { background: var(--glass); backdrop-filter: blur(12px); border: 1px solid var(--glass-border); border-radius: 20px; }
 
-        /* HEADER & ID BÉ */
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; gap: 8px; }
-        .user-box { padding: 10px 12px; display: flex; align-items: center; flex: 1; position: relative; height: 75px; }
-        .avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--accent); margin-right: 10px; background: #fff; object-fit: cover; }
-        .user-info b { font-size: 14px; display: block; color: var(--accent); }
-        .user-info small { font-size: 8px; color: var(--hint); display: block; opacity: 0.7; font-weight: bold; } /* ID Bé */
-        .battery { position: absolute; top: 10px; right: 12px; font-size: 10px; color: var(--success); font-weight: bold; }
+        /* USER HEADER */
+        .header { display: flex; gap: 8px; align-items: center; margin-bottom: 12px; }
+        .user-box { padding: 12px; display: flex; align-items: center; position: relative; flex: 1; height: 80px; }
+        .avatar { width: 48px; height: 48px; border-radius: 50%; border: 2px solid white; margin-right: 12px; object-fit: cover; background: white; }
+        .user-info b { font-size: 15px; display: block; }
+        .user-info small { font-size: 8px; color: var(--hint); opacity: 0.6; font-family: monospace; display: block; }
+        .battery { position: absolute; top: 12px; right: 15px; font-size: 10px; font-weight: bold; color: #43a047; }
 
-        /* THÔNG SỐ & THÔNG BÁO */
+        /* STATS & TICKER */
         .stats-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px; }
         .stat-item { padding: 10px; text-align: center; }
-        .stat-item b { display: block; font-size: 13px; color: var(--accent); }
+        .stat-item b { display: block; font-size: 14px; color: var(--accent); }
         .stat-item span { font-size: 8px; font-weight: bold; text-transform: uppercase; }
-        .ticker { padding: 10px 15px; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
-        .ticker marquee { font-size: 11px; font-weight: bold; }
+        .ticker { padding: 12px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: bold; }
 
         /* ADMIN 3 NGƯỜI */
         .admin-grid { display: grid; grid-template-columns: repeat(3, 1fr); margin-bottom: 15px; }
         .admin-item { padding: 12px 2px; text-align: center; text-decoration: none; color: var(--text); border-right: 1px solid var(--glass-border); }
-        .admin-item i { font-size: 16px; color: var(--accent); display: block; margin-bottom: 4px; }
+        .admin-item i { font-size: 18px; color: var(--accent); display: block; margin-bottom: 4px; }
         .admin-item b { font-size: 9px; display: block; }
         .admin-item span { font-size: 7px; color: var(--accent); font-weight: bold; }
 
-        /* DANH MỤC SẢN PHẨM & MŨI TÊN */
-        .cat-card { margin-bottom: 12px; border-radius: 20px; overflow: hidden; }
-        .cat-btn { padding: 16px; display: flex; justify-content: space-between; align-items: center; color: var(--accent); font-weight: bold; cursor: pointer; }
+        /* DANH MỤC & SẢN PHẨM */
+        .cat-card { margin-bottom: 12px; border-radius: 22px; overflow: hidden; }
+        .cat-btn { padding: 16px; display: flex; justify-content: space-between; align-items: center; color: var(--text); font-weight: bold; cursor: pointer; }
         .cat-body { display: none; padding: 8px; }
-        .prod-card { margin-bottom: 8px; background: rgba(255,255,255,0.3); border-radius: 12px; }
-        .prod-btn { padding: 12px 15px; display: flex; justify-content: space-between; font-size: 13px; font-weight: bold; cursor: pointer; }
+        .prod-card { margin-bottom: 8px; background: rgba(255,255,255,0.3); border-radius: 14px; }
+        .prod-btn { padding: 14px 18px; display: flex; justify-content: space-between; font-size: 13px; font-weight: bold; cursor: pointer; }
         .opt-item { padding: 12px 20px; display: flex; justify-content: space-between; font-size: 13px; border-top: 1px solid rgba(255,255,255,0.1); }
         .opt-item.selected { background: var(--accent) !important; color: #fff; }
-        .arrow { transition: 0.3s; font-size: 10px; }
+        .arrow { transition: 0.3s; font-size: 10px; opacity: 0.5; }
         .rotate { transform: rotate(180deg); }
 
-        /* TRANG THANH TOÁN TỔNG HỢP */
-        .page { display: none; position: fixed; inset: 0; background: var(--bg-sakura); z-index: 4000; padding: 20px; overflow-y: auto; }
-        .pay-choice { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .choice-btn { padding: 12px; text-align: center; border-radius: 12px; border: 1px solid var(--accent); color: var(--accent); font-weight: bold; }
-        .choice-btn.active { background: var(--accent); color: white; }
-        input, select { width: 100%; padding: 12px; margin-top: 8px; border-radius: 12px; border: 1px solid #ddd; font-weight: bold; }
-        .btn-main { width: 100%; padding: 14px; background: var(--accent); color: white; border: none; border-radius: 15px; font-weight: bold; margin-top: 15px; }
-
-        .footer { position: fixed; bottom: 0; left: 0; right: 0; padding: 15px 20px; background: rgba(255,255,255,0.95); border-top: 1px solid var(--glass-border); display: none; z-index: 1000; border-radius: 20px 20px 0 0; }
-        .drawer { position: fixed; top: 0; right: 0; width: 75%; height: 100%; z-index: 5000; background: #fffafb; transform: translateX(100%); transition: 0.4s; padding: 25px; border-left: 3px solid var(--accent); }
+        /* FOOTER & DRAWER */
+        .footer { position: fixed; bottom: 0; left: 0; right: 0; padding: 15px 20px; background: white; border-top: 1px solid #eee; display: none; z-index: 1000; border-radius: 20px 20px 0 0; }
+        .drawer { position: fixed; top: 0; right: 0; width: 75%; height: 100%; z-index: 5000; background: #fff; transform: translateX(100%); transition: 0.4s; padding: 25px; border-left: 4px solid var(--accent); }
         .drawer.active { transform: translateX(0); }
+        
+        .page { display: none; position: fixed; inset: 0; background: var(--bg-sakura); z-index: 4000; padding: 20px; overflow-y: auto; }
+        .btn-main { width: 100%; padding: 15px; background: var(--accent); color: white; border: none; border-radius: 16px; font-weight: bold; margin-top: 15px; }
     </style>
 </head>
 <body>
@@ -93,27 +86,28 @@
 
     <div class="header">
         <div class="user-box glass">
-            <img id="u-avatar" src="https://ui-avatars.com/api/?name=U&background=ec407a&color=fff" class="avatar">
+            <img id="u-avatar" src="https://ui-avatars.com/api/?name=U&background=ff80ab&color=fff" class="avatar">
             <div class="user-info">
                 <b id="u-name">Khách hàng</b>
-                <small id="u-id">id: 000000000</small>
-                <div style="font-size:9px; color:var(--accent); margin-top:4px; font-weight: bold;">
+                <small id="u-id">id: 00000000</small>
+                <div style="font-size:9px; color:var(--hint); margin-top:4px; font-weight: bold;">
                     <span id="u-date">--/--</span> | <span id="u-time">00:00</span>
                 </div>
             </div>
             <div class="battery" id="u-bat">--%</div>
         </div>
-        <div class="glass" style="width:50px; height:75px; display:flex; align-items:center; justify-content:center;" onclick="toggleMenu()">
+        <div class="glass" style="width:50px; height:80px; display:flex; align-items:center; justify-content:center;" onclick="toggleMenu()">
             <i class="fas fa-bars" style="color:var(--accent); font-size:20px;"></i>
         </div>
     </div>
 
     <div class="stats-bar">
-        <div class="stat-item glass"><b>1,402</b><span>Thành viên</span></div>
-        <div class="stat-item glass"><b>415</b><span>Online</span></div>
-        <div class="stat-item glass"><b>9,210</b><span>Đơn hàng</span></div>
+        <div class="stat-item glass"><b>1,402</b><span>User</span></div>
+        <div class="stat-item glass"><b>415</b><span>Live</span></div>
+        <div class="stat-item glass"><b>9,210</b><span>Order</span></div>
     </div>
-    <div class="ticker glass"><i class="fas fa-bullhorn" style="color:var(--accent)"></i><marquee scrollamount="4">Chào mừng đến Tokyo Sakura - Hệ thống Hack & Acc FF!</marquee></div>
+
+    <div class="ticker glass"><i class="fas fa-bullhorn" style="color:var(--accent); margin-right:8px;"></i><marquee scrollamount="4">Chào mừng đến Tokyo Sakura - Hệ thống Hack & Acc FF uy tín nhất!</marquee></div>
 
     <div class="admin-grid glass">
         <a href="https://t.me/muadongtokyo36" class="admin-item"><i class="fas fa-crown"></i><b>muadongtokyo</b><span>@muadongtokyo36</span></a>
@@ -124,25 +118,11 @@
     <div id="product-list"></div>
 
     <div id="modal-pay" class="page">
-        <div onclick="closePages()" style="color:var(--accent); font-weight: bold; margin-bottom: 20px;"><i class="fas fa-chevron-left"></i> QUAY LẠI</div>
-        <div class="pay-choice" id="pay-tabs">
-            <div class="choice-btn active" id="btn-atm" onclick="setPayMethod('atm')">ATM / MOMO</div>
-            <div class="choice-btn" id="btn-card" onclick="setPayMethod('card')">NẠP THẺ</div>
-        </div>
-        <div id="section-atm" class="glass" style="padding:20px; text-align:center;">
-            <img id="qr" style="width:100%; max-width:200px; border-radius:15px; margin-bottom:15px; border:2px solid var(--accent);">
+        <div onclick="closePages()" style="color:var(--accent); font-weight: bold; margin-bottom: 20px; cursor:pointer;"><i class="fas fa-arrow-left"></i> QUAY LẠI</div>
+        <div class="glass" style="padding:20px; text-align:center;">
+            <img id="qr" style="width:100%; max-width:220px; border-radius:18px; border:3px solid var(--accent); margin-bottom:15px;">
             <div id="info-bank" style="text-align:left; font-size:12px;"></div>
-            <button class="btn-main" onclick="confirmWait()">TÔI ĐÃ CHUYỂN KHOẢN</button>
-        </div>
-        <div id="section-card" class="glass" style="padding:20px; display:none;">
-            <select id="card-type"><option>Viettel</option><option>Vinaphone</option><option>Mobifone</option></select>
-            <select id="card-val"><option>50,000đ</option><option>100,000đ</option></select>
-            <input type="text" placeholder="Mã thẻ" id="c-code">
-            <button class="btn-main" onclick="confirmWait()">GỬI THẺ</button>
-        </div>
-        <div id="wait-check" class="glass" style="padding:50px 20px; text-align:center; display:none;">
-            <i class="fas fa-spinner fa-spin" style="font-size:40px; color:var(--accent);"></i>
-            <h3>Đang đợi check...</h3>
+            <button class="btn-main" onclick="tg.close()">XÁC NHẬN CHUYỂN KHOẢN</button>
         </div>
     </div>
 
@@ -155,8 +135,8 @@
 
     <div class="drawer" id="menu">
         <h3 style="color:var(--accent);">Tokyo Sakura</h3>
-        <p onclick="openHistory()" style="cursor:pointer; font-weight:bold;"><i class="fas fa-history"></i> Lịch sử mua hàng</p>
-        <button class="btn-main" onclick="toggleMenu()" style="background:#999">ĐÓNG</button>
+        <p onclick="tg.showAlert('Lịch sử đơn hàng trống!')" style="cursor:pointer; font-weight:bold; margin-top:20px;"><i class="fas fa-history"></i> Lịch sử mua hàng</p>
+        <button class="btn-main" onclick="toggleMenu()" style="background:#888;">ĐÓNG</button>
     </div>
 
     <script>
@@ -167,11 +147,12 @@
             const box = document.getElementById('flower-box');
             for (let i = 0; i < 30; i++) {
                 const f = document.createElement('div');
-                f.className = 'flower';
-                f.innerHTML = '<div class="petal-unit p1"></div><div class="petal-unit p2"></div><div class="petal-unit p3"></div><div class="petal-unit p4"></div><div class="petal-unit p5"></div>';
+                f.className = 'sakura-flower';
+                f.innerHTML = '<div class="petal-real p1"></div><div class="petal-real p2"></div><div class="petal-real p3"></div><div class="petal-real p4"></div><div class="petal-real p5"></div>';
                 f.style.left = Math.random() * 100 + '%';
                 f.style.animationDuration = (Math.random() * 5 + 5) + 's';
-                f.style.animationDelay = (Math.random() * 5) + 's';
+                f.style.animationDelay = (Math.random() * 8) + 's';
+                f.style.transform = `scale(${Math.random() * 0.4 + 0.7})`;
                 box.appendChild(f);
             }
         }
@@ -200,7 +181,7 @@
             document.getElementById('product-list').innerHTML = DATA.map(g => `
                 <div class="cat-card glass">
                     <div class="cat-btn" onclick="toggleCat('${g.cat}')">
-                        <span><i class="fas ${g.icon}" style="margin-right:10px;"></i>${g.cat}</span>
+                        <span><i class="fas ${g.icon}" style="margin-right:10px; color:var(--accent)"></i>${g.cat}</span>
                         <i class="fas fa-chevron-down arrow" id="a-cat-${g.cat}"></i>
                     </div>
                     <div class="cat-body" id="b-cat-${g.cat}">
@@ -238,7 +219,7 @@
 
         function selectItem(name, time, price, rid) {
             const target = document.getElementById('r-' + rid);
-            if(lastId === rid) { // HỦY CHỌN
+            if(lastId === rid) {
                 target.classList.remove('selected');
                 document.getElementById('buy-bar').style.display = 'none';
                 curSelect = null; lastId = null; return;
@@ -256,21 +237,11 @@
             document.getElementById('qr').src = `https://img.vietqr.io/image/MB-79991312006-compact2.png?amount=${curSelect.price}&addInfo=${code}`;
             document.getElementById('info-bank').innerHTML = `STK: <b>79991312006</b><br>Bank: <b>MB BANK</b><br>Nội dung: <b>${code}</b>`;
             document.getElementById('modal-pay').style.display = 'block';
-            document.getElementById('wait-check').style.display = 'none';
-        }
-
-        function setPayMethod(m) {
-            document.getElementById('section-atm').style.display = m === 'atm' ? 'block' : 'none';
-            document.getElementById('section-card').style.display = m === 'card' ? 'block' : 'none';
-            document.getElementById('btn-atm').classList.toggle('active', m === 'atm');
-            document.getElementById('btn-card').classList.toggle('active', m === 'card');
         }
 
         function toggleMenu() { document.getElementById('menu').classList.toggle('active'); }
         function closePages() { document.querySelectorAll('.page').forEach(p => p.style.display='none'); }
-        function confirmWait() { document.getElementById('section-atm').style.display = 'none'; document.getElementById('section-card').style.display = 'none'; document.getElementById('wait-check').style.display = 'block'; }
 
-        // Load Avatar & ID
         const usr = tg.initDataUnsafe?.user;
         if(usr) {
             document.getElementById('u-name').innerText = usr.first_name;
