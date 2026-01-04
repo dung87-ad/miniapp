@@ -15,7 +15,7 @@
             --sakura-center: #ff8fb1;
         }
 
-        /* HIỆU ỨNG HOA ANH ĐÀO 5 CÁNH XẺ RÃNH (GIỐNG THẬT) */
+        /* HIỆU ỨNG HOA ANH ĐÀO 5 CÁNH XẺ RÃNH */
         @keyframes sakuraFall {
             0% { transform: translate3d(0, -10vh, 0) rotate(0deg); opacity: 0; }
             10% { opacity: 1; }
@@ -40,10 +40,13 @@
 
         /* USER HEADER */
         .header { display: flex; gap: 8px; align-items: center; margin-bottom: 12px; }
-        .user-box { padding: 12px; display: flex; align-items: center; position: relative; flex: 1; height: 80px; }
+        .user-box { padding: 12px; display: flex; align-items: center; position: relative; flex: 1; height: 85px; }
         .avatar { width: 48px; height: 48px; border-radius: 50%; border: 2px solid white; margin-right: 12px; object-fit: cover; background: white; }
         .user-info b { font-size: 15px; display: block; }
-        .user-info small { font-size: 8px; color: var(--hint); opacity: 0.6; font-family: monospace; display: block; }
+        
+        /* ID CÙNG TONE MÀU & TO HƠN CHÚT */
+        .user-info small { font-size: 10px; color: var(--hint); font-weight: bold; font-family: monospace; display: block; margin-top: 2px; }
+        
         .battery { position: absolute; top: 12px; right: 15px; font-size: 10px; font-weight: bold; color: #43a047; }
 
         /* STATS & TICKER */
@@ -60,7 +63,7 @@
         .admin-item b { font-size: 9px; display: block; }
         .admin-item span { font-size: 7px; color: var(--accent); font-weight: bold; }
 
-        /* DANH MỤC & SẢN PHẨM */
+        /* SẢN PHẨM */
         .cat-card { margin-bottom: 12px; border-radius: 22px; overflow: hidden; }
         .cat-btn { padding: 16px; display: flex; justify-content: space-between; align-items: center; color: var(--text); font-weight: bold; cursor: pointer; }
         .cat-body { display: none; padding: 8px; }
@@ -71,12 +74,7 @@
         .arrow { transition: 0.3s; font-size: 10px; opacity: 0.5; }
         .rotate { transform: rotate(180deg); }
 
-        /* FOOTER & DRAWER */
         .footer { position: fixed; bottom: 0; left: 0; right: 0; padding: 15px 20px; background: white; border-top: 1px solid #eee; display: none; z-index: 1000; border-radius: 20px 20px 0 0; }
-        .drawer { position: fixed; top: 0; right: 0; width: 75%; height: 100%; z-index: 5000; background: #fff; transform: translateX(100%); transition: 0.4s; padding: 25px; border-left: 4px solid var(--accent); }
-        .drawer.active { transform: translateX(0); }
-        
-        .page { display: none; position: fixed; inset: 0; background: var(--bg-sakura); z-index: 4000; padding: 20px; overflow-y: auto; }
         .btn-main { width: 100%; padding: 15px; background: var(--accent); color: white; border: none; border-radius: 16px; font-weight: bold; margin-top: 15px; }
     </style>
 </head>
@@ -91,13 +89,13 @@
                 <b id="u-name">Khách hàng</b>
                 <small id="u-id">id: 00000000</small>
                 <div style="font-size:9px; color:var(--hint); margin-top:4px; font-weight: bold;">
-                    <span id="u-date">--/--</span> | <span id="u-time">00:00</span>
+                    <span id="u-date">--/--</span> | <span id="u-time">00:00:00</span>
                 </div>
             </div>
             <div class="battery" id="u-bat">--%</div>
         </div>
-        <div class="glass" style="width:50px; height:80px; display:flex; align-items:center; justify-content:center;" onclick="toggleMenu()">
-            <i class="fas fa-bars" style="color:var(--accent); font-size:20px;"></i>
+        <div class="glass" style="width:50px; height:85px; display:flex; align-items:center; justify-content:center;" onclick="tg.showAlert('Menu Cài đặt')">
+            <i class="fas fa-cog" style="color:var(--accent); font-size:20px;"></i>
         </div>
     </div>
 
@@ -117,26 +115,11 @@
 
     <div id="product-list"></div>
 
-    <div id="modal-pay" class="page">
-        <div onclick="closePages()" style="color:var(--accent); font-weight: bold; margin-bottom: 20px; cursor:pointer;"><i class="fas fa-arrow-left"></i> QUAY LẠI</div>
-        <div class="glass" style="padding:20px; text-align:center;">
-            <img id="qr" style="width:100%; max-width:220px; border-radius:18px; border:3px solid var(--accent); margin-bottom:15px;">
-            <div id="info-bank" style="text-align:left; font-size:12px;"></div>
-            <button class="btn-main" onclick="tg.close()">XÁC NHẬN CHUYỂN KHOẢN</button>
-        </div>
-    </div>
-
     <div class="footer" id="buy-bar">
         <div style="display:flex; justify-content:space-between; align-items:center;">
             <div><b id="cur-name" style="font-size:11px;">Sản phẩm</b><span id="cur-price" style="display:block; color:var(--accent); font-weight:800; font-size:18px;">0đ</span></div>
-            <button style="background:var(--accent); color:white; border:none; padding:12px 25px; border-radius:12px; font-weight:bold;" onclick="openPay()">MUA NGAY</button>
+            <button style="background:var(--accent); color:white; border:none; padding:12px 25px; border-radius:12px; font-weight:bold;" onclick="tg.showAlert('Đang chuyển hướng thanh toán...')">MUA NGAY</button>
         </div>
-    </div>
-
-    <div class="drawer" id="menu">
-        <h3 style="color:var(--accent);">Tokyo Sakura</h3>
-        <p onclick="tg.showAlert('Lịch sử đơn hàng trống!')" style="cursor:pointer; font-weight:bold; margin-top:20px;"><i class="fas fa-history"></i> Lịch sử mua hàng</p>
-        <button class="btn-main" onclick="toggleMenu()" style="background:#888;">ĐÓNG</button>
     </div>
 
     <script>
@@ -161,16 +144,10 @@
         const DATA = [
             { cat: 'HACK VIP FREE FIRE', icon: 'fa-fire', items: [
                 { id:'h1', name:'Br Mod', opts: [['1 Ngày', 5000], ['30 Ngày', 50000]] },
-                { id:'h2', name:'HG Cheat', opts: [['1 Ngày', 5000], ['30 Ngày', 50000]] },
-                { id:'h3', name:'Drip Client', opts: [['1 Ngày', 7000], ['30 Ngày', 70000]] }
-            ]},
-            { cat: 'ACC FREE FIRE', icon: 'fa-user-circle', items: [
-                { id:'a1', name:'Acc Level 5', opts: [['Gói 1 Acc', 5000]] },
-                { id:'a2', name:'Acc Level 15', opts: [['Gói 1 Acc', 15000]] }
+                { id:'h2', name:'HG Cheat', opts: [['1 Ngày', 5000], ['30 Ngày', 50000]] }
             ]},
             { cat: 'CLOUD PHONE', icon: 'fa-cloud', items: [
                 { id:'c1', name:'Redfinger', opts: [['30 Ngày', 85000]] },
-                { id:'c2', name:'CC Cloud', opts: [['30 Ngày', 90000]] },
                 { id:'c3', name:'VIP Player', opts: [['30 Ngày', 105000]] }
             ]}
         ];
@@ -232,16 +209,6 @@
             document.getElementById('buy-bar').style.display = 'block';
         }
 
-        function openPay() {
-            const code = "TK" + Math.random().toString(36).substring(7).toUpperCase();
-            document.getElementById('qr').src = `https://img.vietqr.io/image/MB-79991312006-compact2.png?amount=${curSelect.price}&addInfo=${code}`;
-            document.getElementById('info-bank').innerHTML = `STK: <b>79991312006</b><br>Bank: <b>MB BANK</b><br>Nội dung: <b>${code}</b>`;
-            document.getElementById('modal-pay').style.display = 'block';
-        }
-
-        function toggleMenu() { document.getElementById('menu').classList.toggle('active'); }
-        function closePages() { document.querySelectorAll('.page').forEach(p => p.style.display='none'); }
-
         const usr = tg.initDataUnsafe?.user;
         if(usr) {
             document.getElementById('u-name').innerText = usr.first_name;
@@ -252,7 +219,8 @@
         setInterval(() => {
             const n = new Date();
             document.getElementById('u-date').innerText = n.toLocaleDateString('vi-VN');
-            document.getElementById('u-time').innerText = n.toLocaleTimeString('vi-VN', {hour:'2-digit', minute:'2-digit'});
+            // CẬP NHẬT GIÂY
+            document.getElementById('u-time').innerText = n.toLocaleTimeString('vi-VN', {hour:'2-digit', minute:'2-digit', second:'2-digit'});
         }, 1000);
 
         navigator.getBattery().then(b => {
