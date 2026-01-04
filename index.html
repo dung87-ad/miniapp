@@ -32,32 +32,32 @@
         .p3 { transform: rotate(144deg); } .p4 { transform: rotate(216deg); }
         .p5 { transform: rotate(288deg); }
 
+        /* HIỆU ỨNG PIN */
+        @keyframes batPulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        .battery { position: absolute; top: 12px; right: 15px; font-size: 10px; font-weight: bold; color: #43a047; animation: batPulse 2s infinite; }
+
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { font-family: -apple-system, sans-serif; background: var(--bg-sakura); color: var(--text); margin: 0; padding: 12px; padding-bottom: 110px; overflow-x: hidden; }
         .glass { background: var(--glass); backdrop-filter: blur(12px); border: 1px solid var(--glass-border); border-radius: 20px; }
 
-        /* HEADER */
+        /* UI ELEMENTS */
         .header { display: flex; gap: 8px; align-items: center; margin-bottom: 12px; }
         .user-box { padding: 12px; display: flex; align-items: center; position: relative; flex: 1; height: 85px; }
         .avatar { width: 50px; height: 50px; border-radius: 50%; border: 2px solid white; margin-right: 12px; background: #fff; }
         .user-info small { font-size: 11px; color: var(--hint); font-weight: 800; font-family: monospace; display: block; margin-top: 2px; }
-        .battery { position: absolute; top: 12px; right: 15px; font-size: 10px; font-weight: bold; color: #43a047; }
-        .menu-btn { width: 50px; height: 85px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-
-        /* STATS BAR */
+        
         .stats-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px; }
         .stat-item { padding: 10px; text-align: center; }
         .stat-item b { display: block; font-size: 14px; color: var(--accent); }
-        .stat-item span { font-size: 8px; font-weight: bold; text-transform: uppercase; }
+        .stat-item span { font-size: 8px; font-weight: bold; }
 
-        /* ADMIN GRID */
         .admin-grid { display: grid; grid-template-columns: repeat(3, 1fr); margin: 15px 0; }
         .admin-item { padding: 12px 2px; text-align: center; text-decoration: none; color: var(--text); border-right: 1px solid var(--glass-border); }
         .admin-item i { font-size: 18px; color: var(--accent); display: block; margin-bottom: 4px; }
         .admin-item b { font-size: 9px; display: block; }
         .admin-item span { font-size: 7px; color: var(--accent); font-weight: bold; }
 
-        /* PRODUCTS */
+        /* PRODUCT STYLES */
         .cat-card { margin-bottom: 12px; border-radius: 22px; overflow: hidden; }
         .cat-btn { padding: 16px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; cursor: pointer; }
         .cat-body { display: none; padding: 8px; }
@@ -65,15 +65,15 @@
         .prod-btn { padding: 14px; display: flex; justify-content: space-between; font-size: 13px; font-weight: bold; }
         .opt-item { padding: 12px 20px; display: flex; justify-content: space-between; font-size: 13px; border-top: 1px solid rgba(255,255,255,0.1); }
         .opt-item.selected { background: var(--accent) !important; color: #fff; }
-        .arrow { transition: 0.3s; font-size: 10px; opacity: 0.5; }
-        .rotate { transform: rotate(180deg); }
 
-        /* PAGES & DRAWER */
+        /* DRAWER & PAGES */
         .page { display: none; position: fixed; inset: 0; background: var(--bg-sakura); z-index: 6000; padding: 20px; overflow-y: auto; }
         .drawer { position: fixed; top: 0; right: 0; width: 75%; height: 100%; z-index: 5000; background: #fffafb; transform: translateX(100%); transition: 0.4s; padding: 25px; border-left: 4px solid var(--accent); }
         .drawer.active { transform: translateX(0); }
+        
         .footer { position: fixed; bottom: 0; left: 0; right: 0; padding: 15px 20px; background: white; display: none; z-index: 1000; border-radius: 20px 20px 0 0; border-top: 1px solid #eee; }
         .btn-main { width: 100%; padding: 15px; background: var(--accent); color: white; border: none; border-radius: 16px; font-weight: bold; margin-top: 15px; }
+        .input-card { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd; margin-bottom: 10px; }
     </style>
 </head>
 <body>
@@ -92,7 +92,7 @@
             </div>
             <div class="battery" id="u-bat">--%</div>
         </div>
-        <div class="menu-btn glass" onclick="toggleMenu()">
+        <div class="glass" style="width:50px; height:85px; display:flex; align-items:center; justify-content:center;" onclick="toggleMenu()">
             <i class="fas fa-bars" style="color:var(--accent); font-size:22px;"></i>
         </div>
     </div>
@@ -105,7 +105,7 @@
 
     <div class="ticker glass" style="padding:12px; margin-bottom:12px; display:flex; align-items:center; gap:8px;">
         <i class="fas fa-bullhorn" style="color:var(--accent);"></i>
-        <marquee scrollamount="4" style="font-size:11px; font-weight:bold;">Chào mừng đến Tokyo Sakura - Hệ thống Hack & Acc FF uy tín số 1 Việt Nam!</marquee>
+        <marquee scrollamount="4" style="font-size:11px; font-weight:bold;">🌸 Tokyo Sakura - Hệ thống Hack & Acc FF: Zygame, Flu, Drip Client, CC Cloud...</marquee>
     </div>
 
     <div class="admin-grid glass">
@@ -116,28 +116,47 @@
 
     <div id="product-list"></div>
 
-    <div id="page-history" class="page">
-        <div onclick="closePage('page-history')" style="color:var(--accent); font-weight:bold; margin-bottom:20px; cursor:pointer;"><i class="fas fa-arrow-left"></i> QUAY LẠI</div>
-        <h2 style="color:var(--text)">Lịch sử mua hàng</h2>
-        <div class="glass" style="padding:40px; text-align:center; opacity:0.6;">
-            <i class="fas fa-folder-open" style="font-size:40px; margin-bottom:15px;"></i>
-            <p>Bạn chưa có đơn hàng nào!</p>
+    <div id="page-pay-method" class="page">
+        <div onclick="closePage('page-pay-method')" style="color:var(--accent); font-weight:bold; margin-bottom:20px; cursor:pointer;"><i class="fas fa-arrow-left"></i> QUAY LẠI</div>
+        <h2 style="color:var(--text)">Chọn thanh toán</h2>
+        <div class="glass" style="padding:15px; margin-bottom:15px;" onclick="openPay('atm')">
+            <i class="fas fa-university" style="color:var(--accent); margin-right:10px;"></i> <b>Chuyển khoản (ATM/MOMO)</b>
+        </div>
+        <div class="glass" style="padding:15px;" onclick="openPay('card')">
+            <i class="fas fa-credit-card" style="color:var(--accent); margin-right:10px;"></i> <b>Mua bằng Thẻ Cào</b>
+        </div>
+    </div>
+
+    <div id="modal-atm" class="page">
+        <div onclick="closePage('modal-atm')" style="color:var(--accent); font-weight:bold; margin-bottom:20px; cursor:pointer;"><i class="fas fa-arrow-left"></i> QUAY LẠI</div>
+        <div class="glass" style="padding:20px; text-align:center;">
+            <img id="qr" style="width:100%; max-width:220px; border-radius:18px; border:3px solid var(--accent); margin-bottom:15px;">
+            <div id="info-bank" style="text-align:left; font-size:12px;"></div>
+            <button class="btn-main" onclick="tg.close()">XÁC NHẬN ĐÃ CHUYỂN</button>
+        </div>
+    </div>
+
+    <div id="modal-card" class="page">
+        <div onclick="closePage('modal-card')" style="color:var(--accent); font-weight:bold; margin-bottom:20px; cursor:pointer;"><i class="fas fa-arrow-left"></i> QUAY LẠI</div>
+        <div class="glass" style="padding:20px;">
+            <h3 style="text-align:center;">Nạp Thẻ Cào</h3>
+            <select class="input-card"><option>Viettel</option><option>Vinaphone</option><option>Mobifone</option></select>
+            <input class="input-card" placeholder="Mã thẻ">
+            <input class="input-card" placeholder="Số Seri">
+            <button class="btn-main" onclick="tg.showAlert('Đang xử lý thẻ...')">GỬI THẺ</button>
         </div>
     </div>
 
     <div class="drawer" id="menu-drawer">
         <h3 style="color:var(--accent);">Tokyo Sakura</h3>
-        <div style="margin-top:25px;">
-            <p onclick="openPage('page-history')" style="cursor:pointer; font-weight:bold; padding:12px 0; border-bottom:1px solid #eee;"><i class="fas fa-history" style="width:25px;"></i> Lịch sử đơn hàng</p>
-            <p onclick="tg.showAlert('Tính năng đang phát triển')" style="cursor:pointer; font-weight:bold; padding:12px 0; border-bottom:1px solid #eee;"><i class="fas fa-wallet" style="width:25px;"></i> Nạp tiền</p>
-        </div>
-        <button class="btn-main" onclick="toggleMenu()" style="background:#888;">ĐÓNG MENU</button>
+        <p onclick="tg.showAlert('Lịch sử trống')" style="cursor:pointer; font-weight:bold; padding:12px 0; border-bottom:1px solid #eee;"><i class="fas fa-history"></i> Lịch sử đơn hàng</p>
+        <button class="btn-main" onclick="toggleMenu()" style="background:#888;">ĐÓNG</button>
     </div>
 
     <div class="footer" id="buy-bar">
         <div style="display:flex; justify-content:space-between; align-items:center;">
             <div><b id="cur-name" style="font-size:11px;">Sản phẩm</b><span id="cur-price" style="display:block; color:var(--accent); font-weight:800; font-size:18px;">0đ</span></div>
-            <button style="background:var(--accent); color:white; border:none; padding:12px 25px; border-radius:12px; font-weight:bold;" onclick="tg.showAlert('Đang xử lý...')">MUA NGAY</button>
+            <button style="background:var(--accent); color:white; border:none; padding:12px 25px; border-radius:12px; font-weight:bold;" onclick="openPage('page-pay-method')">MUA NGAY</button>
         </div>
     </div>
 
@@ -167,12 +186,13 @@
                 { id:'h5', name:'HG Cheat', opts: [['1 Ngày', 5000], ['30 Ngày', 50000]] }
             ]},
             { cat: 'ACC FREE FIRE', icon: 'fa-user-check', items: [
-                { id:'a1', name:'Acc Level 5', opts: [['Gói 1 Acc', 5000], ['Gói 5 Acc', 20000]] },
-                { id:'a2', name:'Acc Level 15', opts: [['Gói 1 Acc', 15000], ['Gói 3 Acc', 40000]] }
+                { id:'a1', name:'Acc Level 5', opts: [['1 Acc', 5000]] },
+                { id:'a2', name:'Acc Level 15', opts: [['1 Acc', 15000]] }
             ]},
             { cat: 'CLOUD PHONE', icon: 'fa-cloud', items: [
                 { id:'c1', name:'Redfinger', opts: [['30 Ngày', 85000]] },
-                { id:'c2', name:'VIP Player', opts: [['30 Ngày', 105000]] }
+                { id:'c2', name:'CC Cloud', opts: [['30 Ngày', 90000]] }, // ĐÃ THÊM CC CLOUD
+                { id:'c3', name:'VIP Player', opts: [['30 Ngày', 105000]] }
             ]}
         ];
 
@@ -181,12 +201,12 @@
                 <div class="cat-card glass">
                     <div class="cat-btn" onclick="toggleCat('${g.cat}')">
                         <span><i class="fas ${g.icon}" style="margin-right:10px; color:var(--accent)"></i>${g.cat}</span>
-                        <i class="fas fa-chevron-down arrow" id="a-cat-${g.cat}"></i>
+                        <i class="fas fa-chevron-down"></i>
                     </div>
                     <div class="cat-body" id="b-cat-${g.cat}">
                         ${g.items.map(i => `
                             <div class="prod-card">
-                                <div class="prod-btn" onclick="toggleOpt('${i.id}')">${i.name} <i class="fas fa-chevron-down arrow" id="a-opt-${i.id}"></i></div>
+                                <div class="prod-btn" onclick="toggleOpt('${i.id}')">${i.name} <i class="fas fa-chevron-down"></i></div>
                                 <div id="b-opt-${i.id}" style="display:none">
                                     ${i.opts.map((o, idx) => `
                                         <div class="opt-item" id="r-${i.id}-${idx}" onclick="selectItem('${i.name}', '${o[0]}', ${o[1]}, '${i.id}-${idx}')">
@@ -202,19 +222,7 @@
         }
         render();
 
-        function toggleCat(cat) {
-            const el = document.getElementById('b-cat-' + cat);
-            el.style.display = el.style.display === 'block' ? 'none' : 'block';
-            document.getElementById('a-cat-' + cat).classList.toggle('rotate');
-        }
-
-        function toggleOpt(id) {
-            const el = document.getElementById('b-opt-' + id);
-            el.style.display = el.style.display === 'block' ? 'none' : 'block';
-            document.getElementById('a-opt-' + id).classList.toggle('rotate');
-        }
-
-        let lastId = null;
+        let curSelect = null, lastId = null;
         function selectItem(name, time, price, rid) {
             const target = document.getElementById('r-' + rid);
             if(lastId === rid) {
@@ -224,14 +232,32 @@
             }
             document.querySelectorAll('.opt-item').forEach(r => r.classList.remove('selected'));
             target.classList.add('selected');
-            lastId = rid;
+            curSelect = { name, time, price }; lastId = rid;
             document.getElementById('cur-name').innerText = name + " (" + time + ")";
             document.getElementById('cur-price').innerText = price.toLocaleString() + "đ";
             document.getElementById('buy-bar').style.display = 'block';
         }
 
+        function openPay(type) {
+            closePage('page-pay-method');
+            if(type === 'atm') {
+                const code = "TK" + Math.random().toString(36).substring(7).toUpperCase();
+                document.getElementById('qr').src = `https://img.vietqr.io/image/MB-79991312006-compact2.png?amount=${curSelect.price}&addInfo=${code}`;
+                document.getElementById('info-bank').innerHTML = `STK: 79991312006<br>Bank: MB BANK<br>Nội dung: ${code}`;
+                openPage('modal-atm');
+            } else { openPage('modal-card'); }
+        }
+
+        function toggleCat(cat) { 
+            const el = document.getElementById('b-cat-' + cat); 
+            el.style.display = el.style.display === 'block' ? 'none' : 'block'; 
+        }
+        function toggleOpt(id) { 
+            const el = document.getElementById('b-opt-' + id); 
+            el.style.display = el.style.display === 'block' ? 'none' : 'block'; 
+        }
         function toggleMenu() { document.getElementById('menu-drawer').classList.toggle('active'); }
-        function openPage(id) { document.getElementById(id).style.display = 'block'; toggleMenu(); }
+        function openPage(id) { document.getElementById(id).style.display = 'block'; }
         function closePage(id) { document.getElementById(id).style.display = 'none'; }
 
         const usr = tg.initDataUnsafe?.user;
