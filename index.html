@@ -15,7 +15,7 @@
             --sakura-center: #ff8fb1;
         }
 
-        /* HOA ANH ĐÀO 5 CÁNH XẺ RÃNH */
+        /* HIỆU ỨNG HOA ANH ĐÀO 5 CÁNH XẺ RÃNH */
         @keyframes sakuraFall {
             0% { transform: translate3d(0, -10vh, 0) rotate(0deg); opacity: 0; }
             10% { opacity: 1; }
@@ -41,12 +41,13 @@
         .header { display: flex; gap: 8px; align-items: center; margin-bottom: 12px; }
         .user-box { padding: 12px; display: flex; align-items: center; position: relative; flex: 1; height: 85px; }
         .avatar { width: 50px; height: 50px; border-radius: 50%; border: 2px solid white; margin-right: 12px; object-fit: cover; background: white; }
-        .user-info b { font-size: 15px; display: block; color: var(--text); }
-        
-        /* ID TO HƠN, CÙNG TONE MÀU, KHÔNG CHỮ "ID" */
-        .user-info small { font-size: 11px; color: var(--hint); font-weight: 800; font-family: monospace; display: block; margin-top: 2px; letter-spacing: 0.5px; }
-        
+        .user-info b { font-size: 15px; display: block; }
+        .user-info small { font-size: 11px; color: var(--hint); font-weight: 800; font-family: monospace; display: block; margin-top: 2px; }
         .battery { position: absolute; top: 12px; right: 15px; font-size: 10px; font-weight: bold; color: #43a047; }
+
+        /* MENU BUTTON (3 GẠCH) */
+        .menu-btn { width: 50px; height: 85px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .menu-btn i { color: var(--accent); font-size: 22px; }
 
         /* STATS & TICKER */
         .stats-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px; }
@@ -55,12 +56,11 @@
         .stat-item span { font-size: 8px; font-weight: bold; text-transform: uppercase; }
         .ticker { padding: 12px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: bold; }
 
-        /* ADMIN 3 NGƯỜI */
+        /* ADMIN */
         .admin-grid { display: grid; grid-template-columns: repeat(3, 1fr); margin-bottom: 15px; }
         .admin-item { padding: 12px 2px; text-align: center; text-decoration: none; color: var(--text); border-right: 1px solid var(--glass-border); }
         .admin-item i { font-size: 18px; color: var(--accent); display: block; margin-bottom: 4px; }
         .admin-item b { font-size: 9px; display: block; }
-        .admin-item span { font-size: 7px; color: var(--accent); font-weight: bold; }
 
         /* PRODUCT LIST */
         .cat-card { margin-bottom: 12px; border-radius: 22px; overflow: hidden; }
@@ -73,10 +73,11 @@
         .arrow { transition: 0.3s; font-size: 10px; opacity: 0.5; }
         .rotate { transform: rotate(180deg); }
 
-        /* PAYMENT & FOOTER */
-        .page { display: none; position: fixed; inset: 0; background: var(--bg-sakura); z-index: 4000; padding: 20px; overflow-y: auto; }
-        .btn-main { width: 100%; padding: 15px; background: var(--accent); color: white; border: none; border-radius: 16px; font-weight: bold; margin-top: 15px; }
+        /* SIDE MENU DRAWER */
+        .drawer { position: fixed; top: 0; right: 0; width: 75%; height: 100%; z-index: 5000; background: #fffafb; transform: translateX(100%); transition: 0.4s; padding: 25px; border-left: 4px solid var(--accent); }
+        .drawer.active { transform: translateX(0); }
         .footer { position: fixed; bottom: 0; left: 0; right: 0; padding: 15px 20px; background: white; border-top: 1px solid #eee; display: none; z-index: 1000; border-radius: 20px 20px 0 0; }
+        .btn-main { width: 100%; padding: 15px; background: var(--accent); color: white; border: none; border-radius: 16px; font-weight: bold; margin-top: 15px; }
     </style>
 </head>
 <body>
@@ -95,8 +96,8 @@
             </div>
             <div class="battery" id="u-bat">--%</div>
         </div>
-        <div class="glass" style="width:50px; height:85px; display:flex; align-items:center; justify-content:center;" onclick="tg.showAlert('Cài đặt hệ thống')">
-            <i class="fas fa-cog" style="color:var(--accent); font-size:20px;"></i>
+        <div class="menu-btn glass" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
         </div>
     </div>
 
@@ -105,29 +106,29 @@
         <div class="stat-item glass"><b>415</b><span>Live</span></div>
         <div class="stat-item glass"><b>9,210</b><span>Order</span></div>
     </div>
-    <div class="ticker glass"><i class="fas fa-bullhorn" style="color:var(--accent); margin-right:8px;"></i><marquee scrollamount="4">Chào mừng đến Tokyo Sakura - Hệ thống Hack & Acc FF uy tín nhất!</marquee></div>
+    <div class="ticker glass"><i class="fas fa-bullhorn" style="color:var(--accent); margin-right:8px;"></i><marquee scrollamount="4">Chào mừng đến Tokyo Sakura - Menu Hack & Acc FF uy tín nhất!</marquee></div>
 
     <div class="admin-grid glass">
-        <a href="https://t.me/muadongtokyo36" class="admin-item"><i class="fas fa-crown"></i><b>muadongtokyo</b><span>@muadongtokyo36</span></a>
-        <a href="https://t.me/muahatokyo1919" class="admin-item"><i class="fas fa-bolt"></i><b>muahatokyo</b><span>@muahatokyo1919</span></a>
-        <a href="https://t.me/muathutokyo27" class="admin-item" style="border:none"><i class="fas fa-headset"></i><b>muathutokyo</b><span>@muathutokyo27</span></a>
+        <a href="https://t.me/muadongtokyo36" class="admin-item"><i class="fas fa-crown"></i><b>muadongtokyo</b></a>
+        <a href="https://t.me/muahatokyo1919" class="admin-item"><i class="fas fa-bolt"></i><b>muahatokyo</b></a>
+        <a href="https://t.me/muathutokyo27" class="admin-item" style="border:none"><i class="fas fa-headset"></i><b>muathutokyo</b></a>
     </div>
 
     <div id="product-list"></div>
 
-    <div id="modal-pay" class="page">
-        <div onclick="document.getElementById('modal-pay').style.display='none'" style="color:var(--accent); font-weight: bold; margin-bottom: 20px; cursor:pointer;"><i class="fas fa-arrow-left"></i> QUAY LẠI</div>
-        <div class="glass" style="padding:20px; text-align:center;">
-            <img id="qr" style="width:100%; max-width:220px; border-radius:18px; border:3px solid var(--accent); margin-bottom:15px;">
-            <div id="info-bank" style="text-align:left; font-size:12px;"></div>
-            <button class="btn-main" onclick="tg.close()">XÁC NHẬN ĐÃ CHUYỂN</button>
+    <div class="drawer" id="menu-drawer">
+        <h3 style="color:var(--accent);">Menu Tokyo</h3>
+        <div style="margin-top: 20px;">
+            <p onclick="tg.showAlert('Lịch sử đơn hàng trống!')" style="cursor:pointer; font-weight:bold; padding: 10px 0;"><i class="fas fa-history"></i> Lịch sử mua hàng</p>
+            <p onclick="tg.showAlert('Chưa có thông báo mới')" style="cursor:pointer; font-weight:bold; padding: 10px 0;"><i class="fas fa-bell"></i> Thông báo</p>
         </div>
+        <button class="btn-main" onclick="toggleMenu()" style="background:#888;">ĐÓNG MENU</button>
     </div>
 
     <div class="footer" id="buy-bar">
         <div style="display:flex; justify-content:space-between; align-items:center;">
             <div><b id="cur-name" style="font-size:11px;">Sản phẩm</b><span id="cur-price" style="display:block; color:var(--accent); font-weight:800; font-size:18px;">0đ</span></div>
-            <button style="background:var(--accent); color:white; border:none; padding:12px 25px; border-radius:12px; font-weight:bold;" onclick="openPay()">MUA NGAY</button>
+            <button style="background:var(--accent); color:white; border:none; padding:12px 25px; border-radius:12px; font-weight:bold;" onclick="tg.showAlert('Đang mở trang thanh toán...')">MUA NGAY</button>
         </div>
     </div>
 
@@ -144,7 +145,6 @@
                 f.style.left = Math.random() * 100 + '%';
                 f.style.animationDuration = (Math.random() * 5 + 5) + 's';
                 f.style.animationDelay = (Math.random() * 8) + 's';
-                f.style.transform = `scale(${Math.random() * 0.4 + 0.7})`;
                 box.appendChild(f);
             }
         }
@@ -152,22 +152,16 @@
 
         const DATA = [
             { cat: 'HACK VIP FREE FIRE', icon: 'fa-fire', items: [
-                { id:'h1', name:'Br Mod', opts: [['1 Ngày', 5000], ['30 Ngày', 50000]] },
-                { id:'h2', name:'HG Cheat', opts: [['1 Ngày', 5000], ['30 Ngày', 50000]] },
-                { id:'h3', name:'Drip Client', opts: [['1 Ngày', 7000], ['30 Ngày', 70000]] }
-            ]},
-            { cat: 'ACC FREE FIRE', icon: 'fa-user-circle', items: [
-                { id:'a1', name:'Acc Level 5', opts: [['Gói 1 Acc', 5000]] },
-                { id:'a2', name:'Acc Level 15', opts: [['Gói 1 Acc', 15000]] }
+                { id:'h1', name:'Zygame', opts: [['1 Ngày', 5000], ['30 Ngày', 50000]] }, // THÊM ZYGAME
+                { id:'h2', name:'Flu', opts: [['1 Ngày', 5000], ['30 Ngày', 50000]] },    // THÊM FLU
+                { id:'h3', name:'Br Mod', opts: [['1 Ngày', 5000], ['30 Ngày', 50000]] },
+                { id:'h4', name:'HG Cheat', opts: [['1 Ngày', 5000], ['30 Ngày', 50000]] }
             ]},
             { cat: 'CLOUD PHONE', icon: 'fa-cloud', items: [
                 { id:'c1', name:'Redfinger', opts: [['30 Ngày', 85000]] },
-                { id:'c2', name:'CC Cloud', opts: [['30 Ngày', 90000]] },
-                { id:'c3', name:'VIP Player', opts: [['30 Ngày', 105000]] }
+                { id:'c2', name:'VIP Player', opts: [['30 Ngày', 105000]] }
             ]}
         ];
-
-        let curSelect = null, lastId = null;
 
         function render() {
             document.getElementById('product-list').innerHTML = DATA.map(g => `
@@ -209,32 +203,28 @@
             document.getElementById('a-opt-' + id).classList.toggle('rotate', !isO);
         }
 
+        let lastId = null;
         function selectItem(name, time, price, rid) {
             const target = document.getElementById('r-' + rid);
             if(lastId === rid) {
                 target.classList.remove('selected');
                 document.getElementById('buy-bar').style.display = 'none';
-                curSelect = null; lastId = null; return;
+                lastId = null; return;
             }
             document.querySelectorAll('.opt-item').forEach(r => r.classList.remove('selected'));
             target.classList.add('selected');
-            curSelect = { name, time, price }; lastId = rid;
+            lastId = rid;
             document.getElementById('cur-name').innerText = name + " (" + time + ")";
             document.getElementById('cur-price').innerText = price.toLocaleString() + "đ";
             document.getElementById('buy-bar').style.display = 'block';
         }
 
-        function openPay() {
-            const code = "TK" + Math.random().toString(36).substring(7).toUpperCase();
-            document.getElementById('qr').src = `https://img.vietqr.io/image/MB-79991312006-compact2.png?amount=${curSelect.price}&addInfo=${code}`;
-            document.getElementById('info-bank').innerHTML = `STK: <b>79991312006</b><br>Bank: <b>MB BANK</b><br>Nội dung: <b>${code}</b>`;
-            document.getElementById('modal-pay').style.display = 'block';
-        }
+        function toggleMenu() { document.getElementById('menu-drawer').classList.toggle('active'); }
 
         const usr = tg.initDataUnsafe?.user;
         if(usr) {
             document.getElementById('u-name').innerText = usr.first_name;
-            document.getElementById('u-id').innerText = usr.id; // BỎ CHỮ ID
+            document.getElementById('u-id').innerText = usr.id;
             if(usr.photo_url) document.getElementById('u-avatar').src = usr.photo_url;
         }
 
