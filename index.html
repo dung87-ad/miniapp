@@ -14,7 +14,7 @@
             --sakura-petal: #fff0f3; --sakura-center: #ff8fb1;
         }
 
-        /* HOA ANH ĐÀO */
+        /* HOA ANH ĐÀO RƠI */
         @keyframes sakuraFall {
             0% { transform: translate3d(0, -10vh, 0) rotate(0deg); opacity: 0; }
             10% { opacity: 1; }
@@ -37,21 +37,27 @@
         body { font-family: -apple-system, sans-serif; background: var(--bg-sakura); color: var(--text); margin: 0; padding: 12px; padding-bottom: 110px; overflow-x: hidden; }
         .glass { background: var(--glass); backdrop-filter: blur(12px); border: 1px solid var(--glass-border); border-radius: 20px; }
 
-        /* LOADING SPINNER */
-        .loader { display: none; width: 20px; height: 20px; border: 3px solid #f3f3f3; border-top: 3px solid var(--accent); border-radius: 50%; animation: spin 1s linear infinite; margin: 10px auto; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        /* UI ELEMENTS */
+        /* HEADER */
         .header { display: flex; gap: 8px; align-items: center; margin-bottom: 12px; }
         .user-box { padding: 12px; display: flex; align-items: center; position: relative; flex: 1; height: 85px; }
         .avatar { width: 50px; height: 50px; border-radius: 50%; border: 2px solid white; margin-right: 12px; background: #fff; }
+
+        /* STATS & TICKER */
+        .stats-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
+        .stat-item { text-align: center; padding: 10px; }
+        .stat-item b { display: block; font-size: 14px; }
+        .stat-item span { font-size: 8px; color: var(--hint); font-weight: bold; }
+        .ticker { padding: 10px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; overflow: hidden; }
+
+        /* ADMIN GRID */
         .admin-grid { display: flex; justify-content: space-between; margin: 15px 0; padding: 10px 5px; gap: 4px; }
         .admin-item { flex: 1; text-align: center; text-decoration: none; color: var(--text); border-right: 1px solid rgba(0,0,0,0.05); }
+        .admin-item:last-child { border: none; }
         .admin-item i { font-size: 16px; color: var(--accent); display: block; margin-bottom: 4px; }
         .admin-item b { font-size: 8px; display: block; }
         .admin-item span { font-size: 7px; color: var(--accent); font-weight: bold; display: block; }
 
-        /* PRODUCT */
+        /* PRODUCT UI */
         .cat-card { margin-bottom: 12px; border-radius: 22px; overflow: hidden; }
         .cat-btn { padding: 16px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; cursor: pointer; }
         .cat-body { display: none; padding: 8px; }
@@ -60,13 +66,15 @@
         .opt-item { padding: 12px 20px; display: flex; justify-content: space-between; font-size: 13px; border-top: 1px solid rgba(255,255,255,0.1); }
         .opt-item.selected { background: var(--accent) !important; color: #fff; }
 
+        /* LOADING */
+        .loader { width: 18px; height: 18px; border: 2px solid #f3f3f3; border-top: 2px solid var(--accent); border-radius: 50%; animation: spin 1s linear infinite; display: inline-block; vertical-align: middle; margin-right: 8px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
         /* PAGES */
         .page { display: none; position: fixed; inset: 0; background: var(--bg-sakura); z-index: 6000; padding: 20px; overflow-y: auto; }
-        .drawer { position: fixed; top: 0; right: 0; width: 75%; height: 100%; z-index: 5000; background: #fffafb; transform: translateX(100%); transition: 0.4s; padding: 25px; border-left: 4px solid var(--accent); }
-        .drawer.active { transform: translateX(0); }
-        .footer { position: fixed; bottom: 0; left: 0; right: 0; padding: 15px 20px; background: white; display: none; z-index: 1000; border-radius: 20px 20px 0 0; border-top: 1px solid #eee; }
-        .btn-main { width: 100%; padding: 15px; background: var(--accent); color: white; border: none; border-radius: 16px; font-weight: bold; margin-top: 15px; }
-        .input-card { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd; margin-bottom: 10px; font-size: 14px; outline: none; }
+        .footer { position: fixed; bottom: 0; left: 0; right: 0; padding: 15px 20px; background: white; display: none; z-index: 1000; border-radius: 20px 20px 0 0; box-shadow: 0 -5px 15px rgba(0,0,0,0.05); }
+        .btn-main { width: 100%; padding: 15px; background: var(--accent); color: white; border: none; border-radius: 16px; font-weight: bold; margin-top: 15px; cursor: pointer; }
+        .input-card { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd; margin-bottom: 10px; font-size: 14px; }
     </style>
 </head>
 <body>
@@ -95,10 +103,21 @@
         </div>
     </div>
 
+    <div class="stats-bar">
+        <div class="stat-item glass"><b>1,402</b><span>Người dùng</span></div>
+        <div class="stat-item glass"><b>415</b><span>Đang Online</span></div>
+        <div class="stat-item glass"><b>9,210</b><span>Đơn hàng</span></div>
+    </div>
+
+    <div class="ticker glass">
+        <i class="fas fa-bullhorn" style="color:var(--accent);"></i>
+        <marquee scrollamount="4" style="font-size:11px; font-weight:bold;">🌸 Tokyo Sakura: Hệ thống nạp tự động cực nhanh - Full Hack FF: HG Cheat, Br Mod, Zygame, Flu... Uy tín số 1!</marquee>
+    </div>
+
     <div class="admin-grid glass">
         <a href="https://t.me/muadongtokyo36" class="admin-item"><i class="fas fa-crown"></i><b>muadongtokyo</b><span>@muadongtokyo36</span></a>
         <a href="https://t.me/muahatokyo1919" class="admin-item"><i class="fas fa-bolt"></i><b>muahatokyo</b><span>@muahatokyo1919</span></a>
-        <a href="https://t.me/muathutokyo27" class="admin-item" style="border:none"><i class="fas fa-headset"></i><b>muathutokyo</b><span>@muathutokyo27</span></a>
+        <a href="https://t.me/muathutokyo27" class="admin-item"><i class="fas fa-headset"></i><b>muathutokyo</b><span>@muathutokyo27</span></a>
     </div>
 
     <div id="product-list"></div>
@@ -116,7 +135,7 @@
             <img id="qr" style="width:100%; max-width:200px; border-radius:15px; margin-bottom:15px;">
             <div id="info-bank" style="text-align:left; font-size:13px; background: #fff; padding: 10px; border-radius: 10px;"></div>
             <div id="atm-status" style="margin-top:15px; font-weight:bold; color:var(--accent); display:none;">
-                <div class="loader" style="display:block;"></div> Đang kiểm tra giao dịch...
+                <div class="loader"></div> Đang kiểm tra giao dịch...
             </div>
             <button id="btn-atm-confirm" class="btn-main" onclick="confirmATM()">XÁC NHẬN ĐÃ CHUYỂN</button>
         </div>
@@ -125,27 +144,15 @@
     <div id="modal-card" class="page">
         <div onclick="backToMethod('modal-card')" style="color:var(--accent); font-weight:bold; margin-bottom:20px; cursor:pointer;"><i class="fas fa-arrow-left"></i> CHỌN CÁCH KHÁC</div>
         <div class="glass" style="padding:20px;">
-            <select id="card-type" class="input-card"><option>Viettel</option><option>Vinaphone</option><option>Mobifone</option></select>
-            <select id="card-value" class="input-card"><option>10.000đ</option><option>20.000đ</option><option>50.000đ</option><option>100.000đ</option></select>
+            <select class="input-card"><option>Viettel</option><option>Vinaphone</option><option>Mobifone</option></select>
+            <select class="input-card"><option>10.000đ</option><option>20.000đ</option><option>50.000đ</option><option>100.000đ</option></select>
             <input id="card-pin" class="input-card" placeholder="Mã thẻ">
             <input id="card-seri" class="input-card" placeholder="Số seri">
             <div id="card-status" style="margin-top:10px; text-align:center; font-weight:bold; color:var(--accent); display:none;">
-                <div class="loader" style="display:block;"></div> Đang gửi thẻ lên hệ thống...
+                <div class="loader"></div> Đang gửi dữ liệu...
             </div>
             <button id="btn-card-confirm" class="btn-main" onclick="confirmCard()">GỬI THẺ NGAY</button>
         </div>
-    </div>
-
-    <div id="page-history" class="page">
-        <div onclick="closePage('page-history')" style="color:var(--accent); font-weight:bold; margin-bottom:20px; cursor:pointer;"><i class="fas fa-arrow-left"></i> QUAY LẠI</div>
-        <h2>Lịch sử mua hàng</h2>
-        <div class="glass" style="padding:40px; text-align:center; opacity:0.5;"><p>Trống</p></div>
-    </div>
-
-    <div class="drawer" id="menu-drawer">
-        <h3 style="color:var(--accent);">Menu</h3>
-        <p onclick="openPage('page-history')" style="cursor:pointer; font-weight:bold; padding:15px 0;"><i class="fas fa-history"></i> Lịch sử mua hàng</p>
-        <button class="btn-main" onclick="toggleMenu()" style="background:#bbb;">ĐÓNG</button>
     </div>
 
     <div class="footer" id="buy-bar">
@@ -159,39 +166,6 @@
         const tg = window.Telegram.WebApp;
         tg.ready(); tg.expand();
 
-        // FIX ATM: Không đóng web ngay
-        function confirmATM() {
-            document.getElementById('btn-atm-confirm').style.display = 'none';
-            document.getElementById('atm-status').style.display = 'block';
-            
-            // Gửi dữ liệu về bot (nếu bạn có backend)
-            tg.sendData(JSON.stringify({action: "atm_check", order: document.getElementById('info-bank').innerText}));
-            
-            setTimeout(() => {
-                tg.showAlert("Hệ thống đang kiểm tra tiền. Vui lòng không tắt Web App này trong 1-2 phút!");
-                document.getElementById('atm-status').innerHTML = "Chờ hệ thống duyệt...";
-            }, 2000);
-        }
-
-        // FIX CARD: Không treo màn hình
-        function confirmCard() {
-            const pin = document.getElementById('card-pin').value;
-            const seri = document.getElementById('card-seri').value;
-            
-            if(!pin || !seri) {
-                tg.showAlert("Vui lòng nhập đủ mã thẻ và seri!");
-                return;
-            }
-
-            document.getElementById('btn-card-confirm').style.display = 'none';
-            document.getElementById('card-status').style.display = 'block';
-
-            setTimeout(() => {
-                document.getElementById('card-status').innerHTML = "✅ Đã gửi thẻ thành công! Vui lòng chờ 1-5 phút để hệ thống kiểm tra.";
-                tg.showAlert("Thẻ của bạn đã được gửi đi. Kết quả sẽ báo về tin nhắn Bot!");
-            }, 3000);
-        }
-
         const DATA = [
             { cat: 'HACK VIP FREE FIRE', icon: 'fa-fire', items: [
                 { id:'h1', name:'Zygame', opts: [['1 Ngày', 5000], ['30 Ngày', 50000]] },
@@ -201,8 +175,8 @@
                 { id:'h5', name:'HG Cheat', opts: [['1 Ngày', 5000], ['30 Ngày', 50000]] }
             ]},
             { cat: 'ACC FREE FIRE', icon: 'fa-user-check', items: [
-                { id:'a1', name:'Acc Level 5', opts: [['1 Acc', 5000]] },
-                { id:'a2', name:'Acc Level 15', opts: [['1 Acc', 15000]] }
+                { id:'a1', name:'Acc Level 5', opts: [['Gói 1 Acc', 5000]] },
+                { id:'a2', name:'Acc Level 15', opts: [['Gói 1 Acc', 15000]] }
             ]},
             { cat: 'CLOUD PHONE', icon: 'fa-cloud', items: [
                 { id:'c1', name:'Redfinger', opts: [['30 Ngày', 85000]] },
@@ -254,14 +228,26 @@
             if(type === 'atm') {
                 const code = "TS" + Math.floor(1000 + Math.random() * 9000);
                 document.getElementById('qr').src = `https://img.vietqr.io/image/MB-79991312006-compact2.png?amount=${curSelect.price}&addInfo=${code}`;
-                document.getElementById('info-bank').innerHTML = `<b>MB BANK</b><br>STK: 79991312006<br>Số tiền: ${curSelect.price.toLocaleString()}đ<br>Nội dung: <b>${code}</b>`;
+                document.getElementById('info-bank').innerHTML = `STK: 79991312006<br>Ngân hàng: MB BANK<br>Nội dung: <b>${code}</b>`;
                 openPage('modal-atm');
             } else { openPage('modal-card'); }
         }
 
+        function confirmATM() {
+            document.getElementById('btn-atm-confirm').style.display = 'none';
+            document.getElementById('atm-status').style.display = 'block';
+            setTimeout(() => { tg.showAlert("Hệ thống đã ghi nhận. Vui lòng chờ 1-3 phút để xác nhận tiền!"); }, 2000);
+        }
+
+        function confirmCard() {
+            if(!document.getElementById('card-pin').value) { tg.showAlert("Nhập mã thẻ!"); return; }
+            document.getElementById('btn-card-confirm').style.display = 'none';
+            document.getElementById('card-status').style.display = 'block';
+            setTimeout(() => { tg.showAlert("Gửi thẻ thành công! Đang chờ duyệt."); }, 2000);
+        }
+
         function backToMethod(id) { 
             closePage(id); 
-            // Reset lại các trạng thái nút khi quay lại
             document.getElementById('btn-atm-confirm').style.display = 'block';
             document.getElementById('atm-status').style.display = 'none';
             document.getElementById('btn-card-confirm').style.display = 'block';
@@ -271,11 +257,10 @@
 
         function toggleCat(cat) { const el = document.getElementById('b-cat-' + cat); el.style.display = el.style.display === 'block' ? 'none' : 'block'; }
         function toggleOpt(id) { const el = document.getElementById('b-opt-' + id); el.style.display = el.style.display === 'block' ? 'none' : 'block'; }
-        function toggleMenu() { document.getElementById('menu-drawer').classList.toggle('active'); }
-        function openPage(id) { document.getElementById(id).style.display = 'block'; if(id==='page-history') toggleMenu(); }
+        function openPage(id) { document.getElementById(id).style.display = 'block'; }
         function closePage(id) { document.getElementById(id).style.display = 'none'; }
 
-        // Battery & Time
+        // Battery & Clock
         setInterval(() => {
             const n = new Date();
             document.getElementById('u-date').innerText = n.toLocaleDateString('vi-VN');
@@ -292,16 +277,9 @@
             u(); b.addEventListener('levelchange', u); b.addEventListener('chargingchange', u);
         });
 
-        const usr = tg.initDataUnsafe?.user;
-        if(usr) {
-            document.getElementById('u-name').innerText = usr.first_name;
-            document.getElementById('u-id').innerText = usr.id;
-            if(usr.photo_url) document.getElementById('u-avatar').src = usr.photo_url;
-        }
-
-        // Tạo hoa
+        // Sakura Effects
         const box = document.getElementById('flower-box');
-        for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < 15; i++) {
             const f = document.createElement('div');
             f.className = 'sakura-flower';
             f.innerHTML = '<div class="petal-real p1"></div><div class="petal-real p2"></div><div class="petal-real p3"></div><div class="petal-real p4"></div><div class="petal-real p5"></div>';
