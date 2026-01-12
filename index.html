@@ -39,15 +39,20 @@
 
         /* HEADER */
         .header { display: flex; gap: 8px; align-items: center; margin-bottom: 12px; }
-        .user-box { padding: 12px; display: flex; align-items: center; position: relative; flex: 1; height: 85px; }
-        .avatar { width: 50px; height: 50px; border-radius: 50%; border: 2px solid white; margin-right: 12px; background: #fff; }
+        .user-box { padding: 12px; display: flex; align-items: center; position: relative; flex: 1; height: 95px; }
+        .avatar { width: 55px; height: 55px; border-radius: 50%; border: 2.5px solid white; margin-right: 12px; background: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .user-info b { font-size: 14px; display: block; color: var(--text); }
+        .user-info span { font-size: 11px; color: var(--accent); font-weight: bold; display: block; }
+        .user-info small { font-size: 10px; color: #777; display: block; }
 
-        /* STATS & TICKER */
-        .stats-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
-        .stat-item { text-align: center; padding: 10px; }
-        .stat-item b { display: block; font-size: 14px; }
-        .stat-item span { font-size: 8px; color: var(--hint); font-weight: bold; }
-        .ticker { padding: 10px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; overflow: hidden; }
+        /* STATS (ĐỦ 4 THANH) */
+        .stats-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 12px; }
+        .stat-item { text-align: center; padding: 8px 4px; border-radius: 15px; }
+        .stat-item b { display: block; font-size: 12px; color: var(--text); }
+        .stat-item span { font-size: 7px; color: var(--hint); font-weight: bold; text-transform: uppercase; }
+
+        /* TICKER */
+        .ticker { padding: 10px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
 
         /* ADMIN GRID */
         .admin-grid { display: flex; justify-content: space-between; margin: 15px 0; padding: 10px 5px; gap: 4px; }
@@ -66,29 +71,35 @@
         .opt-item { padding: 12px 20px; display: flex; justify-content: space-between; font-size: 13px; border-top: 1px solid rgba(255,255,255,0.1); }
         .opt-item.selected { background: var(--accent) !important; color: #fff; }
 
-        /* LOADING */
-        .loader { width: 18px; height: 18px; border: 2px solid #f3f3f3; border-top: 2px solid var(--accent); border-radius: 50%; animation: spin 1s linear infinite; display: inline-block; vertical-align: middle; margin-right: 8px; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        /* MENU DRAWER (FIXED) */
+        .drawer { position: fixed; top: 0; right: 0; width: 70%; height: 100%; z-index: 9999; background: #fff; transform: translateX(100%); transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); padding: 25px; border-left: 5px solid var(--accent); box-shadow: -5px 0 20px rgba(0,0,0,0.1); }
+        .drawer.active { transform: translateX(0); }
+        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 9998; display: none; backdrop-filter: blur(3px); }
+        .overlay.active { display: block; }
 
         /* PAGES */
         .page { display: none; position: fixed; inset: 0; background: var(--bg-sakura); z-index: 6000; padding: 20px; overflow-y: auto; }
         .footer { position: fixed; bottom: 0; left: 0; right: 0; padding: 15px 20px; background: white; display: none; z-index: 1000; border-radius: 20px 20px 0 0; box-shadow: 0 -5px 15px rgba(0,0,0,0.05); }
-        .btn-main { width: 100%; padding: 15px; background: var(--accent); color: white; border: none; border-radius: 16px; font-weight: bold; margin-top: 15px; cursor: pointer; }
-        .input-card { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd; margin-bottom: 10px; font-size: 14px; }
+        .btn-main { width: 100%; padding: 15px; background: var(--accent); color: white; border: none; border-radius: 16px; font-weight: bold; margin-top: 15px; }
+
+        .loader { width: 18px; height: 18px; border: 2px solid #f3f3f3; border-top: 2px solid var(--accent); border-radius: 50%; animation: spin 1s linear infinite; display: inline-block; vertical-align: middle; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
     <div class="sakura-container" id="flower-box"></div>
+    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
 
     <div class="header">
         <div class="user-box glass">
             <img id="u-avatar" src="https://ui-avatars.com/api/?name=U&background=ff80ab&color=fff" class="avatar">
             <div class="user-info">
-                <b id="u-name">Khách hàng</b>
-                <small id="u-id" style="font-size: 14px; color: var(--accent); font-weight: 900; display: block;">000000000</small>
-                <div style="font-size:9px; color:var(--hint); margin-top:4px; font-weight: bold;">
-                    <span id="u-date">--/--</span> | <span id="u-time">00:00:00</span>
+                <b id="u-name">Đang tải...</b>
+                <span id="u-username">@username</span>
+                <small id="u-id">ID: 000000000</small>
+                <div style="font-size:8px; color:var(--hint); margin-top:4px; font-weight: bold;">
+                    <span id="u-date" style="display:inline">--/--</span> | <span id="u-time" style="display:inline">00:00:00</span>
                 </div>
             </div>
             <div class="bat-container">
@@ -98,20 +109,21 @@
                 </div>
             </div>
         </div>
-        <div class="glass" style="width:50px; height:85px; display:flex; align-items:center; justify-content:center;" onclick="toggleMenu()">
-            <i class="fas fa-bars" style="color:var(--accent); font-size:22px;"></i>
+        <div class="glass" style="width:55px; height:95px; display:flex; align-items:center; justify-content:center; cursor:pointer;" onclick="toggleMenu()">
+            <i class="fas fa-bars" style="color:var(--accent); font-size:24px;"></i>
         </div>
     </div>
 
     <div class="stats-bar">
-        <div class="stat-item glass"><b>1,402</b><span>Người dùng</span></div>
-        <div class="stat-item glass"><b>415</b><span>Đang Online</span></div>
-        <div class="stat-item glass"><b>9,210</b><span>Đơn hàng</span></div>
+        <div class="stat-item glass"><b>1,402</b><span>User</span></div>
+        <div class="stat-item glass"><b>415</b><span>Live</span></div>
+        <div class="stat-item glass"><b>9,210</b><span>Order</span></div>
+        <div class="stat-item glass"><b>5,830</b><span>Đã bán</span></div>
     </div>
 
     <div class="ticker glass">
         <i class="fas fa-bullhorn" style="color:var(--accent);"></i>
-        <marquee scrollamount="4" style="font-size:11px; font-weight:bold;">🌸 Tokyo Sakura: Hệ thống nạp tự động cực nhanh - Full Hack FF: HG Cheat, Br Mod, Zygame, Flu... Uy tín số 1!</marquee>
+        <marquee scrollamount="4" style="font-size:11px; font-weight:bold;">🌸 Tokyo Sakura: Hệ thống nạp tự động cực nhanh - HG Cheat, Br Mod, Zygame, Flu... Uy tín số 1!</marquee>
     </div>
 
     <div class="admin-grid glass">
@@ -122,9 +134,31 @@
 
     <div id="product-list"></div>
 
+    <div class="drawer" id="menu-drawer">
+        <div style="text-align:center; margin-bottom:20px;">
+            <img id="m-avatar" src="" style="width:70px; height:70px; border-radius:50%; border:3px solid var(--accent);">
+            <h3 id="m-name" style="margin:10px 0 5px; color:var(--text);">User</h3>
+        </div>
+        <hr style="opacity:0.1">
+        <div onclick="openPage('page-history')" style="padding:15px 0; font-weight:bold; color:var(--text); cursor:pointer;">
+            <i class="fas fa-history" style="margin-right:10px; color:var(--accent);"></i> Lịch sử mua hàng
+        </div>
+        <div style="padding:15px 0; font-weight:bold; color:var(--text); cursor:pointer;" onclick="tg.openTelegramLink('https://t.me/muathutokyo27')">
+            <i class="fas fa-question-circle" style="margin-right:10px; color:var(--accent);"></i> Hỗ trợ kỹ thuật
+        </div>
+        <button class="btn-main" onclick="toggleMenu()" style="background:#ccc; margin-top:30px;">ĐÓNG MENU</button>
+    </div>
+
+    <div class="footer" id="buy-bar">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div><b id="cur-name" style="font-size:11px;">Sản phẩm</b><span id="cur-price" style="display:block; color:var(--accent); font-weight:800; font-size:18px;">0đ</span></div>
+            <button style="background:var(--accent); color:white; border:none; padding:12px 25px; border-radius:12px; font-weight:bold;" onclick="openPage('page-pay-method')">MUA NGAY</button>
+        </div>
+    </div>
+
     <div id="page-pay-method" class="page">
         <div onclick="closePage('page-pay-method')" style="color:var(--accent); font-weight:bold; margin-bottom:20px; cursor:pointer;"><i class="fas fa-arrow-left"></i> QUAY LẠI</div>
-        <h3>Chọn phương thức nạp</h3>
+        <h3>Phương thức thanh toán</h3>
         <div class="glass" style="padding:18px; margin-bottom:12px;" onclick="openPay('atm')"><b>Chuyển khoản ATM / ZaloPay</b></div>
         <div class="glass" style="padding:18px;" onclick="openPay('card')"><b>Nạp bằng Thẻ Cào</b></div>
     </div>
@@ -135,7 +169,7 @@
             <img id="qr" style="width:100%; max-width:200px; border-radius:15px; margin-bottom:15px;">
             <div id="info-bank" style="text-align:left; font-size:13px; background: #fff; padding: 10px; border-radius: 10px;"></div>
             <div id="atm-status" style="margin-top:15px; font-weight:bold; color:var(--accent); display:none;">
-                <div class="loader"></div> Đang kiểm tra giao dịch...
+                <div class="loader"></div> Đang kiểm tra...
             </div>
             <button id="btn-atm-confirm" class="btn-main" onclick="confirmATM()">XÁC NHẬN ĐÃ CHUYỂN</button>
         </div>
@@ -145,26 +179,39 @@
         <div onclick="backToMethod('modal-card')" style="color:var(--accent); font-weight:bold; margin-bottom:20px; cursor:pointer;"><i class="fas fa-arrow-left"></i> CHỌN CÁCH KHÁC</div>
         <div class="glass" style="padding:20px;">
             <select class="input-card"><option>Viettel</option><option>Vinaphone</option><option>Mobifone</option></select>
-            <select class="input-card"><option>10.000đ</option><option>20.000đ</option><option>50.000đ</option><option>100.000đ</option></select>
             <input id="card-pin" class="input-card" placeholder="Mã thẻ">
             <input id="card-seri" class="input-card" placeholder="Số seri">
             <div id="card-status" style="margin-top:10px; text-align:center; font-weight:bold; color:var(--accent); display:none;">
-                <div class="loader"></div> Đang gửi dữ liệu...
+                <div class="loader"></div> Đang xử lý...
             </div>
-            <button id="btn-card-confirm" class="btn-main" onclick="confirmCard()">GỬI THẺ NGAY</button>
-        </div>
-    </div>
-
-    <div class="footer" id="buy-bar">
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-            <div><b id="cur-name" style="font-size:11px;">Sản phẩm</b><span id="cur-price" style="display:block; color:var(--accent); font-weight:800; font-size:18px;">0đ</span></div>
-            <button style="background:var(--accent); color:white; border:none; padding:12px 25px; border-radius:12px; font-weight:bold;" onclick="openPage('page-pay-method')">MUA NGAY</button>
+            <button id="btn-card-confirm" class="btn-main" onclick="confirmCard()">GỬI THẺ</button>
         </div>
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
         tg.ready(); tg.expand();
+
+        // FIX: Lấy dữ liệu khách hàng từ Telegram
+        const user = tg.initDataUnsafe?.user;
+        if(user) {
+            document.getElementById('u-name').innerText = user.first_name + (user.last_name ? " " + user.last_name : "");
+            document.getElementById('u-username').innerText = user.username ? "@" + user.username : "@no_username";
+            document.getElementById('u-id').innerText = "ID: " + user.id;
+            if(user.photo_url) {
+                document.getElementById('u-avatar').src = user.photo_url;
+                document.getElementById('m-avatar').src = user.photo_url;
+            } else {
+                document.getElementById('m-avatar').src = "https://ui-avatars.com/api/?name=" + user.first_name;
+            }
+            document.getElementById('m-name').innerText = user.first_name;
+        }
+
+        // FIX: Menu 3 gạch mở được
+        function toggleMenu() {
+            document.getElementById('menu-drawer').classList.toggle('active');
+            document.getElementById('overlay').classList.toggle('active');
+        }
 
         const DATA = [
             { cat: 'HACK VIP FREE FIRE', icon: 'fa-fire', items: [
@@ -175,8 +222,8 @@
                 { id:'h5', name:'HG Cheat', opts: [['1 Ngày', 5000], ['30 Ngày', 50000]] }
             ]},
             { cat: 'ACC FREE FIRE', icon: 'fa-user-check', items: [
-                { id:'a1', name:'Acc Level 5', opts: [['Gói 1 Acc', 5000]] },
-                { id:'a2', name:'Acc Level 15', opts: [['Gói 1 Acc', 15000]] }
+                { id:'a1', name:'Acc Level 5', opts: [['1 Acc', 5000]] },
+                { id:'a2', name:'Acc Level 15', opts: [['1 Acc', 15000]] }
             ]},
             { cat: 'CLOUD PHONE', icon: 'fa-cloud', items: [
                 { id:'c1', name:'Redfinger', opts: [['30 Ngày', 85000]] },
@@ -228,7 +275,7 @@
             if(type === 'atm') {
                 const code = "TS" + Math.floor(1000 + Math.random() * 9000);
                 document.getElementById('qr').src = `https://img.vietqr.io/image/MB-79991312006-compact2.png?amount=${curSelect.price}&addInfo=${code}`;
-                document.getElementById('info-bank').innerHTML = `STK: 79991312006<br>Ngân hàng: MB BANK<br>Nội dung: <b>${code}</b>`;
+                document.getElementById('info-bank').innerHTML = `STK: 79991312006<br>MB BANK<br>Nội dung: <b>${code}</b>`;
                 openPage('modal-atm');
             } else { openPage('modal-card'); }
         }
@@ -236,14 +283,13 @@
         function confirmATM() {
             document.getElementById('btn-atm-confirm').style.display = 'none';
             document.getElementById('atm-status').style.display = 'block';
-            setTimeout(() => { tg.showAlert("Hệ thống đã ghi nhận. Vui lòng chờ 1-3 phút để xác nhận tiền!"); }, 2000);
+            setTimeout(() => { tg.showAlert("Đang kiểm tra giao dịch..."); }, 1500);
         }
 
         function confirmCard() {
-            if(!document.getElementById('card-pin').value) { tg.showAlert("Nhập mã thẻ!"); return; }
             document.getElementById('btn-card-confirm').style.display = 'none';
             document.getElementById('card-status').style.display = 'block';
-            setTimeout(() => { tg.showAlert("Gửi thẻ thành công! Đang chờ duyệt."); }, 2000);
+            setTimeout(() => { tg.showAlert("Thẻ đã được gửi đi!"); }, 1500);
         }
 
         function backToMethod(id) { 
@@ -257,10 +303,9 @@
 
         function toggleCat(cat) { const el = document.getElementById('b-cat-' + cat); el.style.display = el.style.display === 'block' ? 'none' : 'block'; }
         function toggleOpt(id) { const el = document.getElementById('b-opt-' + id); el.style.display = el.style.display === 'block' ? 'none' : 'block'; }
-        function openPage(id) { document.getElementById(id).style.display = 'block'; }
+        function openPage(id) { document.getElementById(id).style.display = 'block'; if(id !== 'page-pay-method') toggleMenu(); }
         function closePage(id) { document.getElementById(id).style.display = 'none'; }
 
-        // Battery & Clock
         setInterval(() => {
             const n = new Date();
             document.getElementById('u-date').innerText = n.toLocaleDateString('vi-VN');
@@ -270,23 +315,4 @@
         navigator.getBattery().then(b => {
             const u = () => {
                 const lvl = Math.floor(b.level * 100);
-                document.getElementById('bat-val').innerText = lvl + "%";
-                document.getElementById('bat-level').style.width = lvl + "%";
-                document.getElementById('bat-shell').classList.toggle('charging', b.charging);
-            };
-            u(); b.addEventListener('levelchange', u); b.addEventListener('chargingchange', u);
-        });
-
-        // Sakura Effects
-        const box = document.getElementById('flower-box');
-        for (let i = 0; i < 15; i++) {
-            const f = document.createElement('div');
-            f.className = 'sakura-flower';
-            f.innerHTML = '<div class="petal-real p1"></div><div class="petal-real p2"></div><div class="petal-real p3"></div><div class="petal-real p4"></div><div class="petal-real p5"></div>';
-            f.style.left = Math.random() * 100 + '%';
-            f.style.animationDuration = (Math.random() * 5 + 5) + 's';
-            box.appendChild(f);
-        }
-    </script>
-</body>
-</html>
+                documen
