@@ -3,321 +3,298 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Tokyo Sakura - Premium Shop System</title>
+    <title>Tokyo Sakura - Ultimate System V3</title>
     
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* TỔNG HỢP BIẾN MÀU SẮC & PHONG CÁCH */
+        /* HỆ THỐNG BIẾN MÀU SẮC DESIGN SYSTEM */
         :root {
-            --primary: #ff80ab;
-            --primary-soft: #fff1f5;
+            --primary: #ff80ab; /* Hồng Sakura chính */
+            --primary-dark: #f06292;
             --accent: #ad1457;
+            --bg-light: #fff5f7;
             --bg-gradient: linear-gradient(135deg, #fff5f7 0%, #fce4ec 100%);
-            --glass: rgba(255, 255, 255, 0.88);
-            --glass-border: rgba(255, 255, 255, 0.95);
+            --glass: rgba(255, 255, 255, 0.9);
+            --glass-border: rgba(255, 255, 255, 0.5);
             --text-main: #4a148c;
-            --text-dim: #880e4f;
+            --text-sub: #880e4f;
             --success: #00c853;
-            --shadow: 0 10px 30px rgba(255, 128, 171, 0.2);
+            --warning: #ffab00;
+            --shadow: 0 10px 25px rgba(255, 128, 171, 0.2);
         }
 
-        /* THIẾT LẬP CƠ BẢN */
+        /* RESET & TỐI ƯU TRẢI NGHIỆM NGƯỜI DÙNG */
         * {
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
             user-select: none;
-            outline: none;
+            scrollbar-width: none; /* Ẩn scrollbar Firefox */
         }
+        *::-webkit-scrollbar { display: none; } /* Ẩn scrollbar Chrome/Safari */
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background: var(--bg-gradient);
             color: var(--text-main);
             margin: 0;
             padding: 12px;
-            padding-bottom: 150px; /* Chừa chỗ cho Footer Buy */
+            padding-bottom: 160px; /* Chừa khoảng trống cho Footer thanh toán */
             min-height: 100vh;
             overflow-x: hidden;
         }
 
-        /* HIỆU ỨNG HOA ANH ĐÀO */
-        @keyframes sakuraFall {
-            0% { transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 0; }
+        /* HIỆU ỨNG CÁNH HOA ANH ĐÀO RƠI (CANVAS-LESS) */
+        .sakura-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; pointer-events: none;
+        }
+        .petal {
+            position: absolute;
+            background: #ffc1e3;
+            border-radius: 150% 0 150% 0;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
             10% { opacity: 0.8; }
-            100% { transform: translateY(100vh) translateX(100px) rotate(360deg); opacity: 0; }
-        }
-        .sakura-container { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
-        .sakura { position: absolute; width: 18px; height: 18px; animation: sakuraFall linear infinite; }
-        .petal { 
-            position: absolute; width: 100%; height: 100%; 
-            background: #ffc1e3; border-radius: 50% 0 50% 0; 
-            box-shadow: 0 0 5px rgba(255, 182, 193, 0.5);
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
         }
 
-        /* GLASSMORPHISM UI */
-        .glass {
+        /* UI COMPONENT: GLASSMORPHISM CARD */
+        .glass-card {
             background: var(--glass);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border: 1px solid var(--glass-border);
-            border-radius: 25px;
+            border-radius: 24px;
             box-shadow: var(--shadow);
+            margin-bottom: 15px;
         }
 
-        /* 1. SYSTEM STATUS BAR (THỜI GIAN, NGÀY, PIN) */
-        .system-bar {
+        /* 1. THANH TRẠNG THÁI HỆ THỐNG (TOP BAR) */
+        .top-system-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 18px;
-            margin-bottom: 15px;
+            padding: 10px 18px;
             font-size: 11px;
-            font-weight: 900;
+            font-weight: 800;
             color: var(--accent);
             letter-spacing: 0.5px;
         }
-        .sys-item { display: flex; align-items: center; gap: 6px; }
-        .battery-outer {
-            width: 24px; height: 12px; border: 1.5px solid var(--accent);
+        .sys-clock { display: flex; align-items: center; gap: 6px; }
+        .sys-battery { display: flex; align-items: center; gap: 8px; }
+        .battery-shell {
+            width: 22px; height: 11px; border: 1.5px solid var(--accent);
             border-radius: 3px; position: relative; padding: 1px;
         }
-        .battery-inner { height: 100%; background: var(--success); border-radius: 1px; transition: 0.5s; }
-        .battery-outer::after {
+        .battery-bar { height: 100%; background: var(--success); border-radius: 1px; transition: 0.4s; }
+        .battery-shell::after {
             content: ''; position: absolute; right: -4px; top: 2px;
-            width: 3px; height: 5px; background: var(--accent); border-radius: 0 2px 2px 0;
+            width: 3px; height: 4px; background: var(--accent); border-radius: 0 1px 1px 0;
         }
 
-        /* 2. HEADER & USER SECTION */
-        .header-main { display: flex; gap: 10px; margin-bottom: 15px; }
-        .user-profile { flex: 1; padding: 15px; display: flex; align-items: center; }
-        .avatar-frame {
-            width: 55px; height: 55px; border-radius: 50%; 
-            border: 3px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            margin-right: 15px; object-fit: cover;
+        /* 2. THÔNG TIN NGƯỜI DÙNG (USER PROFILE) */
+        .user-section {
+            display: flex; gap: 10px; align-items: stretch;
         }
-        .user-text b { font-size: 16px; display: block; color: var(--text-main); }
-        .user-text span { font-size: 10px; font-weight: 700; color: var(--primary); }
+        .user-info-box {
+            flex: 1; padding: 15px;
+            display: flex; align-items: center; gap: 15px;
+        }
+        .user-avatar {
+            width: 55px; height: 55px; border-radius: 50%;
+            border: 3px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            object-fit: cover;
+        }
+        .user-detail b { font-size: 16px; display: block; color: var(--text-main); }
+        .user-detail span { font-size: 10px; font-weight: 700; color: var(--primary-dark); display: block; }
         
-        .btn-menu {
-            width: 60px; display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: 0.3s;
+        .menu-toggle-btn {
+            width: 55px; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; font-size: 22px; color: var(--primary);
         }
-        .btn-menu:active { transform: scale(0.9); }
 
-        /* 3. THÔNG BÁO CHẠY CHỮ */
-        .marquee-box {
-            padding: 12px; margin-bottom: 18px; display: flex; align-items: center; gap: 10px;
+        /* 3. DANH MỤC SẢN PHẨM (ACCORDION STYLE) */
+        .cat-item { overflow: hidden; }
+        .cat-header {
+            padding: 20px; display: flex; justify-content: space-between; align-items: center;
+            cursor: pointer; font-weight: 800; font-size: 15px;
         }
-        .marquee-box i { color: var(--primary); font-size: 18px; }
-        .marquee-content { font-size: 12px; font-weight: 700; color: var(--text-dim); }
+        .cat-header i.chevron { transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .cat-header.active i.chevron { transform: rotate(180deg); color: var(--primary); }
+        
+        .cat-content { display: none; padding: 10px; border-top: 1px dashed rgba(255, 128, 171, 0.3); }
 
-        /* 4. DANH MỤC SẢN PHẨM (ACCORDION) */
-        .category-wrapper { margin-bottom: 15px; overflow: hidden; }
-        .category-btn {
-            padding: 20px; display: flex; justify-content: space-between;
-            align-items: center; cursor: pointer; transition: 0.3s;
+        /* STATUS LED SERVER */
+        .server-status {
+            padding: 5px 12px; font-size: 10px; font-weight: 900;
+            color: var(--success); display: flex; align-items: center; gap: 8px;
         }
-        .category-btn b { font-size: 15px; display: flex; align-items: center; gap: 12px; }
-        .category-btn i.fa-chevron-down { transition: 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55); }
-        .category-btn.open { border-radius: 25px 25px 0 0; background: var(--primary-soft); }
-        .category-btn.open i.fa-chevron-down { transform: rotate(180deg); color: var(--primary); }
-
-        .category-body { display: none; padding: 10px; border-top: 1px dashed #ffd1df; }
-
-        /* 5. ITEM SẢN PHẨM & LOGIC CHỌN */
-        .product-card {
-            margin-bottom: 10px; transition: 0.3s;
+        .led-blink {
+            width: 8px; height: 8px; background: var(--success);
+            border-radius: 50%; box-shadow: 0 0 8px var(--success);
+            animation: led-flash 1.2s infinite;
         }
+        @keyframes led-flash { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+
+        /* SẢN PHẨM */
+        .product-card-wrap { margin-bottom: 10px; }
         .product-item {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 16px; border-radius: 18px; background: rgba(255,255,255,0.5);
+            padding: 16px; border-radius: 18px; background: rgba(255,255,255,0.4);
             border: 2px solid transparent; transition: 0.3s;
         }
         .product-item.selected {
             background: var(--primary); color: white;
-            border-color: var(--accent); box-shadow: 0 5px 15px rgba(255, 128, 171, 0.4);
+            border-color: var(--accent); transform: scale(0.98);
         }
-        .product-item b { font-size: 14px; }
-        .product-item .price { font-weight: 900; color: var(--accent); }
-        .product-item.selected .price { color: white; }
+        .product-item .p-name { font-weight: 700; font-size: 14px; }
+        .product-item .p-price { font-weight: 900; color: var(--accent); }
+        .product-item.selected .p-price { color: white; }
 
-        /* 6. BẢNG CHỌN NGÀY (CHỈ HIỆN KHI CHỌN ITEM) */
-        .duration-selector {
-            display: none; grid-template-columns: repeat(3, 1fr); gap: 8px;
-            padding: 12px; animation: slideInDown 0.3s ease;
+        /* BỘ CHỌN NGÀY (DURATION) */
+        .duration-box {
+            display: none; grid-template-columns: repeat(3, 1fr); gap: 10px;
+            padding: 12px; animation: slideDown 0.3s ease-out;
         }
-        @keyframes slideInDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
         
-        .day-option {
+        .day-btn {
             background: white; padding: 10px; border-radius: 12px;
-            text-align: center; font-size: 12px; font-weight: 800;
-            border: 1.5px solid var(--primary-soft); color: var(--primary);
+            text-align: center; font-size: 11px; font-weight: 800;
+            color: var(--primary); border: 1.5px solid var(--primary-soft);
         }
-        .day-option.active {
-            background: var(--accent); color: white; border-color: var(--accent);
-        }
+        .day-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
 
-        /* 7. SUB-PAGES (NẠP THẺ, ATM, LỊCH SỬ) */
-        .sub-page {
-            position: fixed; inset: 0; background: var(--bg-gradient);
-            z-index: 10000; padding: 25px; display: none; overflow-y: auto;
-            animation: pageEnter 0.4s cubic-bezier(0, 0, 0.2, 1);
-        }
-        @keyframes pageEnter { from { transform: translateX(100%); } to { transform: translateX(0); } }
-        
-        .back-nav {
-            font-size: 16px; font-weight: 900; color: var(--accent);
-            display: flex; align-items: center; gap: 10px; margin-bottom: 30px;
-        }
-
-        /* 8. FOOTER THANH TOÁN */
-        .footer-action {
+        /* 4. FOOTER THANH TOÁN (FLOATING ACTION BAR) */
+        .footer-payment {
             position: fixed; bottom: 0; left: 0; right: 0;
             padding: 25px; background: white; border-radius: 30px 30px 0 0;
-            box-shadow: 0 -15px 40px rgba(0,0,0,0.08);
-            display: none; z-index: 5000;
-            animation: footerUp 0.4s ease;
+            box-shadow: 0 -15px 40px rgba(0,0,0,0.1);
+            z-index: 1000; display: none;
+            animation: footerUp 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
         @keyframes footerUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
         
-        .pay-info b { font-size: 15px; color: var(--text-dim); }
-        .pay-info .total { font-size: 26px; font-weight: 900; color: var(--accent); display: block; }
+        .pay-flex { display: flex; justify-content: space-between; align-items: center; }
+        .pay-text b { display: block; font-size: 14px; color: var(--text-sub); }
+        .pay-text .total-price { font-size: 26px; font-weight: 900; color: var(--accent); }
         
-        .btn-checkout {
+        .btn-confirm {
             background: var(--primary); color: white; border: none;
             padding: 16px 35px; border-radius: 20px; font-weight: 900;
-            font-size: 16px; box-shadow: 0 8px 20px rgba(255, 128, 171, 0.3);
+            box-shadow: 0 8px 15px rgba(255, 128, 171, 0.4);
         }
 
-        /* 9. DRAWER MENU */
-        .drawer {
-            position: fixed; top: 0; right: 0; width: 80%; height: 100%;
-            background: white; z-index: 11000; transform: translateX(100%);
-            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); padding: 50px 30px;
-        }
-        .drawer.active { transform: translateX(0); }
-        .overlay {
+        /* 5. MENU DRAWER & SUB-PAGES */
+        .drawer-overlay {
             position: fixed; inset: 0; background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(5px); z-index: 10500; display: none;
+            backdrop-filter: blur(4px); z-index: 2000; display: none;
         }
+        .drawer-content {
+            position: fixed; top: 0; right: 0; width: 85%; height: 100%;
+            background: white; z-index: 2001; transform: translateX(100%);
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 60px 25px;
+        }
+        .drawer-content.open { transform: translateX(0); }
+        .drawer-user { text-align: center; margin-bottom: 40px; }
+        .menu-link {
+            padding: 18px; border-bottom: 1px solid #f5f5f5;
+            display: flex; align-items: center; gap: 15px;
+            font-weight: 700; color: #444; transition: 0.2s;
+        }
+        .menu-link:active { background: #fff1f5; color: var(--primary); }
+
+        /* TRANG THANH TOÁN QR */
+        .sub-page {
+            position: fixed; inset: 0; background: var(--bg-gradient);
+            z-index: 3000; padding: 25px; display: none; overflow-y: auto;
+        }
+        .nav-back { font-weight: 900; color: var(--accent); margin-bottom: 25px; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <div class="sakura-container" id="sakura-box"></div>
-    <div class="overlay" id="overlay" onclick="closeDrawer()"></div>
+    <div class="drawer-overlay" id="overlay" onclick="closeDrawer()"></div>
 
-    <div id="home-screen">
-        <div class="system-bar glass">
-            <div class="sys-item">
-                <i class="fa-regular fa-clock"></i> <span id="clock">00:00:00</span>
+    <div id="view-main">
+        <div class="top-system-bar glass-card">
+            <div class="sys-clock">
+                <i class="fa-regular fa-clock"></i> <span id="clock-display">00:00:00</span>
+                <span style="opacity: 0.3; margin: 0 5px;">|</span>
+                <span id="date-display">01/01/2026</span>
             </div>
-            <div class="sys-item">
-                <i class="fa-regular fa-calendar-check"></i> <span id="date">01/01/2026</span>
-            </div>
-            <div class="sys-item">
-                <span id="bat-percent">--%</span>
-                <div class="battery-outer"><div id="bat-level" class="battery-inner" style="width: 0%"></div></div>
+            <div class="sys-battery">
+                <span id="bat-text">--%</span>
+                <div class="battery-shell"><div id="bat-level" class="battery-bar" style="width: 0%"></div></div>
             </div>
         </div>
 
-        <div class="header-main">
-            <div class="user-profile glass">
-                <img id="u-avatar" src="https://ui-avatars.com/api/?name=U&background=ff80ab&color=fff" class="avatar-frame">
-                <div class="user-text">
-                    <b id="u-name">Khách hàng</b>
-                    <span id="u-status">HỘI VIÊN BẠC</span>
+        <div class="user-section">
+            <div class="user-info-box glass-card">
+                <img id="u-avatar" src="https://ui-avatars.com/api/?background=ff80ab&color=fff" class="user-avatar">
+                <div class="user-detail">
+                    <b id="u-full-name">Người dùng Telegram</b>
+                    <span id="u-handle">@username</span>
+                    <span id="u-tgid" style="opacity: 0.5;">ID: 000000000</span>
                 </div>
             </div>
-            <div class="btn-menu glass" onclick="openDrawer()">
-                <i class="fa-solid fa-bars-staggered" style="font-size: 24px; color: var(--primary);"></i>
+            <div class="menu-toggle-btn glass-card" onclick="openDrawer()">
+                <i class="fa-solid fa-bars-staggered"></i>
             </div>
         </div>
 
-        <div class="marquee-box glass">
-            <i class="fa-solid fa-bullhorn"></i>
-            <marquee class="marquee-content" scrollamount="5">Chào mừng đến với Tokyo Sakura - Hệ thống Hack Free Fire & Cloud Phone uy tín 24/7. Chúc bạn một ngày tốt lành!</marquee>
-        </div>
-
-        <div id="shop-container"></div>
+        <div id="shop-root"></div>
     </div>
 
-    <div id="page-pay-method" class="sub-page">
-        <div class="back-nav" onclick="closeSubPage('page-pay-method')">
-            <i class="fa-solid fa-circle-chevron-left"></i> QUAY LẠI CỬA HÀNG
-        </div>
-        <h2>Thanh toán đơn hàng</h2>
-        <p style="opacity: 0.6; font-size: 13px; margin-bottom: 30px;">Vui lòng chọn một trong các phương thức nạp tiền bên dưới:</p>
-        
-        <div class="glass" style="padding: 25px; margin-bottom: 15px; display: flex; align-items: center; gap: 20px;" onclick="openSubPage('page-atm')">
-            <i class="fa-solid fa-building-columns" style="font-size: 28px; color: var(--primary);"></i>
-            <div><b>ATM / MoMo / ZaloPay</b><br><small style="color: var(--success); font-weight: bold;">Tự động & Ưu đãi +10%</small></div>
+    <div class="drawer-content" id="drawer">
+        <div class="drawer-user">
+            <img id="d-avatar" src="" style="width: 85px; height: 85px; border-radius: 50%; border: 4px solid var(--primary);">
+            <h3 id="d-name" style="margin: 15px 0 5px;">Username</h3>
+            <p id="d-id" style="font-size: 11px; opacity: 0.5; font-weight: 800;">ID: 000000000</p>
         </div>
 
-        <div class="glass" style="padding: 25px;" onclick="openSubPage('page-card')">
-            <i class="fa-solid fa-mobile-screen-button" style="font-size: 28px; color: #fb8c00;"></i>
-            <div><b>Nạp thẻ cào điện thoại</b><br><small>Viettel, Mobi, Vina, Zing...</small></div>
+        <div class="menu-link" onclick="tg.showAlert('Tính năng lịch sử đang đồng bộ...')">
+            <i class="fa-solid fa-receipt" style="color: var(--primary);"></i> Lịch sử mua hàng
         </div>
+
+        <p style="font-size: 10px; font-weight: 900; color: var(--accent); margin: 30px 0 10px 15px; letter-spacing: 1px;">TRUNG TÂM HỖ TRỢ</p>
+        <div class="menu-link" onclick="tg.openTelegramLink('https://t.me/tokyo_admin_1')">
+            <i class="fa-solid fa-user-tie"></i> Admin Tổng (Giao dịch)
+        </div>
+        <div class="menu-link" onclick="tg.openTelegramLink('https://t.me/tokyo_tech')">
+            <i class="fa-solid fa-microchip"></i> Kỹ thuật viên (Cài đặt)
+        </div>
+        <div class="menu-link" onclick="tg.openTelegramLink('https://t.me/tokyo_cskh')">
+            <i class="fa-solid fa-headset"></i> Khiếu nại & Hoàn tiền
+        </div>
+
+        <button class="btn-confirm" style="width: 100%; margin-top: 50px; background: #f5f5f5; color: #888; box-shadow: none;" onclick="closeDrawer()">ĐÓNG MENU</button>
     </div>
 
-    <div id="page-card" class="sub-page">
-        <div class="back-nav" onclick="closeSubPage('page-card')"><i class="fa-solid fa-arrow-left"></i> TRỞ VỀ</div>
-        <h3>Nạp thẻ cào</h3>
-        <div class="glass" style="padding: 20px;">
-            <div style="margin-bottom: 15px;">
-                <label style="display: block; font-size: 11px; font-weight: 900; margin-bottom: 8px;">NHÀ MẠNG</label>
-                <select id="c-type" style="width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #eee;">
-                    <option>Viettel</option><option>Mobifone</option><option>Vinaphone</option><option>Zing</option>
-                </select>
+    <div class="footer-payment" id="footer-pay">
+        <div class="pay-flex">
+            <div class="pay-text">
+                <b id="f-selected-name">Tên sản phẩm</b>
+                <span class="total-price" id="f-total-price">0đ</span>
             </div>
-            <div style="margin-bottom: 15px;">
-                <label style="display: block; font-size: 11px; font-weight: 900; margin-bottom: 8px;">MỆNH GIÁ</label>
-                <select id="c-value" style="width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #eee;">
-                    <option value="10000">10.000đ</option><option value="20000">20.000đ</option>
-                    <option value="50000">50.000đ</option><option value="100000">100.000đ</option>
-                    <option value="200000">200.000đ</option><option value="500000">500.000đ</option>
-                </select>
-            </div>
-            <input type="number" id="c-pin" placeholder="Mã số thẻ (PIN)" style="width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #eee; margin-bottom: 10px;">
-            <input type="number" id="c-seri" placeholder="Số Seri thẻ" style="width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #eee; margin-bottom: 20px;">
-            
-            <button class="btn-checkout" style="width: 100%;" onclick="processCard()">GỬI THẺ DUYỆT</button>
+            <button class="btn-confirm" onclick="openPaymentPage()">THANH TOÁN</button>
         </div>
     </div>
 
-    <div id="page-atm" class="sub-page">
-        <div class="back-nav" onclick="closeSubPage('page-atm')"><i class="fa-solid fa-arrow-left"></i> TRỞ VỀ</div>
-        <div class="glass" style="padding: 25px; text-align: center;">
-            <h3>Chuyển khoản tự động</h3>
-            <img id="qr-img" style="width: 100%; border-radius: 20px; border: 1.5px solid #eee; margin: 15px 0;">
-            <div id="bank-info" style="text-align: left; background: white; padding: 15px; border-radius: 15px; font-size: 13px; line-height: 1.6;"></div>
-            <button class="btn-checkout" style="width: 100%; margin-top: 20px;" onclick="tg.showAlert('Hệ thống đang kiểm tra tiền...')">TÔI ĐÃ CHUYỂN TIỀN</button>
-        </div>
-    </div>
-
-    <div class="drawer" id="drawer">
-        <div style="text-align: center; margin-bottom: 40px;">
-            <img id="d-avatar" src="https://ui-avatars.com/api/?name=U&background=ff80ab&color=fff" style="width: 80px; border-radius: 50%; border: 4px solid var(--primary);">
-            <h3 id="d-name">Username</h3>
-        </div>
-        <div onclick="tg.openTelegramLink('https://t.me/muathutokyo27')" style="padding: 18px; font-weight: 800; border-bottom: 1px solid #eee;">
-            <i class="fa-solid fa-headset" style="color: var(--primary);"></i> Liên hệ Hỗ trợ
-        </div>
-        <div onclick="tg.showAlert('Tính năng lịch sử đang cập nhật!')" style="padding: 18px; font-weight: 800; border-bottom: 1px solid #eee;">
-            <i class="fa-solid fa-clock-rotate-left" style="color: var(--primary);"></i> Lịch sử đơn hàng
-        </div>
-        <button class="btn-checkout" style="margin-top: 50px; width: 100%; background: #eee; color: #666; box-shadow: none;" onclick="closeDrawer()">ĐÓNG MENU</button>
-    </div>
-
-    <div class="footer-action" id="footer-buy">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <div class="pay-info">
-                <b id="sel-name">Sản phẩm</b>
-                <span id="sel-total" class="total">0đ</span>
-            </div>
-            <button class="btn-checkout" onclick="openSubPage('page-pay-method')">THANH TOÁN</button>
+    <div id="sub-page-payment" class="sub-page">
+        <div class="nav-back" onclick="closeSubPage()"><i class="fa-solid fa-arrow-left"></i> TRỞ VỀ CỬA HÀNG</div>
+        <div class="glass-card" style="padding: 25px; text-align: center;">
+            <h3>Thanh toán hóa đơn</h3>
+            <img id="qr-code" style="width: 100%; border-radius: 20px; border: 2px solid #fff1f5; margin: 15px 0;">
+            <div id="bank-details" style="text-align: left; font-size: 13px; line-height: 1.8; background: white; padding: 15px; border-radius: 15px;"></div>
+            <button class="btn-confirm" style="width: 100%; margin-top: 25px;" onclick="tg.showAlert('Đã gửi yêu cầu kiểm tra giao dịch!')">TÔI ĐÃ CHUYỂN KHOẢN</button>
         </div>
     </div>
 
@@ -325,217 +302,252 @@
         const tg = window.Telegram.WebApp;
         tg.ready(); tg.expand();
 
-        // 1. DATA CẤU HÌNH
-        const SHOP_DATA = [
+        // 1. CẤU HÌNH DỮ LIỆU SẢN PHẨM
+        const MASTER_DATA = [
             {
                 id: 'cat-hack',
-                title: 'HACK FREE FIRE VIP',
-                icon: 'fa-fire-flame-curved',
+                name: 'HACK FREE FIRE VIP',
+                type: 'rent', // Loại thuê theo ngày
                 items: [
-                    { name: 'HG Cheat', price: 5000 },
-                    { name: 'Br Mod VIP', price: 5000 },
-                    { name: 'Drip Client', price: 10000 },
-                    { name: 'Flu Mod X', price: 7000 }
+                    { n: 'HG Cheat', p: 5000 },
+                    { n: 'Br Mod VIP', p: 5000 },
+                    { n: 'Zygame', p: 7000 },
+                    { n: 'Flu', p: 5000 },
+                    { n: 'Drip Client', p: 10000 }
                 ]
             },
             {
                 id: 'cat-cloud',
-                title: 'CLOUD PHONE TREO GAME',
-                icon: 'fa-cloud',
+                name: 'CLOUD PHONE TREO GAME',
+                type: 'rent',
                 items: [
-                    { name: 'Redfinger VIP', price: 85000 },
-                    { name: 'CC Cloud Phone', price: 90000 },
-                    { name: 'LT7 Global', price: 110000 }
+                    { n: 'Redfinger', p: 85000 },
+                    { n: 'CC Cloud', p: 90000 },
+                    { n: 'Genplay', p: 80000 },
+                    { n: 'VipPlayer', p: 105000 }
+                ]
+            },
+            {
+                id: 'cat-acc',
+                name: 'TÀI KHOẢN FREE FIRE',
+                type: 'buy', // Loại mua đứt
+                items: [
+                    { n: 'Acc FF Level 5', p: 5000 },
+                    { n: 'Acc FF Level 15', p: 15000 }
                 ]
             }
         ];
 
-        let state = {
-            selectedItem: null,
+        let cartState = {
+            category: null,
+            productName: null,
             basePrice: 0,
-            days: 1,
-            activeEl: null
+            days: 0,
+            element: null
         };
 
-        // 2. HỆ THỐNG THỜI GIAN & PIN
-        function updateSystem() {
+        // 2. CẬP NHẬT HỆ THỐNG (TIME/BATTERY)
+        function syncSystem() {
             const now = new Date();
-            document.getElementById('clock').innerText = now.toTimeString().split(' ')[0];
-            document.getElementById('date').innerText = now.toLocaleDateString('vi-VN');
+            document.getElementById('clock-display').innerText = now.toLocaleTimeString('vi-VN', { hour12: false });
+            document.getElementById('date-display').innerText = now.toLocaleDateString('vi-VN');
             
             if (navigator.getBattery) {
-                navigator.getBattery().then(bat => {
-                    const level = Math.floor(bat.level * 100);
-                    document.getElementById('bat-percent').innerText = level + "%";
-                    document.getElementById('bat-level').style.width = level + "%";
+                navigator.getBattery().then(b => {
+                    const l = Math.floor(b.level * 100);
+                    document.getElementById('bat-text').innerText = l + "%";
+                    document.getElementById('bat-level').style.width = l + "%";
                 });
             }
         }
-        setInterval(updateSystem, 1000);
-        updateSystem();
+        setInterval(syncSystem, 1000);
+        syncSystem();
 
-        // 3. RENDER GIAO DIỆN SẢN PHẨM
+        // 3. RENDER CORE
         function renderShop() {
-            const container = document.getElementById('shop-container');
+            const root = document.getElementById('shop-root');
             let html = '';
             
-            SHOP_DATA.forEach(cat => {
+            MASTER_DATA.forEach(cat => {
                 html += `
-                <div class="category-wrapper glass">
-                    <div class="category-btn" onclick="toggleCategory(this, '${cat.id}')">
-                        <b><i class="fa-solid ${cat.icon}"></i> ${cat.title}</b>
-                        <i class="fa-solid fa-chevron-down"></i>
+                <div class="glass-card cat-item">
+                    <div class="cat-header" onclick="handleToggleCat(this, '${cat.id}')">
+                        <span>${cat.name}</span>
+                        <i class="fa-solid fa-chevron-down chevron"></i>
                     </div>
-                    <div class="category-body" id="${cat.id}">
+                    <div class="cat-content" id="${cat.id}">
+                        <div class="server-status"><div class="led-blink"></div> HỆ THỐNG MÁY CHỦ TRỰC TUYẾN</div>
                         ${cat.items.map(item => {
-                            const id = item.name.replace(/\s+/g, '-');
+                            const uniqueId = btoa(item.n).substring(0, 8);
                             return `
-                            <div class="product-card">
-                                <div class="product-item" id="item-${id}" onclick="handleProductClick('${item.name}', ${item.price}, 'item-${id}')">
-                                    <b>${item.name}</b>
-                                    <span class="price">${item.price.toLocaleString()}đ</span>
+                            <div class="product-card-wrap">
+                                <div class="product-item" id="item-${uniqueId}" onclick="handleItemSelect('${cat.id}', '${cat.type}', '${item.n}', ${item.p}, 'item-${uniqueId}')">
+                                    <span class="p-name">${item.n}</span>
+                                    <span class="p-price">${item.p.toLocaleString()}đ${cat.type === 'rent' ? '/ngày' : ''}</span>
                                 </div>
-                                <div class="duration-selector" id="dur-${id}">
-                                    <div class="day-option active" onclick="setDuration(1, this)">1 Ngày</div>
-                                    <div class="day-option" onclick="setDuration(7, this)">7 Ngày</div>
-                                    <div class="day-option" onclick="setDuration(30, this)">30 Ngày</div>
-                                </div>
+                                ${cat.type === 'rent' ? `
+                                <div class="duration-box" id="dur-${uniqueId}">
+                                    <div class="day-btn" onclick="handleDaySelect(1, this)">1 Ngày</div>
+                                    <div class="day-btn" onclick="handleDaySelect(7, this)">7 Ngày</div>
+                                    <div class="day-btn" onclick="handleDaySelect(30, this)">30 Ngày</div>
+                                </div>` : ''}
                             </div>`;
                         }).join('')}
                     </div>
                 </div>`;
             });
-            container.innerHTML = html;
+            root.innerHTML = html;
         }
 
-        // 4. LOGIC CHỌN / HỦY SẢN PHẨM
-        function handleProductClick(name, price, elementId) {
-            const el = document.getElementById(elementId);
-            const selector = document.getElementById('dur-' + elementId.replace('item-', ''));
+        // 4. LOGIC CHỌN SẢN PHẨM & NGÀY
+        function handleToggleCat(el, id) {
+            const content = document.getElementById(id);
+            const isOpen = content.style.display === 'block';
+            
+            if (isOpen) clearSelection(); // Đóng danh mục thì reset chọn
 
-            // TRƯỜNG HỢP: Bấm lại sản phẩm đang chọn -> HỦY CHỌN
-            if (state.selectedItem === name) {
-                resetSelection();
+            content.style.display = isOpen ? 'none' : 'block';
+            el.classList.toggle('active');
+        }
+
+        function handleItemSelect(catId, catType, name, price, elId) {
+            const el = document.getElementById(elId);
+            const uniqueId = elId.replace('item-', '');
+
+            // Nếu bấm lại cái cũ -> Hủy chọn
+            if (cartState.productName === name) {
+                clearSelection();
                 return;
             }
 
-            // TRƯỜNG HỢP: Chọn sản phẩm mới
-            resetSelection(); // Xóa cái cũ
+            clearSelection(); // Xóa chọn cũ
 
-            state.selectedItem = name;
-            state.basePrice = price;
-            state.activeEl = elementId;
-            state.days = 1;
+            cartState = {
+                category: catId,
+                type: catType,
+                productName: name,
+                basePrice: price,
+                days: (catType === 'buy' ? 1 : 0),
+                element: el
+            };
 
             el.classList.add('selected');
-            selector.style.display = 'grid';
             
-            document.getElementById('footer-buy').style.display = 'block';
-            updateFinalPrice();
-        }
-
-        function resetSelection() {
-            if (state.activeEl) {
-                document.getElementById(state.activeEl).classList.remove('selected');
-                document.getElementById('dur-' + state.activeEl.replace('item-', '')).style.display = 'none';
-                // Reset các nút ngày về 1
-                const dayBtns = document.getElementById('dur-' + state.activeEl.replace('item-', '')).querySelectorAll('.day-option');
-                dayBtns.forEach((b, i) => i === 0 ? b.classList.add('active') : b.classList.remove('active'));
+            if (catType === 'rent') {
+                document.getElementById('dur-' + uniqueId).style.display = 'grid';
+                document.getElementById('footer-pay').style.display = 'block';
+                updateFooterUI(false);
+            } else {
+                document.getElementById('footer-pay').style.display = 'block';
+                updateFooterUI(true);
             }
-            state.selectedItem = null;
-            state.activeEl = null;
-            document.getElementById('footer-buy').style.display = 'none';
         }
 
-        function setDuration(days, btn) {
-            const siblings = btn.parentElement.querySelectorAll('.day-option');
-            siblings.forEach(s => s.classList.remove('active'));
+        function handleDaySelect(day, btn) {
+            const btns = btn.parentElement.querySelectorAll('.day-btn');
+            btns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            
-            state.days = days;
-            updateFinalPrice();
+
+            cartState.days = day;
+            updateFooterUI(true);
         }
 
-        function updateFinalPrice() {
-            let mult = 1;
-            if (state.days === 7) mult = 6.5; // Giảm giá nhẹ 7 ngày
-            if (state.days === 30) mult = 22; // Giảm giá mạnh 30 ngày
-            
-            const total = Math.floor(state.basePrice * mult);
-            document.getElementById('sel-name').innerText = `${state.selectedItem} (${state.days} Ngày)`;
-            document.getElementById('sel-total').innerText = total.toLocaleString() + "đ";
+        function updateFooterUI(ready) {
+            const fName = document.getElementById('f-selected-name');
+            const fPrice = document.getElementById('f-total-price');
 
-            // Tạo QR ATM
-            const code = "TS" + Math.floor(1000 + Math.random()*9000);
-            document.getElementById('qr-img').src = `https://img.vietqr.io/image/MB-79991312006-compact2.png?amount=${total}&addInfo=${code}`;
-            document.getElementById('bank-info').innerHTML = `
-                <b>MB BANK:</b> 79991312006<br>
-                <b>CHỦ TK:</b> TOKYO SHOP<br>
-                <b>SỐ TIỀN:</b> ${total.toLocaleString()}đ<br>
-                <b>NỘI DUNG:</b> <span style="color:red; font-weight:bold">${code}</span>
+            if (!ready) {
+                fName.innerText = cartState.productName;
+                fPrice.innerText = "CHỌN NGÀY...";
+                return;
+            }
+
+            // Tính giá ưu đãi
+            let mult = cartState.days;
+            if (cartState.days === 7) mult = 6.2; // Thuê tuần giảm giá
+            if (cartState.days === 30) mult = 24;  // Thuê tháng giảm mạnh
+
+            const total = Math.floor(cartState.basePrice * mult);
+            fName.innerText = `${cartState.productName} (${cartState.days} Ngày)`;
+            fPrice.innerText = total.toLocaleString() + "đ";
+        }
+
+        function clearSelection() {
+            if (cartState.element) {
+                cartState.element.classList.remove('selected');
+                const uniqueId = cartState.element.id.replace('item-', '');
+                const dBox = document.getElementById('dur-' + uniqueId);
+                if (dBox) {
+                    dBox.style.display = 'none';
+                    dBox.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
+                }
+            }
+            cartState = { category: null, productName: null, basePrice: 0, days: 0, element: null };
+            document.getElementById('footer-pay').style.display = 'none';
+        }
+
+        // 5. THANH TOÁN & QR
+        function openPaymentPage() {
+            if (cartState.days === 0) {
+                tg.showAlert("Vui lòng chọn số ngày sử dụng!");
+                return;
+            }
+            document.getElementById('sub-page-payment').style.display = 'block';
+            
+            const amountStr = document.getElementById('f-total-price').innerText.replace(/\D/g, '');
+            const transCode = "TOKYO" + Math.floor(100000 + Math.random() * 899999);
+            
+            document.getElementById('qr-code').src = `https://img.vietqr.io/image/MB-79991312006-compact2.png?amount=${amountStr}&addInfo=${transCode}&accountName=TOKYO%20SHOP`;
+            
+            document.getElementById('bank-details').innerHTML = `
+                <div style="margin-bottom:8px"><b>NGÂN HÀNG:</b> MB BANK (QUÂN ĐỘI)</div>
+                <div style="margin-bottom:8px"><b>SỐ TÀI KHOẢN:</b> 79991312006</div>
+                <div style="margin-bottom:8px"><b>CHỦ TK:</b> TOKYO SHOP</div>
+                <div style="margin-bottom:8px"><b>SỐ TIỀN:</b> <span style="color:var(--accent);font-weight:900">${parseInt(amountStr).toLocaleString()}đ</span></div>
+                <div><b>NỘI DUNG:</b> <span style="color:red;font-weight:900">${transCode}</span></div>
             `;
         }
 
-        // 5. ĐIỀU HƯỚNG SUB-PAGES
-        function toggleCategory(btn, id) {
-            const body = document.getElementById(id);
-            const isOpen = body.style.display === 'block';
-            
-            if (isOpen) resetSelection(); // Đóng danh mục thì hủy chọn luôn cho sạch
+        function closeSubPage() { document.getElementById('sub-page-payment').style.display = 'none'; }
 
-            body.style.display = isOpen ? 'none' : 'block';
-            btn.classList.toggle('open');
-        }
-
-        function openSubPage(id) {
-            document.getElementById(id).style.display = 'block';
-            document.getElementById('footer-buy').style.zIndex = '1'; // Đẩy footer xuống dưới subpage
-        }
-
-        function closeSubPage(id) {
-            document.getElementById(id).style.display = 'none';
-            document.getElementById('footer-buy').style.zIndex = '5000';
-        }
-
+        // 6. MENU DRAWER
         function openDrawer() {
-            document.getElementById('drawer').classList.add('active');
+            document.getElementById('drawer').classList.add('open');
             document.getElementById('overlay').style.display = 'block';
         }
-
         function closeDrawer() {
-            document.getElementById('drawer').classList.remove('active');
+            document.getElementById('drawer').classList.remove('open');
             document.getElementById('overlay').style.display = 'none';
         }
 
-        function processCard() {
-            const pin = document.getElementById('c-pin').value;
-            const seri = document.getElementById('c-seri').value;
-            if (!pin || !seri) return tg.showAlert("Hãy nhập đủ PIN và SERI!");
-            tg.showAlert("Đã gửi thẻ thành công! Vui lòng đợi hệ thống duyệt.");
-            closeSubPage('page-card');
-        }
-
-        // 6. KHỞI TẠO
+        // 7. KHỞI TẠO USER TELEGRAM
         const user = tg.initDataUnsafe?.user;
-        if(user) {
-            document.getElementById('u-name').innerText = user.first_name;
-            document.getElementById('d-name').innerText = user.first_name;
-            if(user.photo_url) {
+        if (user) {
+            const fullName = (user.first_name || "") + " " + (user.last_name || "");
+            document.getElementById('u-full-name').innerText = fullName || "Khách Hàng";
+            document.getElementById('d-name').innerText = fullName || "Khách Hàng";
+            document.getElementById('u-handle').innerText = user.username ? "@" + user.username : "@no_username";
+            document.getElementById('u-tgid').innerText = "ID: " + user.id;
+            document.getElementById('d-id').innerText = "ID: " + user.id;
+            if (user.photo_url) {
                 document.getElementById('u-avatar').src = user.photo_url;
                 document.getElementById('d-avatar').src = user.photo_url;
             }
         }
 
-        renderShop();
-
-        // Cánh hoa rơi
-        for(let i=0; i<15; i++) {
-            const s = document.createElement('div'); s.className = 'sakura';
-            s.innerHTML = '<div class="petal"></div>';
-            s.style.left = Math.random()*100+'vw'; s.style.animationDuration = (Math.random()*3+5)+'s';
-            s.style.animationDelay = Math.random()*5+'s';
-            document.getElementById('sakura-box').appendChild(s);
+        // CÁNH HOA RƠI
+        const box = document.getElementById('sakura-box');
+        for (let i = 0; i < 20; i++) {
+            const p = document.createElement('div');
+            p.className = 'petal';
+            p.style.width = p.style.height = Math.random() * 10 + 8 + 'px';
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.animationDuration = Math.random() * 3 + 4 + 's';
+            p.style.animationDelay = Math.random() * 5 + 's';
+            box.appendChild(p);
         }
+
+        renderShop();
     </script>
 </body>
 </html>
