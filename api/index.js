@@ -99,7 +99,24 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return ERR(res, 'POST only', 405);
 
-  const body = req.body || {};
+  // Parse body thủ công (Vercel ESM không tự parse)
+  let body = {};
+  try {
+    if (req.body && typeof req.body === 'object') {
+      body = req.body;
+    } else {
+      const raw = await new Promise((resolve, reject) => {
+        let data = '';
+        req.on('data', chunk => data += chunk);
+        req.on('end', () => resolve(data));
+        req.on('error', reject);
+      });
+      if (raw) body = JSON.parse(raw);
+    }
+  } catch(e) {
+    console.error('Body parse error:', e.message);
+  }
+
   const path = body._path || req.url.replace(/^\/api\/?/, '').split('/')[0] || 'me';
 
   const user = getUser(body.init_data);
