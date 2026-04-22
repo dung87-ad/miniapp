@@ -364,10 +364,12 @@ let adminKeys = {};
 
 // ── API ──────────────────────────────────────────────────────────────────────
 async function api(endpoint, body={}) {
-  const res = await fetch(endpoint, {
+  // Extract path from endpoint e.g. '/api/me' → 'me', '/api/admin' → 'admin'
+  const path = endpoint.replace(/^\/api\//, '').split('/')[0];
+  const res = await fetch('/api/index', {
     method: 'POST',
     headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({init_data: initData, ...body})
+    body: JSON.stringify({init_data: initData, _path: path, ...body})
   });
   const data = await res.json();
   if (!res.ok) throw new Error(data.detail || 'Lỗi');
