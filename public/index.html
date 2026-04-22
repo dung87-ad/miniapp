@@ -1,1 +1,765 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<title>Fluorite Shop</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
 
+:root{
+  --bg:#0a0a0f;
+  --bg2:#11111a;
+  --bg3:#1a1a28;
+  --card:#16162080;
+  --border:#ffffff0f;
+  --accent:#7c6cfc;
+  --accent2:#a78bfa;
+  --gold:#f5c842;
+  --green:#34d399;
+  --red:#f87171;
+  --text:#e8e8f0;
+  --muted:#6b6b8a;
+  --radius:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+
+/* GRAIN */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");opacity:.4;pointer-events:none;z-index:0}
+
+/* NAV */
+.nav{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--border);display:flex;z-index:100;padding-bottom:env(safe-area-inset-bottom)}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 0;cursor:pointer;color:var(--muted);transition:.2s;font-size:11px;font-weight:500;letter-spacing:.3px}
+.nav-btn svg{width:22px;height:22px;transition:.2s}
+.nav-btn.active{color:var(--accent2)}
+.nav-btn.active svg{filter:drop-shadow(0 0 6px var(--accent))}
+
+/* PAGES */
+.page{display:none;padding:16px 16px 90px;position:relative;z-index:1;animation:fadeUp .3s ease}
+.page.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* HEADER */
+.header{padding:20px 0 12px;text-align:center}
+.header-logo{font-size:28px;margin-bottom:4px}
+.header-title{font-size:22px;font-weight:700;background:linear-gradient(135deg,var(--accent2),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.header-sub{font-size:13px;color:var(--muted);margin-top:2px}
+
+/* CARD */
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:12px;backdrop-filter:blur(12px)}
+.card-title{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+
+/* BALANCE CARD */
+.balance-card{background:linear-gradient(135deg,#1e1b4b,#312e81);border:1px solid #4f46e520;border-radius:var(--radius);padding:22px;margin-bottom:12px;position:relative;overflow:hidden}
+.balance-card::after{content:'◆';position:absolute;right:-10px;top:-10px;font-size:80px;opacity:.05;color:var(--accent2)}
+.balance-label{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#a5b4fc;font-weight:600}
+.balance-amount{font-family:'Space Mono',monospace;font-size:32px;font-weight:700;color:#fff;margin:8px 0 4px;letter-spacing:-1px}
+.balance-sub{font-size:12px;color:#818cf8}
+.seller-badge{display:inline-flex;align-items:center;gap:5px;background:#7c3aed20;border:1px solid #7c3aed40;border-radius:20px;padding:3px 10px;font-size:11px;color:#c4b5fd;margin-top:8px}
+
+/* PRODUCT CARD */
+.prod-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:10px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:.2s;position:relative;overflow:hidden}
+.prod-card:active{transform:scale(.98)}
+.prod-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--accent),var(--accent2))}
+.prod-icon{width:44px;height:44px;background:linear-gradient(135deg,var(--accent),#5b21b6);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.prod-info{flex:1}
+.prod-name{font-weight:600;font-size:15px;margin-bottom:3px}
+.prod-stock{font-size:12px;color:var(--muted)}
+.prod-price{text-align:right}
+.prod-price-main{font-family:'Space Mono',monospace;font-weight:700;color:var(--gold);font-size:16px}
+.prod-price-old{font-size:11px;text-decoration:line-through;color:var(--muted)}
+.prod-sold{opacity:.5}
+.prod-sold .prod-icon{background:var(--bg3)}
+
+/* BUTTONS */
+.btn{width:100%;padding:14px;border-radius:12px;border:none;font-family:'Outfit',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:.2s;letter-spacing:.2px}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:linear-gradient(135deg,var(--accent),#5b21b6);color:#fff;box-shadow:0 4px 20px #7c6cfc30}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text)}
+.btn-danger{background:#7f1d1d30;border:1px solid #f8717120;color:var(--red)}
+.btn-gold{background:linear-gradient(135deg,#92400e,#78350f);color:var(--gold);border:1px solid #f5c84220}
+.btn-green{background:#064e3b30;border:1px solid #34d39920;color:var(--green)}
+
+/* INPUT */
+.input-wrap{margin-bottom:12px}
+.input-label{font-size:12px;color:var(--muted);margin-bottom:6px;font-weight:500;letter-spacing:.5px;display:block}
+.input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:13px 14px;color:var(--text);font-family:'Outfit',sans-serif;font-size:15px;outline:none;transition:.2s}
+.input:focus{border-color:var(--accent);box-shadow:0 0 0 3px #7c6cfc15}
+textarea.input{resize:none;min-height:100px}
+
+/* AMOUNT GRID */
+.amount-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.amount-btn{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:13px;color:var(--text);font-family:'Space Mono',monospace;font-size:14px;cursor:pointer;transition:.2s;font-weight:700}
+.amount-btn:active,.amount-btn.selected{background:#4f46e520;border-color:var(--accent)}
+
+/* QR */
+.qr-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:20px;text-align:center;margin-bottom:12px}
+.qr-img{width:200px;height:200px;border-radius:12px;margin:12px auto;display:block;border:4px solid #ffffff10}
+.qr-info{text-align:left;margin-top:14px}
+.qr-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border)}
+.qr-row:last-child{border:none}
+.qr-key{font-size:12px;color:var(--muted)}
+.qr-val{font-size:13px;font-weight:600;font-family:'Space Mono',monospace;cursor:pointer}
+.qr-counter{font-size:13px;color:var(--muted);margin-top:10px}
+.qr-counter span{color:var(--accent2);font-weight:600}
+.pulse{animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+
+/* HISTORY */
+.tx-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+.tx-item:last-child{border:none}
+.tx-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.tx-icon.nap{background:#064e3b30}
+.tx-icon.mua{background:#1e1b4b30}
+.tx-info{flex:1}
+.tx-desc{font-size:13px;font-weight:500}
+.tx-time{font-size:11px;color:var(--muted);margin-top:2px}
+.tx-amount{font-family:'Space Mono',monospace;font-size:14px;font-weight:700;text-align:right}
+.tx-amount.success{color:var(--green)}
+.tx-amount.failed{color:var(--red)}
+.tx-amount.pending{color:var(--gold)}
+
+/* TOP */
+.top-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)}
+.top-item:last-child{border:none}
+.top-rank{width:32px;text-align:center;font-weight:700;font-size:16px}
+.top-name{flex:1;font-size:14px;font-weight:500}
+.top-amount{font-family:'Space Mono',monospace;font-size:13px;color:var(--gold);font-weight:700}
+
+/* ADMIN */
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.stat-box{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center}
+.stat-num{font-family:'Space Mono',monospace;font-size:22px;font-weight:700;margin-bottom:4px}
+.stat-lbl{font-size:11px;color:var(--muted);letter-spacing:.8px;text-transform:uppercase}
+.key-item{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)}
+.key-item:last-child{border:none}
+.key-val{font-family:'Space Mono',monospace;font-size:12px;color:var(--accent2);flex:1;margin-right:10px;word-break:break-all}
+.key-del{background:none;border:none;color:var(--red);cursor:pointer;font-size:18px;padding:4px 8px}
+.admin-tabs{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;padding-bottom:2px}
+.admin-tab{padding:8px 14px;border-radius:20px;border:1px solid var(--border);font-size:12px;cursor:pointer;color:var(--muted);white-space:nowrap;font-family:'Outfit',sans-serif;font-weight:500;background:none;transition:.2s}
+.admin-tab.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.seller-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
+.seller-item:last-child{border:none}
+.seller-name{flex:1;font-size:14px}
+.seller-id{font-size:11px;color:var(--muted);font-family:'Space Mono',monospace}
+.user-item{padding:12px 0;border-bottom:1px solid var(--border)}
+.user-item:last-child{border:none}
+.user-row{display:flex;justify-content:space-between;align-items:center}
+.user-name{font-size:14px;font-weight:500}
+.user-bal{font-family:'Space Mono',monospace;font-size:13px;color:var(--gold)}
+
+/* MODAL */
+.modal-bg{position:fixed;inset:0;background:#00000090;z-index:200;display:flex;align-items:flex-end;backdrop-filter:blur(4px)}
+.modal-bg.hidden{display:none}
+.modal{background:var(--bg2);border-radius:24px 24px 0 0;padding:24px 20px calc(24px + env(safe-area-inset-bottom));width:100%;max-height:90vh;overflow-y:auto;border-top:1px solid var(--border)}
+.modal-title{font-size:18px;font-weight:700;margin-bottom:18px}
+.modal-drag{width:40px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 20px}
+
+/* TOAST */
+#toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:#1e1e30;border:1px solid var(--border);border-radius:10px;padding:10px 18px;font-size:13px;z-index:300;opacity:0;transition:.3s;white-space:nowrap;pointer-events:none}
+#toast.show{opacity:1}
+
+/* SPINNER */
+.spinner{width:24px;height:24px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;margin:30px auto}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.empty{text-align:center;padding:40px 20px;color:var(--muted);font-size:14px}
+.empty-icon{font-size:40px;margin-bottom:10px}
+.divider{height:1px;background:var(--border);margin:14px 0}
+.pill{display:inline-flex;align-items:center;gap:4px;background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:4px 10px;font-size:11px;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<!-- PAGES -->
+<div id="page-home" class="page active">
+  <div class="header">
+    <div class="header-logo">◆</div>
+    <div class="header-title">FLUORITE</div>
+    <div class="header-sub">iOS Key Shop</div>
+  </div>
+  <div id="balance-card" class="balance-card">
+    <div class="balance-label">SỐ DƯ HIỆN TẠI</div>
+    <div class="balance-amount" id="bal-amount">—</div>
+    <div class="balance-sub" id="bal-sub">Tổng nạp: —</div>
+    <div id="seller-badge" class="seller-badge" style="display:none">🏪 Seller — Giảm 10%</div>
+  </div>
+  <div class="card">
+    <div class="card-title">GÓI KEY</div>
+    <div id="products-list"><div class="spinner"></div></div>
+  </div>
+</div>
+
+<div id="page-deposit" class="page">
+  <div class="header">
+    <div class="header-title">Nạp Tiền</div>
+    <div class="header-sub">Chọn mệnh giá hoặc nhập tuỳ chọn</div>
+  </div>
+  <div class="amount-grid">
+    <button class="amount-btn" onclick="selectAmount(50000)">50,000đ</button>
+    <button class="amount-btn" onclick="selectAmount(100000)">100,000đ</button>
+    <button class="amount-btn" onclick="selectAmount(200000)">200,000đ</button>
+    <button class="amount-btn" onclick="selectAmount(500000)">500,000đ</button>
+  </div>
+  <div class="input-wrap">
+    <label class="input-label">HOẶC NHẬP SỐ TIỀN</label>
+    <input id="custom-amount" class="input" type="number" placeholder="VD: 150000" oninput="onCustomAmount()"/>
+  </div>
+  <button class="btn btn-primary" onclick="startDeposit()">Tạo lệnh nạp</button>
+
+  <!-- QR section -->
+  <div id="qr-section" style="display:none;margin-top:16px">
+    <div class="qr-wrap">
+      <img id="qr-img" class="qr-img" src="" alt="QR"/>
+      <div class="qr-info">
+        <div class="qr-row"><span class="qr-key">Nội dung CK</span><span class="qr-val" id="qr-desc" onclick="copyText('qr-desc')">—</span></div>
+        <div class="qr-row"><span class="qr-key">Ngân hàng</span><span class="qr-val" id="qr-bank">—</span></div>
+        <div class="qr-row"><span class="qr-key">Số TK</span><span class="qr-val" id="qr-acc" onclick="copyText('qr-acc')">—</span></div>
+        <div class="qr-row"><span class="qr-key">Chủ TK</span><span class="qr-val" id="qr-owner">—</span></div>
+        <div class="qr-row"><span class="qr-key">Số tiền</span><span class="qr-val" id="qr-amount">—</span></div>
+      </div>
+      <div class="qr-counter">⏳ Đang chờ xác nhận — <span id="qr-tick">0</span>/60</div>
+    </div>
+    <button class="btn btn-danger" onclick="cancelDeposit()">Huỷ giao dịch</button>
+  </div>
+</div>
+
+<div id="page-history" class="page">
+  <div class="header">
+    <div class="header-title">Lịch Sử</div>
+  </div>
+  <div class="admin-tabs">
+    <button class="admin-tab active" onclick="filterTx('all',this)">Tất cả</button>
+    <button class="admin-tab" onclick="filterTx('nap',this)">Nạp tiền</button>
+    <button class="admin-tab" onclick="filterTx('mua',this)">Mua key</button>
+    <button class="admin-tab" onclick="filterTx('success',this)">Thành công</button>
+    <button class="admin-tab" onclick="filterTx('failed',this)">Thất bại</button>
+  </div>
+  <div class="card">
+    <div id="tx-list"><div class="spinner"></div></div>
+  </div>
+  <div class="card" id="top-section">
+    <div class="card-title">BXH NẠP THÁNG</div>
+    <div id="top-list"><div class="spinner"></div></div>
+  </div>
+</div>
+
+<div id="page-admin" class="page" style="display:none">
+  <div class="header">
+    <div class="header-title">Admin Panel</div>
+    <div class="header-sub">Fluorite Shop</div>
+  </div>
+  <div class="admin-tabs">
+    <button class="admin-tab active" onclick="adminTab('stats',this)">Thống Kê</button>
+    <button class="admin-tab" onclick="adminTab('keys',this)">Kho Key</button>
+    <button class="admin-tab" onclick="adminTab('sellers',this)">Sellers</button>
+    <button class="admin-tab" onclick="adminTab('users',this)">Users</button>
+    <button class="admin-tab" onclick="adminTab('broadcast',this)">Broadcast</button>
+  </div>
+  <div id="admin-stats-panel">
+    <div class="stat-grid" id="stat-grid"><div class="spinner"></div></div>
+  </div>
+  <div id="admin-keys-panel" style="display:none">
+    <div class="admin-tabs">
+      <button class="admin-tab active" onclick="keyTab('fluorite_1d',this)">1 Ngày</button>
+      <button class="admin-tab" onclick="keyTab('fluorite_7d',this)">7 Ngày</button>
+      <button class="admin-tab" onclick="keyTab('fluorite_31d',this)">31 Ngày</button>
+    </div>
+    <div class="card">
+      <div id="key-list"><div class="spinner"></div></div>
+    </div>
+    <button class="btn btn-primary" onclick="openAddKey()" style="margin-bottom:8px">+ Thêm Key</button>
+  </div>
+  <div id="admin-sellers-panel" style="display:none">
+    <div class="card">
+      <div id="seller-list"><div class="spinner"></div></div>
+    </div>
+    <div class="input-wrap" style="margin-top:8px">
+      <label class="input-label">USER ID</label>
+      <input id="new-seller-id" class="input" type="number" placeholder="Nhập User ID"/>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-green" onclick="addSeller()">Thêm Seller</button>
+      <button class="btn btn-danger" onclick="removeSeller()">Xoá Seller</button>
+    </div>
+  </div>
+  <div id="admin-users-panel" style="display:none">
+    <div class="card" id="user-list"><div class="spinner"></div></div>
+  </div>
+  <div id="admin-broadcast-panel" style="display:none">
+    <div class="input-wrap">
+      <label class="input-label">NỘI DUNG</label>
+      <textarea id="bc-text" class="input" placeholder="Hỗ trợ HTML: &lt;b&gt;bold&lt;/b&gt;, &lt;i&gt;italic&lt;/i&gt;..."></textarea>
+    </div>
+    <button class="btn btn-primary" onclick="doBroadcast()">📣 Gửi tới tất cả</button>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-btn active" id="nav-home" onclick="goPage('home')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+    Shop
+  </div>
+  <div class="nav-btn" id="nav-deposit" onclick="goPage('deposit')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+    Nạp
+  </div>
+  <div class="nav-btn" id="nav-history" onclick="goPage('history')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+    Lịch Sử
+  </div>
+  <div class="nav-btn" id="nav-admin" onclick="goPage('admin')" style="display:none">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 10-16 0"/><path d="M16 21v-1a4 4 0 00-8 0v1"/></svg>
+    Admin
+  </div>
+</nav>
+
+<!-- MODAL: Buy confirm -->
+<div id="modal-buy" class="modal-bg hidden">
+  <div class="modal">
+    <div class="modal-drag"></div>
+    <div class="modal-title" id="modal-buy-title">Xác nhận mua</div>
+    <div class="card" style="margin-bottom:16px" id="modal-buy-info"></div>
+    <button class="btn btn-primary" onclick="confirmBuy()" style="margin-bottom:8px">Xác nhận mua</button>
+    <button class="btn btn-outline" onclick="closeModal('modal-buy')">Huỷ</button>
+  </div>
+</div>
+
+<!-- MODAL: Add key -->
+<div id="modal-addkey" class="modal-bg hidden">
+  <div class="modal">
+    <div class="modal-drag"></div>
+    <div class="modal-title">Thêm Key</div>
+    <div class="input-wrap">
+      <label class="input-label">DÁN KEY (MỖI DÒNG 1 KEY)</label>
+      <textarea id="add-key-text" class="input" placeholder="key1&#10;key2&#10;key3" style="min-height:140px"></textarea>
+    </div>
+    <button class="btn btn-primary" onclick="submitAddKey()" style="margin-bottom:8px">Thêm</button>
+    <button class="btn btn-outline" onclick="closeModal('modal-addkey')">Huỷ</button>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+const tg = window.Telegram.WebApp;
+tg.ready();
+tg.expand();
+
+const API = ''; // same origin
+let initData = tg.initData;
+let me = null;
+let allTx = [];
+let txFilter = 'all';
+let currentPollId = null;
+let pollTimer = null;
+let pollCount = 0;
+let selectedAmount = 0;
+let buyTarget = null;
+let currentKeyTab = 'fluorite_1d';
+let adminKeys = {};
+
+// ── API ──────────────────────────────────────────────────────────────────────
+async function api(endpoint, body={}) {
+  const res = await fetch(endpoint, {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({init_data: initData, ...body})
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.detail || 'Lỗi');
+  return data;
+}
+
+// ── INIT ─────────────────────────────────────────────────────────────────────
+async function init() {
+  try {
+    me = await api('/api/me');
+    renderHome();
+    if (me.is_admin) {
+      document.getElementById('nav-admin').style.display = 'flex';
+      document.getElementById('page-admin').style.display = 'block';
+    }
+  } catch(e) {
+    toast('Không thể kết nối server');
+  }
+}
+
+function renderHome() {
+  document.getElementById('bal-amount').textContent = fmt(me.balance) + 'đ';
+  document.getElementById('bal-sub').textContent = 'Tổng nạp: ' + fmt(me.total_nap) + 'đ';
+  if (me.is_seller) document.getElementById('seller-badge').style.display = 'inline-flex';
+  loadProducts();
+}
+
+async function loadProducts() {
+  const list = document.getElementById('products-list');
+  try {
+    const prods = await api('/api/products');
+    list.innerHTML = prods.map(p => {
+      const sold = p.stock <= 0;
+      const seller = me.is_seller && p.price < p.base_price;
+      return `<div class="prod-card ${sold?'prod-sold':''}" onclick="${sold?'':` openBuy('${p.id}',${p.price},'${p.name}')`}">
+        <div class="prod-icon">${p.name.includes('1')? '🥉': p.name.includes('7')? '🥈': '🥇'}</div>
+        <div class="prod-info">
+          <div class="prod-name">${p.name}</div>
+          <div class="prod-stock">${sold? '❌ Hết hàng' : `✔ Còn ${p.stock} key`}</div>
+        </div>
+        <div class="prod-price">
+          <div class="prod-price-main">${fmt(p.price)}đ</div>
+          ${seller? `<div class="prod-price-old">${fmt(p.base_price)}đ</div>` : ''}
+        </div>
+      </div>`;
+    }).join('');
+  } catch(e) { list.innerHTML = '<div class="empty">Không tải được</div>'; }
+}
+
+// ── DEPOSIT ──────────────────────────────────────────────────────────────────
+function selectAmount(v) {
+  selectedAmount = v;
+  document.getElementById('custom-amount').value = '';
+  document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('selected'));
+  event.target.classList.add('selected');
+}
+
+function onCustomAmount() {
+  selectedAmount = parseInt(document.getElementById('custom-amount').value) || 0;
+  document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('selected'));
+}
+
+async function startDeposit() {
+  if (!selectedAmount || selectedAmount < 10000) return toast('Nhập số tiền hợp lệ (min 10,000đ)');
+  try {
+    const d = await api('/api/deposit', {action:'create', amount: selectedAmount});
+    document.getElementById('qr-img').src = d.qr_url;
+    document.getElementById('qr-desc').textContent = d.description;
+    document.getElementById('qr-bank').textContent = d.bank_name;
+    document.getElementById('qr-acc').textContent = d.account_number;
+    document.getElementById('qr-owner').textContent = d.account_name;
+    document.getElementById('qr-amount').textContent = fmt(d.amount) + 'đ';
+    document.getElementById('qr-section').style.display = 'block';
+    currentPollId = d.trans_id;
+    pollCount = 0;
+    startPolling();
+    tg.HapticFeedback.notificationOccurred('success');
+  } catch(e) { toast(e.message); }
+}
+
+function startPolling() {
+  if (pollTimer) clearInterval(pollTimer);
+  pollTimer = setInterval(async () => {
+    if (!currentPollId) return clearInterval(pollTimer);
+    pollCount++;
+    document.getElementById('qr-tick').textContent = pollCount;
+    try {
+      const r = await api('/api/deposit', {action:'poll', trans_id: currentPollId});
+      if (r.status === 'success') {
+        clearInterval(pollTimer);
+        currentPollId = null;
+        me.balance = r.balance;
+        document.getElementById('bal-amount').textContent = fmt(r.balance) + 'đ';
+        document.getElementById('qr-section').style.display = 'none';
+        tg.HapticFeedback.notificationOccurred('success');
+        toast('✅ Nạp thành công!');
+        goPage('home');
+      } else if (r.status === 'timeout') {
+        clearInterval(pollTimer);
+        currentPollId = null;
+        document.getElementById('qr-section').style.display = 'none';
+        toast('⌛ Hết thời gian chờ');
+      }
+    } catch(e) {}
+    if (pollCount >= 60) { clearInterval(pollTimer); currentPollId = null; }
+  }, 5000);
+}
+
+async function cancelDeposit() {
+  clearInterval(pollTimer);
+  currentPollId = null;
+  await api('/api/deposit', {action:'cancel'}).catch(()=>{});
+  document.getElementById('qr-section').style.display = 'none';
+  toast('Đã huỷ giao dịch');
+}
+
+// ── BUY ──────────────────────────────────────────────────────────────────────
+function openBuy(id, price, name) {
+  buyTarget = {id, price, name};
+  document.getElementById('modal-buy-title').textContent = name;
+  document.getElementById('modal-buy-info').innerHTML = `
+    <div class="qr-row"><span class="qr-key">Giá</span><span class="qr-val">${fmt(price)}đ</span></div>
+    <div class="qr-row"><span class="qr-key">Số dư</span><span class="qr-val">${fmt(me.balance)}đ</span></div>
+    <div class="qr-row"><span class="qr-key">Sau khi mua</span><span class="qr-val" style="color:var(--${me.balance>=price?'green':'red'})">${fmt(me.balance-price)}đ</span></div>
+  `;
+  openModal('modal-buy');
+}
+
+async function confirmBuy() {
+  if (!buyTarget) return;
+  closeModal('modal-buy');
+  try {
+    const r = await api('/api/buy', {prod_id: buyTarget.id});
+    me.balance = r.balance;
+    document.getElementById('bal-amount').textContent = fmt(r.balance) + 'đ';
+    tg.HapticFeedback.notificationOccurred('success');
+    toast('🎉 Mua thành công!');
+    // Show key in a nice alert
+    tg.showAlert(`🔑 Key của bạn:\n\n${r.key}\n\n(Nhấn OK để đóng, key đã được copy)`);
+    navigator.clipboard.writeText(r.key).catch(()=>{});
+    loadProducts();
+  } catch(e) {
+    tg.HapticFeedback.notificationOccurred('error');
+    toast('❌ ' + e.message);
+  }
+}
+
+// ── HISTORY ──────────────────────────────────────────────────────────────────
+async function loadHistory() {
+  const list = document.getElementById('tx-list');
+  list.innerHTML = '<div class="spinner"></div>';
+  try {
+    allTx = await api('/api/transactions');
+    renderTx();
+    loadTop();
+  } catch(e) { list.innerHTML = '<div class="empty">Không tải được</div>'; }
+}
+
+function filterTx(f, el) {
+  txFilter = f;
+  document.querySelectorAll('#page-history .admin-tab').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  renderTx();
+}
+
+function renderTx() {
+  const list = document.getElementById('tx-list');
+  let txs = allTx;
+  if (txFilter === 'nap') txs = txs.filter(t=>t.type==='nap');
+  else if (txFilter === 'mua') txs = txs.filter(t=>t.type==='mua');
+  else if (txFilter === 'success') txs = txs.filter(t=>t.status==='success');
+  else if (txFilter === 'failed') txs = txs.filter(t=>t.status==='failed');
+  if (!txs.length) { list.innerHTML = '<div class="empty"><div class="empty-icon">📭</div>Chưa có giao dịch nào</div>'; return; }
+  const icons = {nap:'💳',mua:'🛍'};
+  const sc = {success:'success',failed:'failed',pending:'pending'};
+  const sign = {nap:'+',mua:'-'};
+  list.innerHTML = txs.map(t => `
+    <div class="tx-item">
+      <div class="tx-icon ${t.type}">${icons[t.type]||'📄'}</div>
+      <div class="tx-info">
+        <div class="tx-desc">${t.details || (t.type==='nap'?'Nạp tiền':'Mua key')}</div>
+        <div class="tx-time">${fmtTime(t.time)} · ${t.trans_id}</div>
+      </div>
+      <div class="tx-amount ${sc[t.status]}">${sign[t.type]||''}${fmt(t.amount)}đ</div>
+    </div>
+  `).join('');
+}
+
+async function loadTop() {
+  const list = document.getElementById('top-list');
+  try {
+    const r = await api('/api/top');
+    const data = r.month;
+    if (!data.length) { list.innerHTML = '<div class="empty">Chưa có dữ liệu</div>'; return; }
+    const medals = ['🥇','🥈','🥉'];
+    list.innerHTML = data.map((u,i) => `
+      <div class="top-item">
+        <div class="top-rank">${medals[i]||i+1}</div>
+        <div class="top-name">${u.name}</div>
+        <div class="top-amount">${fmt(u.amount)}đ</div>
+      </div>
+    `).join('');
+  } catch(e) { list.innerHTML = '<div class="empty">Lỗi</div>'; }
+}
+
+// ── ADMIN ─────────────────────────────────────────────────────────────────────
+function adminTab(tab, el) {
+  document.querySelectorAll('#page-admin .admin-tabs:first-of-type .admin-tab').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  ['stats','keys','sellers','users','broadcast'].forEach(t => {
+    document.getElementById(`admin-${t}-panel`).style.display = t===tab?'block':'none';
+  });
+  if (tab==='stats') loadStats();
+  else if (tab==='keys') loadKeys();
+  else if (tab==='sellers') loadSellers();
+  else if (tab==='users') loadUsers();
+}
+
+async function loadStats() {
+  const g = document.getElementById('stat-grid');
+  try {
+    const s = await api('/api/admin', {action:'stats'});
+    const total_keys = Object.values(s.keys).reduce((a,b)=>a+b,0);
+    g.innerHTML = `
+      <div class="stat-box"><div class="stat-num" style="color:var(--accent2)">${total_keys}</div><div class="stat-lbl">Tổng Key</div></div>
+      <div class="stat-box"><div class="stat-num" style="color:var(--gold)">${fmt(s.total_balance)}đ</div><div class="stat-lbl">Số Dư TK</div></div>
+      <div class="stat-box"><div class="stat-num" style="color:var(--green)">${s.total_users}</div><div class="stat-lbl">Users</div></div>
+      <div class="stat-box"><div class="stat-num" style="color:var(--red)">${s.total_sellers}</div><div class="stat-lbl">Sellers</div></div>
+      ${Object.entries(s.keys).map(([k,v])=>`<div class="stat-box"><div class="stat-num">${v}</div><div class="stat-lbl">${k.replace('fluorite_','').toUpperCase()}</div></div>`).join('')}
+      <div class="stat-box"><div class="stat-num" style="color:var(--gold)">${fmt(s.total_revenue)}đ</div><div class="stat-lbl">Doanh Thu</div></div>
+    `;
+  } catch(e) { g.innerHTML = '<div class="empty">Lỗi</div>'; }
+}
+
+function keyTab(prod, el) {
+  currentKeyTab = prod;
+  document.querySelectorAll('#admin-keys-panel .admin-tab').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  renderKeyList();
+}
+
+async function loadKeys() {
+  try {
+    adminKeys = await api('/api/admin', {action:'keys'});
+    renderKeyList();
+  } catch(e) {}
+}
+
+function renderKeyList() {
+  const list = document.getElementById('key-list');
+  const keys = adminKeys[currentKeyTab] || [];
+  if (!keys.length) { list.innerHTML = '<div class="empty"><div class="empty-icon">📭</div>Kho trống</div>'; return; }
+  list.innerHTML = keys.map((k,i) => `
+    <div class="key-item">
+      <div class="key-val">${k}</div>
+      <button class="key-del" onclick="deleteKey(${i})">🗑</button>
+    </div>
+  `).join('');
+}
+
+function openAddKey() {
+  document.getElementById('add-key-text').value = '';
+  openModal('modal-addkey');
+}
+
+async function submitAddKey() {
+  const text = document.getElementById('add-key-text').value.trim();
+  if (!text) return toast('Nhập key vào');
+  try {
+    const r = await api('/api/admin', {action:'keys_add', prod_id: currentKeyTab, keys_text: text});
+    closeModal('modal-addkey');
+    toast(`✅ Đã thêm ${r.added} key`);
+    adminKeys = await api('/api/admin', {action:'keys'});
+    renderKeyList();
+  } catch(e) { toast(e.message); }
+}
+
+async function deleteKey(index) {
+  tg.showConfirm('Xoá key này?', async (ok) => {
+    if (!ok) return;
+    try {
+      await api('/api/admin', {action:'keys_delete', prod_id: currentKeyTab, index});
+      toast('Đã xoá');
+      adminKeys = await api('/api/admin', {action:'keys'});
+      renderKeyList();
+    } catch(e) { toast(e.message); }
+  });
+}
+
+async function loadSellers() {
+  const list = document.getElementById('seller-list');
+  try {
+    const sellers = await api('/api/admin', {action:'sellers'});
+    if (!sellers.length) { list.innerHTML = '<div class="empty">Chưa có seller</div>'; return; }
+    list.innerHTML = sellers.map(s => `
+      <div class="seller-item">
+        <div><div class="seller-name">${s.name}${s.username?` @${s.username}`:''}</div><div class="seller-id">${s.uid}</div></div>
+      </div>
+    `).join('');
+  } catch(e) { list.innerHTML = '<div class="empty">Lỗi</div>'; }
+}
+
+async function addSeller() {
+  const uid = document.getElementById('new-seller-id').value.trim();
+  if (!uid) return toast('Nhập User ID');
+  try {
+    await api('/api/admin', {action:'sellers_add', target_uid: uid});
+    toast('✅ Đã thêm Seller');
+    document.getElementById('new-seller-id').value = '';
+    loadSellers();
+  } catch(e) { toast(e.message); }
+}
+
+async function removeSeller() {
+  const uid = document.getElementById('new-seller-id').value.trim();
+  if (!uid) return toast('Nhập User ID cần xoá');
+  try {
+    await api('/api/admin', {action:'sellers_remove', target_uid: uid});
+    toast('✅ Đã xoá Seller');
+    document.getElementById('new-seller-id').value = '';
+    loadSellers();
+  } catch(e) { toast(e.message); }
+}
+
+async function loadUsers() {
+  const list = document.getElementById('user-list');
+  list.innerHTML = '<div class="spinner"></div>';
+  try {
+    const users = await api('/api/admin', {action:'users'});
+    list.innerHTML = users.map(u => `
+      <div class="user-item">
+        <div class="user-row">
+          <div class="user-name">${u.name}${u.username?` <span style="color:var(--muted);font-size:12px">@${u.username}</span>`:''} ${u.is_seller?'<span class="pill">🏪 Seller</span>':''}</div>
+          <div class="user-bal">${fmt(u.balance)}đ</div>
+        </div>
+        <div style="font-size:11px;color:var(--muted);margin-top:3px">ID: ${u.uid} · Tổng nạp: ${fmt(u.total_nap)}đ</div>
+      </div>
+    `).join('');
+  } catch(e) { list.innerHTML = '<div class="empty">Lỗi</div>'; }
+}
+
+async function doBroadcast() {
+  const msg = document.getElementById('bc-text').value.trim();
+  if (!msg) return toast('Nhập nội dung');
+  tg.showConfirm(`Gửi tới tất cả users?`, async (ok) => {
+    if (!ok) return;
+    try {
+      const r = await api('/api/admin', {action:'broadcast', message: msg});
+      toast(`✅ Gửi xong — ${r.success} thành công, ${r.fail} lỗi`);
+      document.getElementById('bc-text').value = '';
+    } catch(e) { toast(e.message); }
+  });
+}
+
+// ── NAVIGATION ────────────────────────────────────────────────────────────────
+function goPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  document.getElementById('nav-'+name).classList.add('active');
+  if (name==='history') loadHistory();
+  if (name==='admin') loadStats();
+  if (name==='home') { loadProducts(); renderHome(); }
+}
+
+// ── MODAL ─────────────────────────────────────────────────────────────────────
+function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+document.querySelectorAll('.modal-bg').forEach(m => m.addEventListener('click', e => { if(e.target===m) m.classList.add('hidden'); }));
+
+// ── UTILS ─────────────────────────────────────────────────────────────────────
+function fmt(n) { return Number(n).toLocaleString('vi-VN'); }
+function fmtTime(ts) {
+  const d = new Date(ts*1000);
+  return d.toLocaleDateString('vi-VN',{day:'2-digit',month:'2-digit'}) + ' ' + d.toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'});
+}
+function copyText(id) {
+  const t = document.getElementById(id).textContent;
+  navigator.clipboard.writeText(t).then(()=>toast('Đã copy!')).catch(()=>{});
+}
+
+let toastTimer;
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>el.classList.remove('show'), 2500);
+}
+
+// Start
+init();
+</script>
+</body>
+</html>
