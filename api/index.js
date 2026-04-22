@@ -67,8 +67,8 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return ERR(res, 'POST only', 405);
 
-  const path = body._path || req.url.replace(/^\/api\/?/, '').split('/')[0] || 'me';
   const body = req.body || {};
+  const path = body._path || req.url.replace(/^\/api\/?/, '').split('/')[0] || 'me';
 
   const user = getUser(body.init_data);
   if (!user) return ERR(res, 'Unauthorized', 401);
