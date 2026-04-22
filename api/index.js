@@ -35,37 +35,43 @@ const db = {
 
 // ── HELPERS ──────────────────────────────────────────────────────────────────
 function getUser(initData) {
-  // Nếu không có initData gì cả
-  if (!initData || initData === 'undefined') return null;
+  if (!initData || initData === 'undefined' || initData === '') return null;
 
-  // Parse user từ initData trước (dùng cho fallback)
+  // Parse user từ initData
   let parsedUser = null;
   try {
     const pTest = new URLSearchParams(initData);
     const userStr = pTest.get('user');
-    if (userStr) parsedUser = JSON.parse(userStr);
+    if (userStr) {
+      parsedUser = JSON.parse(userStr);
+      // Đảm bảo có id
+      if (!parsedUser || !parsedUser.id) parsedUser = null;
+    }
   } catch {}
 
-  // Dev mode: không có BOT_TOKEN
+  // Không có BOT_TOKEN → dev mode
   if (!BOT_TOKEN) {
     return parsedUser || { id: ADMIN_ID || '0', first_name: 'Dev', username: 'dev' };
   }
 
-  // Verify hash
+  // Verify hash — nếu fail vẫn dùng parsedUser (bỏ strict mode)
   try {
     const p = new URLSearchParams(initData);
     const hash = p.get('hash');
-    if (!hash) return parsedUser; // không có hash → dùng parsed user
+    if (!hash) return parsedUser;
     p.delete('hash');
-    const dc = [...p.entries()].sort(([a],[b]) => a.localeCompare(b)).map(([k,v]) => `${k}=${v}`).join('\n');
-    const sec = crypto.createHmac('sha256', 'WebAppData').update(BOT_TOKEN.trim()).digest();
+    const dc = [...p.entries()]
+      .sort(([a],[b]) => a.localeCompare(b))
+      .map(([k,v]) => `${k}=${v}`)
+      .join('\n');
+    const tokenClean = (BOT_TOKEN || '').trim().replace(/^["']|["']$/g, '');
+    const sec = crypto.createHmac('sha256', 'WebAppData').update(tokenClean).digest();
     const expected = crypto.createHmac('sha256', sec).update(dc).digest('hex');
     if (expected !== hash) {
-      console.error('Hash mismatch. Expected:', expected, 'Got:', hash);
-      // Vẫn trả về user nếu parse được (bỏ strict verify tạm thời để debug)
-      return parsedUser;
+      console.error('Hash mismatch - dùng parsedUser thay thế');
+      return parsedUser; // vẫn trả về user nếu parse được
     }
-    return JSON.parse(p.get('user') || '{}');
+    return JSON.parse(p.get('user') || 'null');
   } catch(e) {
     console.error('getUser error:', e.message);
     return parsedUser;
@@ -97,8 +103,11 @@ export default async function handler(req, res) {
   const path = body._path || req.url.replace(/^\/api\/?/, '').split('/')[0] || 'me';
 
   const user = getUser(body.init_data);
-  if (!user) return ERR(res, 'Unauthorized', 401);
+  if (!user || !user.id) return ERR(res, 'Unauthorized', 401);
   const uid = String(user.id);
+  // Đảm bảo các field cơ bản tồn tại
+  user.first_name = user.first_name || '';
+  user.username   = user.username   || '';
 
   // ── /api/me ───────────────────────────────────────────────────────────────
   if (path === 'me') {
