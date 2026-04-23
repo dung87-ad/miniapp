@@ -506,8 +506,21 @@ async function confirmBuy() {
     me.balance = r.balance;
     document.getElementById('bal-amount').textContent = fmt(r.balance)+'đ';
     tg.HapticFeedback.notificationOccurred('success');
-    tg.showAlert(`🎉 Mua thành công!\n\n🔑 Key của bạn:\n${r.key}\n\n(Key đã được gửi qua bot)`);
+
+    // Copy key
     navigator.clipboard?.writeText(r.key).catch(()=>{});
+
+    const botNote = r.bot_sent
+      ? '✅ Key đã được gửi qua bot Telegram!'
+      : '⚠️ Không gửi được qua bot — hãy lưu key này ngay!';
+
+    tg.showAlert(
+      `🎉 Mua thành công!\n\n` +
+      `📦 ${r.item_name || buyTarget.name}\n` +
+      `📅 ${r.duration || buyTarget.duration}\n\n` +
+      `🔑 Key của bạn:\n${r.key}\n\n` +
+      `${botNote}`
+    );
     loadProducts();
   } catch(e) {
     tg.HapticFeedback.notificationOccurred('error');
