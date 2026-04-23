@@ -299,7 +299,43 @@ textarea.input{resize:none;min-height:90px}
   </div>
 </nav>
 
-<!-- MODAL: Buy confirm -->
+<!-- MODAL: Manage User -->
+<div id="modal-user" class="modal-bg hidden">
+  <div class="modal">
+    <div class="modal-drag"></div>
+    <div class="modal-title" id="modal-user-title">Quản lý User</div>
+    <input type="hidden" id="manage-uid"/>
+    <div class="card" id="modal-user-info" style="margin-bottom:14px"></div>
+
+    <div class="card" style="margin-bottom:10px">
+      <div class="card-title">THÊM / TRỪ / ĐẶT SỐ DƯ</div>
+      <div class="input-wrap">
+        <label class="input-label">SỐ TIỀN (đ)</label>
+        <input id="manage-amount" class="input" type="number" placeholder="VD: 50000"/>
+      </div>
+      <div class="row-btns">
+        <button class="btn btn-green btn-sm" onclick="userAddBalance()">＋ Cộng</button>
+        <button class="btn btn-danger btn-sm" onclick="userSubBalance()">－ Trừ</button>
+        <button class="btn btn-gold btn-sm" onclick="userSetBalance()">＝ Đặt</button>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:10px">
+      <div class="card-title">HÀNH ĐỘNG KHÁC</div>
+      <div class="row-btns">
+        <button class="btn btn-outline btn-sm" onclick="userClearPending()">🔓 Xoá GD chờ</button>
+        <button class="btn btn-primary btn-sm" onclick="userMakeSeller()">🏪 Cấp Seller</button>
+        <button class="btn btn-danger btn-sm" onclick="userRemoveSeller()">❌ Xoá Seller</button>
+      </div>
+      <div style="margin-top:8px;display:flex;gap:8px;align-items:center">
+        <input id="manage-disc" class="input" type="number" placeholder="% giảm" style="flex:1"/>
+        <button class="btn btn-gold btn-sm" onclick="userSetDiscount()" style="flex-shrink:0">Set %</button>
+      </div>
+    </div>
+
+    <button class="btn btn-outline" onclick="closeModal('modal-user')">Đóng</button>
+  </div>
+</div>
 <div id="modal-buy" class="modal-bg hidden">
   <div class="modal">
     <div class="modal-drag"></div>
@@ -793,8 +829,9 @@ async function loadUsers(){
   list.innerHTML='<div class="spinner"></div>';
   try{
     const users=await api('/api/admin',{action:'users'});
+    if(!users.length){list.innerHTML='<div class="empty">Chưa có users</div>';return;}
     list.innerHTML=users.map(u=>`
-      <div class="user-row">
+      <div class="user-row" onclick="openManageUser('${u.uid}','${u.name}',${u.balance},${u.total_nap},${u.is_seller},${u.discount})" style="cursor:pointer">
         <div class="user-top">
           <div class="user-name">${u.name}${u.username?' <span style="color:var(--muted);font-size:11px">@'+u.username+'</span>':''}${u.is_seller?` <span class="pill">🏪 -${u.discount}%</span>`:''}</div>
           <div class="user-bal">${fmt(u.balance)}đ</div>
@@ -802,7 +839,70 @@ async function loadUsers(){
         <div class="user-sub">ID: ${u.uid} · Tổng nạp: ${fmt(u.total_nap)}đ</div>
       </div>
     `).join('');
-  } catch { list.innerHTML='<div class="empty">Lỗi</div>'; }
+  } catch(e) { list.innerHTML=`<div class="empty">Lỗi: ${e.message}</div>`; }
+}
+
+let currentManageUser = null;
+function openManageUser(uid, name, balance, total_nap, is_seller, discount){
+  currentManageUser = {uid, name, balance, total_nap, is_seller, discount};
+  document.getElementById('manage-uid').value = uid;
+  document.getElementById('manage-amount').value = '';
+  document.getElementById('manage-disc').value = discount||10;
+  document.getElementById('modal-user-title').textContent = name;
+  document.getElementById('modal-user-info').innerHTML = `
+    <div class="qr-row"><span class="qr-key">ID</span><span class="qr-val" style="font-family:monospace">${uid}</span></div>
+    <div class="qr-row"><span class="qr-key">Số dư</span><span class="qr-val" style="color:var(--gold)">${fmt(balance)}đ</span></div>
+    <div class="qr-row"><span class="qr-key">Tổng nạp</span><span class="qr-val">${fmt(total_nap)}đ</span></div>
+    <div class="qr-row"><span class="qr-key">Seller</span><span class="qr-val">${is_seller?`✅ Giảm ${discount}%`:'❌ Không'}</span></div>
+  `;
+  openModal('modal-user');
+}
+
+async function userAddBalance(){
+  const uid=document.getElementById('manage-uid').value;
+  const amt=Number(document.getElementById('manage-amount').value);
+  if(!amt||amt<=0) return toast('Nhập số tiền hợp lệ');
+  try{const r=await api('/api/admin',{action:'user_add_balance',target_uid:uid,amount:amt});toast(`✅ Đã cộng ${fmt(amt)}đ · Số dư: ${fmt(r.new_balance)}đ`);loadUsers();}
+  catch(e){toast('❌ '+e.message);}
+}
+async function userSubBalance(){
+  const uid=document.getElementById('manage-uid').value;
+  const amt=Number(document.getElementById('manage-amount').value);
+  if(!amt||amt<=0) return toast('Nhập số tiền hợp lệ');
+  try{const r=await api('/api/admin',{action:'user_sub_balance',target_uid:uid,amount:amt});toast(`✅ Đã trừ ${fmt(amt)}đ · Số dư: ${fmt(r.new_balance)}đ`);loadUsers();}
+  catch(e){toast('❌ '+e.message);}
+}
+async function userSetBalance(){
+  const uid=document.getElementById('manage-uid').value;
+  const amt=Number(document.getElementById('manage-amount').value);
+  if(amt<0) return toast('Nhập số tiền hợp lệ');
+  tg.showConfirm(`Đặt số dư = ${fmt(amt)}đ cho user này?`, async ok=>{
+    if(!ok)return;
+    try{await api('/api/admin',{action:'user_set_balance',target_uid:uid,amount:amt});toast(`✅ Đã đặt số dư: ${fmt(amt)}đ`);loadUsers();}
+    catch(e){toast('❌ '+e.message);}
+  });
+}
+async function userClearPending(){
+  const uid=document.getElementById('manage-uid').value;
+  try{await api('/api/admin',{action:'user_clear_pending',target_uid:uid});toast('✅ Đã xoá giao dịch chờ');}
+  catch(e){toast('❌ '+e.message);}
+}
+async function userMakeSeller(){
+  const uid=document.getElementById('manage-uid').value;
+  const disc=Number(document.getElementById('manage-disc').value)||10;
+  try{await api('/api/admin',{action:'sellers_add',target_uid:uid,discount:disc});toast(`✅ Đã cấp Seller -${disc}%`);loadUsers();}
+  catch(e){toast('❌ '+e.message);}
+}
+async function userRemoveSeller(){
+  const uid=document.getElementById('manage-uid').value;
+  try{await api('/api/admin',{action:'sellers_remove',target_uid:uid});toast('✅ Đã xoá Seller');loadUsers();}
+  catch(e){toast('❌ '+e.message);}
+}
+async function userSetDiscount(){
+  const uid=document.getElementById('manage-uid').value;
+  const disc=Number(document.getElementById('manage-disc').value)||10;
+  try{await api('/api/admin',{action:'sellers_edit',target_uid:uid,discount:disc});toast(`✅ Đã cập nhật -${disc}%`);loadUsers();}
+  catch(e){toast('❌ '+e.message);}
 }
 
 // NAV
