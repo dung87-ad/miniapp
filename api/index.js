@@ -132,7 +132,21 @@ export default async function handler(req, res) {
     if (action==='create') {
       if (!amount||amount<10000) return ERR(res,'Tối thiểu 10,000đ');
       const pending=await db.pending.get();
-      if (pending[uid]) return ERR(res,'Bạn đang có giao dịch chờ');
+      // Tự động xoá giao dịch cũ nếu đã quá 10 phút (tránh bị kẹt)
+      if (pending[uid]) {
+        const age = Date.now() - (pending[uid].created_at || 0);
+        if (age > 10 * 60 * 1000) {
+          // Hết hạn → tự xoá
+          const tid2 = pending[uid].trans_id;
+          delete pending[uid];
+          const txs2 = await db.txs.get();
+          const t2 = txs2.find(x=>x.trans_id===tid2);
+          if (t2) t2.status='failed';
+          await Promise.all([db.pending.set(pending), db.txs.set(txs2)]);
+        } else {
+          return ERR(res,'Bạn đang có giao dịch chờ');
+        }
+      }
       const tid=randomBytes(4).toString('hex'), desc=`NAP_${tid}`;
       pending[uid]={trans_id:tid,amount,created_at:Date.now()};
       await db.pending.set(pending);
@@ -303,6 +317,60 @@ export default async function handler(req, res) {
     if (action==='users') {
       const [users,members,sellers]=await Promise.all([db.users.get(),db.members.get(),db.sellers.get()]);
       return R(res,Object.entries(members).map(([id,m])=>({uid:id,name:m.first_name||id,username:m.username||'',balance:(users[id]||{}).balance||0,total_nap:(users[id]||{}).total_nap||0,is_seller:!!sellers[id],discount:sellers[id]?.discount||0})).sort((a,b)=>b.total_nap-a.total_nap));
+    }
+
+    // Thêm tiền user
+    if (action==='user_add_balance') {
+      const tid=String(rest.target_uid), amt=Number(rest.amount);
+      if (!tid||!amt||amt<=0) return ERR(res,'Thiếu thông tin');
+      const users=await db.users.get();
+      if (!users[tid]) users[tid]={balance:0,total_nap:0,weekly_nap:0,monthly_nap:0};
+      users[tid].balance+=amt;
+      const txs=await db.txs.get();
+      txs.push({user_id:tid,type:'nap',amount:amt,status:'success',trans_id:'ADM'+randomBytes(2).toString('hex').toUpperCase(),details:`Admin cộng ${amt.toLocaleString('vi-VN')}đ`,time:Date.now()/1000});
+      await Promise.all([db.users.set(users),db.txs.set(txs)]);
+      await tgSend(Number(tid),`💰 Admin đã cộng <b>+${amt.toLocaleString('vi-VN')}đ</b> vào tài khoản của bạn!\n💳 Số dư: <b>${users[tid].balance.toLocaleString('vi-VN')}đ</b>`);
+      return R(res,{ok:true,new_balance:users[tid].balance});
+    }
+
+    // Trừ tiền user
+    if (action==='user_sub_balance') {
+      const tid=String(rest.target_uid), amt=Number(rest.amount);
+      if (!tid||!amt||amt<=0) return ERR(res,'Thiếu thông tin');
+      const users=await db.users.get();
+      if (!users[tid]) users[tid]={balance:0,total_nap:0,weekly_nap:0,monthly_nap:0};
+      users[tid].balance=Math.max(0,users[tid].balance-amt);
+      const txs=await db.txs.get();
+      txs.push({user_id:tid,type:'mua',amount:amt,status:'success',trans_id:'ADM'+randomBytes(2).toString('hex').toUpperCase(),details:`Admin trừ ${amt.toLocaleString('vi-VN')}đ`,time:Date.now()/1000});
+      await Promise.all([db.users.set(users),db.txs.set(txs)]);
+      await tgSend(Number(tid),`⚠️ Admin đã trừ <b>-${amt.toLocaleString('vi-VN')}đ</b> khỏi tài khoản của bạn.\n💳 Số dư: <b>${users[tid].balance.toLocaleString('vi-VN')}đ</b>`);
+      return R(res,{ok:true,new_balance:users[tid].balance});
+    }
+
+    // Set số dư cố định
+    if (action==='user_set_balance') {
+      const tid=String(rest.target_uid), amt=Number(rest.amount);
+      if (!tid||amt<0) return ERR(res,'Thiếu thông tin');
+      const users=await db.users.get();
+      if (!users[tid]) users[tid]={balance:0,total_nap:0,weekly_nap:0,monthly_nap:0};
+      users[tid].balance=amt;
+      await db.users.set(users);
+      await tgSend(Number(tid),`💳 Admin đã cập nhật số dư tài khoản của bạn: <b>${amt.toLocaleString('vi-VN')}đ</b>`);
+      return R(res,{ok:true,new_balance:amt});
+    }
+
+    // Xoá giao dịch đang chờ (giải phóng nếu bị kẹt)
+    if (action==='user_clear_pending') {
+      const tid=String(rest.target_uid);
+      const pending=await db.pending.get();
+      if (pending[tid]) {
+        const ptid=pending[tid].trans_id;
+        delete pending[tid];
+        const txs=await db.txs.get();
+        const t=txs.find(x=>x.trans_id===ptid); if(t) t.status='failed';
+        await Promise.all([db.pending.set(pending),db.txs.set(txs)]);
+      }
+      return R(res,{ok:true});
     }
     if (action==='broadcast') {
       const members=await db.members.get(); let s=0,f=0;
