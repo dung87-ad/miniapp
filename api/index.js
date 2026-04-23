@@ -53,13 +53,19 @@ const getDiscount = (uid, sellers) => sellers[String(uid)]?.discount || 0;
 const applyDiscount = (price, disc) => disc > 0 ? Math.round(price*(1-disc/100)) : price;
 
 async function tgSend(chat_id, text) {
-  if (!BOT_TOKEN || !chat_id) return;
+  if (!BOT_TOKEN || !chat_id) return false;
   try {
-    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{
+    const r = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({chat_id, text, parse_mode:'HTML'})
     });
-  } catch {}
+    const data = await r.json();
+    if (!r.ok) console.error('tgSend fail:', data.description, '| chat_id:', chat_id);
+    return r.ok;
+  } catch(e) {
+    console.error('tgSend error:', e.message);
+    return false;
+  }
 }
 
 export default async function handler(req, res) {
@@ -228,10 +234,10 @@ export default async function handler(req, res) {
       `🔑 Key: <code>${key}</code>\n`+
       `💳 Số dư còn: <b>${users[uid].balance.toLocaleString('vi-VN')}đ</b>`
     );
-    await tgSend(Number(uid),
+    const bot_sent = await tgSend(Number(uid),
       `🎉 <b>MUA KEY THÀNH CÔNG!</b>\n\n`+
       `📦 Mã đơn: <code>${tid}</code>\n`+
-      `🔑 Key của bạn:\n<b>${key}</b>\n\n`+
+      `🔑 Key của bạn:\n<code>${key}</code>\n\n`+
       `📱 Package: <b>${foundItem.package||foundCatName}</b>\n`+
       `📅 Thời hạn: <b>${foundItem.duration||foundItem.name}</b>\n`+
       `💰 Số tiền: <b>${price.toLocaleString('vi-VN')}đ</b>\n\n`+
@@ -240,7 +246,7 @@ export default async function handler(req, res) {
       `2. Mở mod và nhập key để kích hoạt\n\n`+
       `🙏 Cảm ơn bạn đã tin tưởng sử dụng dịch vụ!`
     );
-    return R(res,{key,balance:users[uid].balance,trans_id:tid});
+    return R(res,{key, balance:users[uid].balance, trans_id:tid, bot_sent, item_name:foundItem.name, duration:foundItem.duration||'', pkg:foundItem.package||foundCatName});
   }
 
   // ADMIN
