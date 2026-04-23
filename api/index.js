@@ -234,7 +234,7 @@ export default async function handler(req, res) {
       `🔑 Key: <code>${key}</code>\n`+
       `💳 Số dư còn: <b>${users[uid].balance.toLocaleString('vi-VN')}đ</b>`
     );
-    const bot_sent = await tgSend(Number(uid),
+    const bot_sent = await tgSend(uid,
       `🎉 <b>MUA KEY THÀNH CÔNG!</b>\n\n`+
       `📦 Mã đơn: <code>${tid}</code>\n`+
       `🔑 Key của bạn:\n<code>${key}</code>\n\n`+
@@ -304,12 +304,16 @@ export default async function handler(req, res) {
     }
     if (action==='sellers') {
       const [sellers,members]=await Promise.all([db.sellers.get(),db.members.get()]);
-      return R(res,Object.entries(sellers).map(([id,s])=>({uid:id,discount:s.discount||10,name:members[id]?.first_name||id,username:members[id]?.username||''})));
+      // Lọc bỏ entry sai (uid = "0", "", "undefined")
+      const validEntries = Object.entries(sellers).filter(([id]) => id && id!=='0' && id!=='undefined' && id.length>3);
+      return R(res, validEntries.map(([id,s])=>({uid:id, discount:s.discount||10, name:members[id]?.first_name||id, username:members[id]?.username||''})));
     }
     if (action==='sellers_add') {
-      const sid=String(rest.target_uid), disc=Number(rest.discount)||10;
+      const sid=String(rest.target_uid||'').trim();
+      const disc=Number(rest.discount)||10;
+      if(!sid||sid==='0'||sid==='undefined') return ERR(res,'User ID không hợp lệ');
       const sellers=await db.sellers.get(); sellers[sid]={discount:disc}; await db.sellers.set(sellers);
-      await tgSend(Number(sid),`🎉 Bạn được cấp quyền <b>Seller</b>!\n🏪 Giảm <b>${disc}%</b> cho tất cả sản phẩm!`);
+      await tgSend(sid,`🎉 Bạn được cấp quyền <b>Seller</b>!\n🏪 Giảm <b>${disc}%</b> cho tất cả sản phẩm!`);
       return R(res,{ok:true});
     }
     if (action==='sellers_edit') {
@@ -318,7 +322,16 @@ export default async function handler(req, res) {
       sellers[sid].discount=Number(rest.discount)||10; await db.sellers.set(sellers); return R(res,{ok:true});
     }
     if (action==='sellers_remove') {
-      const sellers=await db.sellers.get(); delete sellers[String(rest.target_uid)]; await db.sellers.set(sellers); return R(res,{ok:true});
+      const sellers=await db.sellers.get();
+      // Xoá entry cụ thể hoặc cleanup tất cả entry xấu
+      if (rest.target_uid) {
+        delete sellers[String(rest.target_uid)];
+      }
+      // Luôn cleanup entry sai
+      for (const k of Object.keys(sellers)) {
+        if (!k || k==='0' || k==='undefined' || k.length<=3) delete sellers[k];
+      }
+      await db.sellers.set(sellers); return R(res,{ok:true});
     }
     if (action==='users') {
       const [users,members,sellers]=await Promise.all([db.users.get(),db.members.get(),db.sellers.get()]);
@@ -335,7 +348,7 @@ export default async function handler(req, res) {
       const txs=await db.txs.get();
       txs.push({user_id:tid,type:'nap',amount:amt,status:'success',trans_id:'ADM'+randomBytes(2).toString('hex').toUpperCase(),details:`Admin cộng ${amt.toLocaleString('vi-VN')}đ`,time:Date.now()/1000});
       await Promise.all([db.users.set(users),db.txs.set(txs)]);
-      await tgSend(Number(tid),`💰 Admin đã cộng <b>+${amt.toLocaleString('vi-VN')}đ</b> vào tài khoản của bạn!\n💳 Số dư: <b>${users[tid].balance.toLocaleString('vi-VN')}đ</b>`);
+      await tgSend(tid,`💰 Admin đã cộng <b>+${amt.toLocaleString('vi-VN')}đ</b> vào tài khoản của bạn!\n💳 Số dư: <b>${users[tid].balance.toLocaleString('vi-VN')}đ</b>`);
       return R(res,{ok:true,new_balance:users[tid].balance});
     }
 
@@ -349,7 +362,7 @@ export default async function handler(req, res) {
       const txs=await db.txs.get();
       txs.push({user_id:tid,type:'mua',amount:amt,status:'success',trans_id:'ADM'+randomBytes(2).toString('hex').toUpperCase(),details:`Admin trừ ${amt.toLocaleString('vi-VN')}đ`,time:Date.now()/1000});
       await Promise.all([db.users.set(users),db.txs.set(txs)]);
-      await tgSend(Number(tid),`⚠️ Admin đã trừ <b>-${amt.toLocaleString('vi-VN')}đ</b> khỏi tài khoản của bạn.\n💳 Số dư: <b>${users[tid].balance.toLocaleString('vi-VN')}đ</b>`);
+      await tgSend(tid,`⚠️ Admin đã trừ <b>-${amt.toLocaleString('vi-VN')}đ</b> khỏi tài khoản của bạn.\n💳 Số dư: <b>${users[tid].balance.toLocaleString('vi-VN')}đ</b>`);
       return R(res,{ok:true,new_balance:users[tid].balance});
     }
 
@@ -361,7 +374,7 @@ export default async function handler(req, res) {
       if (!users[tid]) users[tid]={balance:0,total_nap:0,weekly_nap:0,monthly_nap:0};
       users[tid].balance=amt;
       await db.users.set(users);
-      await tgSend(Number(tid),`💳 Admin đã cập nhật số dư tài khoản của bạn: <b>${amt.toLocaleString('vi-VN')}đ</b>`);
+      await tgSend(tid,`💳 Admin đã cập nhật số dư tài khoản của bạn: <b>${amt.toLocaleString('vi-VN')}đ</b>`);
       return R(res,{ok:true,new_balance:amt});
     }
 
