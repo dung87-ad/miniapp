@@ -60,7 +60,7 @@ async function tgSend(chat_id, text) {
       body: JSON.stringify({chat_id, text, parse_mode:'HTML'})
     });
     const data = await r.json();
-    if (!r.ok) console.error('tgSend fail:', data.description, '| chat_id:', chat_id);
+    if (!r.ok) console.error(`tgSend fail [${BOT_TOKEN.substring(0,10)}...]: ${data.description} | chat_id: ${chat_id}`);
     return r.ok;
   } catch(e) {
     console.error('tgSend error:', e.message);
@@ -268,7 +268,10 @@ export default async function handler(req, res) {
 
   // ADMIN
   if (path==='admin') {
-    if(!isAdmin(user)) return ERR(res,'Forbidden',403);
+    // Cho phép bot nội bộ gọi qua bot_secret
+    const BOT_SECRET = BOT_TOKEN; // dùng BOT_TOKEN làm secret
+    const isBotCall = body.bot_secret && body.bot_secret === BOT_SECRET;
+    if(!isAdmin(user) && !isBotCall) return ERR(res,'Forbidden',403);
     const {action,...rest} = body;
 
     if (action==='stats') {
