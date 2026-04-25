@@ -186,14 +186,17 @@ export default async function handler(req, res) {
           await db.users.set(users);
           const txs=await db.txs.get(), t=txs.find(x=>x.trans_id===trans_id); if(t) t.status='success';
           await db.txs.set(txs);
-          await tgSend(ADMIN_ID,
+          // Response ngay
+          R(res,{status:'success',balance:users[uid].balance});
+          // Telegram sau
+          tgSend(ADMIN_ID,
             `💰 <b>NẠP TIỀN MỚI!</b>\n\n`+
             `👤 Người dùng: <b>${user.first_name}</b>\n`+
             `🆔 ID: <code>${uid}</code>\n`+
             `💵 Số tiền: <b>+${td.amount.toLocaleString('vi-VN')}đ</b>\n`+
             `💳 Số dư mới: <b>${users[uid].balance.toLocaleString('vi-VN')}đ</b>`
-          );
-          return R(res,{status:'success',balance:users[uid].balance});
+          ).catch(()=>{});
+          return;
         }
         return R(res,{status:'pending'});
       } catch { return R(res,{status:'pending'}); }
@@ -225,17 +228,20 @@ export default async function handler(req, res) {
     users[uid].balance-=price;
     txs.push({user_id:uid,type:'mua',amount:price,status:'success',trans_id:tid,details:`Mua ${foundItem.name}${sellerTag}`,time:Date.now()/1000});
     await Promise.all([db.keys.set(keys),db.users.set(users),db.txs.set(txs)]);
-    await tgSend(ADMIN_ID,
-      `🛍 <b>BÁN HÀNG MỚI!</b>\n\n`+
+
+    // Gửi response ngay cho user, không đợi Telegram
+    R(res,{key, balance:users[uid].balance, trans_id:tid, bot_sent:true, item_name:foundItem.name, duration:foundItem.duration||'', pkg:foundItem.package||foundCatName});
+
+    // Gửi Telegram sau khi đã response (không block)
+    const adminMsg = `🛍 <b>BÁN HÀNG MỚI!</b>\n\n`+
       `👤 Người mua: <b>${user.first_name}</b>\n`+
       `🆔 ID: <code>${uid}</code>\n`+
       `📦 Sản phẩm: <b>${foundItem.name}</b>\n`+
       `💵 Giá: <b>${price.toLocaleString('vi-VN')}đ</b>${sellerTag}\n`+
       `🔑 Key: <code>${key}</code>\n`+
-      `💳 Số dư còn: <b>${users[uid].balance.toLocaleString('vi-VN')}đ</b>`
-    );
-    const bot_sent = await tgSend(uid,
-      `🎉 <b>MUA KEY THÀNH CÔNG!</b>\n\n`+
+      `💳 Số dư còn: <b>${users[uid].balance.toLocaleString('vi-VN')}đ</b>`;
+
+    const userMsg = `🎉 <b>MUA KEY THÀNH CÔNG!</b>\n\n`+
       `📦 Mã đơn: <code>${tid}</code>\n`+
       `🔑 Key của bạn:\n<code>${key}</code>\n\n`+
       `📱 Package: <b>${foundItem.package||foundCatName}</b>\n`+
@@ -244,9 +250,14 @@ export default async function handler(req, res) {
       `📌 <b>Hướng dẫn sử dụng:</b>\n`+
       `1. Sao chép key trên\n`+
       `2. Mở mod và nhập key để kích hoạt\n\n`+
-      `🙏 Cảm ơn bạn đã tin tưởng sử dụng dịch vụ!`
-    );
-    return R(res,{key, balance:users[uid].balance, trans_id:tid, bot_sent, item_name:foundItem.name, duration:foundItem.duration||'', pkg:foundItem.package||foundCatName});
+      `🙏 Cảm ơn bạn đã tin tưởng sử dụng dịch vụ!`;
+
+    // Gửi song song cả 2
+    Promise.all([
+      tgSend(ADMIN_ID, adminMsg),
+      tgSend(uid, userMsg)
+    ]).catch(e => console.error('Telegram notify error:', e.message));
+    return;
   }
 
   // ADMIN
